@@ -407,7 +407,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .req .ok{color:var(--blue);font-weight:700}
 .req .no{color:var(--muted)}
 
-/* ── 궁궐 감성 샷 ── */
+/* ── 풍경의 조각 ── */
 .mission-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start}
 .mi{width:46px;height:46px;border-radius:13px;background:var(--pine2);display:grid;place-items:center;font-size:22px}
 .wrapchip{display:flex;flex-wrap:wrap;gap:6px}
@@ -415,13 +415,64 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .gal-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
 .gal-top .seg button{padding:5px 11px;min-height:32px;font-size:12.5px}
 .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.shot{margin:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.shot{margin:0;display:flex;flex-direction:column;gap:5px;min-width:0;border:0;background:none;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.shot .cm{margin-left:auto;flex:none;font-variant-numeric:tabular-nums;color:var(--blue);font-weight:700}
 .shot img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:4px;background:var(--sand);box-shadow:0 3px 10px rgba(43,37,35,.12)}
-.shot figcaption{font-size:11.5px;color:var(--muted);display:flex;gap:5px;align-items:center;min-width:0}
-.shot figcaption span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shot .figcap{font-size:11.5px;color:var(--muted);display:flex;gap:5px;align-items:center;min-width:0}
+.shot .figcap span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shot .flag{width:14px;height:14px}
 .gal-empty{grid-column:1/-1;border:1.5px dashed var(--line);border-radius:14px;padding:24px 14px;text-align:center;font-size:13.5px;color:var(--muted);line-height:1.7}
 @media (min-width:520px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+
+/* ── 헤더 프로필 버튼 · 설정 / 사진 보기 / 팀 채팅 (전체 화면 창) ── */
+.profile-btn{display:flex;align-items:center;gap:8px;min-width:0;min-height:44px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:3px 4px 3px 12px;color:var(--ink);font:inherit}
+.profile-btn:active{transform:scale(.97)}
+.profile-btn .pav{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--gilt);display:grid;place-items:center;font:900 15px var(--f-disp)}
+.profile-btn .who small .cv{display:inline-block;margin-left:2px;font-size:9px;transform:translateY(-1px)}
+.pm{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;animation:pmIn .22s ease-out}
+.pm.over{z-index:74}
+@keyframes pmIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pm-head{flex:none;display:flex;align-items:center;gap:10px;padding-block:calc(env(safe-area-inset-top,0px) + 10px) 10px;padding-left:var(--gutter-l);padding-right:var(--gutter-r);border-bottom:1px solid var(--line);background:var(--card)}
+.pm-head h2{flex:1;min-width:0;font:700 17px/1.3 var(--f-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-head h2 small{display:block;font:500 12px var(--f-body);color:var(--muted)}
+.pm-x{flex:none;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);font-size:20px;line-height:1;color:var(--ink)}
+.pm-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:14px;padding-block:14px calc(env(safe-area-inset-bottom,0px) + 18px);padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.set-menu{display:flex;flex-direction:column;gap:0;padding:4px 16px}
+.set-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;min-height:56px;width:100%;border:0;border-bottom:1px solid var(--line2);background:none;text-align:left;font:inherit;color:var(--ink);padding:6px 0}
+.set-row:last-child{border-bottom:0}
+.set-row .si{width:34px;height:34px;border-radius:10px;background:var(--bg);display:grid;place-items:center;font-size:17px}
+.set-row b{display:block;font-size:14.5px}.set-row small{font-size:12px;color:var(--muted)}
+.set-row .go{color:var(--muted);font-size:20px}
+.badge{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);color:var(--white);font:700 11px var(--f-body)}
+/* 사진 보기 · 댓글 */
+.vw-img{width:100%;max-height:58cqh;object-fit:contain;border-radius:6px;background:var(--sand);box-shadow:0 4px 14px rgba(43,37,35,.14)}
+.vw-meta{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.vw-meta .flag{width:16px;height:16px}
+.cmts{display:flex;flex-direction:column;gap:10px}
+.cmt{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start}
+.cmt .av{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--gilt);display:grid;place-items:center;font:900 13px var(--f-disp)}
+.cmt .bub{background:var(--card);border:1px solid var(--line2);border-radius:4px 14px 14px 14px;padding:8px 12px;min-width:0}
+.cmt .bub b{font-size:13px}.cmt .bub time{font-size:11px;color:var(--muted);margin-left:6px}
+.cmt .bub p{font-size:14px;line-height:1.55;word-break:break-word;white-space:pre-wrap;margin-top:2px}
+.cmt.me .av{background:var(--blue);color:var(--white)}
+.cmt .del{border:0;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;padding:2px 0;margin-left:6px}
+.say{flex:none;display:flex;gap:8px;align-items:flex-end;padding-block:10px calc(env(safe-area-inset-bottom,0px) + 10px);padding-left:var(--gutter-l);padding-right:var(--gutter-r);border-top:1px solid var(--line);background:var(--card)}
+.say textarea{flex:1;min-width:0;min-height:44px;max-height:110px;resize:none;border:1.5px solid var(--line);border-radius:22px;padding:11px 15px;font:15px/1.4 var(--f-body);background:var(--bg);color:var(--ink)}
+.say textarea:focus{outline:none;border-color:var(--blue)}
+.say button{flex:none;min-height:44px;border-radius:22px;padding:0 16px}
+.say-off{flex:none;padding:12px var(--gutter-r) calc(env(safe-area-inset-bottom,0px) + 12px) var(--gutter-l);border-top:1px solid var(--line);background:var(--card);font-size:13px;color:var(--muted);text-align:center}
+/* 팀 채팅 */
+.chat-log{display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;flex-direction:column;align-items:flex-start;max-width:82%;gap:3px}
+.msg .nm{font-size:12px;color:var(--muted);padding-left:4px}
+.msg .bb{background:var(--card);border:1px solid var(--line2);border-radius:4px 16px 16px 16px;padding:9px 13px;font-size:14.5px;line-height:1.5;word-break:break-word;white-space:pre-wrap}
+.msg time{font-size:10.5px;color:var(--muted);padding:0 4px}
+.msg.me{align-self:flex-end;align-items:flex-end}
+.msg.me .bb{background:var(--blue);border-color:var(--blue);color:var(--white);border-radius:16px 4px 16px 16px}
+.day-sep{align-self:center;font-size:11.5px;color:var(--muted);background:var(--line2);border-radius:999px;padding:3px 10px}
+.tb-chat{flex:none;display:flex;align-items:center;gap:5px;min-height:34px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:3px 11px;font:600 12.5px var(--f-body);color:var(--ink)}
+.cert-row .lbl-btn{position:relative;overflow:hidden}
 
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
@@ -654,7 +705,6 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
     </button>
     <div class="acct-wrap">
       <div class="acct-area" id="acctArea"></div>
-      <div class="acct-pop" id="acctPop" role="dialog" aria-label="계정" hidden></div>
     </div>
     </div>
     <!-- 팀 미니 배너: 헤더 안에 고정 (지도 위에 겹치지 않음) -->
@@ -687,8 +737,6 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 
     <!-- 나의 관직 -->
     <section class="screen" id="s-rank" hidden>
-      <div class="panel" id="acct"></div>
-      <div class="panel" id="teamPanel"></div>
       <div class="panel">
         <div class="rank-hero">
           <div class="seal lg" id="rSeal">從九</div>
@@ -709,7 +757,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
           <div class="dots" id="bookDots"></div>
           <button class="bnav" id="bookNext" aria-label="다음 장">›</button>
         </div>
-        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반만 둘러보면 도장 +60 EXP. 10개를 다 모으면 명주실로 엮어 드려요.</p>
+        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 +60 EXP. 10개를 다 모으면 명주실로 엮어 드려요.</p>
       </div>
 
       <div class="panel">
@@ -875,6 +923,30 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
     </svg>
   </div>
   <div class="smo-cap" id="smoCap"></div>
+</div>
+
+<!-- 내 정보 · 설정 (헤더의 이름을 누르면 열림) -->
+<div class="pm" id="setm" role="dialog" aria-modal="true" aria-labelledby="setmTitle" hidden>
+  <div class="pm-head"><h2 id="setmTitle">내 정보 · 설정<small>계정 · 팀 · 채팅</small></h2><button class="pm-x" id="setmClose" aria-label="설정 닫기">×</button></div>
+  <div class="pm-body" id="setmBody">
+    <section class="panel" id="acct"></section>
+    <section class="panel set-menu" id="setMenu"></section>
+    <section class="panel" id="teamPanel"></section>
+  </div>
+</div>
+
+<!-- 풍경의 조각 · 사진 크게 보기와 댓글 -->
+<div class="pm over" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vwTitle" hidden>
+  <div class="pm-head"><h2 id="vwTitle">풍경의 조각</h2><button class="pm-x" id="vwClose" aria-label="사진 닫기">×</button></div>
+  <div class="pm-body" id="vwBody"></div>
+  <div id="vwSay"></div>
+</div>
+
+<!-- 팀 채팅 -->
+<div class="pm over" id="chat" role="dialog" aria-modal="true" aria-labelledby="chatTitle" hidden>
+  <div class="pm-head"><h2 id="chatTitle">팀 채팅</h2><button class="pm-x" id="chatClose" aria-label="채팅 닫기">×</button></div>
+  <div class="pm-body" id="chatBody" aria-live="polite"></div>
+  <form class="say" id="chatForm" autocomplete="off"><textarea id="chatIn" rows="1" maxlength="300" placeholder="팀원에게 한마디" aria-label="채팅 메시지"></textarea><button class="btn" id="chatSend" type="submit">보내기</button></form>
 </div>
 
 <!-- 접속 방식 선택 · 팀 만들기/참여 -->
@@ -1167,7 +1239,7 @@ const RANKS = [
 const MAX = RANKS.length - 1;
 const need = i => 8 + i * 2;                // i → i+1 승급에 필요한 EXP: 8, 10, 12 … 40 (영의정까지 총 408 · 예전 1,156의 약 1/3)
 const REWARD = { palace:100, view:20, card:3, stamp:60, quiz:15, order:25, gps:50, photo:30, shot:15, bquiz:20 };
-const SHOT_DAILY = 3;   // 감성 샷 보상은 하루 3장까지
+const SHOT_DAILY = 3;   // 풍경의 조각 보상은 하루 3장까지
 const TYPE_PIN = {"현판":"현","주련":"주","시판":"시","석물":"석","장식":"장","조경":"조","전각명":"名","개념":"뜻"};
 const TYPE_PILL = {"현판":"blue","주련":"red","시판":"red","석물":"yellow","장식":"yellow","조경":"yellow","전각명":"blue","개념":"red"};
 
@@ -1776,9 +1848,10 @@ const HS = {}, BLD = {};
 DATA.palaces.forEach(p => p.buildings.forEach(b => { BLD[b.id] = {b, p}; b.hotspots.forEach(h => HS[h.id] = {h, b, p}); }));
 
 /* ═════════ 궁별 통합 도장 (전체 10개) ═════════
-   장소마다 도장을 찍지 않고, 가까운 장소들을 한 구역으로 묶어 구역의 절반만 둘러보면 도장 1개.
+   장소마다 도장을 찍지 않고, 가까운 장소들을 한 구역으로 묶어 구역의 절반에서 현장 인증을 하면 도장 1개.
    한 궁궐의 구역 도장을 다 모으면 그 궁궐의 '통합 도장'이 완성됩니다.
-   '둘러봄' = 그 장소의 현판·글씨를 하나라도 열어 보거나, 현장 위치 인증을 한 경우 */
+   '현장 인증' = 그 장소에서 GPS 위치 인증을 했거나, 사진으로 체크인(전각 체크인 · 현판 인증샷)을 한 경우.
+   글씨를 열어 보기만 해서는 노란색(인증 완료)으로 바뀌지 않습니다. */
 const ZONES = [
   { id:"cgg-a", pid:"cgg", name:"정문과 정전",   seal:"弘化明政", bids:["honghwamun","okcheongyo","myeongjeongjeon","munjeongjeon","sungmundang","gwancheondae"] },
   { id:"cgg-b", pid:"cgg", name:"왕실의 생활 공간", seal:"通明殿", bids:["haminjeong","gyeongchunjeon","hwangyeongjeon","tongmyeongjeon","yanghwadang"] },
@@ -1797,7 +1870,8 @@ ZONES.forEach(z => z.bids.forEach(b => ZONE_OF[b] = z));
 (function(){ const order = ZONES.flatMap(z => z.bids); DATA.palaces.forEach(p => p.buildings.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))); })();
 const PALACE_SEAL = { cgg:"昌慶宮", cdg:"昌德宮", jm:"宗廟" };
 const zoneNeed = z => Math.ceil(z.bids.length / 2);
-const placeDone = bid => !!(BLD[bid] && (BLD[bid].b.hotspots.some(h => S.viewed[h.id]) || S.certs["gps:" + bid]));
+const placeDone = bid => !!(BLD[bid] && (S.certs["gps:" + bid] || S.certs["checkin:" + bid] || BLD[bid].b.hotspots.some(h => S.certs["photo:" + h.id])));
+const placeHow = bid => S.certs["gps:" + bid] ? "위치 인증" : S.certs["checkin:" + bid] ? "사진 체크인" : placeDone(bid) ? "인증샷" : "";
 const zoneSeen = z => z.bids.filter(placeDone).length;
 const palaceZones = pid => ZONES.filter(z => z.pid === pid);
 const palaceDone = pid => palaceZones(pid).every(z => S.stamps[z.id]);
@@ -1826,7 +1900,7 @@ function checkZones(silent){
 const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-plaques-photos-v1";
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
-  team:null, playMode:null, shotDay:{d:"", n:0}, shotTag:"처마",
+  team:null, playMode:null, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
   mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
@@ -2258,7 +2332,7 @@ function renderSheetBody(){
     </div>`;
 }
 function gpsHTML(b){
-  const g = S.certs["gps:" + b.id], u = certUI.bid === b.id ? certUI : {};
+  const g = S.certs["gps:" + b.id], ci = S.certs["checkin:" + b.id], u = certUI.bid === b.id ? certUI : {};
   return `<div class="sec">
     <h3>현장 미션</h3>
     <div class="cert">
@@ -2271,8 +2345,15 @@ function gpsHTML(b){
       ${u.demo && !g ? `<button class="btn sm ghost" id="demoGps" data-b="${b.id}">시연용: 현장에 있는 것으로 인증하기</button>` : ""}
       <hr>
       <div class="cert-row">
+        <span class="cert-ic" aria-hidden="true">📸</span>
+        <span><b>사진으로 체크인</b><small>${ci ? `${fmtDate(ci.at)} · 현장 사진으로 체크인했어요` : `GPS가 잡히지 않으면 지금 이 자리에서 ${b.name}을(를) 찍어 체크인 · +${REWARD.photo} EXP`}</small></span>
+        ${ci ? `<span class="pill blue">체크인 완료</span>` : `<label class="btn sm${u.ciBusy ? " dis" : ""}">${u.ciBusy ? "올리는 중…" : "촬영"}<input type="file" accept="image/*" capture="environment" class="checkinIn" data-b="${b.id}"${u.ciBusy ? " disabled" : ""}></label>`}
+      </div>
+      <p class="small" style="font-size:12.5px;color:var(--muted)">${placeDone(b.id) ? `✓ ${placeHow(b.id)}으로 이 장소를 현장 인증했어요. 지도에 노란색으로 표시돼요.` : "위치 인증이나 사진 체크인을 해야 지도에서 노란색(현장 인증)으로 바뀌어요."}</p>
+      <hr>
+      <div class="cert-row">
         <span class="cert-ic red" aria-hidden="true">🍃</span>
-        <span><b>궁궐 감성 샷</b><small>처마·단청·낙엽 같은 풍경 한 장을 오늘의 갤러리에 걸어요 · +${REWARD.shot} EXP</small></span>
+        <span><b>풍경의 조각</b><small>스쳐 지나가는 아름다운 순간을 사진 한 장으로 · +${REWARD.shot} EXP</small></span>
         <button class="btn sm ghost" data-goshot>올리기</button>
       </div>
     </div>
@@ -2314,7 +2395,8 @@ async function handlePhoto(file){
     const at = new Date().toISOString();
     S.certs["photo:" + hid] = { at };
     Rec.visit({ bid:b.id, hid, kind:"photo", at, path });
-    eobo("寫眞之寶", `${h.read} 인증샷 등록`, "나의 현판 사진첩에 담았습니다", () => gain(REWARD.photo, `${h.read} 인증샷`));
+    eobo("寫眞之寶", `${h.read} 인증샷 등록`, "나의 현판 사진첩에 담았습니다 · 이 장소 현장 인증", () => gain(REWARD.photo, `${h.read} 인증샷`));
+    setTimeout(() => checkZones(), 2600);
   }
   if (curH === hid) renderSheetBody();
 }
@@ -2369,7 +2451,7 @@ function renderVisits(){
   $("#visits").innerHTML = v.length ? `<div class="vlist">${v.slice(0, 40).map(x => {
     const B = BLD[x.bid], where = B ? `${B.p.name} ${B.b.name}` : esc(x.bid), hs = x.hid && HS[x.hid] ? HS[x.hid].h.read : "";
     const [mk, label, cls] = x.kind === "gps" ? ["到", `위치 인증 · ${x.dist}m 거리${x.acc ? ` (±${x.acc}m)` : ""}`, ""]
-      : x.kind === "photo" ? ["寫", `인증샷 · ${hs}`, ""] : ["試", "시연용 인증", " demo"];
+      : x.kind === "photo" ? ["寫", `인증샷 · ${hs}`, ""] : x.kind === "checkin" ? ["察", "사진 체크인", ""] : ["試", "시연용 인증", " demo"];
     return `<div class="vrow"><span class="vi${cls}">${mk}</span><span><b>${where}</b><small>${label}</small></span><time datetime="${esc(x.at)}">${fmtDate(x.at)}</time></div>`;
   }).join("")}</div>` : `<p class="small">아직 인증 기록이 없어요. 궁궐에서 핀을 열고 ‘위치 인증’이나 ‘촬영’을 눌러 보세요.</p>`;
 }
@@ -2440,7 +2522,7 @@ function renderQuests(){
   $("#quests").innerHTML = ZONES.map(z => {
     const pal = DATA.palaces.find(p => p.id === z.pid), k = Math.min(zoneSeen(z), zoneNeed(z)), n = zoneNeed(z);
     const next = z.bids.find(b => !placeDone(b)) || z.bids[0];
-    return `<button class="qrow" data-go="${next}"><span><b>${pal.name} · ${z.name}</b><small>${z.bids.length}곳 중 ${n}곳 둘러보기 · ${k}/${n}</small><div class="qprog"><i style="width:${k / n * 100}%"></i></div></span>
+    return `<button class="qrow" data-go="${next}"><span><b>${pal.name} · ${z.name}</b><small>${z.bids.length}곳 중 ${n}곳 현장 인증 · ${k}/${n}</small><div class="qprog"><i style="width:${k / n * 100}%"></i></div></span>
       ${S.stamps[z.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow">+${REWARD.stamp} · 도장</span>`}</button>`;
   }).join("");
 }
@@ -2552,7 +2634,10 @@ async function _drawPlaque(){
      teamCodes/{행사_코드}             팀 코드 → teamId (하나씩만 조회 가능, 목록 조회 불가)
      teamMembers/{teamId_uid}         팀원 점수 (실시간 순위표)
      gallery/{자동}                   오늘의 갤러리
-   Storage: certshots/{uid}/… (현판 인증샷), gallery/{uid}/… (감성 샷)
+     gallery/{id}/comments/{자동}     풍경의 조각 댓글 (같은 팀원 · 사진 주인만)
+     teamChats/{teamId}/messages/{자동} 팀 채팅 (그 팀원만 읽고 쓰기)
+     users/{uid}/refs/{자동}           내가 쓴 댓글·채팅 위치 (탈퇴할 때 함께 지우기용)
+   Storage: certshots/{uid}/… (현판 인증샷 · 사진 체크인), gallery/{uid}/… (풍경의 조각)
    보안 규칙은 함께 드린 firestore.rules · storage.rules 를 그대로 붙여 넣으면 됩니다. 별도 색인(index) 설정은 필요 없습니다. */
 const FB_ON = !!(CONFIG.FIREBASE && CONFIG.FIREBASE.apiKey && CONFIG.FIREBASE.projectId);
 const FRAMED = (() => { try { return window.self !== window.top; } catch(e) { return true; } })();
@@ -2575,7 +2660,7 @@ async function initFirebase(){
 const cloudOn = () => Store.mode === "cloud";
 const userRef = (uid = Store.uid) => fb.db.collection("users").doc(uid);
 const progressOf = () => ({ viewed:S.viewed, cards:S.cards, certs:S.certs, puzzles:S.puzzles, palace:S.palace, bsel:S.bsel, style:S.style,
-  team:S.team, playMode:S.playMode, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
+  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
 async function remoteSaveProfile(){
   if (!cloudOn()) return;
   try {
@@ -2638,7 +2723,7 @@ async function enterRemote(user){
   normalizeStamps(); checkZones(true);
 }
 function loginNote(html, err){
-  const n = !$("#login").hidden ? $("#loginNote") : (!$("#acctPop").hidden && $("#popNote")) || $("#acctNote") || $("#loginNote");
+  const n = !$("#login").hidden ? $("#loginNote") : (!$("#setm").hidden && $("#acctNote")) || $("#loginNote");
   n.hidden = false; n.className = "note" + (err ? " err" : ""); n.innerHTML = html;
 }
 const AUTH_MSG = {
@@ -2713,7 +2798,7 @@ async function enterGuest(){
    - Google 계정: Firebase 로그아웃 (기록은 서버에 남음)
    - 비회원(이 기기): 입장 상태만 끄고, 관직·도장 기록은 이 기기에 남김 */
 async function logout(){
-  closeAcctPop();
+  closeSettings(); closeViewer(); closeChat();
   const app = $("#app"); app.classList.add("fade-out");
   Team.stop(); if (sheetOpen()) closeSheet();
   if (cloudOn()) { try { await fb.auth.signOut(); } catch(e) {} }
@@ -2742,7 +2827,7 @@ function cfmError(text){ const m = $("#cfmMsg"); m.hidden = false; m.textContent
 async function withdraw(){
   closeAcctPop();
   const k = acctKind();
-  const what = `<ul><li>관직·EXP, 도장, 방문 인증 내역</li><li>메모, 퀴즈·퍼즐 기록</li><li>인증샷·감성 샷 사진</li><li>팀원 기록 (팀에서 빠집니다)</li></ul>`;
+  const what = `<ul><li>관직·EXP, 도장, 방문 인증 내역</li><li>메모, 퀴즈·퍼즐 기록</li><li>인증샷·체크인·풍경의 조각 사진</li><li>내가 쓴 댓글과 팀 채팅</li><li>팀원 기록 (팀에서 빠집니다)</li></ul>`;
   const body = k === "local"
     ? `이 휴대폰에 저장된 기록이 모두 지워지고 첫 화면으로 돌아가요. 되돌릴 수 없어요.${what}`
     : `${k === "google" ? "Google 계정으로 저장된" : "게스트 계정의"} 기록과 로그인 계정이 서버에서 영구 삭제돼요. 되돌릴 수 없어요.${what}${k === "google" ? `<p class="small" style="margin-top:8px">본인 확인을 위해 Google 로그인 창이 한 번 더 열릴 수 있어요.</p>` : ""}`;
@@ -2763,7 +2848,8 @@ async function withdraw(){
   if (!ok) return;
   // 이 휴대폰 기록 지우기
   [KEY, OLDKEY, PKEY, GKEY].forEach(key => { try { localStorage.removeItem(key); } catch(e) {} });
-  Team.stop(); if (sheetOpen()) closeSheet();
+  Team.stop(); if (sheetOpen()) closeSheet(); closeSettings(); closeViewer(); closeChat();
+  try { Object.keys(localStorage).filter(k => k.startsWith(CHAT_KEY) || k.startsWith(CMT_KEY)).forEach(k => localStorage.removeItem(k)); } catch(e) {}
   Store.mode = "guest"; Store.uid = null; Store.provider = null;
   S = fresh(); PHOTOS = {}; Team.board = []; GAL.items = []; Object.keys(SCROLL).forEach(x => delete SCROLL[x]);
   $("#cfm").hidden = true;
@@ -2779,7 +2865,13 @@ async function deleteCloudAccount(){
   // Google 계정은 삭제 전에 본인 확인(최근 로그인) — 버튼을 누른 직후에 열어야 팝업이 막히지 않음
   if (!u.isAnonymous) { const gp = new firebase.auth.GoogleAuthProvider(); gp.setCustomParameters({ prompt:"select_account" }); await u.reauthenticateWithPopup(gp); }
   const ref = userRef(uid);
-  for (const sub of ["stamps", "visits", "puzzles"]) { const q = await ref.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); }
+  // 내가 쓴 댓글 · 채팅 지우기 (refs에 적어 둔 위치)
+  const rq = await ref.collection("refs").get();
+  await Promise.all(rq.docs.map(d => { const p = d.data().path; return p ? fb.db.doc(p).delete().catch(e => console.warn("ref:", e.code || e.message)) : null; }));
+  // 내 사진에 달린 댓글도 함께 지우기
+  const mine = await fb.db.collection("gallery").where("uid", "==", uid).get();
+  for (const g of mine.docs) { const cq = await g.ref.collection("comments").get(); await Promise.all(cq.docs.map(d => d.ref.delete())); }
+  for (const sub of ["stamps", "visits", "puzzles", "refs"]) { const q = await ref.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); }
   const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete()));
   const gq = await fb.db.collection("gallery").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete()));
   await ref.delete();
@@ -2807,18 +2899,27 @@ function acctActions(k){
    - 비회원/게스트: 닉네임 + [로그인] (Google로 시작 · 처음 화면으로 메뉴) */
 function renderAcctArea(){
   const k = acctKind(), nick = esc(S.nickname || "탐방객");
-  $("#acctArea").innerHTML = k === "google"
-    ? `<span class="who"><b>${nick}</b><small>Google 계정</small></span><button class="hbtn red" data-act="logout">로그아웃</button>`
-    : `<span class="who"><b>${nick}</b><small>${k === "anon" ? "게스트 계정" : "비회원"}</small></span><button class="hbtn blue" id="acctBtn" aria-haspopup="dialog" aria-expanded="false">${k === "anon" ? "계정" : "로그인"}</button>`;
+  $("#acctArea").innerHTML = `<button class="profile-btn" id="profileBtn" aria-haspopup="dialog" aria-label="${nick} · 내 정보와 설정 열기">
+    <span class="who"><b>${nick}</b><small>${{ google:"Google 계정", anon:"게스트 계정", local:"비회원" }[k]}<span class="cv" aria-hidden="true">▼</span></small></span>
+    <span class="pav" aria-hidden="true">${esc([...(S.nickname || "객")][0])}</span></button>`;
 }
-function openAcctPop(){
-  const k = acctKind(), pop = $("#acctPop");
-  pop.innerHTML = `<div class="ap-who"><div class="avatar" aria-hidden="true">${esc([...(S.nickname || "객")][0])}</div>
-    <div style="min-width:0"><b>${esc(S.nickname || "탐방객")}</b><small>${acctLabel(k)}</small></div></div>
-    ${acctActions(k)}<p class="note" id="popNote" hidden></p>`;
-  pop.hidden = false; $("#acctBtn").setAttribute("aria-expanded", "true");
+/* 내 정보 · 설정 창: 계정(닉네임 · 로그인/로그아웃 · 탈퇴) + 팀 설정 + 팀 채팅 */
+function openSettings(focus){
+  renderSettings(); $("#setm").hidden = false;
+  const body = $("#setmBody"); body.scrollTop = 0;
+  if (focus === "team") requestAnimationFrame(() => { const r = $("#teamPanel").getBoundingClientRect(); body.scrollTo({ top: body.scrollTop + r.top - body.getBoundingClientRect().top - 8, behavior:"smooth" }); });
+  setTimeout(() => $("#setmClose").focus(), 30);
 }
-function closeAcctPop(){ const p = $("#acctPop"); if (p) p.hidden = true; const b = $("#acctBtn"); if (b) b.setAttribute("aria-expanded", "false"); }
+function closeSettings(){ $("#setm").hidden = true; }
+const closeAcctPop = closeSettings;   // (예전 이름 호환)
+function renderSettings(){ renderAccount(); renderSetMenu(); renderTeamPanel(); }
+function renderSetMenu(){
+  const t = Team.mine(), unread = Chat.unread();
+  $("#setMenu").innerHTML = `
+    <button class="set-row" id="setChat"><span class="si" aria-hidden="true">💬</span><span><b>팀 채팅</b><small>${t ? `${esc(t.name)} 팀원과 이야기 나누기` : "팀에 들어가면 열려요"}</small></span><span class="go">${unread ? `<span class="badge">${unread}</span>` : "›"}</span></button>
+    <button class="set-row" id="setGallery"><span class="si" aria-hidden="true">🍃</span><span><b>풍경의 조각</b><small>오늘의 갤러리 · 사진 댓글</small></span><span class="go">›</span></button>
+    <button class="set-row" id="setRank"><span class="si" aria-hidden="true">📜</span><span><b>나의 관직 · 도장첩</b><small>품계, 도장, 방문 인증 내역</small></span><span class="go">›</span></button>`;
+}
 
 /* ═════════ 🗺️ 유적 지도 ═════════
    세 곳의 안내 지도를 글씨 없이 위치만 따라 SVG로 다시 그렸습니다.
@@ -2960,15 +3061,15 @@ function renderPalaceMap(){
     </div>
     ${memoPanel}
     <div class="map-scroll" id="mapScroll"><div class="pmap${mapZ >= 3 ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도">${drawMap(pal.id)}${route}${pins}</div></div>
-    <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>둘러봄</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
+    <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>현장 인증</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
     <div class="panel blist">${palaceZones(pal.id).map(z => {
       const got = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z));
       return `<div class="zhead${got ? " got" : ""}"><span class="zmini">${got ? sealSVG(z.seal) : `${k}/${zoneNeed(z)}`}</span>
-          <span><b>${z.name}</b><small>${got ? `도장 받음 · ${stampDate(got)}` : `${z.bids.length}곳 중 ${zoneNeed(z)}곳 둘러보면 도장`}</small></span></div>` +
+          <span><b>${z.name}</b><small>${got ? `도장 받음 · ${stampDate(got)}` : `${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장`}</small></span></div>` +
         z.bids.map(id => BLD[id].b).map(b => {
           const seen = b.hotspots.filter(h => S.viewed[h.id]).length, done = placeDone(b.id);
           return `<button class="brow${done ? " done" : ""}" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span>
-            <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? "둘러봄" : "아직"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`;
+            <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? placeHow(b.id) + " ✓" : "현장 인증 전"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`;
         }).join("");
     }).join("")}</div>`;
   // 스크롤 위치 되살리기 (목록·지도 모두)
@@ -3017,10 +3118,10 @@ function renderBuildingBody(){
   const z = ZONE_OF[b.id], body = $("#sheetBody"), keep = body.scrollTop, memo = S.memos[b.id];
   body.innerHTML = `
     <div class="sec"><p class="lead">${b.desc}</p></div>
-    <div class="zone-note${S.stamps[z.id] ? " got" : ""}">${S.stamps[z.id] ? `「${z.name}」 구역 도장을 받았어요` : `「${z.name}」 구역 · ${z.bids.length}곳 중 ${zoneNeed(z)}곳 둘러보면 도장 (${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)})`}</div>
+    <div class="zone-note${S.stamps[z.id] ? " got" : ""}">${S.stamps[z.id] ? `「${z.name}」 구역 도장을 받았어요` : `「${z.name}」 구역 · ${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장 (${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)})`}</div>
     ${placeInfoHTML(b)}
     <div class="sec">
-      <h3>현판 · 글씨 ${seen}/${n} · 하나만 열어 봐도 ‘둘러봄’</h3>
+      <h3>현판 · 글씨 ${seen}/${n}</h3>
       <div class="hs-list">${b.hotspots.map(h => `
         <button class="hs-row" data-h="${h.id}">
           <span class="pill ${TYPE_PILL[h.type]}">${h.type}</span>
@@ -3088,7 +3189,7 @@ function palacePage(pid, i, opts = {}){
         <small>${z.name}</small></div>`;
     }).join("")}</div>
     ${done && opts.moment !== "palace-pending" ? `<div class="pseal" aria-label="${pal.name} 도장">${sealSVG(PALACE_SEAL[pid])}</div>` : ""}
-    <div class="pg-meta">${done ? `${pal.name} 도장 완성` : `구역마다 절반만 둘러보면 도장 · ${zs.filter(z => S.stamps[z.id]).length}/${zs.length}`}</div>`;
+    <div class="pg-meta">${done ? `${pal.name} 도장 완성` : `구역마다 절반을 현장 인증하면 도장 · ${zs.filter(z => S.stamps[z.id]).length}/${zs.length}`}</div>`;
 }
 function renderBook(){
   const box = $("#bookPages"), keep = box.scrollLeft;
@@ -3284,10 +3385,10 @@ const Team = {
         members:[{ nickname:S.nickname || "나", points:t.points, stamps:Object.keys(S.stamps), me:true }] }];
     }
     this.sort(); renderTeamBar();
-    if (curScreen === "rank") renderTeamPanel();
+    if (!$("#setm").hidden) { renderTeamPanel(); renderSetMenu(); }
   },
   start(){
-    this.stop(); const t = this.mine(); if (!t || this.isLocal()) { renderTeamBar(); return; }
+    this.stop(); const t = this.mine(); Chat.start(); if (!t || this.isLocal()) { renderTeamBar(); return; }
     // 팀원 점수가 바뀔 때마다 Firestore가 알려 줌 → 순위표 다시 그리기
     this.ch = fb.db.collection("teamMembers").where("teamId", "==", t.id).onSnapshot(
       () => { if (!this.live) { this.live = true; renderTeamBar(); } clearTimeout(this.rt); this.rt = setTimeout(() => this.refresh(), 400); },
@@ -3296,7 +3397,7 @@ const Team = {
   },
   stop(){
     if (typeof this.ch === "function") { try { this.ch(); } catch(e) {} }
-    this.ch = null; clearInterval(this.poll); this.live = false;
+    this.ch = null; clearInterval(this.poll); this.live = false; Chat.stop();
   },
   rank(){ const t = this.mine(); return t ? this.board.findIndex(x => x.id === t.id) + 1 : 0; },
   stampsCovered(){
@@ -3314,7 +3415,8 @@ function renderTeamBar(bump){
   const server = !Team.isLocal(), e = Team.board.find(x => x.id === t.id), cov = Team.stampsCovered();
   const total = e ? e.total : t.points, n = e ? e.members.length : 1;
   bar.innerHTML = `<button class="live${server && Team.live ? "" : " off"}" id="tbOpen" aria-label="우리 팀 보기"><i></i>${server ? (Team.live ? "실시간" : "연결 중") : "이 기기"}</button>
-    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb>${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${ZONE_IDS.filter(z => cov.has(z)).length}/${ZONE_IDS.length}</small></button></div>`;
+    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기">${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${ZONE_IDS.filter(z => cov.has(z)).length}/${ZONE_IDS.length}</small></button></div>
+    <button class="tb-chat" id="tbChat" aria-label="팀 채팅${Chat.unread() ? ` · 안 읽은 메시지 ${Chat.unread()}개` : ""}">💬 채팅${Chat.unread() ? `<span class="badge">${Chat.unread()}</span>` : ""}</button>`;
 }
 
 function renderTeamPanel(){
@@ -3343,7 +3445,7 @@ function renderTeamPanel(){
       <button class="btn red" id="teamGyojiBtn"${allDone ? "" : " disabled"}>단체 교지 받기</button>
       <div class="out" id="teamGyojiOut" hidden></div>
     </div>
-    <div class="btn-row"><button class="btn sm ghost" id="leaveTeam">팀 나가기</button></div>`;
+    <div class="btn-row"><button class="btn sm" id="openChat2">💬 팀 채팅 열기</button><button class="btn sm ghost" id="leaveTeam">팀 나가기</button></div>`;
 }
 
 /* 접속 방식 선택 · 팀 만들기 / 코드로 참여 */
@@ -3462,9 +3564,10 @@ async function makeTeamGyoji(){
   showImage($("#teamGyojiOut"), c.toDataURL("image/png"), `team-gyoji-${t.name}.png`, `${t.name} 단체 교지`);
 }
 
-/* ═════════ 🍃 궁궐 감성 샷 (가벼운 미션) ═════════ */
+/* ═════════ 🍃 풍경의 조각 (가벼운 미션) ═════════ */
 const SHOT_TAGS = ["처마", "단청", "낙엽", "꽃담", "하늘", "기타"];
 const GKEY = "palace-plaques-gallery-v1";
+const NAKGWAN = "문학탐방";   // 사진 낙관(도장)에 새기는 글자
 const GAL = { items:[], filter:"all", busy:false, msg:"" };
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 const hhmm = iso => { const d = new Date(iso); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
@@ -3488,7 +3591,7 @@ async function composeShot(file, tag){
   const src = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
   const img = new Image(); img.src = src; await img.decode();
   await fontsReady('400 64px "Song Myung"', tag + SHOT_TAGS.join(""));
-  await fontsReady('900 40px "Noto Serif KR"', S.nickname || "探訪");
+  await fontsReady('900 40px "Noto Serif KR"', NAKGWAN);
   const col = getComputedStyle(document.documentElement), C = k => col.getPropertyValue(k).trim();
   const W = 900, H = 1200, c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
   g.fillStyle = C("--card"); g.fillRect(0, 0, W, H);
@@ -3505,8 +3608,8 @@ async function composeShot(file, tag){
   g.font = '400 66px "Song Myung","Noto Serif KR",serif'; g.fillText(tag, px - 2, py + ph + 104);
   g.fillStyle = C("--muted"); g.font = '500 24px "IBM Plex Sans KR",sans-serif';
   g.fillText(`${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}  ·  ${S.nickname || "탐방객"}${t ? "  ·  " + t.name : ""}`, px, py + ph + 150);
-  g.font = '500 19px "IBM Plex Sans KR",sans-serif'; g.fillText("궁궐 감성 샷 — 문학의 공간을 거닐다", px, py + ph + 186);
-  drawNakgwan(g, W - px - 58, py + ph + 112, 108, S.nickname, C);
+  g.font = '500 19px "IBM Plex Sans KR",sans-serif'; g.fillText("풍경의 조각 — 문학의 공간을 거닐다", px, py + ph + 186);
+  drawNakgwan(g, W - px - 58, py + ph + 112, 108, NAKGWAN, C);
   return c.toDataURL("image/jpeg", .82);
 }
 async function handleShot(file){
@@ -3519,8 +3622,8 @@ async function handleShot(file){
     if (remoteOn()) {
       try {
         const remoteUrl = await uploadJpeg(`gallery/${Store.uid}/${item.id}.jpg`, url);
-        await fb.db.collection("gallery").add({ uid:Store.uid, event:CONFIG.EVENT_ID, day:dayKey(), teamId: t && !t.local ? t.id : null, nickname:item.nickname, tag, url:remoteUrl, createdAt:item.at });
-        cloudSaved = true; item.cloud = true;
+        const ref = await fb.db.collection("gallery").add({ uid:Store.uid, event:CONFIG.EVENT_ID, day:dayKey(), teamId: t && !t.local ? t.id : null, nickname:item.nickname, tag, url:remoteUrl, createdAt:item.at });
+        cloudSaved = true; item.cloud = true; item.id = ref.id; item.url = remoteUrl; item.teamId = t && !t.local ? t.id : null; item.uid = Store.uid;
       } catch(e) { console.warn("gallery upload:", e.code || e.message); GAL.msg = "사진 클라우드 저장이 꺼져 있어 이 휴대폰에만 걸었어요."; }
     }
     if (cloudSaved) {} else if (writeGallery([item, ...readGallery()].slice(0, 12)) === 0) {
@@ -3529,9 +3632,9 @@ async function handleShot(file){
     GAL.items.unshift(item);
     if (S.shotDay.d !== dayKey()) S.shotDay = { d:dayKey(), n:0 };
     const rewarded = S.shotDay.n < SHOT_DAILY; S.shotDay.n++; save();
-    eobo("佳景之寶", "오늘의 갤러리에 걸었어요",
+    eobo("佳景之寶", "풍경의 조각을 걸었어요",
       rewarded ? `+${REWARD.shot} EXP${t ? ` · ${t.name} 점수에도 +${REWARD.shot}` : ""}` : "오늘 보상은 다 받았어요 · 사진은 계속 걸 수 있어요",
-      rewarded ? () => gain(REWARD.shot, "궁궐 감성 샷") : null);
+      rewarded ? () => gain(REWARD.shot, "풍경의 조각") : null);
   } catch(e) {
     console.warn(e); GAL.msg = "사진을 액자에 넣지 못했어요. 다른 사진으로 다시 시도해 주세요.";
   }
@@ -3545,7 +3648,9 @@ async function loadGallery(){
     const local = GAL.items.filter(x => x.mine && !x.cloud && x.url.startsWith("data:"));
     GAL.items = [...local, ...q.docs.map(d => {
       const x = d.data(), tm = Team.board.find(b => b.id === x.teamId);
-      return { id:d.id, at:x.createdAt, tag:x.tag, nickname:x.nickname, url:x.url, mine:x.uid === Store.uid, cloud:true, team: tm ? { id:tm.id, name:tm.name, color:tm.color } : null };
+      const old = GAL.items.find(y => y.id === d.id);
+      return { id:d.id, at:x.createdAt, tag:x.tag, nickname:x.nickname, url:x.url, uid:x.uid, teamId:x.teamId || null, mine:x.uid === Store.uid, cloud:true, comments: old ? old.comments : undefined,
+        team: tm ? { id:tm.id, name:tm.name, color:tm.color } : null };
     })].sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, 60);
   } else {
     const today = dayKey(), mem = GAL.items.filter(x => x.mine && dayKey(new Date(x.at)) === today);
@@ -3562,8 +3667,9 @@ function renderGallery(){
   const showFilter = remoteOn() || t;
   $("#galleryPanel").innerHTML = `
     <div class="mission-head"><span class="mi" aria-hidden="true">🍃</span>
-      <div><div class="eyebrow">가벼운 미션</div><h3 class="h-sec">궁궐 감성 샷</h3>
-      <p class="small">처마, 단청, 낙엽… 마음에 드는 풍경 한 장이면 끝이에요. 낙관 액자를 씌워 오늘의 갤러리에 걸어 드려요.</p></div>
+      <div><div class="eyebrow">가벼운 미션</div><h3 class="h-sec">풍경의 조각</h3>
+      <p class="small">스쳐 지나가는 아름다운 순간을 담아, 오늘의 기억을 사진으로 담아보세요.</p>
+      <p class="small" style="margin-top:4px">‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 사진을 누르면 팀원과 댓글을 나눌 수 있어요.</p></div>
     </div>
     <div class="field"><label>무엇을 찍었나요?</label>
       <div class="wrapchip">${SHOT_TAGS.map(x => `<button class="chip" data-tag="${x}" aria-pressed="${x === (S.shotTag || "처마")}">${x}</button>`).join("")}</div>
@@ -3578,10 +3684,170 @@ function renderGallery(){
       ${showFilter ? `<div class="seg" role="tablist" aria-label="갤러리 보기">${[["all","전체"],["team","우리 팀"],["mine","내 사진"]].filter(([k]) => k !== "team" || t).map(([k, v]) => `<button role="tab" data-gf="${k}" aria-selected="${f === k}">${v}</button>`).join("")}</div>` : ""}
     </div>
     <div class="gallery">${items.length ? items.map(x => `
-      <figure class="shot"><img src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}" loading="lazy">
-        <figcaption>${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span></figcaption></figure>`).join("")
+      <button class="shot" data-shot="${esc(x.id)}" aria-label="${esc(x.nickname)}의 ${esc(x.tag)} 사진 크게 보기 · 댓글"><img src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}" loading="lazy">
+        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span>${(x.comments || []).length ? `<span class="cm">💬 ${x.comments.length}</span>` : ""}</span></button>`).join("")
       : `<div class="gal-empty">아직 오늘 걸린 사진이 없어요.<br>첫 번째 풍경을 걸어 보세요.</div>`}</div>`;
 }
+
+/* ═════════ 💬 풍경의 조각 댓글 ═════════
+   서버: gallery/{사진id}/comments  (사진 주인 · 같은 팀원만 읽고 쓰기, 실시간)
+   서버 없음: 이 기기에 사진별로 저장 (체험용) */
+const CMT_KEY = "palace-cmt-v1:";
+const CHAT_KEY = "palace-chat-v1:";
+const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || "null") ?? d; } catch(e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { return false; } };
+const shortTime = iso => { const d = new Date(iso), n = new Date(); return dayKey(d) === dayKey(n) ? hhmm(iso) : `${d.getMonth() + 1}/${d.getDate()} ${hhmm(iso)}`; };
+async function addRef(path){ if (cloudOn()) { try { await userRef().collection("refs").add({ path, at:new Date().toISOString() }); } catch(e) { console.warn("refs:", e.code || e.message); } } }
+const Cmt = {
+  shot:null, list:[], un:null, busy:false, msg:"",
+  item(){ return GAL.items.find(x => x.id === this.shot); },
+  // 댓글을 쓸 수 있는가: 내 사진이거나, 같은 팀 사진
+  can(x){
+    if (!x) return false;
+    if (x.mine) return true;
+    const t = Team.mine();
+    return !!(t && !t.local && x.cloud && x.teamId && x.teamId === t.id);
+  },
+  remote(x){ return !!(x && x.cloud && cloudOn()); },
+  open(id){
+    this.stop(); this.shot = id; this.list = []; this.msg = "";
+    const x = this.item(); if (!x) return;
+    if (this.remote(x)) {
+      if (!this.can(x)) { this.render(); return; }
+      this.un = fb.db.collection("gallery").doc(x.id).collection("comments").orderBy("at", "asc").limit(200).onSnapshot(q => {
+        this.list = q.docs.map(d => Object.assign({ id:d.id }, d.data()));
+        x.comments = this.list.slice(); this.render(); if (curScreen === "quest") renderGallery();
+      }, e => { console.warn("comments:", e.code || e.message); this.msg = "댓글을 불러오지 못했어요. 같은 팀원의 사진에만 댓글을 볼 수 있어요."; this.render(); });
+    } else {
+      this.list = lsGet(CMT_KEY + x.id, []); x.comments = this.list.slice();
+    }
+    this.render();
+  },
+  stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; },
+  async send(text){
+    const x = this.item(); text = String(text || "").trim().slice(0, 300);
+    if (!x || !text || this.busy || !this.can(x)) return false;
+    const c = { uid:Store.uid || "me", nickname:S.nickname || "탐방객", text, at:new Date().toISOString() };
+    if (this.remote(x)) {
+      this.busy = true;
+      try { const ref = await fb.db.collection("gallery").doc(x.id).collection("comments").add(c); addRef(`gallery/${x.id}/comments/${ref.id}`); }
+      catch(e) { console.warn("comment:", e.code || e.message); this.msg = "댓글을 남기지 못했어요. 잠시 뒤 다시 보내 주세요."; this.busy = false; this.render(); return false; }
+      this.busy = false; return true;
+    }
+    c.id = Date.now().toString(36); c.mine = true;
+    this.list.push(c); x.comments = this.list.slice(); lsSet(CMT_KEY + x.id, this.list);
+    this.render(); if (curScreen === "quest") renderGallery(); return true;
+  },
+  async remove(cid){
+    const x = this.item(), c = this.list.find(y => y.id === cid); if (!x || !c) return;
+    if (this.remote(x)) { try { await fb.db.collection("gallery").doc(x.id).collection("comments").doc(cid).delete(); } catch(e) { console.warn(e); } return; }
+    this.list = this.list.filter(y => y.id !== cid); x.comments = this.list.slice(); lsSet(CMT_KEY + x.id, this.list); this.render(); if (curScreen === "quest") renderGallery();
+  },
+  render(){
+    if ($("#viewer").hidden) return;
+    const x = this.item(); if (!x) { closeViewer(); return; }
+    const can = this.can(x), meId = Store.uid || "me";
+    $("#vwTitle").innerHTML = `풍경의 조각 · ${esc(x.tag)}<small>${esc(x.nickname)} · ${shortTime(x.at)}</small>`;
+    const mineC = c => c.mine || (c.uid && c.uid === meId);
+    $("#vwBody").innerHTML = `
+      <img class="vw-img" src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}">
+      <div class="vw-meta">${x.team ? flagSVG(x.team.color) + esc(x.team.name) + " · " : ""}${esc(x.nickname)}${x.mine ? " (나)" : ""} · ${esc(x.tag)}</div>
+      <h3 class="h-sec" style="font-size:15px">댓글 ${this.list.length ? this.list.length : ""}</h3>
+      ${this.msg ? `<p class="note err">${this.msg}</p>` : ""}
+      <div class="cmts">${this.list.length ? this.list.map(c => `
+        <div class="cmt${mineC(c) ? " me" : ""}"><span class="av" aria-hidden="true">${esc([...(c.nickname || "객")][0])}</span>
+          <div class="bub"><b>${esc(c.nickname)}</b><time datetime="${esc(c.at)}">${shortTime(c.at)}</time>${mineC(c) || x.mine ? `<button class="del" data-delc="${esc(c.id)}">지우기</button>` : ""}<p>${esc(c.text)}</p></div></div>`).join("")
+        : `<p class="small">${can ? "아직 댓글이 없어요. 첫 마디를 남겨 보세요." : ""}</p>`}</div>`;
+    const say = $("#vwSay");
+    if (can) {
+      if (!$("#cmtForm")) say.innerHTML = `<form class="say" id="cmtForm" autocomplete="off"><textarea id="cmtIn" rows="1" maxlength="300" placeholder="${x.mine ? "사진에 한마디 남기기" : esc(x.nickname) + " 님에게 댓글"}" aria-label="댓글"></textarea><button class="btn" type="submit">남기기</button></form>`;
+      $("#cmtForm button").disabled = this.busy;
+    } else {
+      say.innerHTML = `<p class="say-off">${!Team.mine() || Team.isLocal() ? "팀에 들어가면 팀원의 사진에 댓글을 남길 수 있어요." : "같은 팀원의 사진에만 댓글을 남길 수 있어요."}</p>`;
+    }
+  }
+};
+function openViewer(id){ $("#viewer").hidden = false; $("#vwSay").innerHTML = ""; Cmt.open(id); setTimeout(() => $("#vwClose").focus(), 30); }
+function closeViewer(){ Cmt.stop(); Cmt.shot = null; const v = $("#viewer"); if (v) v.hidden = true; }
+
+/* ═════════ 💬 팀 채팅 ═════════
+   서버: teamChats/{팀id}/messages  최근 100개를 실시간으로 받음 (그 팀원만 읽고 쓰기)
+   서버 없음(이 기기 팀): 이 기기에 저장 · 같은 기기의 다른 창과는 바로 동기화되는 체험용 채팅 */
+const Chat = {
+  list:[], un:null, teamId:null, busy:false, msg:"",
+  key(){ return CHAT_KEY + this.teamId; },
+  start(){
+    this.stop(); const t = Team.mine(); this.teamId = t ? t.id : null; this.list = []; this.msg = "";
+    if (!t) return;
+    if (!t.local && cloudOn()) {
+      this.un = fb.db.collection("teamChats").doc(t.id).collection("messages").orderBy("at", "desc").limit(100).onSnapshot(q => {
+        this.list = q.docs.map(d => Object.assign({ id:d.id }, d.data())).reverse(); this.msg = "";
+        this.changed();
+      }, e => { console.warn("chat:", e.code || e.message); this.msg = "채팅 서버에 연결하지 못했어요. 잠시 뒤 다시 열어 주세요."; this.changed(); });
+    } else { this.list = lsGet(this.key(), []); }
+  },
+  stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; },
+  seenAt(){ return (S.chatSeen || {})[this.teamId] || ""; },
+  markSeen(){ if (!this.teamId) return; const last = this.list.length ? this.list[this.list.length - 1].at : new Date().toISOString(); if (!S.chatSeen) S.chatSeen = {}; if (S.chatSeen[this.teamId] !== last) { S.chatSeen[this.teamId] = last; save(); } },
+  unread(){ const me = Store.uid || "me", s = this.seenAt(); return this.list.filter(m => m.uid !== me && !m.mine && String(m.at) > s).length; },
+  changed(){
+    if (!$("#chat").hidden) { this.markSeen(); this.render(); }
+    renderTeamBar(); if (!$("#setm").hidden) renderSetMenu();
+  },
+  async send(text){
+    const t = Team.mine(); text = String(text || "").trim().slice(0, 300);
+    if (!t || !text || this.busy) return false;
+    const m = { uid:Store.uid || "me", nickname:S.nickname || "탐방객", text, at:new Date().toISOString() };
+    if (!t.local && cloudOn()) {
+      this.busy = true;
+      try { const ref = await fb.db.collection("teamChats").doc(t.id).collection("messages").add(m); addRef(`teamChats/${t.id}/messages/${ref.id}`); }
+      catch(e) { console.warn("chat send:", e.code || e.message); this.msg = "메시지를 보내지 못했어요. 인터넷 연결을 확인해 주세요."; this.busy = false; this.render(); return false; }
+      this.busy = false; return true;
+    }
+    m.id = Date.now().toString(36); m.mine = true;
+    this.list.push(m); this.list = this.list.slice(-100); lsSet(this.key(), this.list); this.changed(); return true;
+  },
+  render(){
+    const t = Team.mine(), body = $("#chatBody"); if (!body) return;
+    if (!t) { body.innerHTML = `<p class="small">팀에 들어가면 팀원과 채팅할 수 있어요.</p><button class="btn" id="openTeam">팀으로 참여하기</button>`; $("#chatForm").hidden = true; return; }
+    $("#chatForm").hidden = false;
+    const live = !t.local && cloudOn(), me = Store.uid || "me";
+    $("#chatTitle").innerHTML = `${esc(t.name)} 팀 채팅<small>${live ? (this.un ? "실시간 · 팀원만 볼 수 있어요" : "연결 중…") : "이 기기 체험용 · 서버에 연결하면 팀원과 실시간으로 나눠요"}</small>`;
+    const near = body.scrollHeight - body.scrollTop - body.clientHeight < 80;
+    let lastDay = "";
+    body.innerHTML = (this.msg ? `<p class="note err">${this.msg}</p>` : "") + (this.list.length ? `<div class="chat-log">${this.list.map(m => {
+      const d = dayKey(new Date(m.at)), sep = d !== lastDay ? `<span class="day-sep">${new Date(m.at).getMonth() + 1}월 ${new Date(m.at).getDate()}일</span>` : ""; lastDay = d;
+      const mine = m.mine || m.uid === me;
+      return `${sep}<div class="msg${mine ? " me" : ""}">${mine ? "" : `<span class="nm">${esc(m.nickname)}</span>`}<div class="bb">${esc(m.text)}</div><time datetime="${esc(m.at)}">${hhmm(m.at)}</time></div>`;
+    }).join("")}</div>` : `<p class="small" style="text-align:center;margin-top:20px">아직 대화가 없어요.<br>“우리 인정전 앞에서 만나요!”처럼 첫 메시지를 보내 보세요.</p>`);
+    if (near || this.stick) { body.scrollTop = body.scrollHeight; this.stick = false; }
+    $("#chatSend").disabled = this.busy;
+  }
+};
+function openChat(){
+  const t = Team.mine();
+  if (t && Chat.teamId !== t.id) Chat.start();
+  $("#chat").hidden = false; Chat.stick = true; Chat.markSeen(); Chat.render(); renderTeamBar(); if (!$("#setm").hidden) renderSetMenu();
+  setTimeout(() => { const i = $("#chatIn"); if (i && t) i.focus({ preventScroll:true }); }, 60);
+}
+function closeChat(){ const c = $("#chat"); if (c) c.hidden = true; }
+// 같은 기기의 다른 창에서 보낸 체험용 채팅 · 댓글 바로 반영
+window.addEventListener("storage", e => {
+  if (!e.key) return;
+  if (Chat.teamId && e.key === Chat.key() && !(Team.mine() && !Team.mine().local && cloudOn())) { Chat.list = lsGet(Chat.key(), []); Chat.changed(); }
+  if (Cmt.shot && e.key === CMT_KEY + Cmt.shot && !Cmt.un) { Cmt.list = lsGet(e.key, []); const x = Cmt.item(); if (x) x.comments = Cmt.list.slice(); Cmt.render(); }
+});
+document.addEventListener("submit", async e => {
+  if (e.target.id === "chatForm") { e.preventDefault(); const i = $("#chatIn"); if (await Chat.send(i.value)) { i.value = ""; Chat.stick = true; Chat.render(); i.style.height = ""; } }
+  if (e.target.id === "cmtForm") { e.preventDefault(); const i = $("#cmtIn"); if (await Cmt.send(i.value)) { i.value = ""; i.style.height = ""; const b = $("#vwBody"); b.scrollTop = b.scrollHeight; } }
+});
+document.addEventListener("keydown", e => {
+  // Enter = 보내기, Shift+Enter = 줄바꿈 (한글 조합 중에는 보내지 않음)
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing && (e.target.id === "chatIn" || e.target.id === "cmtIn")) { e.preventDefault(); e.target.form.requestSubmit(); }
+});
+document.addEventListener("input", e => {
+  if (e.target.id === "chatIn" || e.target.id === "cmtIn") { const a = e.target; a.style.height = "auto"; a.style.height = Math.min(110, a.scrollHeight) + "px"; }
+});
 
 /* ═════════ 현장 인증 (GPS) ═════════ */
 let certUI = { bid:null, busy:false, msg:"", err:false, demo:false };
@@ -3617,6 +3883,32 @@ function grantGPS(bid, info, demo){
   Rec.visit(Object.assign({ bid, kind: demo ? "demo" : "gps", at }, info));
   rerenderSheet(); setTimeout(() => checkZones(), 2600);
   eobo("到訪之寶", `${b.name} 방문 인증`, demo ? "시연용 인증입니다" : `${info.dist}m 거리에서 확인했습니다`, () => gain(REWARD.gps, `${b.name} 현장 인증`));
+}
+
+/* 사진으로 체크인: GPS가 잡히지 않는 곳(실내·숲길)에서 현장 사진 한 장으로 인증 */
+async function handleCheckin(file, bid){
+  if (!file || !BLD[bid] || S.certs["checkin:" + bid]) return;
+  const b = BLD[bid].b;
+  certUI = { bid, busy:false, ciBusy:true, msg:"", err:false, demo:false }; rerenderSheet();
+  let url;
+  try {
+    url = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
+    const img = new Image(); img.src = url; await img.decode();
+    const k = Math.min(1, 960 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    url = c.toDataURL("image/jpeg", .78);
+  } catch(e) {
+    certUI = { bid, busy:false, ciBusy:false, msg:"사진을 읽지 못했어요. JPG나 PNG 사진으로 다시 올려 주세요.", err:true, demo:false }; rerenderSheet(); return;
+  }
+  let path = null;
+  if (cloudOn()) { try { path = await uploadJpeg(`certshots/${Store.uid}/checkin-${bid}.jpg`, url); } catch(e) { console.warn("checkin upload:", e.code || e.message); } }
+  const at = new Date().toISOString();
+  S.certs["checkin:" + bid] = { at };
+  Rec.visit({ bid, kind:"checkin", at, path });
+  certUI = { bid, busy:false, ciBusy:false, msg:"", err:false, demo:false };
+  rerenderSheet(); setTimeout(() => checkZones(), 2600);
+  eobo("到訪之寶", `${b.name} 체크인`, "현장 사진으로 방문을 인증했습니다", () => gain(REWARD.photo, `${b.name} 체크인`));
 }
 
 /* ═════════ 어보 도장 애니메이션 ═════════
@@ -3663,11 +3955,18 @@ function show(sc, opts = {}){
 document.addEventListener("click", e => {
   const t = e.target;
   let el;
-  if (!$("#acctPop").hidden && !t.closest("#acctPop") && !t.closest("#acctBtn")) closeAcctPop();
   if (t.closest("#eobo")) { closeEobo(); return; }
   if (t.closest("#smo")) { clearTimeout(smoT); closeSmo(); return; }
   /* 계정 */
-  if (t.closest("#acctBtn")) { $("#acctPop").hidden ? openAcctPop() : closeAcctPop(); return; }
+  if (t.closest("#profileBtn")) { openSettings(); return; }
+  if (t.closest("#setmClose")) { closeSettings(); return; }
+  if (t.closest("#setChat") || t.closest("#tbChat") || t.closest("#openChat2")) { openChat(); return; }
+  if (t.closest("#setGallery")) { closeSettings(); show("quest"); requestAnimationFrame(() => { const m = $("#main"), r = $("#galleryPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
+  if (t.closest("#setRank")) { closeSettings(); show("rank"); return; }
+  if ((el = t.closest("[data-shot]"))) { openViewer(el.dataset.shot); return; }
+  if (t.closest("#vwClose")) { closeViewer(); return; }
+  if (t.closest("#chatClose")) { closeChat(); return; }
+  if ((el = t.closest("[data-delc]"))) { Cmt.remove(el.dataset.delc); return; }
   if ((el = t.closest("[data-act]"))) {
     const a = el.dataset.act;
     if (a === "google") { oauth("google", el); return; }
@@ -3712,24 +4011,20 @@ document.addEventListener("click", e => {
   if ((el = t.closest("#msCopy"))) { copyText(S.team.code, el); return; }
   if ((el = t.closest("#copyCode"))) { copyText(el.dataset.code, el); return; }
   if (t.closest("#msStart")) { hideModeSel(); renderAll(); return; }
-  if (t.closest("#openTeam")) { showModeSel("create"); return; }
+  if (t.closest("#openTeam")) { closeSettings(); closeChat(); showModeSel("create"); return; }
   if ((el = t.closest("#leaveTeam"))) {
-    if (el.dataset.armed) { Team.leave().then(() => { renderAll(); }); }
+    if (el.dataset.armed) { Team.leave().then(() => { renderAll(); if (!$("#setm").hidden) renderSettings(); }); }
     else { el.dataset.armed = "1"; el.classList.remove("ghost"); el.classList.add("red"); el.textContent = "한 번 더 누르면 나가요 · 내 점수가 팀 점수에서 빠져요"; }
     return;
   }
   if (t.closest("#teamGyojiBtn")) { makeTeamGyoji(); return; }
-  if (t.closest("[data-tb]") || t.closest("#tbOpen")) {
-    show("rank");
-    requestAnimationFrame(() => { const m = $("#main"), r = $("#teamPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8, behavior:"smooth" }); });
-    return;
-  }
-  /* 감성 샷 */
+  if (t.closest("[data-tb]") || t.closest("#tbOpen")) { openSettings("team"); return; }
+  /* 풍경의 조각 */
   if ((el = t.closest("[data-tag]"))) { S.shotTag = el.dataset.tag; save(); renderGallery(); return; }
   if ((el = t.closest("[data-gf]"))) { GAL.filter = el.dataset.gf; renderGallery(); return; }
   if ((el = t.closest("#loginGoogle"))) { oauth("google", el); return; }
   if (t.closest("#loginGuest")) { enterGuest(); return; }
-  if (t.closest("#nickSave")) { const v = $("#nickInput").value.trim(); if (v) { S.nickname = v.slice(0, 6); save(); renderHeader(); renderRank(); } return; }
+  if (t.closest("#nickSave")) { const v = $("#nickInput").value.trim(); if (v) { S.nickname = v.slice(0, 6); save(); renderHeader(); if (curScreen === "rank") renderRank(); renderAccount(); const n = $("#acctNote"); n.hidden = false; n.className = "note"; n.textContent = "닉네임을 저장했어요."; } return; }
   if ((el = t.closest("#gpsBtn"))) { if (!certUI.busy) certGPS(el.dataset.b); return; }
   if ((el = t.closest("#demoGps"))) { certUI.msg = ""; certUI.demo = false; grantGPS(el.dataset.b, {}, true); return; }
   if ((el = t.closest("[data-save]"))) {
@@ -3770,6 +4065,7 @@ document.addEventListener("click", e => {
 document.addEventListener("change", e => {
   if (e.target.classList.contains("photoIn")) { const f = e.target.files[0]; e.target.value = ""; handlePhoto(f); }
   if (e.target.classList.contains("shotIn")) { const f = e.target.files[0]; e.target.value = ""; handleShot(f); }
+  if (e.target.classList.contains("checkinIn")) { const f = e.target.files[0], bid = e.target.dataset.b; e.target.value = ""; handleCheckin(f, bid); }
 });
 document.addEventListener("input", e => {
   if (e.target.id === "plaqueText" || e.target.id === "writer") drawPlaque();
@@ -3785,7 +4081,9 @@ document.addEventListener("input", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (!$("#cfm").hidden) { $("#cfmNo").click(); }
-    else if (!$("#acctPop").hidden) closeAcctPop();
+    else if (!$("#chat").hidden) closeChat();
+    else if (!$("#viewer").hidden) closeViewer();
+    else if (!$("#setm").hidden) closeSettings();
     else if (!$("#smo").hidden) closeSmo();
     else if ($("#eobo").classList.contains("on")) closeEobo();
     else if (curH) closeSheet();
