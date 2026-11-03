@@ -486,6 +486,33 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .map-legend i.r{width:18px;height:0;border-top:2px dashed var(--red);border-radius:0;transform:none;vertical-align:3px}
 .map-legend i.s{width:18px;height:5px;border-radius:2px;background:var(--stone);transform:none;vertical-align:1px;box-shadow:inset 0 0 0 1px rgba(43,37,35,.25)}
 .blist{gap:2px}
+.maptools{display:flex;gap:8px;flex-wrap:wrap}
+.maptools .chip{min-height:38px;font-size:13.5px}
+.route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.map-legend i.rt{width:18px;height:0;border-top:3px dashed var(--blue);border-radius:0;transform:none;vertical-align:3px}
+.mpin .memo-dot{position:absolute;top:-6px;right:-4px;width:17px;height:17px;border-radius:50%;background:var(--yellow);color:var(--ink);font-size:10px;display:grid;place-items:center;border:1.5px solid var(--white)}
+.memo-panel{gap:10px}
+.memo-in{min-height:84px;resize:vertical;line-height:1.6;font-size:15px}
+.memo-st{font-size:11.5px;color:var(--muted)}
+.memo-list{display:flex;flex-direction:column}
+.memo-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;border:0;border-top:1px solid var(--line2);background:none;padding:9px 0;text-align:left;width:100%}
+.memo-row .bi{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;font:700 12px var(--f-body)}
+.memo-row b{display:block;font-size:14px}
+.memo-row small{font-size:12.5px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.memo-row .go{color:var(--muted)}
+.zhead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;padding:14px 0 6px;border-bottom:1px solid var(--line)}
+.zhead:first-child{padding-top:2px}
+.zhead b{display:block;font:700 15px var(--f-disp)}
+.zhead small{font-size:12px;color:var(--muted)}
+.zmini{width:36px;height:36px;border-radius:8px;border:1.5px dashed var(--line);display:grid;place-items:center;font:700 11.5px var(--f-body);color:var(--muted)}
+.zhead.got .zmini{border:0}
+.zmini svg{width:34px;height:34px}
+.zone-note{font-size:13px;font-weight:600;padding:10px 12px;border-radius:12px;background:var(--yellow-soft);color:#6B4A0E;line-height:1.5}
+.zone-note.got{background:var(--red-soft);color:#9C3326}
+.team-zones{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.tz{aspect-ratio:1;border:1.5px dashed var(--line);border-radius:5px;display:grid;place-items:center}
+.tz.got{border:0}
+.tz svg{width:100%;height:100%}
 .brow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;border:0;border-bottom:1px solid var(--line2);background:none;padding:10px 0;text-align:left;width:100%}
 .brow:last-child{border-bottom:0}
 .brow .bi{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;background:var(--card)}
@@ -523,7 +550,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .page.cover{background-color:var(--gilt);background-image:repeating-linear-gradient(60deg,rgba(43,37,35,.06) 0 1.5px,transparent 1.5px 16px),repeating-linear-gradient(-60deg,rgba(43,37,35,.06) 0 1.5px,transparent 1.5px 16px)}
 .cv-label{position:absolute;top:22px;left:50px;writing-mode:vertical-rl;background:var(--card);border:1.5px solid var(--ink);padding:14px 7px;font:900 24px/1 var(--f-disp);letter-spacing:.3em;box-shadow:2px 2px 0 rgba(43,37,35,.15)}
 .cv-side{position:absolute;top:24px;left:98px;writing-mode:vertical-rl;font:600 13px var(--f-disp);color:var(--frame);letter-spacing:.2em}
-.cv-grid{position:absolute;left:126px;right:16px;top:24px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}
+.cv-grid{position:absolute;left:126px;right:16px;top:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
 .cv-grid .mini{aspect-ratio:1;display:grid;place-items:center;border-radius:4px}
 .cv-grid .mini.empty{border:1.5px dashed rgba(43,37,35,.25)}
 .cv-grid .mini svg{width:88%;height:88%}
@@ -549,6 +576,18 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:width .25s,background .25s}
 .dots i.on{width:18px;border-radius:9px;background:var(--red)}
 
+/* 궁궐 한 장: 구역 도장 칸 */
+.zgrid{position:absolute;left:44px;right:64px;top:58px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}
+.zslot{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.zslot .zs{width:100%;aspect-ratio:1;display:grid;place-items:center}
+.zslot .zs svg{width:100%;height:100%;overflow:visible}
+.zslot.empty .zs{border:2px dashed var(--line);border-radius:6px;font:700 15px var(--f-body);color:var(--muted)}
+.zslot small{font-size:11px;font-weight:600;color:var(--muted);text-align:center;line-height:1.3;word-break:keep-all}
+.zslot.fresh .zs{animation:inkFresh 1s .35s both}
+.pseal{position:absolute;right:12px;bottom:40px;width:58px;height:58px;transform:rotate(-8deg)}
+.pseal svg{width:100%;height:100%}
+.smo.play .zslot.new .zs{animation:inkIn 1.9s forwards}
+.smo-stage .zgrid{top:62px}
 /* 도장 찍는 순간 */
 .smo{position:fixed;inset:0;z-index:92;display:grid;place-content:center;justify-items:center;gap:22px;background:rgba(43,37,35,.78);opacity:0;transition:opacity .25s;padding:24px}
 .smo.on{opacity:1}
@@ -563,7 +602,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .smo.play .smo-handle{animation:hdrop 1.9s cubic-bezier(.3,.7,.2,1) forwards}
 .smo.play .smo-stage{animation:shake 1.9s}
 .smo.play .smo-stage .page{animation:squash 1.9s}
-.smo.play .pg-seal{animation:inkIn 1.9s forwards}
+
 .smo.play .ink-dot{animation:splat 1.9s forwards}
 @keyframes hdrop{0%{opacity:0;transform:translateY(-200px) rotate(-5deg)}18%{opacity:1;transform:translateY(-150px) rotate(-2deg)}32%{transform:translateY(8px) rotate(0)}38%{transform:translateY(3px) scaleY(.95)}56%{opacity:1;transform:translateY(0)}80%{opacity:1;transform:translateY(-130px)}100%{opacity:0;transform:translateY(-230px)}}
 @keyframes squash{0%,31%{transform:none}34%{transform:scale(.975,.955) translateY(4px)}41%{transform:scale(1.008)}48%{transform:none}}
@@ -614,7 +653,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
     <section class="screen" id="s-map">
       <div class="seg palseg" role="tablist" aria-label="궁궐·유적 선택" id="palTabs"></div>
       <div class="seg mapseg" id="mapSeg" role="tablist" aria-label="지도 보기 방식">
-        <button role="tab" data-mv="map" aria-selected="true">🗺️ 유적 지도</button>
+        <button role="tab" data-mv="map" aria-selected="true">🗺️ 지도</button>
         <button role="tab" data-mv="scene" aria-selected="false">전각 그림</button>
       </div>
       <div class="subview" id="mapView"></div>
@@ -657,7 +696,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
           <div class="dots" id="bookDots"></div>
           <button class="bnav" id="bookNext" aria-label="다음 장">›</button>
         </div>
-        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 한 전각의 현판을 모두 찾으면 낙관이 찍히고 +40 EXP, 여섯 개를 다 모으면 명주실로 엮어 드려요.</p>
+        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반만 둘러보면 도장 +60 EXP. 10개를 다 모으면 명주실로 엮어 드려요.</p>
       </div>
 
       <div class="panel">
@@ -742,7 +781,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
   </main>
 
   <nav class="nav" id="nav" aria-label="주요 메뉴">
-    <button data-s="map" aria-current="page"><span class="ic">🗺️</span>궁궐 지도</button>
+    <button data-s="map" aria-current="page"><span class="ic">🗺️</span>지도</button>
     <button data-s="rank"><span class="ic">📜</span>관직·도장</button>
     <button data-s="quest"><span class="ic">🎮</span>승급 퀘스트</button>
     <button data-s="studio"><span class="ic">🖌️</span>체험 공간</button>
@@ -780,7 +819,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
         <path d="M120 22V12M180 22V12M112 12H188" stroke="currentColor" stroke-width="1.4" opacity=".55"/>
         <rect x="104" y="30" width="92" height="3" fill="var(--blue)"/><rect x="104" y="33" width="92" height="1.4" fill="var(--yellow)"/>
       </svg>
-      <p class="land-eyebrow rise d1">昌德宮 · 昌慶宮</p>
+      <p class="land-eyebrow rise d1">昌德宮 · 昌慶宮 · 宗廟</p>
       <h1 class="land-title rise d1" id="landTitle">문학의 공간을<br>거닐다</h1>
       <p class="land-plaque rise d2">궁궐 현판 탐험기</p>
     </header>
@@ -1105,7 +1144,7 @@ const RANKS = [
 ];
 const MAX = RANKS.length - 1;
 const need = i => 20 + i * 6;               // i → i+1 승급에 필요한 EXP (총 1,156)
-const REWARD = { view:20, card:3, stamp:40, quiz:15, order:25, gps:50, photo:30, shot:15, bquiz:20 };
+const REWARD = { palace:100, view:20, card:3, stamp:60, quiz:15, order:25, gps:50, photo:30, shot:15, bquiz:20 };
 const SHOT_DAILY = 3;   // 감성 샷 보상은 하루 3장까지
 const TYPE_PIN = {"현판":"현","주련":"주","시판":"시","석물":"석","장식":"장","조경":"조","전각명":"名","개념":"뜻"};
 const TYPE_PILL = {"현판":"blue","주련":"red","시판":"red","석물":"yellow","장식":"yellow","조경":"yellow","전각명":"blue","개념":"red"};
@@ -1385,6 +1424,51 @@ Object.assign(HANJA, {
 const HS = {}, BLD = {};
 DATA.palaces.forEach(p => p.buildings.forEach(b => { BLD[b.id] = {b, p}; b.hotspots.forEach(h => HS[h.id] = {h, b, p}); }));
 
+/* ═════════ 궁별 통합 도장 (전체 10개) ═════════
+   장소마다 도장을 찍지 않고, 가까운 장소들을 한 구역으로 묶어 구역의 절반만 둘러보면 도장 1개.
+   한 궁궐의 구역 도장을 다 모으면 그 궁궐의 '통합 도장'이 완성됩니다.
+   '둘러봄' = 그 장소의 현판·글씨를 하나라도 열어 보거나, 현장 위치 인증을 한 경우 */
+const ZONES = [
+  { id:"cgg-a", pid:"cgg", name:"정문과 정전",   seal:"弘化明政", bids:["honghwamun","okcheongyo","myeongjeongjeon","munjeongjeon","sungmundang","gwancheondae"] },
+  { id:"cgg-b", pid:"cgg", name:"왕실의 생활 공간", seal:"通明殿", bids:["haminjeong","gyeongchunjeon","hwangyeongjeon","tongmyeongjeon","yanghwadang"] },
+  { id:"cgg-c", pid:"cgg", name:"바람과 봄의 뜰", seal:"風旗",   bids:["yeongchunheon","punggidae","taesilbi"] },
+  { id:"cgg-d", pid:"cgg", name:"춘당지 숲길",   seal:"春塘",   bids:["chundangji","daeonsil","gwandeokjeong","wolgeunmun"] },
+  { id:"cdg-a", pid:"cdg", name:"돈화문과 금천", seal:"敦化門",  bids:["donhwamun","geumcheongyo","gwolnaegaksa","seonwonjeon"] },
+  { id:"cdg-b", pid:"cdg", name:"정전과 편전",   seal:"仁政宣政", bids:["injeongjeon","seonjeongjeon","huijeongdang","daejojeon"] },
+  { id:"cdg-c", pid:"cdg", name:"동궁과 낙선재", seal:"樂善",   bids:["seongjeonggak","nakseonjae"] },
+  { id:"cdg-d", pid:"cdg", name:"창덕궁 후원",   seal:"後苑",   bids:["huwon","buyongjeong","aeryeonji","gwallamji","okryucheon"] },
+  { id:"jm-a",  pid:"jm",  name:"정전과 신로",   seal:"正殿",   bids:["jeongjeon","hyangdaecheong"] },
+  { id:"jm-b",  pid:"jm",  name:"영녕전",       seal:"永寧殿",  bids:["yeongnyeongjeon"] }
+];
+const ZONE_OF = {}, ZONE_IDS = ZONES.map(z => z.id), ZONE_OF_ID = Object.fromEntries(ZONES.map(z => [z.id, z]));
+ZONES.forEach(z => z.bids.forEach(b => ZONE_OF[b] = z));
+// 지도 번호·목록 순서 = 구역 순서
+(function(){ const order = ZONES.flatMap(z => z.bids); DATA.palaces.forEach(p => p.buildings.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))); })();
+const PALACE_SEAL = { cgg:"昌慶宮", cdg:"昌德宮", jm:"宗廟" };
+const zoneNeed = z => Math.ceil(z.bids.length / 2);
+const placeDone = bid => !!(BLD[bid] && (BLD[bid].b.hotspots.some(h => S.viewed[h.id]) || S.certs["gps:" + bid]));
+const zoneSeen = z => z.bids.filter(placeDone).length;
+const palaceZones = pid => ZONES.filter(z => z.pid === pid);
+const palaceDone = pid => palaceZones(pid).every(z => S.stamps[z.id]);
+function normalizeStamps(){ Object.keys(S.stamps).forEach(k => { if (!ZONE_IDS.includes(k)) delete S.stamps[k]; }); }
+function checkZones(silent){
+  const fresh = ZONES.filter(z => !S.stamps[z.id] && zoneSeen(z) >= zoneNeed(z));
+  if (!fresh.length) return;
+  fresh.forEach(z => Rec.stamp(z.id));
+  if (silent) return;
+  let delay = 900;
+  fresh.forEach(z => {
+    setTimeout(() => stampMoment(z.id, () => {
+      gain(REWARD.stamp, `${z.name} 도장`);
+      if (palaceDone(z.pid)) {
+        const pal = DATA.palaces.find(p => p.id === z.pid);
+        setTimeout(() => { gain(REWARD.palace, `${pal.name} 통합 도장`); toast(`${pal.name} 통합 도장 완성`, `${PALACE_SEAL[z.pid]} 구역 도장을 모두 모았어요`); }, 2600);
+      }
+    }), delay);
+    delay += 3300;
+  });
+}
+
 /* ═════════ STATE + 저장소 ═════════
    비회원 → localStorage  /  Google·게스트 계정 → Firebase (Firestore · Storage)
    화면 코드는 S(상태)를 바꾼 뒤 save()나 Rec.*()만 부르면 되고, 어디에 저장할지는 Store.mode가 정합니다. */
@@ -1392,7 +1476,7 @@ const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-pl
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
   team:null, playMode:null, shotDay:{d:"", n:0}, shotTag:"처마",
-  mapView:"map", quizDone:{}, bookFresh:null, bookAnim:false, bookBound:null,
+  mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
   let s = fresh();
@@ -1728,7 +1812,7 @@ function renderMap(){
   $("#mapView").hidden = !mapv; $("#sceneView").hidden = mapv;
   if (mapv) { renderPalaceMap(); return; }
   const pal = DATA.palaces.find(p => p.id === S.palace), b = curBuilding();
-  $("#chips").innerHTML = pal.buildings.map(x => `<button class="chip" data-b="${x.id}" aria-pressed="${x.id===b.id}">${S.stamps[x.id] ? '<i class="dot" aria-label="도장 받음"></i>' : ''}${x.name}<span class="hz">${x.hanja}</span></button>`).join("");
+  $("#chips").innerHTML = pal.buildings.map(x => `<button class="chip" data-b="${x.id}" aria-pressed="${x.id===b.id}">${placeDone(x.id) ? '<i class="dot" aria-label="둘러봄"></i>' : ''}${x.name}<span class="hz">${x.hanja}</span></button>`).join("");
   $("#sbHz").textContent = b.hanja;
   $("#sbKo").textContent = `${pal.name} ${b.name}`;
   const {s, A} = sceneFor(b);
@@ -1741,7 +1825,7 @@ function renderMap(){
   $("#bcard").innerHTML = `
     <div class="eyebrow">${pal.name} ${pal.hanja}</div>
     <h2>${b.name} <span class="hz">${b.hanja}</span></h2>
-    <div class="meta">${b.built} · 글씨 ${seen}/${b.hotspots.length} 확인${S.stamps[b.id] ? " · 도장 받음" : ""}</div>
+    <div class="meta">${b.built} · 글씨 ${seen}/${b.hotspots.length} 확인 · ${ZONE_OF[b.id].name} 구역${S.stamps[ZONE_OF[b.id].id] ? " 도장 받음" : ""}</div>
     <p class="desc">${b.desc}</p>
     <div class="hs-list">${b.hotspots.map(h => `
       <button class="hs-row" data-h="${h.id}">
@@ -1762,6 +1846,7 @@ function setZoom(z){
 let curH = null, curChar = null;
 function openSheet(hid, fromBuilding){
   const {h, b, p} = HS[hid]; curH = hid; curChar = null;
+  if (fromBuilding) SH.bscroll = $("#sheetBody").scrollTop;
   SH.mode = "hotspot"; SH.bid = b.id; $("#shBack").hidden = !fromBuilding;
   certUI = { bid:b.id, busy:false, msg:"", err:false, demo:false };
   $("#shTags").innerHTML = `<span class="pill ${TYPE_PILL[h.type]}">${h.type}</span><span class="pill blue">${p.name} · ${b.name}</span>`;
@@ -1773,10 +1858,7 @@ function openSheet(hid, fromBuilding){
   setTimeout(() => $("#shClose").focus({preventScroll:true}), 50);
   if (!S.viewed[hid]) {
     S.viewed[hid] = true; gain(REWARD.view, `${h.read} 확인`);
-    if (b.hotspots.every(x => S.viewed[x.id]) && !S.stamps[b.id]) {
-      Rec.stamp(b.id);
-      setTimeout(() => stampMoment(b.id, () => gain(REWARD.stamp, `${b.name} 도장`)), 1100);
-    }
+    checkZones();
     renderMap();
   }
 }
@@ -1820,7 +1902,7 @@ function renderSheetBody(){
       <p>${h.modern}</p>
     </div>
     <div class="sec story">
-      <h3>인문학 이야기</h3>
+      <h3>장소 이야기</h3>
       <p>${h.story}</p>
     </div>`;
 }
@@ -2003,11 +2085,12 @@ function dataUrlToBlob(u){
 
 /* ═════════ QUEST ═════════ */
 function renderQuests(){
-  $("#quests").innerHTML = DATA.palaces.flatMap(p => p.buildings.map(b => {
-    const n = b.hotspots.length, k = b.hotspots.filter(h => S.viewed[h.id]).length;
-    return `<button class="qrow" data-go="${b.id}"><span><b>${p.name} ${b.name} 탐방</b><small>현판·글씨 ${n}곳 찾기 · ${k}/${n}</small><div class="qprog"><i style="width:${k/n*100}%"></i></div></span>
-      ${S.stamps[b.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow">+${REWARD.stamp} · 도장</span>`}</button>`;
-  })).join("");
+  $("#quests").innerHTML = ZONES.map(z => {
+    const pal = DATA.palaces.find(p => p.id === z.pid), k = Math.min(zoneSeen(z), zoneNeed(z)), n = zoneNeed(z);
+    const next = z.bids.find(b => !placeDone(b)) || z.bids[0];
+    return `<button class="qrow" data-go="${next}"><span><b>${pal.name} · ${z.name}</b><small>${z.bids.length}곳 중 ${n}곳 둘러보기 · ${k}/${n}</small><div class="qprog"><i style="width:${k / n * 100}%"></i></div></span>
+      ${S.stamps[z.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow">+${REWARD.stamp} · 도장</span>`}</button>`;
+  }).join("");
 }
 let G = { mode:null, streak:0 };
 function startGame(mode){
@@ -2140,7 +2223,7 @@ async function initFirebase(){
 const cloudOn = () => Store.mode === "cloud";
 const userRef = (uid = Store.uid) => fb.db.collection("users").doc(uid);
 const progressOf = () => ({ viewed:S.viewed, cards:S.cards, certs:S.certs, puzzles:S.puzzles, palace:S.palace, bsel:S.bsel, style:S.style,
-  team:S.team, playMode:S.playMode, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone });
+  team:S.team, playMode:S.playMode, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
 async function remoteSaveProfile(){
   if (!cloudOn()) return;
   try {
@@ -2200,6 +2283,7 @@ async function enterRemote(user){
     }
     for (const v of S.visits.slice().reverse()) await remoteAdd("visits", visitRow(v));
   }
+  normalizeStamps(); checkZones(true);
 }
 function loginNote(html, err){
   const n = !$("#login").hidden ? $("#loginNote") : (!$("#acctPop").hidden && $("#popNote")) || $("#acctNote") || $("#loginNote");
@@ -2425,25 +2509,56 @@ function drawMap(id){
   return (MAP_SVG[id] = svg);
 }
 let mapZ = 1;
+/* 지도 화면: 지도 + 추천 동선 + 메모. 다시 그릴 때도 화면·지도 스크롤 위치를 그대로 지킵니다. */
+const MAPUI = { route:true, memo:false };
+function memoPreview(t){ t = String(t || "").replace(/\s+/g, " ").trim(); return t.length > 42 ? t.slice(0, 42) + "…" : t; }
 function renderPalaceMap(){
-  const pal = DATA.palaces.find(p => p.id === S.palace), M = PMAPS[pal.id], [vx, vy, vw, vh] = M.vb;
+  const pal = DATA.palaces.find(p => p.id === S.palace), M = PMAPS[pal.id], F = mapFrame(M);
+  const main = $("#main"), oldMs = $("#mapScroll"), keep = { main:main.scrollTop, mx: oldMs ? oldMs.scrollLeft : null, my: oldMs ? oldMs.scrollTop : null };
+  const nums = {}; pal.buildings.forEach((b, i) => nums[b.id] = i + 1);
+  const pct = b => F.pct(...M.pins[b.id]);
   const pins = pal.buildings.map(b => {
-    const [x, y] = M.pins[b.id], done = !!S.stamps[b.id];
-    const seen = b.hotspots.filter(h => S.viewed[h.id]).length;
-    const no = pal.buildings.indexOf(b) + 1;
-    const [lx, ty] = mapFrame(M).pct(x, y);
-    return `<button class="mpin${done ? " done" : ""}" style="left:${lx.toFixed(2)}%;top:${ty.toFixed(2)}%" data-mb="${b.id}" aria-label="${no}번 ${b.name}, 글씨 ${seen}/${b.hotspots.length} 확인${done ? ", 도장 받음" : ""}"><span class="pi"><b>${no}</b></span><span class="pl">${b.name}</span></button>`;
+    const done = placeDone(b.id), [lx, ty] = pct(b), seen = b.hotspots.filter(h => S.viewed[h.id]).length;
+    return `<button class="mpin${done ? " done" : ""}" style="left:${lx.toFixed(2)}%;top:${ty.toFixed(2)}%" data-mb="${b.id}" aria-label="${nums[b.id]}번 ${b.name}, 글씨 ${seen}/${b.hotspots.length} 확인${done ? ", 둘러봄" : ""}${S.memos[b.id] ? ", 메모 있음" : ""}"><span class="pi"><b>${nums[b.id]}</b></span><span class="pl">${b.name}</span>${S.memos[b.id] ? `<span class="memo-dot" aria-hidden="true">✎</span>` : ""}</button>`;
   }).join("");
+  const route = MAPUI.route ? `<svg class="route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="${pal.buildings.map(b => pct(b).map(v => v.toFixed(2)).join(",")).join(" ")}" fill="none" stroke="var(--white)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity=".85"/>
+      <polyline points="${pal.buildings.map(b => pct(b).map(v => v.toFixed(2)).join(",")).join(" ")}" fill="none" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="8 6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    </svg>` : "";
+  const memoCount = Object.keys(S.memos).filter(id => BLD[id] && BLD[id].p.id === pal.id).length + (S.pmemo[pal.id] ? 1 : 0);
+  const memoPanel = MAPUI.memo ? `
+    <div class="panel memo-panel">
+      <div class="field"><label for="pmemoIn">${pal.name} 메모</label>
+        <textarea class="input memo-in" id="pmemoIn" rows="3" maxlength="600" placeholder="오늘 ${pal.name}에서 본 것, 궁금한 것을 자유롭게 적어 보세요">${esc(S.pmemo[pal.id] ? S.pmemo[pal.id].t : "")}</textarea>
+        <span class="memo-st" id="pmemoSt">${S.pmemo[pal.id] ? `${fmtDate(S.pmemo[pal.id].at)} 저장됨` : "적으면 바로 저장돼요"}</span></div>
+      <div class="memo-list">${pal.buildings.filter(b => S.memos[b.id]).map(b => `
+        <button class="memo-row" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span><span><b>${b.name}</b><small>${esc(memoPreview(S.memos[b.id].t))}</small></span><span class="go" aria-hidden="true">›</span></button>`).join("")
+        || `<p class="small">장소 이야기 화면 아래 ‘나의 메모’에 적은 글이 여기에 모여요.</p>`}</div>
+    </div>` : "";
   $("#mapView").innerHTML = `
-    <div class="map-head"><div class="ttl"><b>${pal.hanja}</b><span>${pal.name} · 미션 전각 ${pal.buildings.length}곳</span></div>
+    <div class="map-head"><div class="ttl"><b>${pal.hanja}</b><span>${pal.name} · ${pal.buildings.length}곳 · 도장 ${palaceZones(pal.id).filter(z => S.stamps[z.id]).length}/${palaceZones(pal.id).length}</span></div>
       <button class="zoom" id="mapZoom" aria-pressed="${mapZ > 1}">${zoomLabel()}</button></div>
-    <div class="map-scroll" id="mapScroll"><div class="pmap${mapZ >= 3 ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도">${drawMap(pal.id)}${pins}</div></div>
-    <p class="map-legend"><span><i class="b"></i>미션 장소 (번호 = 아래 목록)</span><span><i class="y"></i>도장 받음</span><span><i class="r"></i>관람 동선</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
-    <div class="panel blist">${pal.buildings.map(b => {
-      const seen = b.hotspots.filter(h => S.viewed[h.id]).length, done = !!S.stamps[b.id];
-      return `<button class="brow${done ? " done" : ""}" data-mb="${b.id}"><span class="bi">${pal.buildings.indexOf(b) + 1}</span>
-        <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>글씨 ${seen}/${b.hotspots.length} 확인${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${done ? " · 도장 받음" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`;
+    <div class="maptools" role="group" aria-label="지도 보기 옵션">
+      <button class="chip" id="tglRoute" aria-pressed="${MAPUI.route}">🧭 추천 동선</button>
+      <button class="chip" id="tglMemo" aria-pressed="${MAPUI.memo}">📝 메모${memoCount ? ` ${memoCount}` : ""}</button>
+    </div>
+    ${memoPanel}
+    <div class="map-scroll" id="mapScroll"><div class="pmap${mapZ >= 3 ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도">${drawMap(pal.id)}${route}${pins}</div></div>
+    <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>둘러봄</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
+    <div class="panel blist">${palaceZones(pal.id).map(z => {
+      const got = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z));
+      return `<div class="zhead${got ? " got" : ""}"><span class="zmini">${got ? sealSVG(z.seal) : `${k}/${zoneNeed(z)}`}</span>
+          <span><b>${z.name}</b><small>${got ? `도장 받음 · ${stampDate(got)}` : `${z.bids.length}곳 중 ${zoneNeed(z)}곳 둘러보면 도장`}</small></span></div>` +
+        z.bids.map(id => BLD[id].b).map(b => {
+          const seen = b.hotspots.filter(h => S.viewed[h.id]).length, done = placeDone(b.id);
+          return `<button class="brow${done ? " done" : ""}" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span>
+            <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? "둘러봄" : "아직"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`;
+        }).join("");
     }).join("")}</div>`;
+  // 스크롤 위치 되살리기 (목록·지도 모두)
+  main.scrollTop = keep.main;
+  const ms = $("#mapScroll");
+  if (ms && keep.mx !== null) { ms.scrollLeft = keep.mx; ms.scrollTop = keep.my; }
 }
 const zoomLabel = () => mapZ >= 3 ? "전체 보기" : mapZ >= 2 ? "3× · 이름 보기" : "확대 2×";
 function setMapZoom(z){
@@ -2457,17 +2572,17 @@ function setMapZoom(z){
 const SH = { mode:null, bid:null };
 const QZ = {};
 const sheetOpen = () => $("#sheet").classList.contains("open");
-function openBuilding(bid){
+function openBuilding(bid, back){
   const { b, p } = BLD[bid];
   SH.mode = "building"; SH.bid = bid; curH = null; curChar = null;
   certUI = { bid, busy:false, msg:"", err:false, demo:false };
   $("#shBack").hidden = true;
-  $("#shTags").innerHTML = `<span class="pill blue">${p.name} ${p.hanja}</span>${S.stamps[bid] ? `<span class="pill red">도장 받음</span>` : ""}`;
+  $("#shTags").innerHTML = `<span class="pill blue">${p.name} ${p.hanja}</span><span class="pill ${S.stamps[ZONE_OF[bid].id] ? "red" : "yellow"}">${ZONE_OF[bid].name}${S.stamps[ZONE_OF[bid].id] ? " 도장 ✓" : ""}</span>`;
   $("#shTitle").textContent = b.hanja;
   $("#shRead").textContent = `${b.name} · ${b.built}`;
   renderBuildingBody();
   $("#sheet").classList.add("open"); $("#backdrop").classList.add("on");
-  $("#sheetBody").scrollTop = 0;
+  $("#sheetBody").scrollTop = back ? (SH.bscroll || 0) : 0;   // 글씨 상세에서 돌아오면 보던 위치 그대로
   setTimeout(() => $("#shClose").focus({ preventScroll:true }), 50);
 }
 function quizHTML(b){
@@ -2483,10 +2598,12 @@ function quizHTML(b){
 }
 function renderBuildingBody(){
   const { b } = BLD[SH.bid], seen = b.hotspots.filter(h => S.viewed[h.id]).length, n = b.hotspots.length;
-  $("#sheetBody").innerHTML = `
+  const z = ZONE_OF[b.id], body = $("#sheetBody"), keep = body.scrollTop, memo = S.memos[b.id];
+  body.innerHTML = `
     <div class="sec"><p class="lead">${b.desc}</p></div>
+    <div class="zone-note${S.stamps[z.id] ? " got" : ""}">${S.stamps[z.id] ? `「${z.name}」 구역 도장을 받았어요` : `「${z.name}」 구역 · ${z.bids.length}곳 중 ${zoneNeed(z)}곳 둘러보면 도장 (${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)})`}</div>
     <div class="sec">
-      <h3>현판 · 글씨 ${seen}/${n} ${S.stamps[b.id] ? "· 낙관 도장 받음" : "· 모두 찾으면 낙관 도장"}</h3>
+      <h3>현판 · 글씨 ${seen}/${n} · 하나만 열어 봐도 ‘둘러봄’</h3>
       <div class="hs-list">${b.hotspots.map(h => `
         <button class="hs-row" data-h="${h.id}">
           <span class="pill ${TYPE_PILL[h.type]}">${h.type}</span>
@@ -2496,18 +2613,25 @@ function renderBuildingBody(){
     </div>
     ${quizHTML(b)}
     ${gpsHTML(b)}
+    <div class="sec">
+      <h3>나의 메모</h3>
+      <textarea class="input memo-in" id="bmemo" rows="3" maxlength="600" placeholder="이곳에서 본 것, 느낀 점, 궁금한 점을 적어 보세요">${esc(memo ? memo.t : "")}</textarea>
+      <span class="memo-st" id="bmemoSt">${memo ? `${fmtDate(memo.at)} 저장됨 · 지도 ‘메모’에서도 볼 수 있어요` : "적으면 바로 저장돼요"}</span>
+    </div>
     <button class="btn ghost" data-scene="${b.id}">전각 그림에서 글씨 위치 보기</button>`;
+  body.scrollTop = keep;
 }
 function rerenderSheet(){ if (!sheetOpen()) return; SH.mode === "building" ? renderBuildingBody() : renderSheetBody(); }
 
 /* ═════════ 🔏 낙관 스탬프 북 ═════════ */
-function sealSVG(b, i){
-  const ch = [...b.hanja], v = i % 3;   // 세로 장방인(음각) · 사각 인장(양각) · 원형 인장(양각)을 번갈아
-  const body = v === 0
-    ? `<rect x="33" y="4" width="54" height="112" rx="5" fill="var(--red)"/>${ch.map((c, k) => `<text x="60" y="${24 + k * 36}" font-size="31" fill="var(--card)">${c}</text>`).join("")}`
-    : v === 1
-    ? `<rect x="8" y="8" width="104" height="104" rx="4" fill="none" stroke="var(--red)" stroke-width="7"/><rect x="17" y="17" width="86" height="86" fill="none" stroke="var(--red)" stroke-width="1.6"/>${[[82, 40, ch[0]], [82, 82, ch[1]], [38, 40, ch[2]], [38, 82, "印"]].map(([x, y, c]) => `<text x="${x}" y="${y}" font-size="36" fill="var(--red)">${c}</text>`).join("")}`
-    : `<circle cx="60" cy="60" r="53" fill="none" stroke="var(--red)" stroke-width="6"/><circle cx="60" cy="60" r="45" fill="none" stroke="var(--red)" stroke-width="1.4"/>${ch.map((c, k) => `<text x="60" y="${31 + k * 29}" font-size="26" fill="var(--red)">${c}</text>`).join("")}`;
+// 글자 수에 따라 인장 모양: 2자 세로 장방인(음각) · 3자 원형(양각) · 4자 사각(양각)
+function sealSVG(chars){
+  const ch = [...chars];
+  const body = ch.length <= 2
+    ? `<rect x="33" y="4" width="54" height="112" rx="5" fill="var(--red)"/>${ch.map((c, k) => `<text x="60" y="${ch.length === 1 ? 60 : 34 + k * 52}" font-size="${ch.length === 1 ? 46 : 40}" fill="var(--card)">${c}</text>`).join("")}`
+    : ch.length === 3
+    ? `<circle cx="60" cy="60" r="53" fill="none" stroke="var(--red)" stroke-width="6"/><circle cx="60" cy="60" r="45" fill="none" stroke="var(--red)" stroke-width="1.4"/>${ch.map((c, k) => `<text x="60" y="${31 + k * 29}" font-size="26" fill="var(--red)">${c}</text>`).join("")}`
+    : `<rect x="8" y="8" width="104" height="104" rx="4" fill="none" stroke="var(--red)" stroke-width="7"/><rect x="17" y="17" width="86" height="86" fill="none" stroke="var(--red)" stroke-width="1.6"/>${[[82, 40], [82, 82], [38, 40], [38, 82]].map(([x, y], k) => `<text x="${x}" y="${y}" font-size="36" fill="var(--red)">${ch[k]}</text>`).join("")}`;
   return `<svg viewBox="0 0 120 120" aria-hidden="true"><g filter="url(#rough)" opacity=".93" font-family="Noto Serif KR, serif" font-weight="900" text-anchor="middle" dominant-baseline="central">${body}</g></svg>`;
 }
 function bindSVG(bound, anim){
@@ -2521,40 +2645,48 @@ function bindSVG(bound, anim){
   </svg>`;
 }
 const stampDate = v => typeof v === "string" ? fmtDate(v) : "";
-function pageInner(b, p, i, opts = {}){
-  const got = S.stamps[b.id], show = got || opts.moment, seen = b.hotspots.filter(h => S.viewed[h.id]).length;
+// 궁궐 한 장: 구역 도장 칸 + (모두 모으면) 궁궐 통합 도장
+function palacePage(pid, i, opts = {}){
+  const pal = DATA.palaces.find(p => p.id === pid), zs = palaceZones(pid), done = palaceDone(pid);
   return `${bindSVG(opts.bound, opts.anim)}
     <div class="pg-no">第${hanNum(i + 1)}張</div>
-    <div class="pg-label">${b.hanja}</div>
-    <div class="pg-sub">${p.name} · ${b.name}</div>
-    <div class="pg-seal${show ? "" : " empty"}">${show ? sealSVG(b, i) : `<span>${seen}/${b.hotspots.length}<small>현판 확인</small></span>`}</div>
-    <div class="pg-meta">${got && !opts.moment ? `${stampDate(got)} 찍음` : opts.moment ? "방금 찍었어요" : "현판을 모두 찾으면 낙관이 찍혀요"}</div>`;
+    <div class="pg-label">${pal.hanja}</div>
+    <div class="pg-sub">${pal.name} 통합 도장</div>
+    <div class="zgrid">${zs.map(z => {
+      const got = S.stamps[z.id], isNew = opts.moment === z.id, show = got || isNew;
+      return `<div class="zslot${show ? "" : " empty"}${isNew ? " new" : ""}${opts.fresh === z.id ? " fresh" : ""}" data-z="${z.id}">
+        <div class="zs">${show ? sealSVG(z.seal) : `<span>${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)}</span>`}</div>
+        <small>${z.name}</small></div>`;
+    }).join("")}</div>
+    ${done && opts.moment !== "palace-pending" ? `<div class="pseal" aria-label="${pal.name} 통합 도장">${sealSVG(PALACE_SEAL[pid])}</div>` : ""}
+    <div class="pg-meta">${done ? `${pal.name} 통합 도장 완성` : `구역마다 절반만 둘러보면 도장 · ${zs.filter(z => S.stamps[z.id]).length}/${zs.length}`}</div>`;
 }
 function renderBook(){
   const box = $("#bookPages"), keep = box.scrollLeft;
-  const n = ALL_B.filter(x => S.stamps[x.b.id]).length, bound = n === ALL_B.length, anim = bound && S.bookAnim;
-  $("#bookCount").textContent = `${n} / ${ALL_B.length}`;
+  const n = ZONES.filter(z => S.stamps[z.id]).length, bound = n === ZONES.length, anim = bound && S.bookAnim;
+  $("#bookCount").textContent = `${n} / ${ZONES.length}`;
   const cover = `<section class="page cover${anim ? " anim" : ""}${bound ? " bound" : ""}" aria-label="표지">
       ${bindSVG(bound, anim)}
       <div class="cv-label">探訪印譜</div>
       <div class="cv-side">${esc(S.nickname || "탐방객")}의 탐방 도장첩</div>
-      <div class="cv-grid">${ALL_B.map((x, i) => `<div class="mini${S.stamps[x.b.id] ? "" : " empty"}">${S.stamps[x.b.id] ? sealSVG(x.b, i) : ""}</div>`).join("")}</div>
+      <div class="cv-grid">${ZONES.map(z => `<div class="mini${S.stamps[z.id] ? "" : " empty"}">${S.stamps[z.id] ? sealSVG(z.seal) : ""}</div>`).join("")}</div>
       ${bound ? `<div class="done-seal" aria-label="완성">完</div>` : ""}
-      <div class="cv-prog"><span>${bound ? "명주실로 엮은 나만의 도장첩" : `도장 ${n}/${ALL_B.length} · 모두 모으면 명주실로 엮어 드려요`}</span><div class="cv-bar"><i style="width:${n / ALL_B.length * 100}%"></i></div></div>
+      <div class="cv-prog"><span>${bound ? "명주실로 엮은 나만의 도장첩" : `도장 ${n}/${ZONES.length} · 모두 모으면 명주실로 엮어 드려요`}</span><div class="cv-bar"><i style="width:${n / ZONES.length * 100}%"></i></div></div>
     </section>`;
-  const pages = ALL_B.map((x, i) => `<section class="page${S.bookFresh === x.b.id ? " fresh" : ""}" aria-label="${x.b.name} 쪽">${pageInner(x.b, x.p, i, { bound, anim })}</section>`);
+  const freshZ = S.bookFresh && ZONE_OF_ID[S.bookFresh];
+  const pages = DATA.palaces.map((p, i) => `<section class="page" aria-label="${p.name} 쪽">${palacePage(p.id, i, { bound, anim, fresh: freshZ && freshZ.pid === p.id ? freshZ.id : null })}</section>`);
   const colo = `<section class="page" aria-label="맺음 쪽">${bindSVG(bound, anim)}
       <div class="colo"><h4>跋 · 맺음</h4>
-        <ul>${ALL_B.map(x => `<li class="${S.stamps[x.b.id] ? "" : "no"}"><span>${x.p.name} ${x.b.name}</span><span>${S.stamps[x.b.id] ? stampDate(S.stamps[x.b.id]) || "✓" : "—"}</span></li>`).join("")}</ul>
-        ${bound ? `<p>${esc(S.nickname || "탐방객")} 님이 두 궁궐의 현판을 모두 읽고 엮은 도장첩입니다.</p><div class="done-seal">完</div>`
-                : `<p>남은 전각: ${ALL_B.filter(x => !S.stamps[x.b.id]).map(x => x.b.name).join(", ")}</p>`}
+        <ul>${ZONES.map(z => `<li class="${S.stamps[z.id] ? "" : "no"}"><span>${DATA.palaces.find(p => p.id === z.pid).name} · ${z.name}</span><span>${S.stamps[z.id] ? stampDate(S.stamps[z.id]) || "✓" : "—"}</span></li>`).join("")}</ul>
+        ${bound ? `<p>${esc(S.nickname || "탐방객")} 님이 세 유적을 둘러보고 엮은 도장첩입니다.</p><div class="done-seal">完</div>`
+                : `<p>남은 구역: ${ZONES.filter(z => !S.stamps[z.id]).map(z => z.name).join(", ")}</p>`}
       </div></section>`;
   box.innerHTML = [cover, ...pages, colo].join("");
   $("#bookDots").innerHTML = `<span class="pgno" id="bookPg" aria-live="polite"></span>`;
   requestAnimationFrame(() => {
     const w = box.clientWidth;
     let target = null;
-    if (S.bookFresh) target = 1 + ALL_B.findIndex(x => x.b.id === S.bookFresh);
+    if (freshZ) target = 1 + DATA.palaces.findIndex(p => p.id === freshZ.pid);
     if (anim) target = 0;
     box.scrollLeft = target !== null ? target * w : keep;
     bookFx();
@@ -2571,7 +2703,7 @@ function bookFx(){
     pg.style.opacity = 1 - Math.abs(o) * .45;
   });
   const idx = Math.round(sl / w);
-  const pg = $("#bookPg"); if (pg) { const n = box.children.length, x = idx >= 1 && idx <= ALL_B.length ? ALL_B[idx - 1] : null; pg.textContent = `${idx + 1} / ${n} · ${idx === 0 ? "표지" : x ? `${x.p.name} ${x.b.name}` : "맺음"}`; }
+  const pg = $("#bookPg"); if (pg) { const n = box.children.length, x = idx >= 1 && idx <= DATA.palaces.length ? DATA.palaces[idx - 1] : null; pg.textContent = `${idx + 1} / ${n} · ${idx === 0 ? "표지" : x ? x.name : "맺음"}`; }
   $("#bookPrev").disabled = idx <= 0; $("#bookNext").disabled = idx >= box.children.length - 1;
 }
 $("#bookPages").addEventListener("scroll", () => requestAnimationFrame(bookFx), { passive:true });
@@ -2579,20 +2711,29 @@ window.addEventListener("resize", () => requestAnimationFrame(bookFx));
 
 /* 새 도장을 받는 순간: 도장 손잡이가 내려와 쿵 → 종이가 눌리고 인주가 번지며 튐 */
 let smoT, smoA;
-function stampMoment(bid, after){
-  const { b, p } = BLD[bid], i = ALL_B.findIndex(x => x.b.id === bid);
-  const el = $("#smo");
-  $("#smoPage").innerHTML = pageInner(b, p, i, { moment:true });
+function stampMoment(zid, after){
+  const z = ZONE_OF_ID[zid], pal = DATA.palaces.find(p => p.id === z.pid), pi = DATA.palaces.indexOf(pal);
+  const el = $("#smo"), stage = el.querySelector(".smo-stage");
+  $("#smoPage").innerHTML = palacePage(z.pid, pi, { moment:zid });
   $("#smoInk").innerHTML = Array.from({ length:14 }, (_, k) => {
-    const a = k / 14 * Math.PI * 2 + Math.random() * .45, r = 58 + Math.random() * 46, s = 3 + Math.random() * 6;
+    const a = k / 14 * Math.PI * 2 + Math.random() * .45, r = 50 + Math.random() * 40, s = 3 + Math.random() * 6;
     return `<i class="ink-dot" style="--dx:${(Math.cos(a) * r).toFixed(1)}px;--dy:${(Math.sin(a) * r).toFixed(1)}px;--s:${s.toFixed(1)}px"></i>`;
   }).join("");
-  $("#smoCap").innerHTML = `<b>${b.name} 낙관을 받았어요</b><small>${b.hanja}의 글씨를 모두 찾았습니다 · 도장첩 第${hanNum(i + 1)}張에 담겼어요</small>`;
-  S.bookFresh = bid;
-  const allNow = ALL_B.every(x => S.stamps[x.b.id]);
-  if (allNow && !S.bookBound) { S.bookBound = new Date().toISOString(); S.bookAnim = true; }
+  const done = palaceDone(z.pid);
+  $("#smoCap").innerHTML = `<b>${z.name} 도장을 받았어요</b><small>${pal.name} ${ZONES.filter(x => x.pid === z.pid && S.stamps[x.id]).length}/${palaceZones(z.pid).length}${done ? ` · ${pal.name} 통합 도장 완성!` : " · 도장첩에 담겼어요"}</small>`;
+  S.bookFresh = zid;
+  if (ZONES.every(x => S.stamps[x.id]) && !S.bookBound) { S.bookBound = new Date().toISOString(); S.bookAnim = true; }
   save();
-  el.hidden = false; el.classList.remove("play", "on"); void el.offsetWidth; el.classList.add("on", "play");
+  el.hidden = false; el.classList.remove("play", "on");
+  // 도장 손잡이와 인주 튐을 새 도장 칸 위치에 맞춤
+  const slot = el.querySelector(".zslot.new .zs");
+  if (slot) {
+    const r = slot.getBoundingClientRect(), sr = stage.getBoundingClientRect(), cx = r.left + r.width / 2 - sr.left, cy = r.top + r.height / 2 - sr.top;
+    const ink = $("#smoInk"), hd = el.querySelector(".smo-handle"), hw = Math.max(60, r.width * 1.05);
+    ink.style.left = cx + "px"; ink.style.top = cy + "px";
+    hd.style.width = hw + "px"; hd.style.marginLeft = "0"; hd.style.left = (cx - hw / 2) + "px"; hd.style.top = (r.top - sr.top - hw * 150 / 110 + 8) + "px";
+  }
+  void el.offsetWidth; el.classList.add("on", "play");
   clearTimeout(smoT); clearTimeout(smoA);
   smoA = setTimeout(() => { try { navigator.vibrate && navigator.vibrate([20, 30, 110]); } catch(e) {} after && after(); }, 620);
   smoT = setTimeout(() => { closeSmo(); if (S.bookAnim) setTimeout(() => toast("도장첩 완성!", "명주실로 엮었어요 · ‘관직·도장’에서 확인하세요"), 300); }, 3000);
@@ -2615,11 +2756,6 @@ const TEAM_COLORS = {
 };
 const flagSVG = c => `<svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.5v19" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round"/><path d="M6 3.5h13l-3.2 4.2L19 12H6z" fill="var(${(TEAM_COLORS[c] || TEAM_COLORS.blue).v})" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
 // 서버 없이 체험할 때만 보이는 예시 팀 (순위표에 '예시'로 표시)
-const EXAMPLE_TEAMS = [
-  { id:"ex-a", name:"가람조", color:"red",    total:640, members:[{nickname:"예시 팀원",points:640}], example:true },
-  { id:"ex-b", name:"누리조", color:"yellow", total:410, members:[{nickname:"예시 팀원",points:410}], example:true },
-  { id:"ex-c", name:"다솜조", color:"black",  total:220, members:[{nickname:"예시 팀원",points:220}], example:true }
-];
 const ALL_BIDS = DATA.palaces.flatMap(p => p.buildings.map(b => b.id));
 const CODE_ABC = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";   // 헷갈리는 0·O·1·I·L 제외
 const genCode = () => Array.from({ length:6 }, () => CODE_ABC[Math.random() * CODE_ABC.length | 0]).join("");
@@ -2702,13 +2838,11 @@ const Team = {
     const t = this.mine();
     if (!t) { this.board = []; renderTeamBar(); return; }
     if (!this.isLocal()) {
-      let ts, ms;
-      try { [ts, ms] = await Promise.all([fb.db.collection("teams").where("event", "==", CONFIG.EVENT_ID).get(), fb.db.collection("teamMembers").where("event", "==", CONFIG.EVENT_ID).get()]); }
-      catch(e) { console.warn("teams:", e.code || e.message); return; }
-      const byTeam = {};
-      ms.forEach(d => { const m = d.data(); (byTeam[m.teamId] = byTeam[m.teamId] || []).push({ nickname:m.nickname, points:m.points || 0, stamps:m.stamps || [], me:m.uid === Store.uid }); });
-      this.board = ts.docs.map(d => { const x = d.data(), members = byTeam[d.id] || []; return { id:d.id, name:x.name, color:x.color, members, total:members.reduce((a, m) => a + m.points, 0) }; })
-        .filter(x => x.members.length);
+      let ms;
+      try { ms = await fb.db.collection("teamMembers").where("teamId", "==", t.id).get(); }
+      catch(e) { console.warn("team:", e.code || e.message); return; }
+      const members = ms.docs.map(d => { const m = d.data(); return { nickname:m.nickname, points:m.points || 0, stamps:m.stamps || [], me:m.uid === Store.uid }; });
+      this.board = members.length ? [{ id:t.id, name:t.name, color:t.color, members, total:members.reduce((a, m) => a + m.points, 0) }] : [];
       const e = this.board.find(x => x.id === t.id);
       if (!e) { S.team = null; S.playMode = "solo"; save(); this.stop(); }        // 다른 기기에서 팀을 나간 경우
       else {
@@ -2718,8 +2852,7 @@ const Team = {
       }
     } else {
       this.board = [{ id:t.id, name:t.name, color:t.color, total:t.points,
-        members:[{ nickname:S.nickname || "나", points:t.points, stamps:Object.keys(S.stamps), me:true }] },
-        ...EXAMPLE_TEAMS.map(x => Object.assign({}, x))];
+        members:[{ nickname:S.nickname || "나", points:t.points, stamps:Object.keys(S.stamps), me:true }] }];
     }
     this.sort(); renderTeamBar();
     if (curScreen === "rank") renderTeamPanel();
@@ -2727,7 +2860,7 @@ const Team = {
   start(){
     this.stop(); const t = this.mine(); if (!t || this.isLocal()) { renderTeamBar(); return; }
     // 팀원 점수가 바뀔 때마다 Firestore가 알려 줌 → 순위표 다시 그리기
-    this.ch = fb.db.collection("teamMembers").where("event", "==", CONFIG.EVENT_ID).onSnapshot(
+    this.ch = fb.db.collection("teamMembers").where("teamId", "==", t.id).onSnapshot(
       () => { if (!this.live) { this.live = true; renderTeamBar(); } clearTimeout(this.rt); this.rt = setTimeout(() => this.refresh(), 400); },
       e => { console.warn("live:", e.code || e.message); this.live = false; renderTeamBar(); });
     this.poll = setInterval(() => { if (!document.hidden) this.refresh(); }, 30000);   // 실시간 연결이 끊겨도 30초마다 맞춤
@@ -2749,46 +2882,36 @@ function renderTeamBar(bump){
   $("#app").classList.toggle("has-team", !!t);
   if (!t) { bar.hidden = true; bar.innerHTML = ""; return; }
   bar.hidden = false;
-  const server = !Team.isLocal();
-  bar.innerHTML = `<button class="live${server && Team.live ? "" : " off"}" id="tbOpen" aria-label="팀 순위 전체 보기"><i></i>${server ? (Team.live ? "실시간" : "연결 중") : "이 기기"}</button>
-    <div class="tb-list" id="tbList">${Team.board.map((x, i) => `<button class="tb${x.id === t.id ? " me" : ""}${x.example ? " ex" : ""}${bump && x.id === t.id ? " bump" : ""}" data-tb>${flagSVG(x.color)}<span class="rk">${i + 1}</span>${esc(x.name)}${x.example ? "<small>예시</small>" : ""}<span class="pt">${x.total.toLocaleString()}</span></button>`).join("")}</div>`;
-  const me = bar.querySelector(".tb.me"), list = $("#tbList");
-  if (me && list) list.scrollLeft = Math.max(0, me.offsetLeft - list.offsetLeft - 40);
+  const server = !Team.isLocal(), e = Team.board.find(x => x.id === t.id), cov = Team.stampsCovered();
+  const total = e ? e.total : t.points, n = e ? e.members.length : 1;
+  bar.innerHTML = `<button class="live${server && Team.live ? "" : " off"}" id="tbOpen" aria-label="우리 팀 보기"><i></i>${server ? (Team.live ? "실시간" : "연결 중") : "이 기기"}</button>
+    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb>${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${ZONE_IDS.filter(z => cov.has(z)).length}/${ZONE_IDS.length}</small></button></div>`;
 }
 
 function renderTeamPanel(){
   const el = $("#teamPanel"), t = Team.mine();
   if (!t) {
-    el.innerHTML = `<h3 class="h-sec">팀 대항전</h3>
-      <p class="small">지금은 개인으로 둘러보는 중이에요. 팀에 들어가면 내가 얻는 EXP가 팀 점수에도 똑같이 더해집니다.</p>
+    el.innerHTML = `<h3 class="h-sec">우리 팀</h3>
+      <p class="small">지금은 개인으로 둘러보는 중이에요. 팀에 들어가면 팀원이 모은 도장을 합쳐 단체 교지를 받을 수 있어요.</p>
       <button class="btn" id="openTeam">팀으로 참여하기</button>`;
     return;
   }
-  const e = Team.board.find(x => x.id === t.id), rank = Team.rank(), max = Math.max(1, ...Team.board.map(x => x.total));
-  const cov = Team.stampsCovered(), allDone = ALL_BIDS.every(b => cov.has(b)), first = rank === 1 && e && e.total > 0, C = TEAM_COLORS[t.color] || TEAM_COLORS.blue;
+  const e = Team.board.find(x => x.id === t.id), C = TEAM_COLORS[t.color] || TEAM_COLORS.blue;
+  const cov = Team.stampsCovered(), got = ZONE_IDS.filter(z => cov.has(z)).length, allDone = got === ZONE_IDS.length;
   const members = (e ? e.members : []).slice().sort((a, b) => b.points - a.points);
   el.innerHTML = `
     <div class="team-head">${flagSVG(t.color)}
-      <div style="min-width:0"><div class="eyebrow">${C.hz}旗 · ${C.ko}팀${rank ? ` · ${rank}위` : ""}</div><h3 class="h-sec">${esc(t.name)}</h3></div>
+      <div style="min-width:0"><div class="eyebrow">${C.hz}旗 · ${C.ko}팀 · 팀원 ${members.length || 1}명</div><h3 class="h-sec">${esc(t.name)}</h3></div>
       <button class="btn sm ghost" id="copyCode" data-code="${t.code}" aria-label="팀 코드 복사">코드 ${t.code}</button>
     </div>
-    ${Team.isLocal() ? `<p class="note">서버에 연결되지 않아 이 기기에서만 동작하는 체험용 팀이에요. 순위표의 다른 팀은 예시입니다.</p>` : ""}
+    ${Team.isLocal() ? `<p class="note">서버에 연결되지 않아 이 기기에서만 동작하는 체험용 팀이에요.</p>` : ""}
     <div class="mem">${members.map(m => `<div class="mem-row"><span>${esc(m.nickname)}${m.me ? " (나)" : ""}</span><span>${m.points.toLocaleString()}점</span></div>`).join("")}</div>
-    <div class="eyebrow" style="margin-top:4px">팀 대항 순위 · 팀원이 얻은 EXP 합계</div>
-    <div class="lb">${Team.board.map((x, i) => `
-      <div class="lb-row${x.id === t.id ? " me" : ""}${i === 0 ? " top" : ""}">
-        <span class="rk">${i + 1}</span>${flagSVG(x.color)}
-        <span class="nm"><b>${esc(x.name)}${x.example ? '<span class="pill yellow">예시</span>' : ""}</b><small>팀원 ${x.members.length}명</small></span>
-        <span class="sc">${x.total.toLocaleString()}</span>
-        <span class="lb-bar"><i style="width:${x.total / max * 100}%;background:var(${(TEAM_COLORS[x.color] || TEAM_COLORS.blue).v})"></i></span>
-      </div>`).join("")}</div>
     <div class="sec" style="margin-top:6px">
-      <h3>최우수 팀 단체 교지</h3>
-      <div class="req">
-        <div><span class="${first ? "ok" : "no"}">${first ? "✓" : "○"}</span>팀 순위 1위${first ? "" : rank ? ` (지금 ${rank}위)` : ""}</div>
-        <div><span class="${allDone ? "ok" : "no"}">${allDone ? "✓" : "○"}</span>팀 전체로 전각 도장 ${ALL_BIDS.filter(b => cov.has(b)).length}/${ALL_BIDS.length} 모으기</div>
-      </div>
-      <button class="btn red" id="teamGyojiBtn"${first && allDone ? "" : " disabled"}>단체 교지 받기</button>
+      <h3>단체 교지</h3>
+      <p class="small">팀원 누구든 받은 도장을 모두 합쳐 셉니다. 함께 나눠 둘러보세요.</p>
+      <div class="team-zones">${ZONES.map(z => `<span class="tz${cov.has(z.id) ? " got" : ""}" title="${DATA.palaces.find(p => p.id === z.pid).name} · ${z.name}">${cov.has(z.id) ? sealSVG(z.seal) : ""}</span>`).join("")}</div>
+      <div class="req"><div><span class="${allDone ? "ok" : "no"}">${allDone ? "✓" : "○"}</span>팀 전체로 통합 도장 ${got}/${ZONE_IDS.length}개 모으기</div></div>
+      <button class="btn red" id="teamGyojiBtn"${allDone ? "" : " disabled"}>단체 교지 받기</button>
       <div class="out" id="teamGyojiOut" hidden></div>
     </div>
     <div class="btn-row"><button class="btn sm ghost" id="leaveTeam">팀 나가기</button></div>`;
@@ -2805,7 +2928,7 @@ function renderModeSel(){
       <p class="eyebrow">${esc(S.nickname || "탐방객")} 님, 반가워요</p>
       <h2 class="ms-title" id="msTitle">어떻게 둘러볼까요?</h2>
       <button class="choice" data-ms="solo"><span class="ci" aria-hidden="true">🚶</span><span><b>개인 접속</b><small>혼자 자유롭게 둘러봐요. 관직과 도장은 나만의 기록으로 쌓여요.</small></span><span class="go" aria-hidden="true">›</span></button>
-      <button class="choice" data-ms="team"><span class="ci">${flagSVG("blue")}</span><span><b>팀으로 참여하기</b><small>팀 코드로 모여 함께 탐방해요. 내가 얻는 EXP가 팀 점수에 바로 더해져요.</small></span><span class="go" aria-hidden="true">›</span></button>
+      <button class="choice" data-ms="team"><span class="ci">${flagSVG("blue")}</span><span><b>팀으로 참여하기</b><small>팀 코드로 모여 함께 탐방해요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.</small></span><span class="go" aria-hidden="true">›</span></button>
       <p class="small">나중에 ‘관직·도장’ 화면에서 언제든 바꿀 수 있어요.</p>`;
     return;
   }
@@ -2870,14 +2993,14 @@ async function copyText(txt, btn){
   catch(e) { btn.textContent = `코드: ${txt} (길게 눌러 복사)`; }
 }
 
-/* 최우수 팀 단체 교지 */
+/* 팀 단체 교지 */
 async function makeTeamGyoji(){
   const t = Team.mine(), e = Team.board.find(x => x.id === t.id);
   const names = (e ? e.members : []).slice().sort((a, b) => b.points - a.points).map(m => String(m.nickname || "탐방객").slice(0, 6)).slice(0, 12);
   const d = new Date(), y = d.getFullYear(), ganji = STEMS[(y - 4) % 10] + BRANCH[(y - 4) % 12];
   const dateTxt = `${ganji}年${hanNum(d.getMonth() + 1)}月${hanNum(d.getDate())}日`;
-  await fontsReady('900 100px "Noto Serif KR"', "敎旨爲最優秀探訪團施命之寶" + dateTxt + t.name + names.join(""));
-  await fontsReady('500 22px "IBM Plex Sans KR"', "최우수팀교지팀원");
+  await fontsReady('900 100px "Noto Serif KR"', "敎旨爲優秀探訪團施命之寶" + dateTxt + t.name + names.join(""));
+  await fontsReady('500 22px "IBM Plex Sans KR"', "우수팀교지팀원");
   const W = 1000, H = 1400, c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
   const col = getComputedStyle(document.documentElement), C = k => col.getPropertyValue(k).trim();
   g.fillStyle = C("--card"); g.fillRect(0, 0, W, H);
@@ -2889,7 +3012,7 @@ async function makeTeamGyoji(){
   const vcol = (txt, x, y0, size, step, weight) => { g.font = `${weight} ${size}px "Noto Serif KR", serif`; g.textAlign = "center"; g.textBaseline = "middle"; [...txt].forEach((ch, i) => g.fillText(ch, x, y0 + i * step)); };
   g.fillStyle = C("--ink");
   vcol("敎旨", 860, 190, 116, 140, 900);
-  vcol(t.name + "爲最優秀探訪團", 700, 180, 50, 62, 700);
+  vcol(t.name + "爲優秀探訪團", 700, 180, 50, 62, 700);
   const n = names.length, sp = Math.min(62, 330 / Math.max(1, n)), fs = Math.min(40, sp * .78);
   names.forEach((nm, i) => vcol(nm, 600 - i * sp, 200, fs, fs * 1.15, 700));
   vcol(dateTxt, 170, 190, 40, 50, 700);
@@ -2902,10 +3025,10 @@ async function makeTeamGyoji(){
   g.restore(); g.globalAlpha = 1;
   // 아래 한글 풀이 (줄바꿈)
   g.fillStyle = C("--muted"); g.font = '500 22px "IBM Plex Sans KR", sans-serif'; g.textAlign = "center"; g.textBaseline = "alphabetic";
-  const lines = [`교지 — ${t.name}을(를) 최우수 탐방단으로 삼는다`];
+  const lines = [`교지 — ${t.name}을(를) 우수 탐방단으로 삼는다`];
   let cur = "팀원 ";
   names.forEach((nm, i) => { const add = nm + (i < n - 1 ? ", " : ""); if (g.measureText(cur + add).width > W - 180) { lines.push(cur); cur = ""; } cur += add; });
-  lines.push(cur, `팀 점수 ${(e ? e.total : 0).toLocaleString()}점 · 전각 도장 ${ALL_BIDS.length}곳 완주 · ${y}.${d.getMonth() + 1}.${d.getDate()}`);
+  lines.push(cur, `팀 점수 ${(e ? e.total : 0).toLocaleString()}점 · 통합 도장 ${ZONE_IDS.length}개 완성 · ${y}.${d.getMonth() + 1}.${d.getDate()}`);
   lines.forEach((ln, i) => g.fillText(ln, W / 2, 1200 + i * 34));
   showImage($("#teamGyojiOut"), c.toDataURL("image/png"), `team-gyoji-${t.name}.png`, `${t.name} 단체 교지`);
 }
@@ -3063,7 +3186,7 @@ function grantGPS(bid, info, demo){
   const at = new Date().toISOString();
   S.certs["gps:" + bid] = { at, dist:info.dist ?? null, demo:!!demo };
   Rec.visit(Object.assign({ bid, kind: demo ? "demo" : "gps", at }, info));
-  rerenderSheet();
+  rerenderSheet(); setTimeout(() => checkZones(), 2600);
   eobo("到訪之寶", `${b.name} 방문 인증`, demo ? "시연용 인증입니다" : `${info.dist}m 거리에서 확인했습니다`, () => gain(REWARD.gps, `${b.name} 현장 인증`));
 }
 
@@ -3082,17 +3205,31 @@ function eobo(chars, title, sub, after){
 function closeEobo(){ $("#eobo").classList.remove("on", "play"); }
 
 /* ═════════ NAV / EVENTS ═════════ */
-let curScreen = "map";
+let curScreen = "map", memoT;
 function renderAll(){ renderTabs(); renderHeader(); renderTeamBar(); show(curScreen); }
-function show(sc){
+const SCROLL = {};
+const scrollKey = sc => sc === "map" ? `map:${S.palace}:${S.mapView === "scene" ? "scene" : "map"}` : sc;
+function rememberScroll(){
+  const ms = $("#mapScroll");
+  SCROLL[scrollKey(curScreen)] = { main:$("#main").scrollTop, mx: ms ? ms.scrollLeft : 0, my: ms ? ms.scrollTop : 0, z:mapZ };
+}
+function restoreScroll(sc){
+  const st = SCROLL[scrollKey(sc)] || { main:0 };
+  $("#main").scrollTop = st.main;
+  const ms = $("#mapScroll"); if (ms && st.mx !== undefined) { ms.scrollLeft = st.mx; ms.scrollTop = st.my; }
+}
+function show(sc, opts = {}){
+  if (!opts.keep) rememberScroll();
   curScreen = sc;
   ["map","rank","quest","studio"].forEach(k => $("#s-" + k).hidden = k !== sc);
   document.querySelectorAll("#nav button").forEach(b => b.dataset.s === sc ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
+  if (sc === "map") { const st = SCROLL[scrollKey(sc)]; mapZ = st && st.z ? st.z : 1; }
   $("#main").scrollTop = 0;
   if (sc === "rank") renderRank();
   if (sc === "quest") { renderQuests(); renderGallery(); loadGallery(); }
   if (sc === "studio") renderStudio();
   if (sc === "map") renderMap();
+  restoreScroll(sc);
 }
 document.addEventListener("click", e => {
   const t = e.target;
@@ -3109,10 +3246,12 @@ document.addEventListener("click", e => {
     logout(); return;
   }
   /* 유적 지도 · 전각 시트 */
-  if ((el = t.closest("[data-mv]"))) { S.mapView = el.dataset.mv; save(); renderMap(); return; }
+  if ((el = t.closest("[data-mv]"))) { rememberScroll(); S.mapView = el.dataset.mv; save(); show("map", { keep:true }); return; }
   if (t.closest("#mapZoom")) { setMapZoom(mapZ >= 3 ? 1 : mapZ + 1); return; }
   if ((el = t.closest("[data-mb]"))) { openBuilding(el.dataset.mb); return; }
-  if (t.closest("#shBack")) { openBuilding(SH.bid); return; }
+  if (t.closest("#shBack")) { openBuilding(SH.bid, true); return; }
+  if (t.closest("#tglRoute")) { MAPUI.route = !MAPUI.route; renderPalaceMap(); return; }
+  if (t.closest("#tglMemo")) { MAPUI.memo = !MAPUI.memo; renderPalaceMap(); return; }
   if ((el = t.closest("[data-bq]"))) {
     const bid = el.dataset.bq, q = QUIZ[bid], st = QZ[bid], i = +el.dataset.i;
     if (st.pick !== null) return;
@@ -3150,7 +3289,11 @@ document.addEventListener("click", e => {
     return;
   }
   if (t.closest("#teamGyojiBtn")) { makeTeamGyoji(); return; }
-  if (t.closest("[data-tb]") || t.closest("#tbOpen")) { show("rank"); requestAnimationFrame(() => $("#teamPanel").scrollIntoView({ block:"start", behavior:"smooth" })); return; }
+  if (t.closest("[data-tb]") || t.closest("#tbOpen")) {
+    show("rank");
+    requestAnimationFrame(() => { const m = $("#main"), r = $("#teamPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8, behavior:"smooth" }); });
+    return;
+  }
   /* 감성 샷 */
   if ((el = t.closest("[data-tag]"))) { S.shotTag = el.dataset.tag; save(); renderGallery(); return; }
   if ((el = t.closest("[data-gf]"))) { GAL.filter = el.dataset.gf; renderGallery(); return; }
@@ -3166,7 +3309,7 @@ document.addEventListener("click", e => {
       .catch(e => { if (e && e.code !== "declined") el.textContent = "저장할 수 없어요 · 이미지를 길게 눌러 저장하세요"; });
     return;
   }
-  if ((el = t.closest("#palTabs button"))) { S.palace = el.dataset.p; save(); renderHeader(); setZoom(1); show("map"); return; }
+  if ((el = t.closest("#palTabs button"))) { if (el.dataset.p === S.palace) return; rememberScroll(); S.palace = el.dataset.p; save(); renderHeader(); setZoom(1); show("map", { keep:true }); return; }
   if ((el = t.closest("#nav button"))) { show(el.dataset.s); return; }
   if (t.closest("#rankBtn")) { show("rank"); return; }
   if ((el = t.closest(".chip[data-b]"))) { S.bsel[S.palace] = el.dataset.b; save(); setZoom(1); renderMap(); return; }
@@ -3202,6 +3345,12 @@ document.addEventListener("change", e => {
 document.addEventListener("input", e => {
   if (e.target.id === "plaqueText" || e.target.id === "writer") drawPlaque();
   if (e.target.id === "tName") MS.name = e.target.value;
+  if (e.target.id === "bmemo" || e.target.id === "pmemoIn") {
+    const v = e.target.value, isB = e.target.id === "bmemo", box = isB ? S.memos : S.pmemo, key = isB ? SH.bid : S.palace;
+    if (v.trim()) box[key] = { t:v, at:new Date().toISOString() }; else delete box[key];
+    clearTimeout(memoT); memoT = setTimeout(save, 500);
+    const st = $(isB ? "#bmemoSt" : "#pmemoSt"); if (st) st.textContent = v.trim() ? "저장됨" : "적으면 바로 저장돼요";
+  }
   if (e.target.id === "tCode") { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""); MS.code = e.target.value; }
 });
 document.addEventListener("keydown", e => {
@@ -3214,6 +3363,7 @@ document.addEventListener("keydown", e => {
 
 /* boot */
 async function boot(){
+  normalizeStamps(); checkZones(true);
   renderTabs(); renderHeader(); renderMap();
   if (FB_ON && !FRAMED) {
     try {
