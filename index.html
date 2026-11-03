@@ -521,6 +521,16 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .map-head .ttl span{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .map-scroll{width:100%;overflow:auto;border-radius:18px;border:1px solid var(--line);background:var(--card);overscroll-behavior:contain;max-height:calc(100vh - var(--chrome) - 30px);max-height:calc(100cqh - var(--chrome) - 30px);scrollbar-width:thin;position:relative;z-index:0}
 .pmap{position:relative;width:calc(100% * var(--z,1));transition:width .35s ease}
+/* 두 손가락 확대·축소: 손가락이 움직이는 동안은 애니메이션 없이 바로 따라감 */
+.map-scroll,.stage-scroll{touch-action:pan-x pan-y}
+.pinching .pmap,.pinching .stage{transition:none}
+.pinch-wrap{position:relative}
+.pinch-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:3;pointer-events:none;background:rgba(43,37,35,.72);color:var(--white);font-size:12px;font-weight:600;border-radius:999px;padding:6px 12px;white-space:nowrap;transition:opacity .4s}
+.pinch-hint{animation:hintOut .6s 4s forwards}
+@keyframes hintOut{to{opacity:0}}
+.pinch-hint.off{opacity:0;animation:none}
+.zlv{display:flex;align-items:center;gap:6px}
+.zpct{font:600 12px var(--f-body);color:var(--muted);font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
 .pmap svg{display:block;width:100%;height:auto}
 .mpin{position:absolute;transform:translate(-50%,-44px);display:flex;flex-direction:column;align-items:center;border:0;background:none;padding:0;z-index:2;min-width:44px}
 .mpin .pi{width:34px;height:34px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:var(--blue);display:grid;place-items:center;box-shadow:0 3px 8px rgba(43,37,35,.32);border:2.5px solid var(--white);transition:transform .15s}
@@ -726,9 +736,9 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
         <div class="stage-col">
           <div class="stage-bar">
             <div class="where"><b id="sbHz"></b><span id="sbKo"></span></div>
-            <button class="zoom" id="zoomBtn" aria-pressed="false">확대 1.7×</button>
+            <button class="zoom" id="zoomBtn" aria-pressed="false" hidden>전체 보기</button>
           </div>
-          <div class="stage-scroll" id="stageScroll"><div class="stage" id="stage"></div></div>
+          <div class="pinch-wrap"><div class="stage-scroll" id="stageScroll"><div class="stage" id="stage"></div></div><span class="pinch-hint" id="sceneHint" aria-hidden="true">두 손가락으로 확대 · 축소</span></div>
         </div>
         <article class="panel bcard" id="bcard"></article>
       </div>
@@ -2237,7 +2247,12 @@ function renderMap(){
   $("#mapView").hidden = !mapv; $("#sceneView").hidden = mapv;
   if (mapv) { renderPalaceMap(); return; }
   const pal = DATA.palaces.find(p => p.id === S.palace), b = curBuilding();
-  $("#chips").innerHTML = pal.buildings.map(x => `<button class="chip" data-b="${x.id}" aria-pressed="${x.id===b.id}">${placeDone(x.id) ? '<i class="dot" aria-label="둘러봄"></i>' : ''}${x.name}<span class="hz">${x.hanja}</span></button>`).join("");
+  const chipsEl = $("#chips");
+  if (chipsEl.dataset.p === pal.id) CHIPX[pal.id] = chipsEl.scrollLeft;   // 다시 그리기 전 위치 기억
+  chipsEl.dataset.p = pal.id;
+  chipsEl.innerHTML = pal.buildings.map(x => `<button class="chip" data-b="${x.id}" aria-pressed="${x.id===b.id}">${placeDone(x.id) ? '<i class="dot" aria-label="둘러봄"></i>' : ''}${x.name}<span class="hz">${x.hanja}</span></button>`).join("");
+  restoreChips(pal.id, b.id);
+  $("#sceneHint").classList.toggle("off", HINT.scene); if (!HINT.scene) setTimeout(() => { HINT.scene = true; }, 4600);
   $("#sbHz").textContent = b.hanja;
   $("#sbKo").textContent = `${pal.name} ${b.name}`;
   const {s, A} = sceneFor(b);
@@ -2259,11 +2274,24 @@ function renderMap(){
         <span class="state${S.viewed[h.id]?' ok':''}">${S.viewed[h.id] ? "확인 ✓" : "+" + REWARD.view}</span>
       </button>`).join("")}</div>`;
 }
+function applyStageZ(z){
+  zoom = z; $("#stage").style.setProperty("--z", z);
+  const btn = $("#zoomBtn"); btn.hidden = z <= 1.01; btn.setAttribute("aria-pressed", z > 1.01); btn.textContent = "전체 보기";
+}
+/* 전각 가로 목록: 다시 그려도(시트 열고 닫기, 다른 탭 다녀오기, 궁 바꿨다 돌아오기) 보던 위치 그대로.
+   선택한 전각이 화면 밖에 있으면 그 칩만 보이도록 살짝 옮김 */
+const CHIPX = {};
+function restoreChips(pid, bid){
+  const el = $("#chips"); if (CHIPX[pid] !== undefined) el.scrollLeft = CHIPX[pid];
+  const c = el.querySelector(`[data-b="${bid}"]`); if (!c) return;
+  const l = c.offsetLeft - el.offsetLeft, rgt = l + c.offsetWidth;
+  if (l < el.scrollLeft) el.scrollLeft = Math.max(0, l - 16);
+  else if (rgt > el.scrollLeft + el.clientWidth) el.scrollLeft = rgt - el.clientWidth + 16;
+  CHIPX[pid] = el.scrollLeft;
+}
+$("#chips").addEventListener("scroll", e => { const el = e.currentTarget; if (el.dataset.p) CHIPX[el.dataset.p] = el.scrollLeft; }, { passive:true });
 function setZoom(z){
-  zoom = z; const sc = $("#stageScroll");
-  $("#stage").style.setProperty("--z", z);
-  $("#zoomBtn").setAttribute("aria-pressed", z > 1);
-  $("#zoomBtn").textContent = z > 1 ? "전체 보기" : "확대 1.7×";
+  const sc = $("#stageScroll"); applyStageZ(z);
   requestAnimationFrame(() => setTimeout(() => { sc.scrollLeft = (sc.scrollWidth - sc.clientWidth) / 2; sc.scrollTop = (sc.scrollHeight - sc.clientHeight) * .4; }, 360));
 }
 
@@ -3054,13 +3082,14 @@ function renderPalaceMap(){
     </div>` : "";
   $("#mapView").innerHTML = `
     <div class="map-head"><div class="ttl"><b>${pal.hanja}</b><span>${pal.name} · ${pal.buildings.length}곳 · 도장 ${palaceZones(pal.id).filter(z => S.stamps[z.id]).length}/${palaceZones(pal.id).length}</span></div>
-      <button class="zoom" id="mapZoom" aria-pressed="${mapZ > 1}">${zoomLabel()}</button></div>
+      <div class="zlv"><span class="zpct" id="mapZpct">${Math.round(mapZ * 100)}%</span><button class="zoom" id="mapZoom" aria-pressed="${mapZ > 1.01}"${mapZ > 1.01 ? "" : " hidden"}>전체 보기</button></div></div>
     <div class="maptools" role="group" aria-label="지도 보기 옵션">
       <button class="chip" id="tglRoute" aria-pressed="${MAPUI.route}">🧭 추천 동선</button>
       <button class="chip" id="tglMemo" aria-pressed="${MAPUI.memo}">📝 메모${memoCount ? ` ${memoCount}` : ""}</button>
     </div>
     ${memoPanel}
-    <div class="map-scroll" id="mapScroll"><div class="pmap${mapZ >= 3 ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도">${drawMap(pal.id)}${route}${pins}</div></div>
+    <div class="pinch-wrap"><div class="map-scroll" id="mapScroll"><div class="pmap${mapZ >= LABEL_Z ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도 · 두 손가락으로 확대·축소">${drawMap(pal.id)}${route}${pins}</div></div>
+      <span class="pinch-hint${HINT.map ? " off" : ""}" id="mapHint" aria-hidden="true">두 손가락으로 벌려 확대 · 오므려 축소</span></div>
     <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>현장 인증</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
     <div class="panel blist">${palaceZones(pal.id).map(z => {
       const got = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z));
@@ -3072,18 +3101,79 @@ function renderPalaceMap(){
             <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? placeHow(b.id) + " ✓" : "현장 인증 전"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`;
         }).join("");
     }).join("")}</div>`;
+  if (!HINT.map) setTimeout(() => { HINT.map = true; }, 4600);   // 안내 문구는 처음 몇 초만
   // 스크롤 위치 되살리기 (목록·지도 모두)
   main.scrollTop = keep.main;
   const ms = $("#mapScroll");
   if (ms && keep.mx !== null) { ms.scrollLeft = keep.mx; ms.scrollTop = keep.my; }
 }
-const zoomLabel = () => mapZ >= 3 ? "전체 보기" : mapZ >= 2 ? "3× · 이름 보기" : "확대 2×";
-function setMapZoom(z){
+const LABEL_Z = 2.2;   // 이만큼 이상 확대하면 핀 옆에 장소 이름이 보임
+const HINT = { map:false, scene:false };
+// 지도 배율 바꾸기 (버튼: '전체 보기'로 되돌릴 때만 사용, 확대·축소는 두 손가락으로)
+function applyMapZ(z){
   mapZ = z; const sc = $("#mapScroll"); if (!sc) return;
-  const pm = sc.querySelector(".pmap"); pm.style.setProperty("--z", z); pm.classList.toggle("zl", z >= 3);
-  const btn = $("#mapZoom"); btn.setAttribute("aria-pressed", z > 1); btn.textContent = zoomLabel();
+  const pm = sc.querySelector(".pmap"); pm.style.setProperty("--z", z); pm.classList.toggle("zl", z >= LABEL_Z);
+  const btn = $("#mapZoom"); if (btn) { btn.hidden = z <= 1.01; btn.setAttribute("aria-pressed", z > 1.01); }
+  const pc = $("#mapZpct"); if (pc) pc.textContent = Math.round(z * 100) + "%";
+}
+function setMapZoom(z){
+  applyMapZ(z); const sc = $("#mapScroll"); if (!sc) return;
   setTimeout(() => { sc.scrollLeft = (sc.scrollWidth - sc.clientWidth) / 2; sc.scrollTop = (sc.scrollHeight - sc.clientHeight) / 2; }, 360);
 }
+/* ── 핀치 줌 ──
+   지도·전각 그림 위에서 두 손가락을 벌리거나 오므리면 손가락 사이 지점을 기준으로 확대·축소합니다.
+   한 손가락은 평소처럼 스크롤(이동), 컴퓨터에서는 Ctrl + 휠(트랙패드 핀치)로도 동작합니다. */
+function pinchZoom(opts){
+  // opts: { sel, get(), set(z), min, max, hint }
+  let st = null;
+  const box = () => document.querySelector(opts.sel);
+  const zoomAt = (sc, z, cx, cy, from) => {
+    // (cx, cy) = 화면에서 고정할 지점. 그 지점 아래의 그림 위치가 손가락을 따라가도록 스크롤을 맞춤
+    const r = sc.getBoundingClientRect(), z0 = from.z;
+    z = Math.max(opts.min, Math.min(opts.max, z));
+    opts.set(z);
+    const k = z / z0;
+    sc.scrollLeft = from.cx * k - (cx - r.left);
+    sc.scrollTop = from.cy * k - (cy - r.top);
+  };
+  const hideHint = () => { if (!HINT[opts.hint]) { HINT[opts.hint] = true; const h = document.getElementById(opts.hint === "map" ? "mapHint" : "sceneHint"); if (h) h.classList.add("off"); } };
+  const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  const mid = t => [(t[0].clientX + t[1].clientX) / 2, (t[0].clientY + t[1].clientY) / 2];
+  document.addEventListener("touchstart", e => {
+    const sc = e.target.closest && e.target.closest(opts.sel);
+    if (!sc || e.touches.length !== 2) return;
+    const r = sc.getBoundingClientRect(), [mx, my] = mid(e.touches);
+    st = { sc, d0:dist(e.touches), z:opts.get(), cx:sc.scrollLeft + mx - r.left, cy:sc.scrollTop + my - r.top };
+    sc.classList.add("pinching"); hideHint();
+  }, { passive:true });
+  document.addEventListener("touchmove", e => {
+    if (!st || e.touches.length !== 2) return;
+    e.preventDefault();   // 브라우저 화면 전체 확대 대신 지도만 확대
+    const [mx, my] = mid(e.touches);
+    zoomAt(st.sc, st.z * dist(e.touches) / st.d0, mx, my, st);
+  }, { passive:false });
+  const end = e => {
+    if (!st || e.touches.length >= 2) return;
+    st.sc.classList.remove("pinching");
+    if (opts.get() < 1.04) opts.set(1);   // 거의 원래 크기면 딱 맞춤
+    st = null; if (opts.done) opts.done();
+  };
+  document.addEventListener("touchend", end); document.addEventListener("touchcancel", end);
+  // 컴퓨터: Ctrl + 휠 / 트랙패드 핀치
+  document.addEventListener("wheel", e => {
+    const sc = e.target.closest && e.target.closest(opts.sel);
+    if (!sc || !e.ctrlKey) return;
+    e.preventDefault();
+    const r = sc.getBoundingClientRect(), from = { z:opts.get(), cx:sc.scrollLeft + e.clientX - r.left, cy:sc.scrollTop + e.clientY - r.top };
+    sc.classList.add("pinching"); hideHint();
+    zoomAt(sc, from.z * Math.exp(-e.deltaY * .01), e.clientX, e.clientY, from);
+    clearTimeout(sc._wt); sc._wt = setTimeout(() => { sc.classList.remove("pinching"); if (opts.done) opts.done(); }, 200);
+  }, { passive:false });
+  // Safari 전용 제스처 이벤트가 화면 전체를 확대하지 않도록
+  document.addEventListener("gesturestart", e => { if (e.target.closest && e.target.closest(opts.sel)) e.preventDefault(); });
+}
+pinchZoom({ sel:"#mapScroll", hint:"map", min:1, max:4, get:() => mapZ, set:applyMapZ });
+pinchZoom({ sel:"#stageScroll", hint:"scene", min:1, max:3, get:() => zoom, set:applyStageZ });
 
 /* 전각 바텀시트: 소개 → 현판·글씨 목록 → 퀴즈 → 현장 미션 */
 const SH = { mode:null, bid:null };
@@ -3932,12 +4022,15 @@ const SCROLL = {};
 const scrollKey = sc => sc === "map" ? `map:${S.palace}:${S.mapView === "scene" ? "scene" : "map"}` : sc;
 function rememberScroll(){
   const ms = $("#mapScroll");
-  SCROLL[scrollKey(curScreen)] = { main:$("#main").scrollTop, mx: ms ? ms.scrollLeft : 0, my: ms ? ms.scrollTop : 0, z:mapZ };
+  const ss = $("#stageScroll"), scene = curScreen === "map" && S.mapView === "scene";
+  SCROLL[scrollKey(curScreen)] = { main:$("#main").scrollTop, mx: ms ? ms.scrollLeft : 0, my: ms ? ms.scrollTop : 0, z:mapZ,
+    sz: scene ? zoom : undefined, sx: scene ? ss.scrollLeft : 0, sy: scene ? ss.scrollTop : 0, sb: scene ? S.bsel[S.palace] : undefined };
 }
 function restoreScroll(sc){
   const st = SCROLL[scrollKey(sc)] || { main:0 };
   $("#main").scrollTop = st.main;
-  const ms = $("#mapScroll"); if (ms && st.mx !== undefined) { ms.scrollLeft = st.mx; ms.scrollTop = st.my; }
+  const ms = $("#mapScroll"); if (ms && st.mx !== undefined && !(sc === "map" && S.mapView === "scene")) { ms.scrollLeft = st.mx; ms.scrollTop = st.my; }
+  if (sc === "map" && S.mapView === "scene" && st.sz && st.sb === S.bsel[S.palace]) { applyStageZ(st.sz); const ss = $("#stageScroll"); ss.scrollLeft = st.sx; ss.scrollTop = st.sy; }
 }
 function show(sc, opts = {}){
   if (!opts.keep) rememberScroll();
@@ -3976,7 +4069,7 @@ document.addEventListener("click", e => {
   }
   /* 유적 지도 · 전각 시트 */
   if ((el = t.closest("[data-mv]"))) { rememberScroll(); S.mapView = el.dataset.mv; save(); show("map", { keep:true }); return; }
-  if (t.closest("#mapZoom")) { setMapZoom(mapZ >= 3 ? 1 : mapZ + 1); return; }
+  if (t.closest("#mapZoom")) { setMapZoom(1); return; }
   if ((el = t.closest("[data-mb]"))) { openBuilding(el.dataset.mb); return; }
   if (t.closest("#shBack")) { openBuilding(SH.bid, true); return; }
   if (t.closest("#tglRoute")) { MAPUI.route = !MAPUI.route; renderPalaceMap(); return; }
@@ -4040,7 +4133,7 @@ document.addEventListener("click", e => {
   if ((el = t.closest(".chip[data-b]"))) { S.bsel[S.palace] = el.dataset.b; save(); setZoom(1); renderMap(); return; }
   if ((el = t.closest("[data-h]"))) { openSheet(el.dataset.h, SH.mode === "building" && sheetOpen()); return; }
   if (t.closest("[data-goshot]")) { closeSheet(); show("quest"); return; }
-  if (t.closest("#zoomBtn")) { setZoom(zoom > 1 ? 1 : 1.7); return; }
+  if (t.closest("#zoomBtn")) { setZoom(1); return; }
   if (t.closest("#shClose") || t.closest("#backdrop")) { closeSheet(); return; }
   if ((el = t.closest(".cc"))) {
     const c = el.dataset.c; curChar = curChar === c ? null : c;
