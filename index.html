@@ -473,6 +473,15 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .day-sep{align-self:center;font-size:11.5px;color:var(--muted);background:var(--line2);border-radius:999px;padding:3px 10px}
 .tb-chat{flex:none;display:flex;align-items:center;gap:5px;min-height:34px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:3px 11px;font:600 12.5px var(--f-body);color:var(--ink)}
 .cert-row .lbl-btn{position:relative;overflow:hidden}
+.diag{display:flex;flex-direction:column;gap:8px;padding:6px 0 10px}
+.dg{border-radius:12px;padding:10px 12px;background:var(--bg);border:1px solid var(--line2);display:flex;flex-direction:column;gap:4px}
+.dg b{font-size:13.5px}.dg small{font-size:12.5px;line-height:1.6;color:var(--ink)}
+.dg.ok b{color:var(--blue)}.dg.no b{color:var(--red)}.dg.warn b{color:#9a6a10}
+.dg .btn{margin-top:6px;align-self:flex-start}
+.inapp{flex:none;display:flex;align-items:center;gap:8px;background:var(--yellow);color:var(--ink);font-size:12.5px;line-height:1.45;padding:7px var(--gutter-r) 7px var(--gutter-l)}
+.inapp span{flex:1;min-width:0}
+.inapp button{flex:none;border:1.5px solid var(--ink);background:var(--card);border-radius:999px;min-height:32px;padding:2px 10px;font:600 12px var(--f-body);color:var(--ink)}
+.inapp .x{border:0;background:none;font-size:18px;padding:0 4px}
 
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
@@ -703,6 +712,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 
 <div id="phone">
 <div id="app">
+  <div class="inapp" id="inapp" role="note" hidden></div>
   <header class="top">
     <div class="top-row">
     <button class="rank" id="rankBtn" aria-label="나의 관직 보기">
@@ -941,6 +951,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
   <div class="pm-body" id="setmBody">
     <section class="panel" id="acct"></section>
     <section class="panel set-menu" id="setMenu"></section>
+    <section class="panel" id="diagPanel" hidden><h3 class="h-sec" style="font-size:15px">연결 점검</h3><div id="diagOut" class="diag"></div></section>
     <section class="panel" id="teamPanel"></section>
   </div>
 </div>
@@ -2581,23 +2592,19 @@ async function handlePhoto(file){
   const hid = curH, {h, b} = HS[hid];
   let url;
   try {
-    url = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
-    const img = new Image(); img.src = url; await img.decode();
-    const k = Math.min(1, 960 / Math.max(img.naturalWidth, img.naturalHeight));
-    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
-    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-    url = c.toDataURL("image/jpeg", .78);
+    url = await shrinkPhoto(file, 960, .78);
   } catch(e) {
-    certUI = { bid:b.id, busy:false, msg:"사진을 읽지 못했어요. JPG나 PNG 사진으로 다시 올려 주세요.", err:true, demo:false };
+    console.warn("photo read:", e); certUI = { bid:b.id, busy:false, msg:PHOTO_READ_ERR, err:true, demo:false };
     if (curH === hid) renderSheetBody(); return;
   }
   PHOTOS[hid] = url;
   if (!savePhotos()) certUI = { bid:b.id, busy:false, msg:"기기 저장 공간이 가득 차서 이 사진은 이번 접속 동안만 보여요. 인증 기록은 남습니다.", err:false, demo:false };
-  const path = await remoteUploadPhoto(hid, url);
+  // 인증은 바로 처리하고, 서버 저장은 뒤에서 (저장소가 느리거나 꺼져 있어도 인증이 멈추지 않게)
+  remoteUploadPhoto(hid, url);
   if (!S.certs["photo:" + hid]) {
     const at = new Date().toISOString();
     S.certs["photo:" + hid] = { at };
-    Rec.visit({ bid:b.id, hid, kind:"photo", at, path });
+    Rec.visit({ bid:b.id, hid, kind:"photo", at, path:null });
     eobo("寫眞之寶", `${h.read} 인증샷 등록`, "나의 현판 사진첩에 담았습니다 · 이 장소 현장 인증", () => gain(REWARD.photo, `${h.read} 인증샷`));
     setTimeout(() => checkZones(), 2600);
   }
@@ -2856,7 +2863,7 @@ async function initFirebase(){
   if (!firebase.apps.length) firebase.initializeApp(CONFIG.FIREBASE);
   const auth = firebase.auth(); auth.languageCode = "ko";
   try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch(e) {}
-  let st = null; try { st = firebase.storage(); } catch(e) { console.warn("storage off:", e.message); }
+  let st = null; try { st = firebase.storage(); st.setMaxUploadRetryTime && st.setMaxUploadRetryTime(15000); st.setMaxOperationRetryTime && st.setMaxOperationRetryTime(10000); } catch(e) { console.warn("storage off:", e.message); }
   fb = { auth, db: firebase.firestore(), st, FV: firebase.firestore.FieldValue };
   return fb;
 }
@@ -2883,24 +2890,59 @@ const Rec = {
   visit(v){ S.visits.unshift(v); save(); remoteAdd("visits", visitRow(v)); },
   puzzle(game, item, score){ save(); remoteAdd("puzzles", { game, itemId:item, score, clearedAt:new Date().toISOString() }); }
 };
+/* 사진 저장
+   1순위 Firebase Storage. Storage가 켜져 있지 않거나(요금제·버킷 미생성) 응답이 없으면 20초 안에 포기하고,
+   2순위로 Firestore 문서 안에 작게 줄인 사진을 저장합니다 → Storage 없이도 사진 기능이 모두 동작. */
+const STORE = { ok:null, err:"" };
+const withTimeout = (p, ms, code) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error(code || "timeout"), { code: code || "timeout" })), ms))]);
+function storageFailed(e){ STORE.ok = false; STORE.err = e.code || e.message || String(e); console.warn("storage:", STORE.err); }
 async function uploadJpeg(path, dataUrl){
-  if (!fb.st) throw new Error("storage_off");
-  const ref = fb.st.ref(path);
-  await ref.put(dataUrlToBlob(dataUrl), { contentType:"image/jpeg" });
-  return ref.getDownloadURL();
+  if (!fb.st) throw Object.assign(new Error("storage_off"), { code:"storage_off" });
+  const ref = fb.st.ref(path), task = ref.put(dataUrlToBlob(dataUrl), { contentType:"image/jpeg" });
+  try { await withTimeout(task, 20000, "storage/timeout"); }
+  catch(e) { try { task.cancel && task.cancel(); } catch(_) {} throw e; }
+  return withTimeout(ref.getDownloadURL(), 10000, "storage/timeout");
 }
-async function remoteUploadPhoto(hid, dataUrl){
+// 인증샷·체크인 사진: users/{uid}/photos/{id} 에 url(Storage) 또는 data(작게 줄인 사진)로 기록
+async function remoteUploadPhoto(id, dataUrl){
   if (!cloudOn()) return null;
-  try { return await uploadJpeg(`certshots/${Store.uid}/${hid}.jpg`, dataUrl); }
-  catch(e) { console.warn("upload:", e.code || e.message); return null; }
+  let url = null;
+  if (STORE.ok !== false) { try { url = await uploadJpeg(`certshots/${Store.uid}/${id}.jpg`, dataUrl); STORE.ok = true; } catch(e) { storageFailed(e); } }
+  try {
+    const doc = url ? { url } : { data: await shrinkDataUrl(dataUrl, 640, .7) };
+    await userRef().collection("photos").doc(id).set(Object.assign(doc, { at:new Date().toISOString() }));
+    return url || "fs:" + id;
+  } catch(e) { console.warn("photo save:", e.code || e.message); return null; }
 }
+/* 사진 읽기: 큰 휴대폰 사진도 메모리를 적게 쓰도록 createImageBitmap → 안 되면 objectURL 순서로 */
+const PHOTO_READ_ERR = "사진을 읽지 못했어요. 앨범에서 JPG 사진을 골라 보거나, 카카오톡 안이라면 Chrome·Safari에서 열어 다시 시도해 주세요.";
+const imgW = im => im.naturalWidth || im.width, imgH = im => im.naturalHeight || im.height;
+async function loadImage(file){
+  if (!file) throw new Error("no_file");
+  if (window.createImageBitmap) {
+    try { return await createImageBitmap(file, { imageOrientation:"from-image" }); } catch(e) {}
+    try { return await createImageBitmap(file); } catch(e) {}
+  }
+  const u = URL.createObjectURL(file);
+  try { const img = new Image(); img.src = u; await (img.decode ? img.decode() : new Promise((res, rej) => { img.onload = res; img.onerror = rej; })); return img; }
+  finally { setTimeout(() => URL.revokeObjectURL(u), 3000); }
+}
+function drawSmall(img, max, q){
+  const k = Math.min(1, max / Math.max(imgW(img), imgH(img)));
+  const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(imgW(img) * k)); c.height = Math.max(1, Math.round(imgH(img) * k));
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", q);
+}
+async function shrinkPhoto(file, max, q){ const img = await loadImage(file); const u = drawSmall(img, max, q); if (img.close) img.close(); return u; }
+async function shrinkDataUrl(url, max, q){ const img = new Image(); img.src = url; await img.decode(); return drawSmall(img, max, q); }
 const nickFrom = u => String(u.displayName || (u.email || "").split("@")[0] || "탐방객").slice(0, 6);
 async function enterRemote(user){
   const uid = user.uid, guest = readLocal(), guestPhotos = readPhotos();
   Store.mode = "cloud"; Store.uid = uid; Store.provider = user.isAnonymous ? "anonymous" : "google";
   if (guest.team && guest.team.local) { guest.team = null; guest.playMode = null; }   // 이 기기 전용 팀은 서버로 옮기지 않음
   const ref = userRef(uid);
-  const [p, st, vs] = await Promise.all([ref.get(), ref.collection("stamps").get(), ref.collection("visits").orderBy("verifiedAt", "desc").limit(300).get()]);
+  const [p, st, vs, ph] = await Promise.all([ref.get(), ref.collection("stamps").get(), ref.collection("visits").orderBy("verifiedAt", "desc").limit(300).get(),
+    ref.collection("photos").get().catch(e => { console.warn("photos:", e.code || e.message); return { docs:[] }; })]);
   PHOTOS = {};
   if (p.exists) {
     const d = p.data(), pr = d.progress || {};
@@ -2909,7 +2951,8 @@ async function enterRemote(user){
     if (S.team && S.team.local) { S.team = null; S.playMode = null; }
     st.forEach(x => { S.stamps[x.id] = x.data().earnedAt; });
     S.visits = vs.docs.map(x => { const r = x.data(); return { bid:r.buildingId, hid:r.hotspotId, kind:r.method, dist:r.distanceM, acc:r.accuracyM, path:r.photoUrl, at:r.verifiedAt }; });
-    S.visits.forEach(v => { if (v.path && v.hid) PHOTOS[v.hid] = v.path; });
+    S.visits.forEach(v => { if (v.path && v.hid && !String(v.path).startsWith("fs:")) PHOTOS[v.hid] = v.path; });
+    ph.docs.forEach(x => { const r = x.data(); if (!x.id.startsWith("checkin-") && (r.url || r.data)) PHOTOS[x.id] = r.url || r.data; });
     if (!user.isAnonymous && d.provider !== "google") remoteSaveProfile();   // 익명 → Google 연결 직후
   } else {
     // 첫 로그인: 이 기기의 비회원 기록을 계정으로 옮깁니다
@@ -2930,6 +2973,7 @@ function loginNote(html, err){
   n.hidden = false; n.className = "note" + (err ? " err" : ""); n.innerHTML = html;
 }
 const AUTH_MSG = {
+  "auth/disallowed-useragent":"카카오톡 등 앱 안의 브라우저에서는 Google 로그인이 막혀 있어요. 오른쪽 위 ⋮ → ‘다른 브라우저로 열기’로 Chrome·Safari에서 열어 주세요.",
   "auth/unauthorized-domain":"이 주소가 Firebase ‘승인된 도메인’에 등록되어 있지 않아요. Firebase 콘솔 → Authentication → 설정 → 승인된 도메인에 지금 주소를 추가해 주세요.",
   "auth/operation-not-allowed":"Firebase 콘솔에서 Google(또는 익명) 로그인이 꺼져 있어요. Authentication → 로그인 방법에서 켜 주세요.",
   "auth/network-request-failed":"인터넷 연결이 불안정해요. 잠시 뒤 다시 눌러 주세요.",
@@ -2938,6 +2982,7 @@ const AUTH_MSG = {
 async function oauth(provider, btnEl){
   if (!FB_ON) return loginNote("Google 로그인은 Firebase를 연결해야 동작합니다. 코드 맨 위 <b>CONFIG.FIREBASE</b>에 Firebase 웹 앱 설정값을 넣어 주세요. 지금은 게스트로 모든 기능을 체험할 수 있어요.");
   if (FRAMED) return loginNote("이 미리보기 창 안에서는 Google 로그인 창을 열 수 없어요. 앱을 올린 HTTPS 주소를 휴대폰 브라우저에서 직접 열어 주세요.");
+  if (INAPP) return loginNote(`${INAPP} 브라우저 안에서는 Google 로그인이 막혀 있어요. Chrome·Safari에서 열어 주세요.${INAPP === "카카오톡" ? ` <button class="btn sm" id="openExt" style="margin-top:6px">Chrome·Safari로 열기</button>` : " 오른쪽 위 ⋮ → ‘다른 브라우저로 열기’를 눌러 주세요."} 지금은 아래 ‘비회원(게스트)’으로도 모든 기능을 쓸 수 있어요.`, true);
   const btn = btnEl || $("#loginGoogle"), label = btn.querySelector("span") || btn;
   const reset = () => { btn.disabled = false; label.textContent = "Google 계정으로 시작하기"; };
   btn.disabled = true; label.textContent = "Google 로그인 창을 여는 중…";
@@ -2971,6 +3016,7 @@ function showLogin(){
   const l = $("#login"); $("#loginNote").hidden = true; closeAcctPop();
   l.classList.remove("leave"); l.hidden = false; l.classList.remove("enter"); void l.offsetWidth; l.classList.add("enter"); l.scrollTop = 0;
   const g = $("#loginGoogle"); g.disabled = false; g.querySelector("span").textContent = "Google 계정으로 시작하기";
+  if (INAPP) loginNote(`${INAPP} 브라우저에서 열었어요. 사진 찍기·Google 로그인이 잘 되도록 Chrome·Safari에서 여는 것을 권해요.${INAPP === "카카오톡" ? ` <button class="btn sm" id="openExt" style="margin-top:6px">Chrome·Safari로 열기</button>` : ""}`);
 }
 function hideLogin(){
   const l = $("#login"); if (l.hidden) return;
@@ -3074,7 +3120,7 @@ async function deleteCloudAccount(){
   // 내 사진에 달린 댓글도 함께 지우기
   const mine = await fb.db.collection("gallery").where("uid", "==", uid).get();
   for (const g of mine.docs) { const cq = await g.ref.collection("comments").get(); await Promise.all(cq.docs.map(d => d.ref.delete())); }
-  for (const sub of ["stamps", "visits", "puzzles", "refs"]) { const q = await ref.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); }
+  for (const sub of ["stamps", "visits", "puzzles", "refs", "photos"]) { const q = await ref.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); }
   const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete()));
   const gq = await fb.db.collection("gallery").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete()));
   await ref.delete();
@@ -3121,6 +3167,7 @@ function renderSetMenu(){
   $("#setMenu").innerHTML = `
     <button class="set-row" id="setChat"><span class="si" aria-hidden="true">💬</span><span><b>팀 채팅</b><small>${t ? `${esc(t.name)} 팀원과 이야기 나누기` : "팀에 들어가면 열려요"}</small></span><span class="go">${unread ? `<span class="badge">${unread}</span>` : "›"}</span></button>
     <button class="set-row" id="setGallery"><span class="si" aria-hidden="true">🍃</span><span><b>풍경의 조각</b><small>오늘의 갤러리 · 사진 댓글</small></span><span class="go">›</span></button>
+    <button class="set-row" id="openDiag"><span class="si" aria-hidden="true">🩺</span><span><b>연결 점검</b><small>채팅·사진이 안 될 때 원인을 찾아 드려요</small></span><span class="go">›</span></button>
     <button class="set-row" id="setRank"><span class="si" aria-hidden="true">📜</span><span><b>나의 관직 · 도장첩</b><small>품계, 도장, 방문 인증 내역</small></span><span class="go">›</span></button>`;
 }
 
@@ -3854,8 +3901,7 @@ function drawNakgwan(g, cx, cy, s, name, C){
   g.restore();
 }
 async function composeShot(file, tag){
-  const src = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
-  const img = new Image(); img.src = src; await img.decode();
+  const img = await loadImage(file);
   await fontsReady('400 64px "Song Myung"', tag + SHOT_TAGS.join(""));
   await fontsReady('900 40px "Noto Serif KR"', NAKGWAN);
   const col = getComputedStyle(document.documentElement), C = k => col.getPropertyValue(k).trim();
@@ -3865,8 +3911,8 @@ async function composeShot(file, tag){
   g.strokeStyle = "rgba(120,100,80,.08)"; g.lineWidth = 1;
   for (let i = 0; i < 220; i++) { const x = rnd() * W, y = rnd() * H, l = 16 + rnd() * 50, a = rnd() * Math.PI; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
   const px = 56, py = 56, pw = W - 112, ph = 880;
-  const k = Math.max(pw / img.naturalWidth, ph / img.naturalHeight), sw = pw / k, sh = ph / k;
-  g.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, px, py, pw, ph);
+  const iw = imgW(img), ih = imgH(img), k = Math.max(pw / iw, ph / ih), sw = pw / k, sh = ph / k;
+  g.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, px, py, pw, ph); if (img.close) img.close();
   g.strokeStyle = C("--ink"); g.lineWidth = 2; g.strokeRect(px, py, pw, ph);
   const t = Team.mine(), d = new Date();
   if (t) { g.fillStyle = C(TEAM_COLORS[t.color].v); g.fillRect(px, py + ph + 18, 56, 6); g.strokeStyle = "rgba(43,37,35,.25)"; g.lineWidth = 1; g.strokeRect(px, py + ph + 18, 56, 6); }
@@ -3887,10 +3933,12 @@ async function handleShot(file){
     let cloudSaved = false;
     if (remoteOn()) {
       try {
-        const remoteUrl = await uploadJpeg(`gallery/${Store.uid}/${item.id}.jpg`, url);
+        let remoteUrl = null;
+        if (STORE.ok !== false) { try { remoteUrl = await uploadJpeg(`gallery/${Store.uid}/${item.id}.jpg`, url); STORE.ok = true; } catch(e) { storageFailed(e); } }
+        if (!remoteUrl) remoteUrl = await shrinkDataUrl(url, 720, .72);   // 사진 저장소(Storage)를 못 쓰면 문서 안에 작게 저장
         const ref = await fb.db.collection("gallery").add({ uid:Store.uid, event:CONFIG.EVENT_ID, day:dayKey(), teamId: t && !t.local ? t.id : null, nickname:item.nickname, tag, url:remoteUrl, createdAt:item.at });
         cloudSaved = true; item.cloud = true; item.id = ref.id; item.url = remoteUrl; item.teamId = t && !t.local ? t.id : null; item.uid = Store.uid;
-      } catch(e) { console.warn("gallery upload:", e.code || e.message); GAL.msg = "사진 클라우드 저장이 꺼져 있어 이 휴대폰에만 걸었어요."; }
+      } catch(e) { console.warn("gallery upload:", e.code || e.message); GAL.msg = `서버에 올리지 못해 이 휴대폰에만 걸었어요. (${esc(e.code || e.message)}) 설정 → ‘연결 점검’에서 원인을 확인할 수 있어요.`; }
     }
     if (cloudSaved) {} else if (writeGallery([item, ...readGallery()].slice(0, 12)) === 0) {
       GAL.msg = "기기 저장 공간이 가득 차서 이 사진은 이번 접속 동안만 보여요.";
@@ -3909,7 +3957,7 @@ async function handleShot(file){
 async function loadGallery(){
   if (remoteOn()) {
     let q;
-    try { q = await fb.db.collection("gallery").where("event", "==", CONFIG.EVENT_ID).where("day", "==", dayKey()).get(); }
+    try { q = await fb.db.collection("gallery").where("event", "==", CONFIG.EVENT_ID).where("day", "==", dayKey()).limit(60).get(); }
     catch(e) { console.warn("gallery:", e.code || e.message); return; }
     const local = GAL.items.filter(x => x.mine && !x.cloud && x.url.startsWith("data:"));
     GAL.items = [...local, ...q.docs.map(d => {
@@ -3959,6 +4007,14 @@ function renderGallery(){
    서버: gallery/{사진id}/comments  (사진 주인 · 같은 팀원만 읽고 쓰기, 실시간)
    서버 없음: 이 기기에 사진별로 저장 (체험용) */
 const CMT_KEY = "palace-cmt-v1:";
+function serverErr(e, what){
+  const c = (e && (e.code || e.message)) || "";
+  if (/permission/i.test(c)) return `${what} 권한이 없어요 (permission-denied).<br><b>선생님 확인</b>: Firebase 콘솔 → Firestore Database → <b>규칙</b> 탭에 새 firestore.rules 전체를 붙여 넣고 [게시]했는지 확인해 주세요. 팀에서 나갔다가 다시 들어오면 해결되는 경우도 있어요.`;
+  if (/unavailable|network|offline/i.test(c)) return `인터넷 연결이 불안정해 ${what} 서버에 닿지 못했어요. 와이파이·데이터를 확인하고 ‘다시 연결’을 눌러 주세요.`;
+  if (/failed-precondition|index/i.test(c)) return `${what} 서버 설정(색인)이 필요해요. (${esc(c)})`;
+  if (/unauthenticated/i.test(c)) return `로그인이 풀렸어요. 설정에서 로그아웃 후 다시 들어와 주세요.`;
+  return `${what} 서버에 연결하지 못했어요. (${esc(c)}) ‘다시 연결’을 눌러 보세요.`;
+}
 const CHAT_KEY = "palace-chat-v1:";
 const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || "null") ?? d; } catch(e) { return d; } };
 const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { return false; } };
@@ -3983,7 +4039,7 @@ const Cmt = {
       this.un = fb.db.collection("gallery").doc(x.id).collection("comments").orderBy("at", "asc").limit(200).onSnapshot(q => {
         this.list = q.docs.map(d => Object.assign({ id:d.id }, d.data()));
         x.comments = this.list.slice(); this.render(); if (curScreen === "quest") renderGallery();
-      }, e => { console.warn("comments:", e.code || e.message); this.msg = "댓글을 불러오지 못했어요. 같은 팀원의 사진에만 댓글을 볼 수 있어요."; this.render(); });
+      }, e => { console.warn("comments:", e.code || e.message); this.msg = serverErr(e, "댓글"); this.render(); });
     } else {
       this.list = lsGet(CMT_KEY + x.id, []); x.comments = this.list.slice();
     }
@@ -3997,7 +4053,7 @@ const Cmt = {
     if (this.remote(x)) {
       this.busy = true;
       try { const ref = await fb.db.collection("gallery").doc(x.id).collection("comments").add(c); addRef(`gallery/${x.id}/comments/${ref.id}`); }
-      catch(e) { console.warn("comment:", e.code || e.message); this.msg = "댓글을 남기지 못했어요. 잠시 뒤 다시 보내 주세요."; this.busy = false; this.render(); return false; }
+      catch(e) { console.warn("comment:", e.code || e.message); this.msg = serverErr(e, "댓글"); this.busy = false; this.render(); return false; }
       this.busy = false; return true;
     }
     c.id = Date.now().toString(36); c.mine = true;
@@ -4034,6 +4090,52 @@ const Cmt = {
   }
 };
 function openViewer(id){ $("#viewer").hidden = false; $("#vwSay").innerHTML = ""; Cmt.open(id); setTimeout(() => $("#vwClose").focus(), 30); }
+/* 연결 점검: 서버·권한·사진 저장소를 하나씩 직접 시험해 보고 고치는 방법을 알려 줌 */
+const UA = navigator.userAgent || "";
+const INAPP = /KAKAOTALK/i.test(UA) ? "카카오톡" : /NAVER\(inapp|Instagram|FBAN|FBAV|Line\/|DaumApps|everytimeApp|BAND\//i.test(UA) ? "앱 안의" : "";
+async function runDiag(){
+  const out = $("#diagOut"); $("#diagPanel").hidden = false;
+  requestAnimationFrame(() => { const body = $("#setmBody"), r = $("#diagPanel").getBoundingClientRect(); body.scrollTo({ top: body.scrollTop + r.top - body.getBoundingClientRect().top - 8, behavior:"smooth" }); });
+  const rows = [];
+  const draw = (busy) => { out.innerHTML = rows.map(r => `<div class="dg ${r.ok === true ? "ok" : r.ok === false ? "no" : "warn"}"><b>${r.ok === true ? "✓" : r.ok === false ? "✕" : "!"} ${r.t}</b>${r.m ? `<small>${r.m}</small>` : ""}</div>`).join("") + (busy ? `<p class="small">점검하는 중…</p>` : ""); };
+  const add = (t, ok, m) => { rows.push({ t, ok, m }); draw(true); };
+  draw(true);
+  if (INAPP) add(`${INAPP} 브라우저`, null, `앱 안의 브라우저에서는 사진 촬영·Google 로그인이 막힐 수 있어요. 오른쪽 위 ⋮(또는 공유) → ‘다른 브라우저로 열기’로 Chrome·Safari에서 열어 주세요.${INAPP === "카카오톡" ? ` <button class="btn sm" id="openExt">Chrome·Safari로 열기</button>` : ""}`);
+  if (FRAMED) { add("미리보기 창", false, "Claude 미리보기 안에서는 서버에 연결되지 않아요. Vercel 주소를 휴대폰 브라우저에서 직접 열어 주세요."); draw(false); return; }
+  if (!FB_ON) { add("Firebase 설정", false, "CONFIG.FIREBASE 값이 비어 있어요."); draw(false); return; }
+  if (!cloudOn()) { add("서버 로그인", false, "지금은 비회원(이 기기 저장) 상태라 채팅·댓글이 이 기기 체험용으로만 동작해요. 로그아웃 후 Google 또는 게스트로 다시 들어오면 서버에 연결돼요."); draw(false); return; }
+  add("서버 로그인", true, Store.provider === "google" ? "Google 계정" : "게스트(익명) 계정");
+  try { await withTimeout(userRef().get(), 9000); add("Firestore (기록 저장)", true); }
+  catch(e) { add("Firestore (기록 저장)", false, serverErr(e, "기록")); }
+  const t = Team.mine();
+  if (!t) add("팀 채팅", null, "팀에 들어가 있지 않아요. 아래 ‘우리 팀’에서 팀을 만들거나 코드로 참여해 주세요.");
+  else if (t.local) add("팀 채팅", false, "이 팀은 서버 연결 전에 만든 ‘이 기기 전용’ 팀이에요. 팀 나가기 → 다시 만들거나 코드로 참여해 주세요.");
+  else {
+    try {
+      const m = await withTimeout(fb.db.collection("teamMembers").doc(`${t.id}_${Store.uid}`).get(), 9000);
+      if (!m.exists) add("팀원 등록", false, "서버에 내 팀원 기록이 없어요. 팀 나가기 후 코드로 다시 참여해 주세요.");
+      else {
+        await withTimeout(fb.db.collection("teamChats").doc(t.id).collection("messages").limit(1).get(), 9000);
+        add("팀 채팅 권한", true, `${esc(t.name)} 팀 채팅을 읽을 수 있어요.`);
+      }
+    } catch(e) { add("팀 채팅 권한", false, serverErr(e, "채팅")); }
+  }
+  // 사진 저장소: 1×1 사진을 올렸다 지워 봄
+  try {
+    const c = document.createElement("canvas"); c.width = c.height = 2;
+    const url = await uploadJpeg(`certshots/${Store.uid}/_check.jpg`, c.toDataURL("image/jpeg", .5));
+    STORE.ok = true; try { await fb.st.ref(`certshots/${Store.uid}/_check.jpg`).delete(); } catch(e) {}
+    add("사진 저장소 (Storage)", true, url ? "사진을 원본 화질로 올릴 수 있어요." : "");
+  } catch(e) {
+    storageFailed(e);
+    add("사진 저장소 (Storage)", null, `Storage를 쓸 수 없어요 (${esc(e.code || e.message)}). 대신 사진을 작게 줄여 Firestore에 저장하므로 사진 인증·풍경의 조각은 그대로 동작해요.<br>원본 화질로 올리려면 Firebase 콘솔 → Storage → [시작하기]로 저장소를 만들고(요금제 업그레이드가 필요할 수 있어요) storage.rules를 게시해 주세요.`);
+  }
+  try {
+    const d = await withTimeout(fb.db.collection("gallery").where("event", "==", CONFIG.EVENT_ID).where("day", "==", dayKey()).limit(1).get(), 9000);
+    add("풍경의 조각 갤러리", true, `오늘 걸린 사진을 불러올 수 있어요.`);
+  } catch(e) { add("풍경의 조각 갤러리", false, serverErr(e, "갤러리")); }
+  draw(false);
+}
 function closeViewer(){ Cmt.stop(); Cmt.shot = null; const v = $("#viewer"); if (v) v.hidden = true; }
 
 /* ═════════ 💬 팀 채팅 ═════════
@@ -4049,7 +4151,7 @@ const Chat = {
       this.un = fb.db.collection("teamChats").doc(t.id).collection("messages").orderBy("at", "desc").limit(100).onSnapshot(q => {
         this.list = q.docs.map(d => Object.assign({ id:d.id }, d.data())).reverse(); this.msg = "";
         this.changed();
-      }, e => { console.warn("chat:", e.code || e.message); this.msg = "채팅 서버에 연결하지 못했어요. 잠시 뒤 다시 열어 주세요."; this.changed(); });
+      }, e => { console.warn("chat:", e.code || e.message); this.msg = serverErr(e, "채팅"); this.un = null; this.changed(); });
     } else { this.list = lsGet(this.key(), []); }
   },
   stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; },
@@ -4067,7 +4169,7 @@ const Chat = {
     if (!t.local && cloudOn()) {
       this.busy = true;
       try { const ref = await fb.db.collection("teamChats").doc(t.id).collection("messages").add(m); addRef(`teamChats/${t.id}/messages/${ref.id}`); }
-      catch(e) { console.warn("chat send:", e.code || e.message); this.msg = "메시지를 보내지 못했어요. 인터넷 연결을 확인해 주세요."; this.busy = false; this.render(); return false; }
+      catch(e) { console.warn("chat send:", e.code || e.message); this.msg = serverErr(e, "채팅"); this.busy = false; this.render(); return false; }
       this.busy = false; return true;
     }
     m.id = Date.now().toString(36); m.mine = true;
@@ -4081,7 +4183,7 @@ const Chat = {
     $("#chatTitle").innerHTML = `${esc(t.name)} 팀 채팅<small>${live ? (this.un ? "실시간 · 팀원만 볼 수 있어요" : "연결 중…") : "이 기기 체험용 · 서버에 연결하면 팀원과 실시간으로 나눠요"}</small>`;
     const near = body.scrollHeight - body.scrollTop - body.clientHeight < 80;
     let lastDay = "";
-    body.innerHTML = (this.msg ? `<p class="note err">${this.msg}</p>` : "") + (this.list.length ? `<div class="chat-log">${this.list.map(m => {
+    body.innerHTML = (this.msg ? `<div class="note err">${this.msg}<div class="btn-row" style="margin-top:8px"><button class="btn sm" id="chatRetry">다시 연결</button><button class="btn sm ghost" id="openDiag2">연결 점검</button></div></div>` : "") + (this.list.length ? `<div class="chat-log">${this.list.map(m => {
       const d = dayKey(new Date(m.at)), sep = d !== lastDay ? `<span class="day-sep">${new Date(m.at).getMonth() + 1}월 ${new Date(m.at).getDate()}일</span>` : ""; lastDay = d;
       const mine = m.mine || m.uid === me;
       return `${sep}<div class="msg${mine ? " me" : ""}">${mine ? "" : `<span class="nm">${esc(m.nickname)}</span>`}<div class="bb">${esc(m.text)}</div><time datetime="${esc(m.at)}">${hhmm(m.at)}</time></div>`;
@@ -4158,20 +4260,14 @@ async function handleCheckin(file, bid){
   certUI = { bid, busy:false, ciBusy:true, msg:"", err:false, demo:false }; rerenderSheet();
   let url;
   try {
-    url = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
-    const img = new Image(); img.src = url; await img.decode();
-    const k = Math.min(1, 960 / Math.max(img.naturalWidth, img.naturalHeight));
-    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
-    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-    url = c.toDataURL("image/jpeg", .78);
+    url = await shrinkPhoto(file, 960, .78);
   } catch(e) {
-    certUI = { bid, busy:false, ciBusy:false, msg:"사진을 읽지 못했어요. JPG나 PNG 사진으로 다시 올려 주세요.", err:true, demo:false }; rerenderSheet(); return;
+    console.warn("checkin read:", e); certUI = { bid, busy:false, ciBusy:false, msg:PHOTO_READ_ERR, err:true, demo:false }; rerenderSheet(); return;
   }
-  let path = null;
-  if (cloudOn()) { try { path = await uploadJpeg(`certshots/${Store.uid}/checkin-${bid}.jpg`, url); } catch(e) { console.warn("checkin upload:", e.code || e.message); } }
+  remoteUploadPhoto("checkin-" + bid, url);   // 뒤에서 저장
   const at = new Date().toISOString();
   S.certs["checkin:" + bid] = { at };
-  Rec.visit({ bid, kind:"checkin", at, path });
+  Rec.visit({ bid, kind:"checkin", at, path:null });
   certUI = { bid, busy:false, ciBusy:false, msg:"", err:false, demo:false };
   rerenderSheet(); setTimeout(() => checkZones(), 2600);
   eobo("到訪之寶", `${b.name} 체크인`, "현장 사진으로 방문을 인증했습니다", () => gain(REWARD.photo, `${b.name} 체크인`));
@@ -4229,6 +4325,11 @@ document.addEventListener("click", e => {
   /* 계정 */
   if (t.closest("#profileBtn")) { openSettings(); return; }
   if (t.closest("#setmClose")) { closeSettings(); return; }
+  if (t.closest("#openDiag")) { runDiag(); return; }
+  if (t.closest("#openDiag2")) { closeChat(); openSettings(); runDiag(); return; }
+  if (t.closest("#chatRetry")) { Chat.start(); Chat.render(); return; }
+  if (t.closest("#openExt") || t.closest("#inappOpen")) { location.href = "kakaotalk://web/openExternal?url=" + encodeURIComponent(location.href); return; }
+  if (t.closest("#inappX")) { $("#inapp").hidden = true; return; }
   if (t.closest("#setChat") || t.closest("#tbChat") || t.closest("#openChat2")) { openChat(); return; }
   if (t.closest("#setGallery")) { closeSettings(); show("quest"); requestAnimationFrame(() => { const m = $("#main"), r = $("#galleryPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
   if (t.closest("#setRank")) { closeSettings(); show("rank"); return; }
@@ -4359,6 +4460,10 @@ document.addEventListener("keydown", e => {
   }});
 
 /* boot */
+if (INAPP) {
+  $("#inapp").hidden = false;
+  $("#inapp").innerHTML = `<span>${INAPP} 브라우저에서는 사진 찍기·Google 로그인이 막힐 수 있어요. Chrome·Safari에서 열어 주세요.</span>${INAPP === "카카오톡" ? `<button id="inappOpen">브라우저로 열기</button>` : ""}<button class="x" id="inappX" aria-label="안내 닫기">×</button>`;
+}
 async function boot(){
   normalizeStamps(); checkZones(true);
   renderTabs(); renderHeader(); renderMap();
