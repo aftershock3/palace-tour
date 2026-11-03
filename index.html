@@ -123,18 +123,27 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 /* ── bottom sheet ── */
 .backdrop{position:fixed;inset:0;background:rgba(43,37,35,.38);opacity:0;pointer-events:none;transition:opacity .3s;z-index:30}
 .backdrop.on{opacity:1;pointer-events:auto}
+.backdrop{touch-action:none}
+/* 시트·전체 화면 창이 열려 있는 동안 뒤 화면은 움직이지 않음 */
+html,body{overscroll-behavior:none}
+#app.locked main{overflow:hidden;touch-action:none}
+.pm-head{touch-action:none}
+.pm-body{overflow-x:hidden;touch-action:pan-y}
+.sheet,.pm{overscroll-behavior:contain}
 .sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:none;max-height:90%;display:flex;flex-direction:column;background:var(--card);border-radius:22px 22px 0 0;box-shadow:0 -10px 34px rgba(43,37,35,.2);transform:translateY(105%);transition:transform .34s cubic-bezier(.2,.8,.2,1);z-index:40;padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden}
 .sheet.open{transform:translateY(0);visibility:visible}
 .sheet.drag{transition:none}
-.sheet-head{flex:none;padding-top:9px;padding-bottom:6px;padding-left:var(--gutter-l);padding-right:var(--gutter-r);touch-action:none;cursor:grab}
-.grip{width:42px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 10px}
+.sheet-head{flex:none;padding-top:0;padding-bottom:6px;padding-left:var(--gutter-l);padding-right:var(--gutter-r);touch-action:none;user-select:none;-webkit-user-select:none}
+/* 끌어서 닫기는 맨 위 손잡이 띠에서만 (제목·본문을 만질 때 시트가 손가락을 따라 밀리지 않음) */
+.grip-zone{height:26px;margin:0 calc(-1 * var(--gutter-r)) 2px calc(-1 * var(--gutter-l));display:grid;place-items:center;cursor:grab;touch-action:none}
+.grip{width:42px;height:5px;border-radius:9px;background:var(--line)}
 .sh-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .sh-title{min-width:0}
 .sh-title .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
 .sh-title h2{font:900 30px/1.15 var(--f-disp);letter-spacing:.08em}
 .sh-title .rd{font-size:14px;color:var(--muted);margin-top:3px}
 .x{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:18px;line-height:1}
-.sheet-body{overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:20px;padding-block:8px 26px;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.sheet-body{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:20px;padding-block:8px 26px;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
 .compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .tile{border:1px solid var(--line);border-radius:14px;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .tile-cap{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:8px 10px;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;border-bottom:1px solid var(--line2)}
@@ -388,6 +397,19 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .team-head .flag{width:42px;height:42px}
 .team-head h3{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mem{display:flex;flex-direction:column}
+.roster{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line2);background:var(--bg);border-radius:14px;padding:12px}
+.roster h4{margin:0;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.roster h4 small{font-weight:600;color:var(--muted);font-size:12px}
+.mates{display:flex;flex-wrap:wrap;gap:6px}
+.mate{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:3px 11px 3px 3px;font-size:13.5px;font-weight:600;max-width:100%}
+.mate .av{flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--gilt);display:grid;place-items:center;font:900 12px var(--f-disp)}
+.mate.me{border-color:var(--blue);background:var(--blue-soft)}.mate.me .av{background:var(--blue);color:var(--white)}
+.mate span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mate small{font-size:11px;color:var(--muted);font-weight:600}
+.mem-row .nm{display:flex;align-items:center;gap:8px;min-width:0}
+.mem-row .rk{flex:none;width:22px;height:22px;border-radius:50%;background:var(--line2);display:grid;place-items:center;font:700 11.5px var(--f-body)}
+.mem-row small{color:var(--muted);font-size:12px;margin-left:6px}
+.tb-names{font-size:11px;color:var(--muted);font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mem-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .mem-row span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mem-row span:last-child{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
@@ -871,7 +893,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 <div class="backdrop" id="backdrop"></div>
 <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle">
   <div class="sheet-head" id="sheetHead">
-    <div class="grip"></div>
+    <div class="grip-zone" id="gripZone" aria-hidden="true"><div class="grip"></div></div>
     <div class="sh-top">
       <div class="sh-title">
         <button class="sh-back" id="shBack" hidden>← 전각으로 돌아가기</button>
@@ -2613,11 +2635,38 @@ async function handlePhoto(file){
 
 /* sheet drag-to-close */
 (function(){
-  const sh = $("#sheet"), hd = $("#sheetHead"); let y0 = null, dy = 0;
-  hd.addEventListener("pointerdown", e => { if (e.target.closest("button")) return; y0 = e.clientY; dy = 0; sh.classList.add("drag"); hd.setPointerCapture(e.pointerId); });
-  hd.addEventListener("pointermove", e => { if (y0 === null) return; dy = Math.max(0, e.clientY - y0); sh.style.transform = `translateY(${dy}px)`; });
-  const end = () => { if (y0 === null) return; sh.classList.remove("drag"); y0 = null; if (dy > 90) closeSheet(); else sh.style.transform = ""; };
-  hd.addEventListener("pointerup", end); hd.addEventListener("pointercancel", end);
+  // 손잡이 띠에서 아래로 분명히 끌었을 때만 움직이고(12px 이상, 세로 방향), 옆으로는 절대 밀리지 않음
+  const sh = $("#sheet"), gz = $("#gripZone"); let y0 = null, x0 = 0, dy = 0, on = false;
+  gz.addEventListener("pointerdown", e => { y0 = e.clientY; x0 = e.clientX; dy = 0; on = false; gz.setPointerCapture(e.pointerId); });
+  gz.addEventListener("pointermove", e => {
+    if (y0 === null) return;
+    const ddy = e.clientY - y0, ddx = Math.abs(e.clientX - x0);
+    if (!on) { if (ddy > 12 && ddy > ddx * 1.5) { on = true; sh.classList.add("drag"); } else return; }
+    dy = Math.max(0, ddy - 12) * .9; sh.style.transform = `translateY(${dy}px)`;
+  });
+  const end = () => { if (y0 === null) return; sh.classList.remove("drag"); y0 = null; if (on && dy > 110) closeSheet(); else sh.style.transform = ""; on = false; };
+  gz.addEventListener("pointerup", end); gz.addEventListener("pointercancel", end);
+  // 시트 머리(제목) 부분을 문질러도 아무것도 움직이지 않게
+  $("#sheetHead").addEventListener("touchmove", e => { if (!e.target.closest("#gripZone")) e.preventDefault(); }, { passive:false });
+  $("#backdrop").addEventListener("touchmove", e => e.preventDefault(), { passive:false });
+  // iOS: 본문 맨 위·맨 아래에서 더 끌면 바깥 화면까지 같이 밀리는 현상 막기
+  const edgeGuard = el => {
+    let sy = 0;
+    el.addEventListener("touchstart", e => { sy = e.touches[0].clientY; }, { passive:true });
+    el.addEventListener("touchmove", e => {
+      if (e.touches.length > 1) return;
+      const dyv = e.touches[0].clientY - sy, top = el.scrollTop <= 0, bottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+      if ((top && dyv > 0) || (bottom && dyv < 0) || el.scrollHeight <= el.clientHeight) { if (e.cancelable) e.preventDefault(); }
+    }, { passive:false });
+  };
+  ["#sheetBody", "#setmBody", "#vwBody", "#chatBody"].forEach(sel => { const el = $(sel); if (el) edgeGuard(el); });
+  // 열린 창이 있으면 뒤 화면 잠금
+  const lock = () => {
+    const open = sh.classList.contains("open") || ["#setm", "#viewer", "#chat"].some(id => $(id) && !$(id).hidden);
+    $("#app").classList.toggle("locked", open);
+  };
+  new MutationObserver(lock).observe(sh, { attributes:true, attributeFilter:["class"] });
+  ["#setm", "#viewer", "#chat"].forEach(id => { const el = $(id); if (el) new MutationObserver(lock).observe(el, { attributes:true, attributeFilter:["hidden"] }); });
 })();
 
 /* ═════════ RANK SCREEN ═════════ */
@@ -3728,10 +3777,17 @@ function renderTeamBar(bump){
   const server = !Team.isLocal(), e = Team.board.find(x => x.id === t.id), cov = Team.stampsCovered();
   const total = e ? e.total : t.points, n = e ? e.members.length : 1;
   bar.innerHTML = `<button class="live${server && Team.live ? "" : " off"}" id="tbOpen" aria-label="우리 팀 보기"><i></i>${server ? (Team.live ? "실시간" : "연결 중") : "이 기기"}</button>
-    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기">${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${ZONE_IDS.filter(z => cov.has(z)).length}/${ZONE_IDS.length}</small></button></div>
+    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기">${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="tb-names">${esc(teamMembersList().map(m => m.nickname || "탐방객").join("·"))}</span><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${ZONE_IDS.filter(z => cov.has(z)).length}/${ZONE_IDS.length}</small></button></div>
     <button class="tb-chat" id="tbChat" aria-label="팀 채팅${Chat.unread() ? ` · 안 읽은 메시지 ${Chat.unread()}개` : ""}">💬 채팅${Chat.unread() ? `<span class="badge">${Chat.unread()}</span>` : ""}</button>`;
 }
 
+// 팀원 전체 (점수 순). 서버 목록을 아직 못 받았으면 나만이라도 보여 줌
+function teamMembersList(){
+  const t = Team.mine(); if (!t) return [];
+  const e = Team.board.find(x => x.id === t.id);
+  const list = (e && e.members.length ? e.members : [{ nickname:S.nickname || "나", points:t.points || 0, stamps:Object.keys(S.stamps), me:true }]).slice();
+  return list.sort((a, b) => (b.me && a.points === b.points ? 1 : 0) || b.points - a.points);
+}
 function renderTeamPanel(){
   const el = $("#teamPanel"), t = Team.mine();
   if (!t) {
@@ -3742,14 +3798,19 @@ function renderTeamPanel(){
   }
   const e = Team.board.find(x => x.id === t.id), C = TEAM_COLORS[t.color] || TEAM_COLORS.blue;
   const cov = Team.stampsCovered(), got = ZONE_IDS.filter(z => cov.has(z)).length, allDone = got === ZONE_IDS.length;
-  const members = (e ? e.members : []).slice().sort((a, b) => b.points - a.points);
+  const members = teamMembersList();
   el.innerHTML = `
     <div class="team-head">${flagSVG(t.color)}
       <div style="min-width:0"><div class="eyebrow">${C.hz}旗 · ${C.ko}팀 · 팀원 ${members.length || 1}명</div><h3 class="h-sec">${esc(t.name)}</h3></div>
       <button class="btn sm ghost" id="copyCode" data-code="${t.code}" aria-label="팀 코드 복사">코드 ${t.code}</button>
     </div>
     ${Team.isLocal() ? `<p class="note">서버에 연결되지 않아 이 기기에서만 동작하는 체험용 팀이에요.</p>` : ""}
-    <div class="mem">${members.map(m => `<div class="mem-row"><span>${esc(m.nickname)}${m.me ? " (나)" : ""}</span><span>${m.points.toLocaleString()}점</span></div>`).join("")}</div>
+    <div class="roster" aria-label="팀원 전체 ${members.length}명">
+      <h4>팀원 전체 <small>${members.length}명${Team.isLocal() ? " · 이 기기" : Team.live ? " · 실시간" : ""}</small></h4>
+      <div class="mates">${members.map(m => `<span class="mate${m.me ? " me" : ""}"><span class="av" aria-hidden="true">${esc([...(m.nickname || "객")][0])}</span><span>${esc(m.nickname || "탐방객")}</span>${m.me ? "<small>나</small>" : ""}</span>`).join("")}</div>
+      ${members.length <= 1 && !Team.isLocal() ? `<p class="small">팀 코드 <b>${t.code}</b>를 친구에게 알려 주면 여기에 이름이 함께 보여요.</p>` : ""}
+    </div>
+    <div class="mem">${members.map((m, i) => `<div class="mem-row"><span class="nm"><span class="rk">${i + 1}</span><span>${esc(m.nickname || "탐방객")}${m.me ? " (나)" : ""}<small>도장 ${(m.stamps || []).filter(z => ZONE_IDS.includes(z)).length}</small></span></span><span>${m.points.toLocaleString()}점</span></div>`).join("")}</div>
     <div class="sec" style="margin-top:6px">
       <h3>단체 교지</h3>
       <p class="small">팀원 누구든 받은 도장을 모두 합쳐 셉니다. 함께 나눠 둘러보세요.</p>
@@ -4180,7 +4241,8 @@ const Chat = {
     if (!t) { body.innerHTML = `<p class="small">팀에 들어가면 팀원과 채팅할 수 있어요.</p><button class="btn" id="openTeam">팀으로 참여하기</button>`; $("#chatForm").hidden = true; return; }
     $("#chatForm").hidden = false;
     const live = !t.local && cloudOn(), me = Store.uid || "me";
-    $("#chatTitle").innerHTML = `${esc(t.name)} 팀 채팅<small>${live ? (this.un ? "실시간 · 팀원만 볼 수 있어요" : "연결 중…") : "이 기기 체험용 · 서버에 연결하면 팀원과 실시간으로 나눠요"}</small>`;
+    const names = teamMembersList().map(m => m.nickname || "탐방객");
+    $("#chatTitle").innerHTML = `${esc(t.name)} 팀 채팅 · ${names.length}명<small>${esc(names.join(", "))} · ${live ? (this.un ? "실시간" : "연결 중…") : "이 기기 체험용"}</small>`;
     const near = body.scrollHeight - body.scrollTop - body.clientHeight < 80;
     let lastDay = "";
     body.innerHTML = (this.msg ? `<div class="note err">${this.msg}<div class="btn-row" style="margin-top:8px"><button class="btn sm" id="chatRetry">다시 연결</button><button class="btn sm ghost" id="openDiag2">연결 점검</button></div></div>` : "") + (this.list.length ? `<div class="chat-log">${this.list.map(m => {
