@@ -123,7 +123,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .pill.yellow{background:var(--yellow-soft);color:#8A5F12}
 
 /* ── bottom nav ── */
-.nav{flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);background:var(--card);padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.nav{flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line);background:var(--card);padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
 .nav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:60px;padding:6px 2px;font-size:11.5px;font-weight:600;color:var(--muted);position:relative}
 .nav button .ic{font-size:21px;line-height:1.1}
 .nav button[aria-current="page"]{color:var(--blue)}
@@ -651,6 +651,67 @@ input,textarea,select{font-size:max(16px,1em)}
 .gd-zone.got .st{color:var(--red)}
 .gd-zone.off{opacity:.5}
 
+/* 사진첩 · 나의 현장 사진 */
+.myph{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.myph-it{display:flex;flex-direction:column;gap:4px;border:0;background:none;padding:0;text-align:left;min-width:0;font:inherit;color:var(--ink)}
+.myph-it img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:var(--sand)}
+.myph-it b{font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.myph-it small{font-size:11px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.myph-it span{min-width:0}
+@media (min-width:520px){.myph{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.nav button{font-size:11px}
+/* 첫 방문 안내 말풍선 · 날개 뱃지 */
+.tip{position:relative;display:flex;align-items:flex-start;gap:6px;background:var(--ink);color:var(--white);border-radius:12px;padding:8px 6px 8px 12px;font-size:12.5px;line-height:1.5;box-shadow:0 6px 16px rgba(43,37,35,.22)}
+.tip b{color:var(--gilt,#E5A93B)}
+.tip span{flex:1;min-width:0}
+.tip::before{content:"";position:absolute;width:12px;height:12px;background:var(--ink);transform:rotate(45deg);top:-5px;left:26px}
+.tip-x{flex:none;width:26px;height:26px;border:0;background:rgba(255,255,255,.12);color:var(--white);border-radius:50%;font-size:15px;line-height:1}
+.tip-head{position:absolute;left:var(--gutter-l);top:calc(100% - 6px);z-index:25;max-width:min(300px,calc(100% - 32px))}
+.tip-map{margin:0 0 2px}
+.tip-map::before{top:auto;bottom:-5px;left:40px}
+.nav button .wing{position:absolute;top:2px;left:50%;transform:translateX(4px);background:var(--red);color:var(--white);font:700 9.5px/1 var(--f-body);padding:3px 6px 3px 7px;border-radius:9px 9px 9px 2px;white-space:nowrap;box-shadow:0 1px 3px rgba(43,37,35,.25);pointer-events:none}
+.nav button .wing::before{content:"";position:absolute;left:-4px;bottom:0;border:4px solid transparent;border-right-color:var(--red);border-bottom-color:var(--red)}
+
+/* ── 마스터 페이지 ── */
+html.master,html.master body{height:auto;min-height:100%;overflow:auto}
+html.master #phone{display:none!important}
+#master{max-width:980px;margin:0 auto;padding:0 16px 40px;color:var(--ink)}
+.mst-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:22px 0 14px;border-bottom:2px solid var(--ink)}
+.mst-top h1{margin:2px 0 0;font:900 24px var(--f-body)}
+.mst-eye{font-size:12px;font-weight:700;color:var(--red);letter-spacing:.08em}
+.mst-who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.mst-main{display:flex;flex-direction:column;gap:14px;padding-top:16px}
+.mst-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.mst-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mst-stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.mst-stat b{display:block;font:800 24px var(--f-body);font-variant-numeric:tabular-nums}
+.mst-stat small{font-size:12px;color:var(--muted)}
+.mst-stat.on b{color:#2f8a5a}.mst-stat.ban b{color:var(--red)}
+@media (max-width:560px){.mst-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mst-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mst-tools .input{flex:1;min-width:180px}
+.mst-tools .seg button{padding:6px 12px;min-height:38px}
+.mst-grp{margin-top:12px;border:1px solid var(--line2);border-radius:14px;overflow:hidden}
+.mst-gh{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--bg);font-weight:700;font-size:14px;border-bottom:1px solid var(--line2)}
+.mst-gh .flag{width:18px;height:18px}
+.mst-gh small{margin-left:auto;font-weight:600;color:var(--muted);font-size:12px}
+.mst-row{display:grid;grid-template-columns:12px minmax(0,1.4fr) minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px dashed var(--line2);font-size:13.5px}
+.mst-row:last-child{border-bottom:0}
+.mst-row .dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.mst-row .dot.on{background:#3aa76d}
+.mst-row b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mst-row small{display:block;font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mst-row .mxp{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.mst-row .mxp b{color:var(--red);display:inline}
+.mst-kick{border:1.5px solid var(--red);background:transparent;color:var(--red);border-radius:999px;min-height:34px;padding:2px 12px;font:700 12.5px var(--f-body);white-space:nowrap}
+.mst-kick.un{border-color:var(--blue);color:var(--blue)}
+@media (max-width:560px){.mst-row{grid-template-columns:10px minmax(0,1fr) auto;row-gap:4px}.mst-row .mid{grid-column:2/3}.mst-row .mxp{grid-column:3;grid-row:1}.mst-row .act{grid-column:3;grid-row:2}}
+.mst-empty{padding:18px;text-align:center;color:var(--muted);font-size:13.5px}
+.mst-login{display:flex;flex-direction:column;gap:12px;align-items:flex-start;max-width:460px}
+.mst-help{font-size:12.5px;color:var(--muted);line-height:1.7}
+#mstCfmBox label.ck{display:flex;gap:8px;align-items:center;font-size:13.5px}
+#mstCfmBox label.ck input{width:18px;height:18px}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -885,10 +946,18 @@ input,textarea,select{font-size:max(16px,1em)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.eobo.play .eobo-imp{opacity:1;transform:rotate(-6deg)}}
 </style>
 
+<!-- ═════ 마스터(관리자) 페이지: 주소 끝에 ?master 를 붙이면 일반 화면 대신 이 화면이 열립니다 ═════ -->
+<div id="master" hidden>
+  <header class="mst-top"><div><div class="mst-eye">문학의 공간을 거닐다</div><h1>🛡️ 마스터 페이지</h1></div><div class="mst-who" id="mstWho"></div></header>
+  <main class="mst-main" id="mstMain"></main>
+  <div class="cfm" id="mstCfm" role="alertdialog" aria-modal="true" aria-labelledby="mstCfmT" hidden><div class="cfm-box" id="mstCfmBox"></div></div>
+</div>
+
 <div id="phone">
 <div id="app">
   <div class="inapp" id="inapp" role="note" hidden></div>
   <header class="top">
+    <div class="tip tip-head" id="tipHead" role="note" hidden><span>✦ 내 <b>품계와 경험치</b>예요. 현장 인증·퀴즈로 쑥쑥 올라가요.</span><button class="tip-x" data-tipx="head" aria-label="안내 닫기">×</button></div>
     <div class="top-row">
     <button class="rank" id="rankBtn" aria-label="나의 관직 보기">
       <div class="seal" id="hSeal">從九</div>
@@ -994,7 +1063,6 @@ input,textarea,select{font-size:max(16px,1em)}
 
     <!-- 퀘스트 -->
     <section class="screen" id="s-quest" hidden>
-      <div class="panel" id="galleryPanel"></div>
       <div class="panel">
         <h3 class="h-sec">벼슬 시험</h3>
         <p class="small">문제를 풀 때마다 경험치를 받아요.</p>
@@ -1013,6 +1081,12 @@ input,textarea,select{font-size:max(16px,1em)}
     </section>
 
     <!-- 체험 -->
+    <!-- 사진첩: 풍경의 조각 갤러리 + 나의 현장 사진 -->
+    <section class="screen" id="s-album" hidden>
+      <div class="panel" id="galleryPanel"></div>
+      <div class="panel" id="myPhotos"></div>
+    </section>
+
     <section class="screen" id="s-studio" hidden>
       <div class="panel">
         <h3 class="h-sec">나만의 현판 만들기</h3>
@@ -1043,6 +1117,7 @@ input,textarea,select{font-size:max(16px,1em)}
     <button data-s="map" aria-current="page"><span class="ic">🗺️</span>지도</button>
     <button data-s="rank"><span class="ic">📜</span>관직·도장</button>
     <button data-s="quest"><span class="ic">🎮</span>승급 퀘스트</button>
+    <button data-s="album"><span class="ic">📷</span>사진첩</button>
     <button data-s="studio"><span class="ic">🖌️</span>체험 공간</button>
   </nav>
 </div>
@@ -2303,7 +2378,7 @@ function checkZones(silent){
 const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-plaques-photos-v1";
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
-  team:null, playMode:null, huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
+  team:null, playMode:null, tips:{}, huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
   mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
@@ -3133,7 +3208,7 @@ async function initFirebase(){
 const cloudOn = () => Store.mode === "cloud";
 const userRef = (uid = Store.uid) => fb.db.collection("users").doc(uid);
 const progressOf = () => ({ viewed:S.viewed, cards:S.cards, certs:S.certs, puzzles:S.puzzles, palace:S.palace, bsel:S.bsel, style:S.style,
-  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
+  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, tips:S.tips, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
 async function remoteSaveProfile(){
   if (!cloudOn()) return;
   try {
@@ -3311,7 +3386,7 @@ async function enterGuest(){
    - Google 계정: Firebase 로그아웃 (기록은 서버에 남음)
    - 비회원(이 기기): 입장 상태만 끄고, 관직·도장 기록은 이 기기에 남김 */
 async function logout(){
-  closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat);
+  closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); Store.admin = false;
   const app = $("#app"); app.classList.add("fade-out");
   Team.stop(); if (sheetOpen()) closeSheet();
   if (cloudOn()) { try { await fb.auth.signOut(); } catch(e) {} }
@@ -3434,6 +3509,8 @@ function renderSetMenu(){
     <button class="set-row" id="setGallery"><span class="si" aria-hidden="true">🍃</span><span><b>풍경의 조각</b><small>오늘의 갤러리 · 사진 댓글</small></span><span class="go">›</span></button>
     <button class="set-row" id="openDiag"><span class="si" aria-hidden="true">🩺</span><span><b>연결 점검</b><small>채팅·사진이 안 될 때 원인을 찾아 드려요</small></span><span class="go">›</span></button>
     <button class="set-row" id="setRoster"><span class="si" aria-hidden="true">🏆</span><span><b>랭킹존 · 참여자 명단</b><small>EXP TOP 3와 조별 전체 명단</small></span><span class="go">›</span></button>
+    <button class="set-row" id="setTips"><span class="si" aria-hidden="true">💡</span><span><b>안내 말풍선 다시 보기</b><small>처음 방문했을 때의 작은 안내를 다시 켜요</small></span><span class="go">›</span></button>
+    ${Store.admin ? `<button class="set-row" id="setMaster"><span class="si" aria-hidden="true">🛡️</span><span><b>마스터(관리자) 페이지</b><small>참여 계정 명단 · 강퇴 관리 (새 창)</small></span><span class="go">›</span></button>` : ""}
     <button class="set-row" id="setRank"><span class="si" aria-hidden="true">📜</span><span><b>나의 관직 · 도장첩</b><small>품계, 도장, 방문 인증 내역</small></span><span class="go">›</span></button>`;
 }
 
@@ -3579,6 +3656,7 @@ function renderPalaceMap(){
     ${pal.id === "cdg" ? (S.huwonOpen === null && !S.stamps[HUWON_ZONE] ? `<div class="huwon-ask"><b>🌿 창덕궁 후원 관람을 예약했나요?</b><p class="small">후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원 구역을 빼고도 도장첩을 완성할 수 있어요. 나중에 언제든 바꿀 수 있어요.</p>
         <div class="btn-row"><button class="btn sm" data-huwon="open">예약했어요 · 후원 열기</button><button class="btn sm ghost" data-huwon="close">아니요 · 후원 닫기</button></div></div>` : huwonToggleHTML()) : ""}
     ${memoPanel}
+    ${!(S.tips || {}).map ? `<div class="tip tip-map" role="note"><span>✦ <b>번호 핀</b>을 누르면 장소 이야기가 열려요. 현장에서 인증하면 핀이 <b>노란색</b>이 되고 도장이 찍혀요.</span><button class="tip-x" data-tipx="map" aria-label="안내 닫기">×</button></div>` : ""}
     <div class="pinch-wrap mapw"><div class="map-scroll" id="mapScroll" style="--ar:${(F.bw / F.bh).toFixed(4)}"><div class="pmap${mapZ >= LABEL_Z ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도 · 두 손가락으로 확대·축소">${drawMap(pal.id)}${route}${pins}</div></div>
       <span class="pinch-hint${HINT.map ? " off" : ""}" id="mapHint" aria-hidden="true">두 손가락으로 벌려 확대 · 오므려 축소</span></div>
     <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>현장 인증</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
@@ -3857,7 +3935,31 @@ function stampMoment(zid, after){
   smoT = setTimeout(() => { closeSmo(); if (S.bookAnim) setTimeout(() => toast("도장첩 완성!", "명주실로 엮었어요 · ‘관직·도장’에서 확인하세요"), 300); }, 3000);
 }
 function closeSmo(){ const el = $("#smo"); el.classList.remove("on"); setTimeout(() => { el.hidden = true; el.classList.remove("play"); }, 260); if (curScreen === "rank") renderBook(); }
+/* 마스터 페이지에서 강퇴되면 bans/{행사_uid} 문서가 생김 → 바로 로그아웃하고 첫 화면으로 */
+const Ban = {
+  un:null,
+  watch(){
+    this.stop(); if (!cloudOn()) return;
+    try { this.un = fb.db.collection("bans").doc(`${CONFIG.EVENT_ID}_${Store.uid}`).onSnapshot(d => { if (d.exists) kicked(d.data() || {}); }, e => console.warn("ban:", e.code || e.message)); } catch(e) { console.warn("ban watch:", e); }
+  },
+  stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; }
+};
+async function kicked(info){
+  Ban.stop(); Team.stop(); Players.stop(); clearInterval(Players.beat);
+  closeSettings(); closeViewer(); closeChat(); closeGuide(); if (sheetOpen()) closeSheet(); $("#cfm").hidden = true;
+  try { await fb.auth.signOut(); } catch(e) {}
+  Store.mode = "guest"; Store.uid = null; Store.provider = null; Store.admin = false;
+  S = readLocal(); S.entered = false; save(); PHOTOS = readPhotos(); Team.board = []; GAL.items = [];
+  hideModeSel(); curScreen = "map"; renderAll(); showLogin();
+  loginNote(`관리자가 이 탐방에서 계정을 내보냈어요.${info.reason ? `<br>사유: ${esc(info.reason)}` : ""}<br>궁금한 점은 선생님께 문의해 주세요.`, true);
+}
+function checkAdmin(){
+  Store.admin = false;
+  if (!cloudOn() || Store.provider !== "google") return;
+  fb.db.collection("adminCheck").doc("me").get().then(() => { Store.admin = true; if (!$("#setm").hidden) renderSetMenu(); }).catch(() => {});
+}
 function afterEnter(){
+  Ban.watch(); checkAdmin();
   Players.touch(); Players.heartbeat();
   if (!S.playMode) showModeSel("choose");
   else { Team.refresh(); Team.start(); }
@@ -4259,7 +4361,21 @@ async function loadGallery(){
     const saved = readGallery().filter(x => dayKey(new Date(x.at)) === today);
     GAL.items = [...mem, ...saved].filter((x, i, a) => a.findIndex(y => y.id === x.id) === i);
   }
-  if (curScreen === "quest") renderGallery();
+  if (curScreen === "album") renderGallery();
+}
+// 사진첩 아래: 내가 현장에서 남긴 사진(사진 체크인 · 현판 인증샷) 모아 보기
+function renderMyPhotos(){
+  const el = $("#myPhotos"); if (!el) return;
+  const seen = new Set(), list = [];
+  (S.visits || []).forEach(v => {
+    const key = v.kind === "checkin" ? "checkin-" + v.bid : v.kind === "photo" ? v.hid : null;
+    if (!key || seen.has(key) || !PHOTOS[key] || !BLD[v.bid]) return; seen.add(key);
+    list.push({ url:PHOTOS[key], bid:v.bid, at:v.at, label: v.kind === "checkin" ? "사진 체크인" : `인증샷 · ${HS[v.hid] ? HS[v.hid].h.read : ""}` });
+  });
+  el.innerHTML = `<h3 class="h-sec">나의 현장 사진</h3>
+    <p class="small">사진 체크인과 현판 인증샷이 여기에 모여요. 누르면 그 장소 설명으로 가요.</p>
+    ${list.length ? `<div class="myph">${list.map(x => `<button class="myph-it" data-mb="${x.bid}"><img src="${x.url}" alt="${esc(BLD[x.bid].b.name)} 사진" loading="lazy"><span><b>${esc(BLD[x.bid].b.name)}</b><small>${esc(x.label)} · ${fmtDate(x.at)}</small></span></button>`).join("")}</div>`
+      : `<div class="gal-empty">아직 현장 사진이 없어요.<br>지도에서 장소를 열고 ‘사진으로 체크인’을 해 보세요.</div>`}`;
 }
 function renderGallery(){
   const t = Team.mine(), f = GAL.filter;
@@ -4269,7 +4385,7 @@ function renderGallery(){
   const showFilter = remoteOn() || t;
   $("#galleryPanel").innerHTML = `
     <div class="mission-head"><span class="mi" aria-hidden="true">🍃</span>
-      <div><h3 class="h-sec">풍경의 조각</h3>
+      <div><div class="eyebrow">사진첩</div><h3 class="h-sec">풍경의 조각</h3>
       <p class="small">스쳐 지나가는 아름다운 순간을 담아, 오늘의 기억을 사진으로 담아보세요.</p>
       <p class="small" style="margin-top:4px">‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 사진을 누르면 팀원과 댓글을 나눌 수 있어요.</p></div>
     </div>
@@ -4326,7 +4442,7 @@ const Cmt = {
       if (!this.can(x)) { this.render(); return; }
       this.un = fb.db.collection("gallery").doc(x.id).collection("comments").orderBy("at", "asc").limit(200).onSnapshot(q => {
         this.list = q.docs.map(d => Object.assign({ id:d.id }, d.data()));
-        x.comments = this.list.slice(); this.render(); if (curScreen === "quest") renderGallery();
+        x.comments = this.list.slice(); this.render(); if (curScreen === "album") renderGallery();
       }, e => { console.warn("comments:", e.code || e.message); this.msg = serverErr(e, "댓글"); this.render(); });
     } else {
       this.list = lsGet(CMT_KEY + x.id, []); x.comments = this.list.slice();
@@ -4346,12 +4462,12 @@ const Cmt = {
     }
     c.id = Date.now().toString(36); c.mine = true;
     this.list.push(c); x.comments = this.list.slice(); lsSet(CMT_KEY + x.id, this.list);
-    this.render(); if (curScreen === "quest") renderGallery(); return true;
+    this.render(); if (curScreen === "album") renderGallery(); return true;
   },
   async remove(cid){
     const x = this.item(), c = this.list.find(y => y.id === cid); if (!x || !c) return;
     if (this.remote(x)) { try { await fb.db.collection("gallery").doc(x.id).collection("comments").doc(cid).delete(); } catch(e) { console.warn(e); } return; }
-    this.list = this.list.filter(y => y.id !== cid); x.comments = this.list.slice(); lsSet(CMT_KEY + x.id, this.list); this.render(); if (curScreen === "quest") renderGallery();
+    this.list = this.list.filter(y => y.id !== cid); x.comments = this.list.slice(); lsSet(CMT_KEY + x.id, this.list); this.render(); if (curScreen === "album") renderGallery();
   },
   render(){
     if ($("#viewer").hidden) return;
@@ -4547,7 +4663,7 @@ const Players = {
     const r = this.myRow(), t = Team.mine();
     try {
       await fb.db.collection("players").doc(`${CONFIG.EVENT_ID}_${Store.uid}`).set({
-        uid:Store.uid, event:CONFIG.EVENT_ID, nickname:String(r.nickname).slice(0, 12), exp:S.exp | 0, lv:r.lv,
+        uid:Store.uid, event:CONFIG.EVENT_ID, nickname:String(r.nickname).slice(0, 12), exp:S.exp | 0, lv:r.lv, provider:Store.provider || null,
         teamId: t && !t.local ? t.id : null, teamName: t && !t.local ? t.name : null, teamColor: t && !t.local ? t.color : null,
         seenAt:r.seenAt }, { merge:true });
     } catch(e) { console.warn("players:", e.code || e.message); }
@@ -4691,6 +4807,19 @@ function closeEobo(){ $("#eobo").classList.remove("on", "play"); }
 
 /* ═════════ NAV / EVENTS ═════════ */
 let curScreen = "map", memoT;
+/* 첫 방문 안내: 화면 위쪽 점수 말풍선 + 하단 탭 '날개' 뱃지. 한 번 보거나 ×를 누르면 다시 뜨지 않음 */
+const WINGS = { rank:"도장첩", quest:"EXP", album:"사진", studio:"만들기" };
+function renderTips(){
+  const T = S.tips || {};
+  const h = $("#tipHead"); if (h) h.hidden = !!T.head || !S.entered;
+  document.querySelectorAll("#nav button").forEach(b => {
+    const k = b.dataset.s, w = b.querySelector(".wing");
+    const show = WINGS[k] && !T["tab-" + k];
+    if (show && !w) b.insertAdjacentHTML("beforeend", `<span class="wing" aria-hidden="true">${WINGS[k]}</span>`);
+    if (!show && w) w.remove();
+  });
+}
+function dismissTip(k){ S.tips = Object.assign({}, S.tips, { [k]:1 }); save(); renderTips(); if (k === "map" && curScreen === "map") renderMap(); }
 function renderAll(){ renderTabs(); renderHeader(); renderTeamBar(); show(curScreen); }
 const SCROLL = {};
 const scrollKey = sc => sc === "map" ? `map:${S.palace}:${S.mapView === "scene" ? "scene" : "map"}` : sc;
@@ -4709,12 +4838,15 @@ function restoreScroll(sc){
 function show(sc, opts = {}){
   if (!opts.keep) rememberScroll();
   curScreen = sc;
-  ["map","rank","quest","studio"].forEach(k => $("#s-" + k).hidden = k !== sc);
+  ["map","rank","quest","album","studio"].forEach(k => $("#s-" + k).hidden = k !== sc);
+  if (!(S.tips || {})["tab-" + sc]) { S.tips = Object.assign({}, S.tips, { ["tab-" + sc]:1 }); if (sc === "rank") S.tips.head = 1; save(); }
   document.querySelectorAll("#nav button").forEach(b => b.dataset.s === sc ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
   if (sc === "map") { const st = SCROLL[scrollKey(sc)]; mapZ = st && st.z ? st.z : 1; }
   $("#main").scrollTop = 0;
   if (sc === "rank") { renderRank(); Players.start(); } else Players.stop();
-  if (sc === "quest") { renderQuests(); renderGallery(); loadGallery(); }
+  if (sc === "quest") renderQuests();
+  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); }
+  renderTips();
   if (sc === "studio") renderStudio();
   if (sc === "map") renderMap();
   restoreScroll(sc);
@@ -4727,6 +4859,9 @@ document.addEventListener("click", e => {
   /* 계정 */
   if (t.closest("#profileBtn")) { openSettings(); return; }
   if (t.closest("#setmClose")) { closeSettings(); return; }
+  if ((el = t.closest("[data-tipx]"))) { dismissTip(el.dataset.tipx); return; }
+  if (t.closest("#setTips")) { S.tips = {}; save(); closeSettings(); curScreen = "map"; renderAll(); toast("안내 말풍선을 다시 켰어요", "처음처럼 탭마다 작은 안내가 보여요"); return; }
+  if (t.closest("#setMaster")) { window.open(location.pathname + "?master", "_blank"); return; }
   if (t.closest("[data-guide]")) { openGuide(); return; }
   if (t.closest("#gdClose")) { closeGuide(); return; }
   if (t.closest("#openDiag")) { runDiag(); return; }
@@ -4735,7 +4870,7 @@ document.addEventListener("click", e => {
   if (t.closest("#openExt") || t.closest("#inappOpen")) { location.href = "kakaotalk://web/openExternal?url=" + encodeURIComponent(location.href); return; }
   if (t.closest("#inappX")) { $("#inapp").hidden = true; return; }
   if (t.closest("#setChat") || t.closest("#tbChat") || t.closest("#openChat2")) { openChat(); return; }
-  if (t.closest("#setGallery")) { closeSettings(); show("quest"); requestAnimationFrame(() => { const m = $("#main"), r = $("#galleryPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
+  if (t.closest("#setGallery")) { closeSettings(); show("album"); requestAnimationFrame(() => { const m = $("#main"), r = $("#galleryPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
   if (t.closest("#setRank")) { closeSettings(); show("rank"); return; }
   if (t.closest("#setRoster")) { closeSettings(); show("rank"); $("#main").scrollTop = 0; return; }
   if ((el = t.closest("[data-shotdel]"))) { deleteShot(el.dataset.shotdel); return; }
@@ -4754,7 +4889,7 @@ document.addEventListener("click", e => {
   if ((el = t.closest("[data-mv]"))) { rememberScroll(); S.mapView = el.dataset.mv; save(); show("map", { keep:true }); return; }
   if (t.closest("#mapZoom")) { setMapZoom(1); return; }
   if ((el = t.closest("[data-bnav]"))) { if (el.dataset.bnav) { const { p } = BLD[el.dataset.bnav]; S.bsel[p.id] = el.dataset.bnav; save(); openBuilding(el.dataset.bnav); } return; }
-  if ((el = t.closest("[data-mb]"))) { openBuilding(el.dataset.mb); return; }
+  if ((el = t.closest("[data-mb]"))) { if (!(S.tips || {}).map) { S.tips = Object.assign({}, S.tips, { map:1 }); save(); } openBuilding(el.dataset.mb); return; }
   if (t.closest("#shBack")) { openBuilding(SH.bid, true); return; }
   if (t.closest("#tglRoute")) { MAPUI.route = !MAPUI.route; renderPalaceMap(); return; }
   if ((el = t.closest("[data-huwon]"))) { setHuwon(el.dataset.huwon === "open"); return; }
@@ -4814,10 +4949,10 @@ document.addEventListener("click", e => {
   }
   if ((el = t.closest("#palTabs button"))) { if (el.dataset.p === S.palace) return; rememberScroll(); S.palace = el.dataset.p; save(); renderHeader(); setZoom(1); show("map", { keep:true }); return; }
   if ((el = t.closest("#nav button"))) { show(el.dataset.s); return; }
-  if (t.closest("#rankBtn")) { show("rank"); return; }
+  if (t.closest("#rankBtn")) { if (!(S.tips || {}).head) { S.tips = Object.assign({}, S.tips, { head:1 }); save(); } show("rank"); return; }
   if ((el = t.closest(".chip[data-b]"))) { S.bsel[S.palace] = el.dataset.b; save(); setZoom(1); renderMap(); return; }
   if ((el = t.closest("[data-h]"))) { openSheet(el.dataset.h, SH.mode === "building" && sheetOpen()); return; }
-  if (t.closest("[data-goshot]")) { closeSheet(); show("quest"); return; }
+  if (t.closest("[data-goshot]")) { closeSheet(); show("album"); return; }
   if (t.closest("#zoomBtn")) { setZoom(1); return; }
   if (t.closest("#shClose") || t.closest("#backdrop")) { closeSheet(); return; }
   if ((el = t.closest(".cc"))) {
@@ -4910,6 +5045,139 @@ async function boot(){
   }
   if (S.entered) { hideLogin(); afterEnter(); } else showLogin();
 }
-boot();
+/* ═════════ 🛡️ 마스터(관리자) 페이지 ═════════
+   주소: (앱 주소)?master  — 일반 화면과 완전히 따로 열립니다.
+   - 관리자 Google 계정으로 로그인해야 열림 (관리자 이메일은 firestore.rules 의 isAdmin()에만 있음)
+   - 참여자 명단(players)을 실시간으로 보고, 강퇴하면 bans/{행사_uid} 를 만들고 명단·팀원 기록(선택: 오늘 사진)을 지웁니다.
+   - 강퇴된 사람의 앱은 즉시 로그아웃되고, 같은 계정으로는 명단·팀에 다시 들어올 수 없습니다. '강퇴 해제'로 되돌릴 수 있어요. */
+const MASTER = (() => { try { const q = new URLSearchParams(location.search); return q.has("master") || location.hash === "#master"; } catch(e) { return false; } })();
+const MST = { players:[], bans:[], q:"", filter:"all", un:[], tick:null, email:"", msg:"" };
+function mstAgo(iso){
+  if (!iso) return "기록 없음";
+  const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  return m < 1 ? "방금" : m < 60 ? `${m}분 전` : m < 1440 ? `${Math.floor(m / 60)}시간 전` : `${Math.floor(m / 1440)}일 전`;
+}
+async function masterBoot(){
+  document.documentElement.classList.add("master"); $("#master").hidden = false; document.title = "마스터 페이지 · 문학의 공간을 거닐다";
+  const main = $("#mstMain");
+  if (FRAMED) { main.innerHTML = `<div class="mst-card">미리보기 창에서는 서버에 연결되지 않아요. 앱 주소 뒤에 <b>?master</b>를 붙여 브라우저에서 직접 열어 주세요.</div>`; return; }
+  if (!FB_ON) { main.innerHTML = `<div class="mst-card">Firebase 설정이 비어 있어요.</div>`; return; }
+  try { await initFirebase(); } catch(e) { main.innerHTML = `<div class="mst-card">서버에 연결하지 못했어요. (${esc(e.code || e.message)})</div>`; return; }
+  try { await fb.auth.getRedirectResult(); } catch(e) {}
+  const user = await new Promise(res => { const un = fb.auth.onAuthStateChanged(u => { un(); res(u); }); });
+  if (!user || user.isAnonymous) return mstLogin();
+  mstEnter(user);
+}
+function mstLogin(msg){
+  $("#mstWho").innerHTML = "";
+  $("#mstMain").innerHTML = `<div class="mst-card mst-login"><b style="font-size:16px">관리자 로그인</b>
+    <p class="mst-help">관리자로 등록된 선생님 Google 계정으로 로그인하면, 지금 참여 중인 모든 계정의 명단을 보고 필요하면 강퇴할 수 있어요.</p>
+    <button class="gsi" id="mstGoogle">${GLOGO}<span>Google 계정으로 로그인</span></button>
+    ${msg ? `<p class="note err">${msg}</p>` : ""}
+    <a class="mst-help" href="${location.pathname}">← 일반 화면으로 가기</a></div>`;
+}
+async function mstEnter(user){
+  MST.email = user.email || "";
+  $("#mstWho").innerHTML = `<span>${esc(MST.email)}</span><button class="hbtn" id="mstOut">로그아웃</button><a class="hbtn" href="${location.pathname}" style="text-decoration:none;display:inline-flex;align-items:center">일반 화면</a>`;
+  $("#mstMain").innerHTML = `<div class="mst-card">관리자 권한을 확인하는 중…</div>`;
+  try { await fb.db.collection("adminCheck").doc("me").get(); }
+  catch(e) {
+    $("#mstMain").innerHTML = `<div class="mst-card"><b>관리자 계정이 아니에요.</b><p class="mst-help" style="margin-top:6px">${esc(MST.email)} 계정은 관리자로 등록되어 있지 않아요. Firebase 콘솔 → Firestore → 규칙의 <b>isAdmin()</b> 목록에 이 이메일을 넣고 [게시]한 뒤 다시 열어 주세요. (${esc(e.code || e.message)})</p></div>`;
+    return;
+  }
+  MST.un.forEach(f => { try { f(); } catch(e) {} }); MST.un = [];
+  MST.un.push(fb.db.collection("players").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.players = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
+    e => { MST.msg = "참여자 명단을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
+  MST.un.push(fb.db.collection("bans").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.bans = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
+    e => { MST.msg = "강퇴 목록을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
+  clearInterval(MST.tick); MST.tick = setInterval(mstRender, 30000);   // '접속 중' 표시 갱신
+  mstRender();
+}
+function mstRender(){
+  const main = $("#mstMain"); if (!main || !MST.email) return;
+  const now = Date.now(), on = p => p.seenAt && now - new Date(p.seenAt).getTime() < ONLINE_MS;
+  const banned = new Set(MST.bans.map(b => b.uid));
+  let list = MST.players.filter(p => !banned.has(p.uid));
+  const q = MST.q.trim().toLowerCase();
+  if (q) list = list.filter(p => String(p.nickname || "").toLowerCase().includes(q) || String(p.teamName || "").toLowerCase().includes(q) || String(p.uid).toLowerCase().startsWith(q));
+  if (MST.filter === "on") list = list.filter(on);
+  const teams = new Set(MST.players.filter(p => p.teamId).map(p => p.teamId));
+  const rk = p => { const L = levelInfo(p.exp | 0), R = RANKS[Math.min(L.lv, RANKS.length - 1)]; return `${R[0]} ${R[2]}`; };
+  const row = p => `<div class="mst-row"><i class="dot${on(p) ? " on" : ""}" title="${on(p) ? "접속 중" : "접속 안 함"}"></i>
+      <span><b>${esc(p.nickname || "탐방객")}</b><small>${p.provider === "google" ? "Google" : p.provider === "anonymous" ? "게스트" : "계정"} · ${esc(String(p.uid).slice(0, 8))}…</small></span>
+      <span class="mid"><b>${esc(rk(p))}</b><small>최근 접속 ${mstAgo(p.seenAt)}</small></span>
+      <span class="mxp"><b>${(p.exp | 0).toLocaleString()}</b> EXP</span>
+      <span class="act"><button class="mst-kick" data-kick="${esc(p.uid)}">강퇴</button></span></div>`;
+  const groups = new Map();
+  list.forEach(p => { const k = p.teamId || "_solo"; if (!groups.has(k)) groups.set(k, { id:k, name:p.teamId ? (p.teamName || "조") : "개인 참여", color:p.teamColor, list:[] }); groups.get(k).list.push(p); });
+  const gs = [...groups.values()].sort((a, b) => (a.id === "_solo") - (b.id === "_solo") || a.name.localeCompare(b.name, "ko", { numeric:true }));
+  main.innerHTML = `
+    <div class="mst-stats">
+      <div class="mst-stat"><b>${MST.players.filter(p => !banned.has(p.uid)).length}</b><small>참여 계정</small></div>
+      <div class="mst-stat on"><b>${MST.players.filter(p => !banned.has(p.uid) && on(p)).length}</b><small>접속 중 (10분 안)</small></div>
+      <div class="mst-stat"><b>${teams.size}</b><small>조(팀)</small></div>
+      <div class="mst-stat ban"><b>${MST.bans.length}</b><small>강퇴됨</small></div>
+    </div>
+    ${MST.msg ? `<p class="note err">${MST.msg}</p>` : ""}
+    <div class="mst-card">
+      <div class="mst-tools"><input class="input" id="mstQ" placeholder="이름 · 조 · uid 검색" value="${esc(MST.q)}" aria-label="참여자 검색">
+        <div class="seg" role="tablist">${[["all", "전체"], ["on", "접속 중"]].map(([k, v]) => `<button role="tab" data-mf="${k}" aria-selected="${MST.filter === k}">${v}</button>`).join("")}</div></div>
+      ${gs.length ? gs.map(g => `<div class="mst-grp"><div class="mst-gh">${g.id === "_solo" ? "🚶" : flagSVG(g.color || "blue")}${esc(g.name)}<small>${g.list.length}명 · 접속 ${g.list.filter(on).length}</small></div>
+          ${g.list.sort((a, b) => String(a.nickname || "").localeCompare(String(b.nickname || ""), "ko")).map(row).join("")}</div>`).join("")
+        : `<div class="mst-empty">${q || MST.filter === "on" ? "조건에 맞는 참여자가 없어요." : "아직 참여한 계정이 없어요."}</div>`}
+    </div>
+    <div class="mst-card"><b>강퇴된 계정 ${MST.bans.length}</b>
+      ${MST.bans.length ? `<div class="mst-grp">${MST.bans.slice().sort((a, b) => String(b.at).localeCompare(String(a.at))).map(b => `<div class="mst-row"><i class="dot"></i>
+          <span><b>${esc(b.nickname || "탐방객")}</b><small>${esc(b.teamName || "개인")} · ${esc(String(b.uid).slice(0, 8))}…</small></span>
+          <span class="mid"><b>${esc(b.reason || "사유 없음")}</b><small>${mstAgo(b.at)} · ${esc(b.by || "")}</small></span><span class="mxp"></span>
+          <span class="act"><button class="mst-kick un" data-unban="${esc(b._id)}">강퇴 해제</button></span></div>`).join("")}</div>`
+        : `<div class="mst-empty">강퇴된 계정이 없어요.</div>`}
+      <p class="mst-help" style="margin-top:8px">강퇴하면 그 학생의 앱이 바로 로그아웃되고, 같은 계정으로는 명단·팀에 다시 들어올 수 없어요. 게스트 계정은 새 게스트로 다시 들어올 수 있으니 필요하면 다시 강퇴해 주세요.</p></div>`;
+  const qi = $("#mstQ"); if (qi && MST.focus) { qi.focus(); qi.setSelectionRange(qi.value.length, qi.value.length); }
+}
+function mstConfirm(html){ return new Promise(res => { $("#mstCfmBox").innerHTML = html; $("#mstCfm").hidden = false; MST.res = v => { $("#mstCfm").hidden = true; res(v); }; }); }
+async function mstKick(uid){
+  const p = MST.players.find(x => x.uid === uid); if (!p) return;
+  const ok = await mstConfirm(`<h2 id="mstCfmT">${esc(p.nickname || "탐방객")} 계정을 강퇴할까요?</h2>
+    <p class="small">${esc(p.teamName || "개인 참여")} · ${(p.exp | 0).toLocaleString()} EXP</p>
+    <input class="input" id="mstReason" maxlength="60" placeholder="사유 (선택, 학생 화면에 보여요)">
+    <label class="ck"><input type="checkbox" id="mstPhotos"> 이 계정이 올린 풍경의 조각 사진도 지우기</label>
+    <div class="cfm-btns"><button class="btn ghost" data-mst="no">취소</button><button class="btn red" data-mst="yes">강퇴하기</button></div>`);
+  if (!ok) return;
+  const reason = ok.reason, photos = ok.photos;
+  try {
+    await fb.db.collection("bans").doc(`${CONFIG.EVENT_ID}_${uid}`).set({ uid, event:CONFIG.EVENT_ID, nickname:p.nickname || "", teamName:p.teamName || null, reason, by:MST.email, at:new Date().toISOString() });
+    try { await fb.db.collection("players").doc(p._id).delete(); } catch(e) { console.warn(e); }
+    try { const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete())); } catch(e) { console.warn(e); }
+    if (photos) { try { const g = await fb.db.collection("gallery").where("uid", "==", uid).get(); await Promise.all(g.docs.map(d => d.ref.delete())); } catch(e) { console.warn(e); } }
+    MST.msg = "";
+  } catch(e) { MST.msg = `강퇴하지 못했어요 (${esc(e.code || e.message)}). firestore.rules 를 새로 게시했는지 확인해 주세요.`; }
+  mstRender();
+}
+async function mstUnban(id){
+  const b = MST.bans.find(x => x._id === id); if (!b) return;
+  const ok = await mstConfirm(`<h2 id="mstCfmT">${esc(b.nickname || "탐방객")} 강퇴를 해제할까요?</h2><p class="small">해제하면 다시 접속해 명단과 팀에 들어올 수 있어요. (지워진 팀원 기록은 팀 코드로 다시 참여해야 해요)</p>
+    <div class="cfm-btns"><button class="btn ghost" data-mst="no">취소</button><button class="btn" data-mst="yes">해제하기</button></div>`);
+  if (!ok) return;
+  try { await fb.db.collection("bans").doc(id).delete(); } catch(e) { MST.msg = `해제하지 못했어요 (${esc(e.code || e.message)})`; mstRender(); }
+}
+if (MASTER) {
+  document.addEventListener("click", async e => {
+    const t = e.target; let el;
+    if (t.closest("#mstGoogle")) {
+      try { if (fb.auth.currentUser) await fb.auth.signOut(); const gp = new firebase.auth.GoogleAuthProvider(); gp.setCustomParameters({ prompt:"select_account" });
+        const c = await fb.auth.signInWithPopup(gp); mstEnter(c.user); }
+      catch(err) { if (err.code === "auth/popup-blocked") { try { await fb.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()); } catch(_) {} } else if (err.code !== "auth/popup-closed-by-user") mstLogin(AUTH_MSG[err.code] || esc(err.code || err.message)); }
+      return;
+    }
+    if (t.closest("#mstOut")) { MST.un.forEach(f => { try { f(); } catch(_) {} }); MST.un = []; MST.email = ""; clearInterval(MST.tick); try { await fb.auth.signOut(); } catch(_) {} mstLogin(); return; }
+    if ((el = t.closest("[data-mf]"))) { MST.filter = el.dataset.mf; MST.focus = false; mstRender(); return; }
+    if ((el = t.closest("[data-kick]"))) { mstKick(el.dataset.kick); return; }
+    if ((el = t.closest("[data-unban]"))) { mstUnban(el.dataset.unban); return; }
+    if ((el = t.closest("[data-mst]"))) { const yes = el.dataset.mst === "yes"; const r = $("#mstReason"), ph = $("#mstPhotos"); MST.res && MST.res(yes ? { reason: r ? r.value.trim().slice(0, 60) : "", photos: ph ? ph.checked : false } : false); return; }
+  });
+  document.addEventListener("input", e => { if (e.target.id === "mstQ") { MST.q = e.target.value; MST.focus = true; mstRender(); } });
+  masterBoot();
+} else boot();
 document.fonts && document.fonts.ready.then(() => { if (!$("#s-map").hidden) renderMap(); });
 </script>
