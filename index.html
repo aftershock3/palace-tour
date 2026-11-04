@@ -94,12 +94,15 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .stage-scroll{width:min(100%, max(260px, calc((100vh - var(--chrome)) * .8)));width:min(100%, max(260px, calc((100cqh - var(--chrome)) * .8)));max-width:100%;aspect-ratio:4/5;margin-inline:auto;overflow:auto;border-radius:16px;border:1px solid var(--line);background:var(--card);overscroll-behavior:contain;scrollbar-width:thin}
 .stage{position:relative;width:calc(100% * var(--z,1));aspect-ratio:4/5;max-width:none;transition:width .35s ease}
 .stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.pin{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:0;background:none;padding:0;display:grid;place-items:center;z-index:2}
-.pin::before{content:"";position:absolute;width:26px;height:26px;border-radius:50%;border:2px solid var(--blue);animation:ring 1.9s ease-out infinite}
-.pin span{position:relative;width:27px;height:27px;border-radius:50%;background:var(--blue);border:2.5px solid var(--white);color:var(--white);display:grid;place-items:center;font:700 12px/1 var(--f-body);box-shadow:0 2px 7px rgba(43,37,35,.32);transition:transform .15s}
+/* 현판 표시: 누르는 영역(44px)은 그대로 두고, 보이는 표시는 현판 글씨 위쪽으로 비켜 작고 반투명하게 */
+.pin{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:0;background:none;padding:0;display:grid;place-items:center;z-index:2;transform:translate(0,-24px)}
+.pin::after{content:"";position:absolute;left:50%;top:calc(50% + 10px);width:1.5px;height:12px;background:rgba(59,110,165,.55);transform:translateX(-50%)}
+.pin::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(59,110,165,.6);animation:ring 2.4s ease-out infinite}
+.pin span{position:relative;width:22px;height:22px;border-radius:50%;background:rgba(59,110,165,.78);border:1.5px solid rgba(255,255,255,.9);font-size:10.5px!important;color:var(--white);display:grid;place-items:center;font:700 12px/1 var(--f-body);box-shadow:0 2px 7px rgba(43,37,35,.32);transition:transform .15s}
 .pin:active span{transform:scale(.88)}
 .pin.done::before{display:none}
-.pin.done span{background:var(--white);color:var(--blue);border-color:var(--blue)}
+.pin.done span{background:rgba(255,255,255,.72);color:var(--blue);border-color:rgba(59,110,165,.7)}
+.pin.done::after{background:rgba(59,110,165,.35)}
 @keyframes ring{0%{transform:scale(.9);opacity:.85}100%{transform:scale(1.9);opacity:0}}
 
 .bcard{gap:10px}
@@ -628,6 +631,26 @@ input,textarea,select{font-size:max(16px,1em)}
 .vrow .vth{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--line);background:var(--sand)}
 .brow .bthumb{width:38px;height:38px;border-radius:8px;object-fit:cover;border:1.5px solid var(--yellow)}
 
+/* 도장 설명서 */
+.guide-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;border:1px dashed var(--red);background:var(--red-soft);border-radius:12px;padding:8px 12px;font:700 13.5px var(--f-body);color:var(--ink);text-align:left;margin:4px 0 6px}
+.guide-btn span{font-weight:600;font-size:12.5px;color:var(--red);white-space:nowrap}
+.gd-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.gd-steps li{display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);align-items:start}
+.gd-steps li:last-child{border-bottom:0}
+.gd-steps .no{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font:900 16px var(--f-disp);color:var(--red);border:2px solid var(--red);background:var(--card)}
+.gd-steps li > div > b:first-child{display:block;font-size:15px;margin-bottom:3px}
+.gd-steps p{margin:0;font-size:13.5px;line-height:1.65}
+.gd-ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+.gd-ways span{border:1px solid var(--line);border-radius:10px;padding:7px 4px;text-align:center;font-size:12px;font-weight:600;background:var(--card);line-height:1.35}
+.gd-ways span i{display:block;font-style:normal;font-size:18px}
+.gd-no{border:1px solid var(--line2);border-radius:12px;padding:10px 12px;background:var(--bg);font-size:13px;line-height:1.65}
+.gd-zones{display:flex;flex-direction:column;gap:6px}
+.gd-zone{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--line2);border-radius:10px;padding:8px 10px;font-size:13px;background:var(--card)}
+.gd-zone small{color:var(--muted);font-size:11.5px}
+.gd-zone .st{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gd-zone.got .st{color:var(--red)}
+.gd-zone.off{opacity:.5}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -700,7 +723,7 @@ input,textarea,select{font-size:max(16px,1em)}
 .mpin .pi > *{transform:rotate(45deg)}
 .pmap:not(.zl) .mpin .pl{display:none}
 .pmap.zl .mpin .pl{font-size:11px}
-.mpin .pl{margin-top:6px;font:700 12px/1.3 var(--f-body);background:var(--card);border:1px solid var(--line);border-radius:7px;padding:1px 7px;white-space:nowrap;box-shadow:0 1px 3px rgba(43,37,35,.14)}
+.mpin .pl{margin-top:6px;font:700 12px/1.3 var(--f-body);background:rgba(250,247,240,.82);border:1px solid rgba(43,37,35,.12);border-radius:7px;padding:1px 7px;white-space:nowrap;box-shadow:0 1px 3px rgba(43,37,35,.14)}
 .mpin.done .pi{background:var(--yellow)}
 .mpin.done .pi{color:var(--ink)}
 .mpin:active .pi{transform:rotate(-45deg) scale(.88)}
@@ -770,7 +793,8 @@ input,textarea,select{font-size:max(16px,1em)}
 .pg-seal svg{width:100%;height:100%;overflow:visible}
 .pg-seal.empty{border:2px dashed var(--line);border-radius:6px;font:700 15px var(--f-body);color:var(--muted);text-align:center;line-height:1.4}
 .pg-seal.empty small{display:block;font-size:11px;font-weight:600}
-.pg-meta{position:absolute;bottom:18px;left:42px;right:16px;text-align:center;font-size:12px;color:var(--muted)}
+.pg-meta{position:absolute;bottom:14px;left:42px;right:16px;text-align:center;font-size:12px;line-height:1.5;color:var(--muted)}
+.pg-meta .pg-note{font-size:11px;opacity:.85}
 .page.fresh .pg-seal{animation:inkFresh 1s .35s both}
 @keyframes inkFresh{0%{opacity:0;transform:scale(1.2);filter:blur(3px)}35%{opacity:1;transform:scale(.97);filter:blur(1px)}100%{opacity:1;transform:none;filter:none}}
 .page.cover{background-color:var(--gilt);background-image:repeating-linear-gradient(60deg,rgba(43,37,35,.06) 0 1.5px,transparent 1.5px 16px),repeating-linear-gradient(-60deg,rgba(43,37,35,.06) 0 1.5px,transparent 1.5px 16px)}
@@ -924,6 +948,7 @@ input,textarea,select{font-size:max(16px,1em)}
 
       <div class="panel">
         <div class="book-head"><h3 class="h-sec">탐방 도장첩</h3><span class="small" id="bookCount"></span></div>
+        <button class="guide-btn" data-guide>📖 도장은 언제 찍히나요? <span>설명서 보기 ›</span></button>
         <div class="book"><div class="book-pages" id="bookPages" aria-label="도장첩 페이지, 옆으로 넘기기"></div></div>
         <div class="book-nav">
           <button class="bnav" id="bookPrev" aria-label="이전 장">‹</button>
@@ -982,6 +1007,7 @@ input,textarea,select{font-size:max(16px,1em)}
       <div class="panel">
         <h3 class="h-sec">탐방 퀘스트</h3>
         <p class="small">전각을 누르면 지도로 이동합니다.</p>
+        <button class="guide-btn" data-guide>📖 도장은 언제 찍히나요? <span>설명서 보기 ›</span></button>
         <div id="quests"></div>
       </div>
     </section>
@@ -1115,6 +1141,12 @@ input,textarea,select{font-size:max(16px,1em)}
   <div class="pm-head"><h2 id="vwTitle">풍경의 조각</h2><button class="pm-x" id="vwClose" aria-label="사진 닫기">×</button></div>
   <div class="pm-body" id="vwBody"></div>
   <div id="vwSay"></div>
+</div>
+
+<!-- 도장 받는 법 설명서 -->
+<div class="pm over" id="guide" role="dialog" aria-modal="true" aria-labelledby="gdTitle" hidden>
+  <div class="pm-head"><h2 id="gdTitle">📖 도장 받는 법<small>언제, 어떻게 도장이 찍히는지</small></h2><button class="pm-x" id="gdClose" aria-label="설명서 닫기">×</button></div>
+  <div class="pm-body" id="gdBody"></div>
 </div>
 
 <!-- 팀 채팅 -->
@@ -2815,14 +2847,14 @@ async function handlePhoto(file){
       if ((top && dyv > 0) || (bottom && dyv < 0) || el.scrollHeight <= el.clientHeight) { if (e.cancelable) e.preventDefault(); }
     }, { passive:false });
   };
-  ["#sheetBody", "#setmBody", "#vwBody", "#chatBody"].forEach(sel => { const el = $(sel); if (el) edgeGuard(el); });
+  ["#sheetBody", "#setmBody", "#vwBody", "#chatBody", "#gdBody"].forEach(sel => { const el = $(sel); if (el) edgeGuard(el); });
   // 열린 창이 있으면 뒤 화면 잠금
   const lock = () => {
-    const open = sh.classList.contains("open") || ["#setm", "#viewer", "#chat"].some(id => $(id) && !$(id).hidden);
+    const open = sh.classList.contains("open") || ["#setm", "#viewer", "#chat", "#guide"].some(id => $(id) && !$(id).hidden);
     $("#app").classList.toggle("locked", open);
   };
   new MutationObserver(lock).observe(sh, { attributes:true, attributeFilter:["class"] });
-  ["#setm", "#viewer", "#chat"].forEach(id => { const el = $(id); if (el) new MutationObserver(lock).observe(el, { attributes:true, attributeFilter:["hidden"] }); });
+  ["#setm", "#viewer", "#chat", "#guide"].forEach(id => { const el = $(id); if (el) new MutationObserver(lock).observe(el, { attributes:true, attributeFilter:["hidden"] }); });
 })();
 
 /* ═════════ RANK SCREEN ═════════ */
@@ -2939,6 +2971,25 @@ function huwonToggleHTML(){
   const on = huwonOn();
   return `<button class="hw-tgl" data-huwon="${on ? "close" : "open"}" aria-pressed="${on}"><span><b>🌿 창덕궁 후원 ${on ? "열림" : "닫힘"}</b><small>${on ? "후원 도장도 모아요 · 누르면 다시 닫아요" : "후원 관람을 예약했다면 눌러서 열어요 · 닫혀 있으면 후원 없이도 도장첩 완성"}</small></span><span class="sw2${on ? " on" : ""}" aria-hidden="true"></span></button>`;
 }
+function openGuide(){
+  const AZ = activeZones(), got = AZ.filter(z => S.stamps[z.id]).length;
+  $("#gdBody").innerHTML = `
+    <ol class="gd-steps">
+      <li><span class="no">一</span><div><b>장소에서 ‘현장 인증’하기</b><p>궁궐에 직접 가서 아래 셋 중 하나를 하면 그 장소가 지도에서 <b style="color:#9a6a10">노란색</b>으로 바뀌어요.</p>
+        <div class="gd-ways"><span><i>📍</i>위치 인증<br><small>장소 ${CONFIG.GEO_RADIUS_M}m 안</small></span><span><i>📸</i>사진 체크인<br><small>그 자리에서 촬영</small></span><span><i>🪧</i>현판 인증샷<br><small>글씨 사진 등록</small></span></div></div></li>
+      <li><span class="no">二</span><div><b>구역의 절반을 인증하면 ‘구역 도장’</b><p>가까운 장소끼리 한 구역으로 묶여 있어요. 구역 장소의 <b>절반</b>(예: 4곳이면 2곳)을 현장 인증하면 도장이 <b>자동으로</b> 쾅 찍혀요. <b class="xpt">+${REWARD.stamp} EXP</b></p></div></li>
+      <li><span class="no">三</span><div><b>궁궐 구역을 다 모으면 ‘궁궐 도장’</b><p>창경궁·창덕궁·종묘마다 구역 도장을 모두 모으면 큰 궁궐 도장이 찍혀요. <b class="xpt">+${REWARD.palace} EXP</b></p></div></li>
+      <li><span class="no">四</span><div><b>전부 모으면 도장첩 완성</b><p>구역 도장 ${AZ.length}개를 모두 모으면 도장첩을 명주실로 엮어 드려요.${huwonOn() ? "" : " (지금은 창덕궁 후원이 닫혀 있어 후원 구역은 빼고 셉니다)"}</p></div></li>
+      <li><span class="no">五</span><div><b>팀이라면 함께 모으기</b><p>팀원 누구든 받은 도장을 합쳐 셉니다. 팀 전체로 도장을 모두 모으면 ‘단체 교지’를 받을 수 있어요.</p></div></li>
+    </ol>
+    <div class="gd-no"><b>도장에는 세지 않는 것</b><br>현판 글씨 열어 보기 · 한자 카드 · 전각 퀴즈 · 벼슬 시험 · 풍경의 조각은 <b class="xpt">경험치</b>만 주고, 도장 조건에는 들어가지 않아요. 도장은 꼭 <b>현장 인증</b>으로만 찍혀요.</div>
+    <div class="gd-no"><b>🌿 창덕궁 후원</b><br>후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원을 <b>닫아 두면</b> 후원 없이도 도장첩을 완성할 수 있어요. 창덕궁 지도 위나 승급 퀘스트의 스위치로 언제든 열고 닫을 수 있어요.</div>
+    <h3 class="h-sec" style="font-size:15px">나의 구역 도장 · ${got}/${AZ.length}</h3>
+    <div class="gd-zones">${ZONES.map(z => { const pal = DATA.palaces.find(p => p.id === z.pid), on = zoneOn(z), st = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z));
+      return `<div class="gd-zone${st ? " got" : ""}${on ? "" : " off"}"><span>${pal.name} · <b>${z.name}</b><br><small>${z.bids.length}곳 중 ${zoneNeed(z)}곳 인증하면 도장</small></span><span class="st">${!on ? "닫힘" : st ? "도장 ✓" : `${k}/${zoneNeed(z)}`}</span></div>`; }).join("")}</div>`;
+  $("#guide").hidden = false; $("#gdBody").scrollTop = 0; setTimeout(() => $("#gdClose").focus(), 30);
+}
+function closeGuide(){ const g = $("#guide"); if (g) g.hidden = true; }
 function renderQuests(){
   $("#quests").innerHTML = ZONES.map(z => {
     if (!zoneOn(z)) return huwonToggleHTML();
@@ -3726,8 +3777,7 @@ function palacePage(pid, i, opts = {}){
         <small>${z.name}</small></div>`;
     }).join("")}</div>
     ${done && opts.moment !== "palace-pending" ? `<div class="pseal" aria-label="${pal.name} 도장">${sealSVG(PALACE_SEAL[pid])}</div>` : ""}
-    ${pid === "cdg" && !huwonOn() ? `<div class="pg-meta">후원 구역은 닫혀 있어요 (예약 시 열기)</div>` : ""}
-    <div class="pg-meta">${done ? `${pal.name} 도장 완성` : `구역마다 절반을 현장 인증하면 도장 · ${zs.filter(z => S.stamps[z.id]).length}/${zs.length}`}</div>`;
+    <div class="pg-meta">${done ? `${pal.name} 도장 완성` : `구역마다 절반을 현장 인증하면 도장 · ${zs.filter(z => S.stamps[z.id]).length}/${zs.length}`}${pid === "cdg" && !huwonOn() ? `<br><span class="pg-note">후원 닫힘 · 예약했다면 퀘스트에서 열기</span>` : ""}</div>`;
 }
 function renderBook(){
   const box = $("#bookPages"), keep = box.scrollLeft;
@@ -4677,6 +4727,8 @@ document.addEventListener("click", e => {
   /* 계정 */
   if (t.closest("#profileBtn")) { openSettings(); return; }
   if (t.closest("#setmClose")) { closeSettings(); return; }
+  if (t.closest("[data-guide]")) { openGuide(); return; }
+  if (t.closest("#gdClose")) { closeGuide(); return; }
   if (t.closest("#openDiag")) { runDiag(); return; }
   if (t.closest("#openDiag2")) { closeChat(); openSettings(); runDiag(); return; }
   if (t.closest("#chatRetry")) { Chat.start(); Chat.render(); return; }
@@ -4807,6 +4859,7 @@ document.addEventListener("input", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (!$("#cfm").hidden) { $("#cfmNo").click(); }
+    else if (!$("#guide").hidden) closeGuide();
     else if (!$("#chat").hidden) closeChat();
     else if (!$("#viewer").hidden) closeViewer();
     else if (!$("#setm").hidden) closeSettings();
