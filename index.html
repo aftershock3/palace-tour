@@ -420,7 +420,16 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .mem-row .nm{display:flex;align-items:center;gap:8px;min-width:0}
 .mem-row .rk{flex:none;width:22px;height:22px;border-radius:50%;background:var(--line2);display:grid;place-items:center;font:700 11.5px var(--f-body)}
 .mem-row small{color:var(--muted);font-size:12px;margin-left:6px}
-.tb-names{font-size:11px;color:var(--muted);font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 상단 팀 띠: 팀 이름 · 팀원 수 · 점수만 (이름 목록은 설정·메뉴에서) */
+.top .tb{max-width:100%;min-width:0}
+.top .tb .tbn{min-width:0;max-width:7em;overflow:hidden;text-overflow:ellipsis}
+.top .tb .tbc{font-size:11px;color:var(--ink);background:var(--line2);border-radius:999px;padding:1px 7px;font-weight:700}
+@media (max-width:380px){.top .tb .tbd{display:none}}
+.top .tb-list{overflow:hidden}
+.top .tb-chat{flex:none}
+.dr-mates{margin-top:8px}
+.dr-mates .mate{font-size:12.5px;padding:2px 9px 2px 2px}
+.dr-mates .mate .av{width:22px;height:22px;font-size:11px}
 .mem-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .mem-row span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mem-row span:last-child{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
@@ -3227,7 +3236,8 @@ function renderDrawer(){
         <button class="tiny" data-dr="guide">📖 도장은 언제 찍히나요?</button></div></div>
     <div class="dr-sec"><h4>우리 팀</h4>
       ${t ? `<div class="dr-team">${flagSVG(t.color)}<span><b>${esc(t.name)}</b><small>팀원 ${teamMembersList().length}명 · 코드 ${esc(t.code || "")}</small></span>
-          <button class="btn sm" data-dr="chat">💬 채팅${unread ? ` <span class="badge">${unread}</span>` : ""}</button></div>`
+          <button class="btn sm" data-dr="chat">💬 채팅${unread ? ` <span class="badge">${unread}</span>` : ""}</button></div>
+          <div class="mates dr-mates">${teamMembersList().map(m => `<span class="mate${m.me ? " me" : ""}"><span class="av" aria-hidden="true">${esc([...(m.nickname || "객")][0])}</span><span>${esc(m.nickname || "탐방객")}</span>${m.me ? "<small>나</small>" : ""}</span>`).join("")}</div>`
         : `<button class="dr-row" data-dr="team"><span class="ic">🚩</span><span><b>팀으로 참여하기</b><small>팀 코드로 모여 함께 도장 모으기</small></span><span class="go">›</span></button>`}</div>
     <div class="dr-sec"><h4>설정</h4>
       <button class="dr-row" data-dr="settings"><span class="ic">⚙️</span><span><b>내 정보 · 설정</b><small>닉네임 · 계정 · 팀 설정</small></span><span class="go">›</span></button>
@@ -4312,7 +4322,7 @@ function renderTeamBar(bump){
   const server = !Team.isLocal(), e = Team.board.find(x => x.id === t.id), cov = Team.stampsCovered();
   const total = e ? e.total : t.points, n = e ? e.members.length : 1;
   bar.innerHTML = `<button class="live${server && Team.live ? "" : " off"}" id="tbOpen" aria-label="우리 팀 보기"><i></i>${server ? (Team.live ? "실시간" : "연결 중") : "이 기기"}</button>
-    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기">${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="tb-names">${esc(teamMembersList().map(m => m.nickname || "탐방객").join("·"))}</span><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${activeZoneIds().filter(z => cov.has(z)).length}/${activeZoneIds().length}</small></button></div>
+    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기 · 팀원 ${n}명">${flagSVG(t.color)}<span class="tbn">${esc(t.name)}</span><small class="tbc">👥 ${n}명</small><span class="pt">${total.toLocaleString()}점</span><small class="tbd">· 도장 ${activeZoneIds().filter(z => cov.has(z)).length}/${activeZoneIds().length}</small></button></div>
     <button class="tb-chat" id="tbChat" aria-label="팀 채팅${Chat.unread() ? ` · 안 읽은 메시지 ${Chat.unread()}개` : ""}">💬 채팅${Chat.unread() ? `<span class="badge">${Chat.unread()}</span>` : ""}</button>`;
 }
 
