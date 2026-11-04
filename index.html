@@ -586,6 +586,36 @@ input,textarea,select{font-size:max(16px,1em)}
 .pill.yellow.xpp{color:var(--red)}
 .rank-exp b{color:var(--red);font-weight:700}
 
+.game-card .gx{display:flex;flex-direction:column;gap:1px;margin-top:2px}
+.game-card .gx .xpt{font-size:13.5px}
+.game-card .gx small{font-size:11.5px}
+.fbx{display:block;font-weight:700;margin-bottom:4px;color:var(--muted)}
+.fbx.ok{color:var(--ink)}
+/* 풍경의 조각 지우기 */
+.shot-wrap{position:relative;min-width:0}
+.shot-del{position:absolute;top:6px;right:6px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(43,37,35,.62);color:var(--white);display:grid;place-items:center;font-size:15px;z-index:2}
+.vw-actions{display:flex;justify-content:flex-end}
+.vw-actions .btn{min-height:38px}
+/* 전각 이전·다음 */
+.sh-nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;margin-top:8px}
+.sh-nav button{min-height:38px;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:4px 10px;font:600 13px var(--f-body);color:var(--ink);display:flex;align-items:center;gap:4px;min-width:0}
+.sh-nav button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh-nav button:disabled{opacity:.35}
+.sh-nav .nx{justify-content:flex-end}
+.sh-nav .pos{font:600 12px var(--f-body);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+/* 창덕궁 후원 열기·닫기 */
+.huwon-ask{display:flex;flex-direction:column;gap:10px;border:1.5px solid var(--pine,#5c7a5a);border-radius:16px;padding:14px;background:var(--card)}
+.huwon-ask b{font-size:15px}
+.huwon-ask .btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.hw-tgl{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card);width:100%;text-align:left;font:inherit;color:var(--ink)}
+.hw-tgl b{font-size:14px;display:block}.hw-tgl small{font-size:12px;color:var(--muted)}
+.sw2{flex:none;width:46px;height:28px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
+.sw2::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--white);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.sw2.on{background:#4f8a5b}.sw2.on::after{transform:translateX(18px)}
+.mpin.off{opacity:.38;filter:grayscale(1)}
+.brow.off,.zhead.off{opacity:.5}
+.zslot.closed .zs{border-style:dotted;opacity:.45}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -888,7 +918,7 @@ input,textarea,select{font-size:max(16px,1em)}
           <div class="dots" id="bookDots"></div>
           <button class="bnav" id="bookNext" aria-label="다음 장">›</button>
         </div>
-        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 <b class="xpt">+60 EXP</b>. 10개를 다 모으면 명주실로 엮어 드려요.</p>
+        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 <b class="xpt">+60 EXP</b>. 모두 모으면 명주실로 엮어 드려요. (창덕궁 후원은 예약했을 때만 열 수 있어요)</p>
       </div>
 
       <div class="panel">
@@ -930,10 +960,10 @@ input,textarea,select{font-size:max(16px,1em)}
       <div class="panel" id="galleryPanel"></div>
       <div class="panel">
         <h3 class="h-sec">벼슬 시험</h3>
-        <p class="small">맞힐 때마다 EXP를 얻어요. 연속으로 맞히면 보너스가 붙습니다.</p>
+        <p class="small">문제를 풀 때마다 경험치를 받아요.</p>
         <div class="games">
-          <button class="game-card" data-game="quiz" aria-pressed="false"><span class="gi">訓</span><b>훈음 맞히기</b><small>한자를 보고 뜻과 소리를 고르기 · <b class="xpt">15 EXP+</b></small></button>
-          <button class="game-card" data-game="order" aria-pressed="false"><span class="gi">讀</span><b>현판 읽기</b><small>뒤섞인 글자를 읽는 순서대로 · <b class="xpt">25 EXP</b></small></button>
+          <button class="game-card" data-game="quiz" aria-pressed="false"><span class="gi">訓</span><b>훈음 맞히기</b><small>한자를 보고 훈과 음 고르기</small><span class="gx"><b class="xpt">정답 +15 EXP</b><small>연속 정답이면 한 문제에 최대 +30</small></span></button>
+          <button class="game-card" data-game="order" aria-pressed="false"><span class="gi">讀</span><b>현판 읽기</b><small>뒤섞인 글자를 읽는 순서대로 누르기</small><span class="gx"><b class="xpt">완성 +25 EXP</b><small>현판 하나를 다 읽을 때마다</small></span></button>
         </div>
         <div id="game" class="sec" hidden></div>
       </div>
@@ -992,6 +1022,7 @@ input,textarea,select{font-size:max(16px,1em)}
       </div>
       <button class="x" id="shClose" aria-label="닫기">✕</button>
     </div>
+    <nav class="sh-nav" id="shNav" aria-label="다른 전각으로 이동" hidden></nav>
   </div>
   <div class="sheet-body" id="sheetBody"></div>
 </section>
@@ -2180,11 +2211,31 @@ const zoneNeed = z => Math.ceil(z.bids.length / 2);
 const placeDone = bid => !!(BLD[bid] && (S.certs["gps:" + bid] || S.certs["checkin:" + bid] || BLD[bid].b.hotspots.some(h => S.certs["photo:" + h.id])));
 const placeHow = bid => S.certs["gps:" + bid] ? "위치 인증" : S.certs["checkin:" + bid] ? "사진 체크인" : placeDone(bid) ? "인증샷" : "";
 const zoneSeen = z => z.bids.filter(placeDone).length;
-const palaceZones = pid => ZONES.filter(z => z.pid === pid);
+/* 창덕궁 후원은 별도 예약 관람이라, 예약하지 않은 사람은 후원 구역을 빼고도 도장첩을 완성할 수 있게 합니다.
+   S.huwonOpen: true(열림) / false(닫힘) / null(아직 안 정함 → 닫힘으로 보되, 이미 후원 도장이 있으면 열림) */
+const HUWON_ZONE = "cdg-d";
+const huwonOn = () => S.huwonOpen === true || (S.huwonOpen !== false && !!S.stamps[HUWON_ZONE]);
+const zoneOn = z => z.id !== HUWON_ZONE || huwonOn();
+const activeZones = () => ZONES.filter(zoneOn);
+const activeZoneIds = () => activeZones().map(z => z.id);
+const isHuwonPlace = bid => ZONE_OF[bid] && ZONE_OF[bid].id === HUWON_ZONE;
+function setHuwon(open){
+  S.huwonOpen = !!open; save();
+  if (open) checkZones();
+  // 후원을 닫아 창덕궁·도장첩이 완성되는 경우
+  if (!open && palaceDone("cdg") && !(S.palaceGot || {}).cdg) {
+    S.palaceGot = Object.assign({}, S.palaceGot, { cdg:true }); save();
+    gain(REWARD.palace, "창덕궁 도장"); toast("창덕궁 도장 완성", "후원을 뺀 창덕궁 구역 도장을 모두 모았어요");
+  }
+  if (activeZones().every(z => S.stamps[z.id]) && !S.bookBound) { S.bookBound = new Date().toISOString(); S.bookAnim = true; save(); setTimeout(() => toast("도장첩 완성!", "명주실로 엮었어요 · ‘관직·도장’에서 확인하세요"), 600); }
+  Team.syncStamps && Team.syncStamps();
+  renderAll(); if (sheetOpen() && SH.mode === "building") renderBuildingBody();
+}
+const palaceZones = pid => ZONES.filter(z => z.pid === pid && zoneOn(z));
 const palaceDone = pid => palaceZones(pid).every(z => S.stamps[z.id]);
 function normalizeStamps(){ Object.keys(S.stamps).forEach(k => { if (!ZONE_IDS.includes(k)) delete S.stamps[k]; }); }
 function checkZones(silent){
-  const fresh = ZONES.filter(z => !S.stamps[z.id] && zoneSeen(z) >= zoneNeed(z));
+  const fresh = activeZones().filter(z => !S.stamps[z.id] && zoneSeen(z) >= zoneNeed(z));
   if (!fresh.length) return;
   fresh.forEach(z => Rec.stamp(z.id));
   if (silent) return;
@@ -2194,6 +2245,7 @@ function checkZones(silent){
       gain(REWARD.stamp, `${z.name} 도장`);
       if (palaceDone(z.pid)) {
         const pal = DATA.palaces.find(p => p.id === z.pid);
+        S.palaceGot = Object.assign({}, S.palaceGot, { [z.pid]:true });
         setTimeout(() => { gain(REWARD.palace, `${pal.name} 도장`); toast(`${pal.name} 도장 완성`, `${PALACE_SEAL[z.pid]} 구역 도장을 모두 모았어요`); }, 2600);
       }
     }), delay);
@@ -2207,7 +2259,7 @@ function checkZones(silent){
 const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-plaques-photos-v1";
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
-  team:null, playMode:null, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
+  team:null, playMode:null, huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
   mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
@@ -2597,7 +2649,7 @@ let curH = null, curChar = null;
 function openSheet(hid, fromBuilding){
   const {h, b, p} = HS[hid]; curH = hid; curChar = null;
   if (fromBuilding) SH.bscroll = $("#sheetBody").scrollTop;
-  SH.mode = "hotspot"; SH.bid = b.id; $("#shBack").hidden = !fromBuilding;
+  SH.mode = "hotspot"; SH.bid = b.id; $("#shBack").hidden = !fromBuilding; $("#shNav").hidden = true;
   certUI = { bid:b.id, busy:false, msg:"", err:false, demo:false };
   $("#shTags").innerHTML = `<span class="pill ${TYPE_PILL[h.type]}">${h.type}</span><span class="pill blue">${p.name} · ${b.name}</span>`;
   $("#shTitle").textContent = h.text;
@@ -2867,12 +2919,17 @@ function dataUrlToBlob(u){
 }
 
 /* ═════════ QUEST ═════════ */
+function huwonToggleHTML(){
+  const on = huwonOn();
+  return `<button class="hw-tgl" data-huwon="${on ? "close" : "open"}" aria-pressed="${on}"><span><b>🌿 창덕궁 후원 ${on ? "열림" : "닫힘"}</b><small>${on ? "후원 도장도 모아요 · 누르면 다시 닫아요" : "후원 관람을 예약했다면 눌러서 열어요 · 닫혀 있으면 후원 없이도 도장첩 완성"}</small></span><span class="sw2${on ? " on" : ""}" aria-hidden="true"></span></button>`;
+}
 function renderQuests(){
   $("#quests").innerHTML = ZONES.map(z => {
+    if (!zoneOn(z)) return huwonToggleHTML();
     const pal = DATA.palaces.find(p => p.id === z.pid), k = Math.min(zoneSeen(z), zoneNeed(z)), n = zoneNeed(z);
     const next = z.bids.find(b => !placeDone(b)) || z.bids[0];
     return `<button class="qrow" data-go="${next}"><span><b>${pal.name} · ${z.name}</b><small>${z.bids.length}곳 중 ${n}곳 현장 인증 · ${k}/${n}</small><div class="qprog"><i style="width:${k / n * 100}%"></i></div></span>
-      ${S.stamps[z.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow xpp">+${REWARD.stamp} EXP · 도장</span>`}</button>`;
+      ${S.stamps[z.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow xpp">+${REWARD.stamp} EXP · 도장</span>`}</button>${z.id === HUWON_ZONE ? huwonToggleHTML() : ""}`;
   }).join("");
 }
 let G = { mode:null, streak:0 };
@@ -2898,11 +2955,11 @@ function answerQuiz(i, btn){
   const P = S.puzzles.quiz; P.total++;
   if (ok) {
     G.streak++; P.right++; P.best = Math.max(P.best, G.streak);
-    const n = Math.min(30, REWARD.quiz + (G.streak - 1) * 5);
-    Rec.puzzle("quiz", G.q.c, n); gain(n, G.streak > 1 ? `${G.streak}연속 정답` : "정답");
+    const n = Math.min(30, REWARD.quiz + (G.streak - 1) * 5); G.q.n = n;
+    Rec.puzzle("quiz", G.q.c, n); gain(n, G.streak > 1 ? `훈음 맞히기 · ${G.streak}연속 정답` : "훈음 맞히기 정답");
   }
   else { G.streak = 0; btn.classList.add("wrong"); save(); }
-  $("#fb").innerHTML = `${ok ? "맞았어요." : "아쉬워요."} ${G.q.c} = ${d.h} ${d.e} · ${d.m}`;
+  $("#fb").innerHTML = `${ok ? `<span class="fbx ok">정답 <b class="xpt">+${G.q.n} EXP</b>${G.streak > 1 ? ` · ${G.streak}연속` : ""}</span>` : `<span class="fbx">아쉬워요 · <b>+0 EXP</b></span>`}${G.q.c} = ${d.h} ${d.e} · ${d.m}`;
   $("#game").insertAdjacentHTML("beforeend", `<button class="btn" id="nextQ">다음 문제</button>`);
 }
 function newOrder(){
@@ -2917,7 +2974,7 @@ function drawOrder(){
   $("#game").innerHTML = `<p class="small" style="text-align:center">${b.name}의 ${h.type}</p>
     <div class="slots">${chars.map((c, i) => `<div class="slot${i < k ? ' fill' : ''}">${i < k ? c : ""}</div>`).join("")}</div>
     <div class="tiles" id="otiles">${mixed.map((c, i) => `<button class="tilebtn" data-t="${i}">${c}</button>`).join("")}</div>
-    <div class="fb" id="fb">${k === chars.length ? `${h.text} · ${h.read} — ${h.gist}` : ""}</div>`;
+    <div class="fb" id="fb">${k === chars.length ? `<span class="fbx ok">완성 <b class="xpt">+${REWARD.order} EXP</b></span>${h.text} · ${h.read} — ${h.gist}` : ""}</div>`;
   if (k === chars.length) $("#game").insertAdjacentHTML("beforeend", `<button class="btn" id="nextO">다른 현판</button>`);
 }
 function tapOrder(i, btn){
@@ -2929,7 +2986,7 @@ function tapOrder(i, btn){
     document.querySelectorAll(".tilebtn").forEach((b, j) => { if (used[j]) { b.disabled = true; b.textContent = "·"; } });
     if (o.k === o.chars.length) {
       S.puzzles.order[o.h.id] = (S.puzzles.order[o.h.id] || 0) + 1;
-      Rec.puzzle("order", o.h.id, REWARD.order); gain(REWARD.order, `${o.h.read} 읽기 성공`);
+      Rec.puzzle("order", o.h.id, REWARD.order); gain(REWARD.order, `현판 읽기 완성 · ${o.h.read}`);
     }
   } else { btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake"); }
 }
@@ -3009,7 +3066,7 @@ async function initFirebase(){
 const cloudOn = () => Store.mode === "cloud";
 const userRef = (uid = Store.uid) => fb.db.collection("users").doc(uid);
 const progressOf = () => ({ viewed:S.viewed, cards:S.cards, certs:S.certs, puzzles:S.puzzles, palace:S.palace, bsel:S.bsel, style:S.style,
-  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
+  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
 async function remoteSaveProfile(){
   if (!cloudOn()) return;
   try {
@@ -3429,7 +3486,7 @@ function renderPalaceMap(){
   const pct = b => F.pct(...M.pins[b.id]);
   const pins = pal.buildings.map(b => {
     const done = placeDone(b.id), [lx, ty] = pct(b), seen = b.hotspots.filter(h => S.viewed[h.id]).length;
-    return `<button class="mpin${done ? " done" : ""}" style="left:${lx.toFixed(2)}%;top:${ty.toFixed(2)}%" data-mb="${b.id}" aria-label="${nums[b.id]}번 ${b.name}, 글씨 ${seen}/${b.hotspots.length} 확인${done ? ", 둘러봄" : ""}${S.memos[b.id] ? ", 메모 있음" : ""}"><span class="pi"><b>${nums[b.id]}</b></span><span class="pl">${b.name}</span>${S.memos[b.id] ? `<span class="memo-dot" aria-hidden="true">✎</span>` : ""}</button>`;
+    return `<button class="mpin${done ? " done" : ""}${isHuwonPlace(b.id) && !huwonOn() ? " off" : ""}" style="left:${lx.toFixed(2)}%;top:${ty.toFixed(2)}%" data-mb="${b.id}" aria-label="${nums[b.id]}번 ${b.name}, 글씨 ${seen}/${b.hotspots.length} 확인${done ? ", 둘러봄" : ""}${S.memos[b.id] ? ", 메모 있음" : ""}"><span class="pi"><b>${nums[b.id]}</b></span><span class="pl">${b.name}</span>${S.memos[b.id] ? `<span class="memo-dot" aria-hidden="true">✎</span>` : ""}</button>`;
   }).join("");
   const route = MAPUI.route ? `<svg class="route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
       <polyline points="${pal.buildings.map(b => pct(b).map(v => v.toFixed(2)).join(",")).join(" ")}" fill="none" stroke="var(--white)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity=".85"/>
@@ -3452,12 +3509,15 @@ function renderPalaceMap(){
       <button class="chip" id="tglRoute" aria-pressed="${MAPUI.route}">🧭 추천 동선</button>
       <button class="chip" id="tglMemo" aria-pressed="${MAPUI.memo}">📝 메모${memoCount ? ` ${memoCount}` : ""}</button>
     </div>
+    ${pal.id === "cdg" ? (S.huwonOpen === null && !S.stamps[HUWON_ZONE] ? `<div class="huwon-ask"><b>🌿 창덕궁 후원 관람을 예약했나요?</b><p class="small">후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원 구역을 빼고도 도장첩을 완성할 수 있어요. 나중에 언제든 바꿀 수 있어요.</p>
+        <div class="btn-row"><button class="btn sm" data-huwon="open">예약했어요 · 후원 열기</button><button class="btn sm ghost" data-huwon="close">아니요 · 후원 닫기</button></div></div>` : huwonToggleHTML()) : ""}
     ${memoPanel}
     <div class="pinch-wrap mapw"><div class="map-scroll" id="mapScroll" style="--ar:${(F.bw / F.bh).toFixed(4)}"><div class="pmap${mapZ >= LABEL_Z ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도 · 두 손가락으로 확대·축소">${drawMap(pal.id)}${route}${pins}</div></div>
       <span class="pinch-hint${HINT.map ? " off" : ""}" id="mapHint" aria-hidden="true">두 손가락으로 벌려 확대 · 오므려 축소</span></div>
     <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>현장 인증</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
-    <div class="panel blist">${palaceZones(pal.id).map(z => {
+    <div class="panel blist">${ZONES.filter(z => z.pid === pal.id).map(z => {
       const got = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z));
+      if (!zoneOn(z)) return `<div class="zhead off"><span class="zmini">닫힘</span><span><b>${z.name}</b><small>후원이 닫혀 있어요 · 도장 조건에서 빠져요</small></span></div>` + z.bids.map(id => BLD[id].b).map(b => `<button class="brow off" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span><span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>후원 닫힘 · 설명은 볼 수 있어요</small></span><span class="go" aria-hidden="true">›</span></button>`).join("");
       return `<div class="zhead${got ? " got" : ""}"><span class="zmini">${got ? sealSVG(z.seal) : `${k}/${zoneNeed(z)}`}</span>
           <span><b>${z.name}</b><small>${got ? `도장 받음 · ${stampDate(got)}` : `${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장`}</small></span></div>` +
         z.bids.map(id => BLD[id].b).map(b => {
@@ -3552,6 +3612,11 @@ function openBuilding(bid, back){
   $("#shTags").innerHTML = `<span class="pill blue">${p.name} ${p.hanja}</span><span class="pill ${S.stamps[ZONE_OF[bid].id] ? "red" : "yellow"}">${ZONE_OF[bid].name}${S.stamps[ZONE_OF[bid].id] ? " 도장 ✓" : ""}</span>`;
   $("#shTitle").textContent = b.hanja;
   $("#shRead").textContent = `${b.name} · ${b.built}`;
+  const list = p.buildings, i = list.findIndex(x => x.id === bid), pv = list[i - 1], nx = list[i + 1];
+  $("#shNav").hidden = false;
+  $("#shNav").innerHTML = `<button data-bnav="${pv ? pv.id : ""}"${pv ? "" : " disabled"} aria-label="이전 전각${pv ? " " + pv.name : ""}">‹ <span>${pv ? pv.name : "처음"}</span></button>
+    <span class="pos">${i + 1} / ${list.length}</span>
+    <button class="nx" data-bnav="${nx ? nx.id : ""}"${nx ? "" : " disabled"} aria-label="다음 전각${nx ? " " + nx.name : ""}"><span>${nx ? nx.name : "마지막"}</span> ›</button>`;
   renderBuildingBody();
   $("#sheet").classList.add("open"); $("#backdrop").classList.add("on");
   $("#sheetBody").scrollTop = back ? (SH.bscroll || 0) : 0;   // 글씨 상세에서 돌아오면 보던 위치 그대로
@@ -3573,7 +3638,8 @@ function renderBuildingBody(){
   const z = ZONE_OF[b.id], body = $("#sheetBody"), keep = body.scrollTop, memo = S.memos[b.id];
   body.innerHTML = `
     <div class="sec"><p class="lead">${b.desc}</p></div>
-    <div class="zone-note${S.stamps[z.id] ? " got" : ""}">${S.stamps[z.id] ? `「${z.name}」 구역 도장을 받았어요` : `「${z.name}」 구역 · ${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장 (${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)})`}</div>
+    ${z.id === HUWON_ZONE && !huwonOn() ? `<div class="zone-note">후원 구역은 지금 닫혀 있어요. 예약해서 들어왔다면 <button class="tiny" data-huwon="open">후원 열기</button></div>` : ""}
+    <div class="zone-note${S.stamps[z.id] ? " got" : ""}"${z.id === HUWON_ZONE && !huwonOn() ? " hidden" : ""}>${S.stamps[z.id] ? `「${z.name}」 구역 도장을 받았어요` : `「${z.name}」 구역 · ${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장 (${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)})`}</div>
     ${placeInfoHTML(b)}
     <div class="sec">
       <h3>현판 · 글씨 ${seen}/${n}</h3>
@@ -3644,27 +3710,28 @@ function palacePage(pid, i, opts = {}){
         <small>${z.name}</small></div>`;
     }).join("")}</div>
     ${done && opts.moment !== "palace-pending" ? `<div class="pseal" aria-label="${pal.name} 도장">${sealSVG(PALACE_SEAL[pid])}</div>` : ""}
+    ${pid === "cdg" && !huwonOn() ? `<div class="pg-meta">후원 구역은 닫혀 있어요 (예약 시 열기)</div>` : ""}
     <div class="pg-meta">${done ? `${pal.name} 도장 완성` : `구역마다 절반을 현장 인증하면 도장 · ${zs.filter(z => S.stamps[z.id]).length}/${zs.length}`}</div>`;
 }
 function renderBook(){
   const box = $("#bookPages"), keep = box.scrollLeft;
-  const n = ZONES.filter(z => S.stamps[z.id]).length, bound = n === ZONES.length, anim = bound && S.bookAnim;
-  $("#bookCount").textContent = `${n} / ${ZONES.length}`;
+  const AZ = activeZones(), n = AZ.filter(z => S.stamps[z.id]).length, bound = n === AZ.length, anim = bound && S.bookAnim;
+  $("#bookCount").textContent = `${n} / ${AZ.length}${huwonOn() ? "" : " · 후원 제외"}`;
   const cover = `<section class="page cover${anim ? " anim" : ""}${bound ? " bound" : ""}" aria-label="표지">
       ${bindSVG(bound, anim)}
       <div class="cv-label">探訪印譜</div>
       <div class="cv-side">${esc(S.nickname || "탐방객")}의 탐방 도장첩</div>
-      <div class="cv-grid">${ZONES.map(z => `<div class="mini${S.stamps[z.id] ? "" : " empty"}">${S.stamps[z.id] ? sealSVG(z.seal) : ""}</div>`).join("")}</div>
+      <div class="cv-grid">${AZ.map(z => `<div class="mini${S.stamps[z.id] ? "" : " empty"}">${S.stamps[z.id] ? sealSVG(z.seal) : ""}</div>`).join("")}</div>
       ${bound ? `<div class="done-seal" aria-label="완성">完</div>` : ""}
-      <div class="cv-prog"><span>${bound ? "명주실로 엮은 나만의 도장첩" : `도장 ${n}/${ZONES.length} · 모두 모으면 명주실로 엮어 드려요`}</span><div class="cv-bar"><i style="width:${n / ZONES.length * 100}%"></i></div></div>
+      <div class="cv-prog"><span>${bound ? "명주실로 엮은 나만의 도장첩" : `도장 ${n}/${AZ.length} · 모두 모으면 명주실로 엮어 드려요`}</span><div class="cv-bar"><i style="width:${n / ZONES.length * 100}%"></i></div></div>
     </section>`;
   const freshZ = S.bookFresh && ZONE_OF_ID[S.bookFresh];
   const pages = DATA.palaces.map((p, i) => `<section class="page" aria-label="${p.name} 쪽">${palacePage(p.id, i, { bound, anim, fresh: freshZ && freshZ.pid === p.id ? freshZ.id : null })}</section>`);
   const colo = `<section class="page" aria-label="맺음 쪽">${bindSVG(bound, anim)}
       <div class="colo"><h4>跋 · 맺음</h4>
-        <ul>${ZONES.map(z => `<li class="${S.stamps[z.id] ? "" : "no"}"><span>${DATA.palaces.find(p => p.id === z.pid).name} · ${z.name}</span><span>${S.stamps[z.id] ? stampDate(S.stamps[z.id]) || "✓" : "—"}</span></li>`).join("")}</ul>
+        <ul>${AZ.map(z => `<li class="${S.stamps[z.id] ? "" : "no"}"><span>${DATA.palaces.find(p => p.id === z.pid).name} · ${z.name}</span><span>${S.stamps[z.id] ? stampDate(S.stamps[z.id]) || "✓" : "—"}</span></li>`).join("")}</ul>
         ${bound ? `<p>${esc(S.nickname || "탐방객")} 님이 세 유적을 둘러보고 엮은 도장첩입니다.</p><div class="done-seal">完</div>`
-                : `<p>남은 구역: ${ZONES.filter(z => !S.stamps[z.id]).map(z => z.name).join(", ")}</p>`}
+                : `<p>남은 구역: ${AZ.filter(z => !S.stamps[z.id]).map(z => z.name).join(", ")}</p>`}
       </div></section>`;
   box.innerHTML = [cover, ...pages, colo].join("");
   $("#bookDots").innerHTML = `<span class="pgno" id="bookPg" aria-live="polite"></span>`;
@@ -3707,7 +3774,7 @@ function stampMoment(zid, after){
   const done = palaceDone(z.pid);
   $("#smoCap").innerHTML = `<b>${z.name} 도장을 받았어요</b><small>${pal.name} ${ZONES.filter(x => x.pid === z.pid && S.stamps[x.id]).length}/${palaceZones(z.pid).length}${done ? ` · ${pal.name} 도장 완성!` : " · 도장첩에 담겼어요"}</small>`;
   S.bookFresh = zid;
-  if (ZONES.every(x => S.stamps[x.id]) && !S.bookBound) { S.bookBound = new Date().toISOString(); S.bookAnim = true; }
+  if (activeZones().every(x => S.stamps[x.id]) && !S.bookBound) { S.bookBound = new Date().toISOString(); S.bookAnim = true; }
   save();
   el.hidden = false; el.classList.remove("play", "on");
   // 도장 손잡이와 인주 튐을 새 도장 칸 위치에 맞춤
@@ -3871,7 +3938,7 @@ function renderTeamBar(bump){
   const server = !Team.isLocal(), e = Team.board.find(x => x.id === t.id), cov = Team.stampsCovered();
   const total = e ? e.total : t.points, n = e ? e.members.length : 1;
   bar.innerHTML = `<button class="live${server && Team.live ? "" : " off"}" id="tbOpen" aria-label="우리 팀 보기"><i></i>${server ? (Team.live ? "실시간" : "연결 중") : "이 기기"}</button>
-    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기">${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="tb-names">${esc(teamMembersList().map(m => m.nickname || "탐방객").join("·"))}</span><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${ZONE_IDS.filter(z => cov.has(z)).length}/${ZONE_IDS.length}</small></button></div>
+    <div class="tb-list"><button class="tb me${bump ? " bump" : ""}" data-tb aria-label="우리 팀 설정 열기">${flagSVG(t.color)}${esc(t.name)}<small>팀원 ${n}명</small><span class="tb-names">${esc(teamMembersList().map(m => m.nickname || "탐방객").join("·"))}</span><span class="pt">${total.toLocaleString()}점</span><small>· 도장 ${activeZoneIds().filter(z => cov.has(z)).length}/${activeZoneIds().length}</small></button></div>
     <button class="tb-chat" id="tbChat" aria-label="팀 채팅${Chat.unread() ? ` · 안 읽은 메시지 ${Chat.unread()}개` : ""}">💬 채팅${Chat.unread() ? `<span class="badge">${Chat.unread()}</span>` : ""}</button>`;
 }
 
@@ -3891,7 +3958,7 @@ function renderTeamPanel(){
     return;
   }
   const e = Team.board.find(x => x.id === t.id), C = TEAM_COLORS[t.color] || TEAM_COLORS.blue;
-  const cov = Team.stampsCovered(), got = ZONE_IDS.filter(z => cov.has(z)).length, allDone = got === ZONE_IDS.length;
+  const AZI = activeZoneIds(), cov = Team.stampsCovered(), got = AZI.filter(z => cov.has(z)).length, allDone = got === AZI.length;
   const members = teamMembersList();
   el.innerHTML = `
     <div class="team-head">${flagSVG(t.color)}
@@ -3908,8 +3975,8 @@ function renderTeamPanel(){
     <div class="sec" style="margin-top:6px">
       <h3>단체 교지</h3>
       <p class="small">팀원 누구든 받은 도장을 모두 합쳐 셉니다. 함께 나눠 둘러보세요.</p>
-      <div class="team-zones">${ZONES.map(z => `<span class="tz${cov.has(z.id) ? " got" : ""}" title="${DATA.palaces.find(p => p.id === z.pid).name} · ${z.name}">${cov.has(z.id) ? sealSVG(z.seal) : ""}</span>`).join("")}</div>
-      <div class="req"><div><span class="${allDone ? "ok" : "no"}">${allDone ? "✓" : "○"}</span>팀 전체로 도장 ${got}/${ZONE_IDS.length}개 모으기</div></div>
+      <div class="team-zones">${activeZones().map(z => `<span class="tz${cov.has(z.id) ? " got" : ""}" title="${DATA.palaces.find(p => p.id === z.pid).name} · ${z.name}">${cov.has(z.id) ? sealSVG(z.seal) : ""}</span>`).join("")}</div>
+      <div class="req"><div><span class="${allDone ? "ok" : "no"}">${allDone ? "✓" : "○"}</span>팀 전체로 도장 ${got}/${AZI.length}개 모으기${huwonOn() ? "" : " (후원 제외)"}</div></div>
       <button class="btn red" id="teamGyojiBtn"${allDone ? "" : " disabled"}>단체 교지 받기</button>
       <div class="out" id="teamGyojiOut" hidden></div>
     </div>
@@ -4027,12 +4094,12 @@ async function makeTeamGyoji(){
   const lines = [`교지 — ${t.name}을(를) 우수 탐방단으로 삼는다`];
   let cur = "팀원 ";
   names.forEach((nm, i) => { const add = nm + (i < n - 1 ? ", " : ""); if (g.measureText(cur + add).width > W - 180) { lines.push(cur); cur = ""; } cur += add; });
-  lines.push(cur, `팀 점수 ${(e ? e.total : 0).toLocaleString()}점 · 도장 ${ZONE_IDS.length}개 완성 · ${y}.${d.getMonth() + 1}.${d.getDate()}`);
+  lines.push(cur, `팀 점수 ${(e ? e.total : 0).toLocaleString()}점 · 도장 ${activeZoneIds().length}개 완성 · ${y}.${d.getMonth() + 1}.${d.getDate()}`);
   lines.forEach((ln, i) => g.fillText(ln, W / 2, 1200 + i * 34));
   showImage($("#teamGyojiOut"), c.toDataURL("image/png"), `team-gyoji-${t.name}.png`, `${t.name} 단체 교지`);
 }
 
-/* ═════════ 🍃 풍경의 조각 (가벼운 미션) ═════════ */
+/* ═════════ 🍃 풍경의 조각 ═════════ */
 const SHOT_TAGS = ["처마", "단청", "낙엽", "꽃담", "하늘", "기타"];
 const GKEY = "palace-plaques-gallery-v1";
 const NAKGWAN = "문학탐방";   // 사진 낙관(도장)에 새기는 글자
@@ -4040,7 +4107,7 @@ const GAL = { items:[], filter:"all", busy:false, msg:"" };
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 const hhmm = iso => { const d = new Date(iso); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
 function readGallery(){ try { return JSON.parse(localStorage.getItem(GKEY) || "[]"); } catch(e) { return []; } }
-function writeGallery(list){ for (let n = list.length; n > 0; n--) { try { localStorage.setItem(GKEY, JSON.stringify(list.slice(0, n))); return n; } catch(e) {} } return 0; }
+function writeGallery(list){ if (!list.length) { try { localStorage.setItem(GKEY, "[]"); } catch(e) {} return 0; } for (let n = list.length; n > 0; n--) { try { localStorage.setItem(GKEY, JSON.stringify(list.slice(0, n))); return n; } catch(e) {} } return 0; }
 function drawNakgwan(g, cx, cy, s, name, C){
   // 낙관: 붉은 바탕에 이름을 하얗게 새긴 음각 도장
   const ch = [...(name || "探訪")].slice(0, 4);
@@ -4136,7 +4203,7 @@ function renderGallery(){
   const showFilter = remoteOn() || t;
   $("#galleryPanel").innerHTML = `
     <div class="mission-head"><span class="mi" aria-hidden="true">🍃</span>
-      <div><div class="eyebrow">가벼운 미션</div><h3 class="h-sec">풍경의 조각</h3>
+      <div><h3 class="h-sec">풍경의 조각</h3>
       <p class="small">스쳐 지나가는 아름다운 순간을 담아, 오늘의 기억을 사진으로 담아보세요.</p>
       <p class="small" style="margin-top:4px">‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 사진을 누르면 팀원과 댓글을 나눌 수 있어요.</p></div>
     </div>
@@ -4153,8 +4220,8 @@ function renderGallery(){
       ${showFilter ? `<div class="seg" role="tablist" aria-label="갤러리 보기">${[["all","전체"],["team","우리 팀"],["mine","내 사진"]].filter(([k]) => k !== "team" || t).map(([k, v]) => `<button role="tab" data-gf="${k}" aria-selected="${f === k}">${v}</button>`).join("")}</div>` : ""}
     </div>
     <div class="gallery">${items.length ? items.map(x => `
-      <button class="shot" data-shot="${esc(x.id)}" aria-label="${esc(x.nickname)}의 ${esc(x.tag)} 사진 크게 보기 · 댓글"><img src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}" loading="lazy">
-        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span>${(x.comments || []).length ? `<span class="cm">💬 ${x.comments.length}</span>` : ""}</span></button>`).join("")
+      <div class="shot-wrap">${x.mine ? `<button class="shot-del" data-shotdel="${esc(x.id)}" aria-label="내 사진 지우기">🗑</button>` : ""}<button class="shot" data-shot="${esc(x.id)}" aria-label="${esc(x.nickname)}의 ${esc(x.tag)} 사진 크게 보기 · 댓글"><img src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}" loading="lazy">
+        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span>${(x.comments || []).length ? `<span class="cm">💬 ${x.comments.length}</span>` : ""}</span></button></div>`).join("")
       : `<div class="gal-empty">아직 오늘 걸린 사진이 없어요.<br>첫 번째 풍경을 걸어 보세요.</div>`}</div>`;
 }
 
@@ -4229,6 +4296,7 @@ const Cmt = {
     $("#vwBody").innerHTML = `
       <img class="vw-img" src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}">
       <div class="vw-meta">${x.team ? flagSVG(x.team.color) + esc(x.team.name) + " · " : ""}${esc(x.nickname)}${x.mine ? " (나)" : ""} · ${esc(x.tag)}</div>
+      ${x.mine ? `<div class="vw-actions"><button class="btn sm ghost" data-shotdel="${esc(x.id)}">🗑 이 사진 지우기</button></div>` : ""}
       <h3 class="h-sec" style="font-size:15px">댓글 ${this.list.length ? this.list.length : ""}</h3>
       ${this.msg ? `<p class="note err">${this.msg}</p>` : ""}
       <div class="cmts">${this.list.length ? this.list.map(c => `
@@ -4244,6 +4312,28 @@ const Cmt = {
     }
   }
 };
+// 내 풍경의 조각 지우기: 갤러리 기록 · 달린 댓글 · 저장된 사진 파일(있으면)까지
+async function deleteShot(id){
+  const x = GAL.items.find(y => y.id === id); if (!x || !x.mine) return;
+  const ok = await askConfirm("이 사진을 지울까요?", `<p>오늘의 갤러리에서 사라지고, 달린 댓글도 함께 지워져요. 되돌릴 수 없어요.</p><p class="small" style="margin-top:6px">이미 받은 경험치는 그대로 남아요.</p>`, "지우기");
+  if (!ok) return;
+  cfmBusy("지우는 중…");
+  try {
+    if (x.cloud && cloudOn()) {
+      const ref = fb.db.collection("gallery").doc(x.id);
+      try { const cq = await ref.collection("comments").get(); await Promise.all(cq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("shot comments:", e.code || e.message); }
+      await ref.delete();
+      if (fb.st && /^https?:/.test(x.url)) { try { await fb.st.refFromURL(x.url).delete(); } catch(e) { console.warn("shot file:", e.code || e.message); } }
+    } else {
+      writeGallery(readGallery().filter(y => y.id !== id));
+      try { localStorage.removeItem(CMT_KEY + id); } catch(e) {}
+    }
+  } catch(e) { console.warn("shot delete:", e); cfmError(serverErr(e, "사진 지우기")); await new Promise(res => { $("#cfmNo").onclick = () => { $("#cfm").hidden = true; res(); }; $("#cfmYes").onclick = () => { $("#cfm").hidden = true; res(); }; }); return; }
+  $("#cfm").hidden = true;
+  GAL.items = GAL.items.filter(y => y.id !== id);
+  if (Cmt.shot === id) closeViewer();
+  renderGallery(); toast("사진을 지웠어요", "오늘의 갤러리에서 내려갔어요");
+}
 function openViewer(id){ $("#viewer").hidden = false; $("#vwSay").innerHTML = ""; Cmt.open(id); setTimeout(() => $("#vwClose").focus(), 30); }
 /* 연결 점검: 서버·권한·사진 저장소를 하나씩 직접 시험해 보고 고치는 방법을 알려 줌 */
 const UA = navigator.userAgent || "";
@@ -4573,6 +4663,7 @@ document.addEventListener("click", e => {
   if (t.closest("#setGallery")) { closeSettings(); show("quest"); requestAnimationFrame(() => { const m = $("#main"), r = $("#galleryPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
   if (t.closest("#setRank")) { closeSettings(); show("rank"); return; }
   if (t.closest("#setRoster")) { closeSettings(); show("rank"); $("#main").scrollTop = 0; return; }
+  if ((el = t.closest("[data-shotdel]"))) { deleteShot(el.dataset.shotdel); return; }
   if ((el = t.closest("[data-shot]"))) { openViewer(el.dataset.shot); return; }
   if (t.closest("#vwClose")) { closeViewer(); return; }
   if (t.closest("#chatClose")) { closeChat(); return; }
@@ -4587,9 +4678,11 @@ document.addEventListener("click", e => {
   /* 유적 지도 · 전각 시트 */
   if ((el = t.closest("[data-mv]"))) { rememberScroll(); S.mapView = el.dataset.mv; save(); show("map", { keep:true }); return; }
   if (t.closest("#mapZoom")) { setMapZoom(1); return; }
+  if ((el = t.closest("[data-bnav]"))) { if (el.dataset.bnav) { const { p } = BLD[el.dataset.bnav]; S.bsel[p.id] = el.dataset.bnav; save(); openBuilding(el.dataset.bnav); } return; }
   if ((el = t.closest("[data-mb]"))) { openBuilding(el.dataset.mb); return; }
   if (t.closest("#shBack")) { openBuilding(SH.bid, true); return; }
   if (t.closest("#tglRoute")) { MAPUI.route = !MAPUI.route; renderPalaceMap(); return; }
+  if ((el = t.closest("[data-huwon]"))) { setHuwon(el.dataset.huwon === "open"); return; }
   if (t.closest("#tglMemo")) { MAPUI.memo = !MAPUI.memo; renderPalaceMap(); return; }
   if ((el = t.closest("[data-bq]"))) {
     const bid = el.dataset.bq, q = QUIZ[bid], st = QZ[bid], i = +el.dataset.i;
