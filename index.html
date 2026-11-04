@@ -1,10 +1,16 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#F4F4F0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>궁궐 현판 탐방</title>
+<title>문학의 공간을 거닐다</title>
+<meta name="description" content="궁궐 현판 탐험기 · 창덕궁·창경궁·종묘의 현판과 주련을 읽으며 종9품 참봉에서 정1품 영의정까지">
+<meta name="application-name" content="문학의 공간을 거닐다">
+<meta name="apple-mobile-web-app-title" content="문학의 공간을 거닐다">
+<meta property="og:title" content="문학의 공간을 거닐다">
+<meta property="og:description" content="궁궐 현판 탐험기 · 창덕궁 · 창경궁 · 종묘">
+<meta property="og:type" content="website">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -482,7 +488,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .cmt.me .av{background:var(--blue);color:var(--white)}
 .cmt .del{border:0;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;padding:2px 0;margin-left:6px}
 .say{flex:none;display:flex;gap:8px;align-items:flex-end;padding-block:10px calc(env(safe-area-inset-bottom,0px) + 10px);padding-left:var(--gutter-l);padding-right:var(--gutter-r);border-top:1px solid var(--line);background:var(--card)}
-.say textarea{flex:1;min-width:0;min-height:44px;max-height:110px;resize:none;border:1.5px solid var(--line);border-radius:22px;padding:11px 15px;font:15px/1.4 var(--f-body);background:var(--bg);color:var(--ink)}
+.say textarea{flex:1;min-width:0;min-height:44px;max-height:110px;resize:none;border:1.5px solid var(--line);border-radius:22px;padding:10px 15px;font:16px/1.4 var(--f-body);background:var(--bg);color:var(--ink)}
 .say textarea:focus{outline:none;border-color:var(--blue)}
 .say button{flex:none;min-height:44px;border-radius:22px;padding:0 16px}
 .say-off{flex:none;padding:12px var(--gutter-r) calc(env(safe-area-inset-bottom,0px) + 12px) var(--gutter-l);border-top:1px solid var(--line);background:var(--card);font-size:13px;color:var(--muted);text-align:center}
@@ -568,6 +574,18 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .on-dot{flex:none;width:7px;height:7px;border-radius:50%;background:#3aa76d}
 .ros-flat{border:1px solid var(--line2);border-radius:14px;overflow:hidden;margin-top:10px}
 
+/* 아이폰: 16px보다 작은 입력칸을 누르면 화면이 확대되므로 모든 입력칸을 16px 이상으로 */
+input,textarea,select{font-size:max(16px,1em)}
+@supports (-webkit-touch-callout:none){input,textarea,select{font-size:16px!important}}
+.say{position:relative;z-index:2}
+.pm.kb .pm-body{padding-bottom:10px}
+
+/* ── 경험치 표시: 움직임 없이 글자 색으로만 강조 (적색 = 받을 수 있는 EXP) ── */
+.xpt{color:var(--red);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.hs-row .state:not(.ok){color:var(--red);font-weight:700}
+.pill.yellow.xpp{color:var(--red)}
+.rank-exp b{color:var(--red);font-weight:700}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -613,7 +631,13 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
 .map-head .ttl{display:flex;align-items:baseline;gap:8px;min-width:0}
 .map-head .ttl b{font:900 21px var(--f-disp);letter-spacing:.06em}
 .map-head .ttl span{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.map-scroll{width:100%;overflow:auto;border-radius:18px;border:1px solid var(--line);background:var(--card);overscroll-behavior:contain;max-height:calc(100vh - var(--chrome) - 30px);max-height:calc(100cqh - var(--chrome) - 30px);scrollbar-width:thin;position:relative;z-index:0}
+/* 지도 상자 = 지도 전체 비율 그대로. 기본 배율에서는 상자 안에 지도 전체가 다 보이고(안쪽 스크롤 없음),
+   두 손가락으로 키우면 그때부터 상자 안에서 끌어 이동합니다. 세 궁궐 모두 상자 가로 너비는 화면 폭에 똑같이 맞춥니다. */
+.pinch-wrap.mapw{margin-left:calc(8px - var(--gutter-l));margin-right:calc(8px - var(--gutter-r))}
+.map-scroll{width:100%;aspect-ratio:var(--ar,1);margin-inline:auto;overflow:auto;border-radius:16px;border:1px solid var(--line);background:var(--card);overscroll-behavior:contain;scrollbar-width:none;position:relative;z-index:0}
+.map-scroll::-webkit-scrollbar{display:none}
+.map-scroll .pmap{min-height:100%}
+.pmap svg.route{height:100%}
 .pmap{position:relative;width:calc(100% * var(--z,1));transition:width .35s ease}
 /* 두 손가락 확대·축소: 손가락이 움직이는 동안은 애니메이션 없이 바로 따라감 */
 .map-scroll,.stage-scroll{touch-action:pan-x pan-y}
@@ -864,7 +888,7 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
           <div class="dots" id="bookDots"></div>
           <button class="bnav" id="bookNext" aria-label="다음 장">›</button>
         </div>
-        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 +60 EXP. 10개를 다 모으면 명주실로 엮어 드려요.</p>
+        <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 <b class="xpt">+60 EXP</b>. 10개를 다 모으면 명주실로 엮어 드려요.</p>
       </div>
 
       <div class="panel">
@@ -908,8 +932,8 @@ label.btn input,label.tiny input{position:absolute;width:1px;height:1px;opacity:
         <h3 class="h-sec">벼슬 시험</h3>
         <p class="small">맞힐 때마다 EXP를 얻어요. 연속으로 맞히면 보너스가 붙습니다.</p>
         <div class="games">
-          <button class="game-card" data-game="quiz" aria-pressed="false"><span class="gi">訓</span><b>훈음 맞히기</b><small>한자를 보고 뜻과 소리를 고르기 · 15 EXP+</small></button>
-          <button class="game-card" data-game="order" aria-pressed="false"><span class="gi">讀</span><b>현판 읽기</b><small>뒤섞인 글자를 읽는 순서대로 · 25 EXP</small></button>
+          <button class="game-card" data-game="quiz" aria-pressed="false"><span class="gi">訓</span><b>훈음 맞히기</b><small>한자를 보고 뜻과 소리를 고르기 · <b class="xpt">15 EXP+</b></small></button>
+          <button class="game-card" data-game="order" aria-pressed="false"><span class="gi">讀</span><b>현판 읽기</b><small>뒤섞인 글자를 읽는 순서대로 · <b class="xpt">25 EXP</b></small></button>
         </div>
         <div id="game" class="sec" hidden></div>
       </div>
@@ -2478,7 +2502,7 @@ function renderHeader(){
   $("#hSeal").textContent = R[1].slice(0, 2);
   $("#hTitle").textContent = `${S.nickname ? S.nickname + " " : ""}${R[2]}`;
   $("#hBar").style.width = L.lv >= MAX ? "100%" : (L.into / L.need * 100) + "%";
-  $("#hExp").textContent = L.lv >= MAX ? `${R[0]} · ${S.exp} EXP` : `${R[0]} · ${L.into}/${L.need} EXP`;
+  $("#hExp").innerHTML = L.lv >= MAX ? `${R[0]} · <b>${S.exp} EXP</b>` : `${R[0]} · <b>${L.into}/${L.need} EXP</b>`;
   renderAcctArea();
   document.querySelectorAll("#palTabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.p === S.palace));
 }
@@ -2544,7 +2568,7 @@ function renderMap(){
       <button class="hs-row" data-h="${h.id}">
         <span class="pill ${TYPE_PILL[h.type]}">${h.type}</span>
         <span class="t"><b>${h.text}</b><small>${h.read} · ${h.gist}</small></span>
-        <span class="state${S.viewed[h.id]?' ok':''}">${S.viewed[h.id] ? "확인 ✓" : "+" + REWARD.view}</span>
+        <span class="state${S.viewed[h.id]?' ok':''}">${S.viewed[h.id] ? "확인 ✓" : "+" + REWARD.view + " EXP"}</span>
       </button>`).join("")}</div>`;
 }
 function applyStageZ(z){
@@ -2639,7 +2663,7 @@ function gpsHTML(b){
     <div class="cert">
       <div class="cert-row">
         <span class="cert-ic" aria-hidden="true">📍</span>
-        <span><b>현장 방문 인증 · ${b.name}</b><small>${g ? `${fmtDate(g.at)} · ${g.demo ? "시연용 인증" : g.dist + "m 거리에서 확인"}` : `전각 ${CONFIG.GEO_RADIUS_M}m 안에서 위치를 확인하면 +${REWARD.gps} EXP`}</small></span>
+        <span><b>현장 방문 인증 · ${b.name}</b><small>${g ? `${fmtDate(g.at)} · ${g.demo ? "시연용 인증" : g.dist + "m 거리에서 확인"}` : `전각 ${CONFIG.GEO_RADIUS_M}m 안에서 위치를 확인하면 <b class="xpt">+${REWARD.gps} EXP</b>`}</small></span>
         ${g ? `<span class="pill blue">인증 완료</span>` : `<button class="btn sm" id="gpsBtn" data-b="${b.id}"${u.busy ? " disabled" : ""}>${u.busy ? "확인 중…" : "위치 인증"}</button>`}
       </div>
       ${u.msg ? `<p class="note${u.err ? " err" : ""}">${u.msg}</p>` : ""}
@@ -2647,14 +2671,14 @@ function gpsHTML(b){
       <hr>
       <div class="cert-row">
         <span class="cert-ic" aria-hidden="true">📸</span>
-        <span><b>사진으로 체크인</b><small>${ci ? `${fmtDate(ci.at)} · 현장 사진으로 체크인했어요` : `GPS가 잡히지 않으면 지금 이 자리에서 ${b.name}을(를) 찍어 체크인 · +${REWARD.photo} EXP`}</small></span>
+        <span><b>사진으로 체크인</b><small>${ci ? `${fmtDate(ci.at)} · 현장 사진으로 체크인했어요` : `GPS가 잡히지 않으면 지금 이 자리에서 ${b.name}을(를) 찍어 체크인 · <b class="xpt">+${REWARD.photo} EXP</b>`}</small></span>
         ${ci ? `<span class="pill blue">체크인 완료</span>` : `<label class="btn sm${u.ciBusy ? " dis" : ""}">${u.ciBusy ? "올리는 중…" : "촬영"}<input type="file" accept="image/*" capture="environment" class="checkinIn" data-b="${b.id}"${u.ciBusy ? " disabled" : ""}></label>`}
       </div>
       <p class="small" style="font-size:12.5px;color:var(--muted)">${placeDone(b.id) ? `✓ ${placeHow(b.id)}으로 이 장소를 현장 인증했어요. 지도에 노란색으로 표시돼요.` : "위치 인증이나 사진 체크인을 해야 지도에서 노란색(현장 인증)으로 바뀌어요."}</p>
       <hr>
       <div class="cert-row">
         <span class="cert-ic red" aria-hidden="true">🍃</span>
-        <span><b>풍경의 조각</b><small>스쳐 지나가는 아름다운 순간을 사진 한 장으로 · +${REWARD.shot} EXP</small></span>
+        <span><b>풍경의 조각</b><small>스쳐 지나가는 아름다운 순간을 사진 한 장으로 · <b class="xpt">+${REWARD.shot} EXP</b></small></span>
         <button class="btn sm ghost" data-goshot>올리기</button>
       </div>
     </div>
@@ -2667,7 +2691,7 @@ function photoHTML(h, b){
     <div class="cert">
       <div class="cert-row">
         <span class="cert-ic red" aria-hidden="true">📷</span>
-        <span><b>나의 현판 인증샷</b><small>${ph ? `${fmtDate(ph.at)} 등록 · 위 원문 칸에 보여요` : `이 ${h.type}을(를) 찍어 올리면 +${REWARD.photo} EXP`}</small></span>
+        <span><b>나의 현판 인증샷</b><small>${ph ? `${fmtDate(ph.at)} 등록 · 위 원문 칸에 보여요` : `이 ${h.type}을(를) 찍어 올리면 <b class="xpt">+${REWARD.photo} EXP</b>`}</small></span>
         <label class="btn sm red">${ph ? "다시 찍기" : "촬영"}<input type="file" accept="image/*" capture="environment" class="photoIn"></label>
       </div>
       <label class="tiny">앨범에서 사진 고르기<input type="file" accept="image/*" class="photoIn"></label>
@@ -2825,7 +2849,7 @@ async function makeGyoji(){
   g.restore(); g.globalAlpha = 1;
   g.fillStyle = C("--muted"); g.font = '500 22px "IBM Plex Sans KR", sans-serif'; g.textAlign = "center";
   g.fillText(`교지 — ${name}을(를) 대광보국숭록대부 의정부 영의정으로 삼는다`, W/2, 1186);
-  g.fillText(`궁궐 현판 탐방 · ${y}.${d.getMonth()+1}.${d.getDate()} · 누적 ${S.exp} EXP`, W/2, 1222);
+  g.fillText(`문학의 공간을 거닐다 · ${y}.${d.getMonth()+1}.${d.getDate()} · 누적 ${S.exp} EXP`, W/2, 1222);
   showImage($("#gyojiOut"), c.toDataURL("image/png"), `gyoji-${name}.png`, `${name} 교지`);
 }
 let DL = null;   // claude.ai 뷰어의 downloads 기능 (직접 호스팅하면 null → <a download> 사용)
@@ -2848,7 +2872,7 @@ function renderQuests(){
     const pal = DATA.palaces.find(p => p.id === z.pid), k = Math.min(zoneSeen(z), zoneNeed(z)), n = zoneNeed(z);
     const next = z.bids.find(b => !placeDone(b)) || z.bids[0];
     return `<button class="qrow" data-go="${next}"><span><b>${pal.name} · ${z.name}</b><small>${z.bids.length}곳 중 ${n}곳 현장 인증 · ${k}/${n}</small><div class="qprog"><i style="width:${k / n * 100}%"></i></div></span>
-      ${S.stamps[z.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow">+${REWARD.stamp} · 도장</span>`}</button>`;
+      ${S.stamps[z.id] ? `<span class="pill red">도장 받음</span>` : `<span class="pill yellow xpp">+${REWARD.stamp} EXP · 도장</span>`}</button>`;
   }).join("");
 }
 let G = { mode:null, streak:0 };
@@ -3429,7 +3453,7 @@ function renderPalaceMap(){
       <button class="chip" id="tglMemo" aria-pressed="${MAPUI.memo}">📝 메모${memoCount ? ` ${memoCount}` : ""}</button>
     </div>
     ${memoPanel}
-    <div class="pinch-wrap"><div class="map-scroll" id="mapScroll"><div class="pmap${mapZ >= LABEL_Z ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도 · 두 손가락으로 확대·축소">${drawMap(pal.id)}${route}${pins}</div></div>
+    <div class="pinch-wrap mapw"><div class="map-scroll" id="mapScroll" style="--ar:${(F.bw / F.bh).toFixed(4)}"><div class="pmap${mapZ >= LABEL_Z ? " zl" : ""}" style="--z:${mapZ}" role="group" aria-label="${pal.name} 지도 · 두 손가락으로 확대·축소">${drawMap(pal.id)}${route}${pins}</div></div>
       <span class="pinch-hint${HINT.map ? " off" : ""}" id="mapHint" aria-hidden="true">두 손가락으로 벌려 확대 · 오므려 축소</span></div>
     <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>현장 인증</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
     <div class="panel blist">${palaceZones(pal.id).map(z => {
@@ -3538,7 +3562,7 @@ function quizHTML(b){
   const st = QZ[b.id] || (QZ[b.id] = { order:shuffle(q.o.map((_, i) => i)), pick:null });
   const done = S.quizDone[b.id], picked = st.pick !== null;
   return `<div class="sec bq">
-    <h3>전각 퀴즈 ${done ? "· 정답 ✓" : `· 첫 정답 +${REWARD.bquiz} EXP`}</h3>
+    <h3>전각 퀴즈 ${done ? "· 정답 ✓" : `· 첫 정답 <b class="xpt">+${REWARD.bquiz} EXP</b>`}</h3>
     <p class="qq">${q.q}</p>
     <div class="opts">${st.order.map(i => `<button class="opt${picked ? (i === q.a ? " right" : i === st.pick ? " wrong" : "") : ""}" data-bq="${b.id}" data-i="${i}"${picked ? " disabled" : ""}>${q.o[i]}</button>`).join("")}</div>
     ${picked ? `<p class="small">${st.pick === q.a ? "맞았어요." : "아쉬워요."} ${q.why}</p><button class="tiny" data-bqr="${b.id}">다시 풀기</button>` : ""}
@@ -3557,7 +3581,7 @@ function renderBuildingBody(){
         <button class="hs-row" data-h="${h.id}">
           <span class="pill ${TYPE_PILL[h.type]}">${h.type}</span>
           <span class="t"><b>${h.text}</b><small>${h.read} · ${h.gist}</small></span>
-          <span class="state${S.viewed[h.id] ? " ok" : ""}">${S.viewed[h.id] ? "확인 ✓" : "+" + REWARD.view}</span>
+          <span class="state${S.viewed[h.id] ? " ok" : ""}">${S.viewed[h.id] ? "확인 ✓" : "+" + REWARD.view + " EXP"}</span>
         </button>`).join("")}</div>
     </div>
     ${quizHTML(b)}
@@ -4123,7 +4147,7 @@ function renderGallery(){
       <label class="btn red${GAL.busy ? " dis" : ""}">${GAL.busy ? "액자에 넣는 중…" : "📷 사진 찍기"}<input type="file" accept="image/*" capture="environment" class="shotIn"${GAL.busy ? " disabled" : ""}></label>
       <label class="btn ghost${GAL.busy ? " dis" : ""}">앨범에서 고르기<input type="file" accept="image/*" class="shotIn"${GAL.busy ? " disabled" : ""}></label>
     </div>
-    <p class="small">${left ? `오늘 보상 ${left}번 남음 · 한 장에 +${REWARD.shot} EXP${t ? `, ${esc(t.name)} 점수에도 +${REWARD.shot}` : ""}` : "오늘 보상은 모두 받았어요. 사진은 계속 걸 수 있어요."}</p>
+    <p class="small">${left ? `오늘 보상 ${left}번 남음 · 한 장에 <b class="xpt">+${REWARD.shot} EXP</b>${t ? `, ${esc(t.name)} 점수에도 <b class="xpt">+${REWARD.shot}</b>` : ""}` : "오늘 보상은 모두 받았어요. 사진은 계속 걸 수 있어요."}</p>
     ${GAL.msg ? `<p class="note">${GAL.msg}</p>` : ""}
     <div class="gal-top"><h4 class="h-sec" style="font-size:15px">오늘의 갤러리</h4>
       ${showFilter ? `<div class="seg" role="tablist" aria-label="갤러리 보기">${[["all","전체"],["team","우리 팀"],["mine","내 사진"]].filter(([k]) => k !== "team" || t).map(([k, v]) => `<button role="tab" data-gf="${k}" aria-selected="${f === k}">${v}</button>`).join("")}</div>` : ""}
@@ -4674,6 +4698,27 @@ document.addEventListener("keydown", e => {
     else if ($("#eobo").classList.contains("on")) closeEobo();
     else if (curH) closeSheet();
   }});
+
+/* 키보드가 올라올 때: 화면이 확대되거나 밀리지 않도록 열린 창(채팅·댓글)을 보이는 화면 높이에 딱 맞춤 */
+(function(){
+  const vv = window.visualViewport;
+  const fit = () => {
+    const open = ["#chat", "#viewer", "#setm"].map(sel => $(sel)).find(el => el && !el.hidden);
+    const ae = document.activeElement, typing = ae && /^(TEXTAREA|INPUT)$/.test(ae.tagName) && open && open.contains(ae);
+    document.querySelectorAll(".pm").forEach(el => { if (el !== open || !typing || !vv) { el.style.height = ""; el.style.bottom = ""; el.classList.remove("kb"); } });
+    if (!open || !typing || !vv) return;
+    if (window.scrollY) window.scrollTo(0, 0);           // iOS가 문서 전체를 끌어올리는 것 되돌리기
+    const top = $("#phone").getBoundingClientRect().top;
+    const h = Math.round(vv.height + vv.offsetTop - Math.max(0, top));
+    open.style.bottom = "auto"; open.style.height = Math.max(240, h) + "px"; open.classList.add("kb");
+    const body = open.querySelector(".pm-body");
+    if (body && (open.id === "chat" || open.id === "viewer")) body.scrollTop = body.scrollHeight;
+  };
+  if (vv) { vv.addEventListener("resize", fit); vv.addEventListener("scroll", fit); }
+  document.addEventListener("focusin", () => setTimeout(fit, 60));
+  document.addEventListener("focusout", () => setTimeout(fit, 120));
+  window.addEventListener("scroll", () => { if (window.scrollY && document.activeElement && /^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)) window.scrollTo(0, 0); }, { passive:true });
+})();
 
 /* boot */
 if (INAPP) {
