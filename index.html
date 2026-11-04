@@ -616,6 +616,18 @@ input,textarea,select{font-size:max(16px,1em)}
 .brow.off,.zhead.off{opacity:.5}
 .zslot.closed .zs{border-style:dotted;opacity:.45}
 
+/* 체크인 사진 */
+.ci-photo{margin:4px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg)}
+.ci-photo img{display:block;width:100%;max-height:260px;object-fit:cover;animation:ciIn .35s ease-out}
+@keyframes ciIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+.ci-photo figcaption{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px}
+.ci-photo figcaption span{min-width:0;display:flex;flex-direction:column}
+.ci-photo figcaption b{font-size:13.5px}.ci-photo figcaption small{font-size:12px;color:var(--muted)}
+.ci-photo .btn{flex:none;position:relative;overflow:hidden}
+.ci-photo input[type=file]{position:absolute;inset:0;opacity:0}
+.vrow .vth{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--line);background:var(--sand)}
+.brow .bthumb{width:38px;height:38px;border-radius:8px;object-fit:cover;border:1.5px solid var(--yellow)}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -2726,6 +2738,9 @@ function gpsHTML(b){
         <span><b>사진으로 체크인</b><small>${ci ? `${fmtDate(ci.at)} · 현장 사진으로 체크인했어요` : `GPS가 잡히지 않으면 지금 이 자리에서 ${b.name}을(를) 찍어 체크인 · <b class="xpt">+${REWARD.photo} EXP</b>`}</small></span>
         ${ci ? `<span class="pill blue">체크인 완료</span>` : `<label class="btn sm${u.ciBusy ? " dis" : ""}">${u.ciBusy ? "올리는 중…" : "촬영"}<input type="file" accept="image/*" capture="environment" class="checkinIn" data-b="${b.id}"${u.ciBusy ? " disabled" : ""}></label>`}
       </div>
+      ${ciPhoto(b.id) ? `<figure class="ci-photo"><img src="${ciPhoto(b.id)}" alt="${esc(b.name)} 체크인 사진"><figcaption><span><b>📸 나의 체크인 사진</b><small>${ci ? fmtDate(ci.at) : ""} · ${esc(b.name)}</small></span>
+        <label class="btn sm ghost">사진 바꾸기<input type="file" accept="image/*" class="checkinIn" data-b="${b.id}" data-redo="1"></label></figcaption></figure>`
+        : ci ? `<p class="small" style="font-size:12px;color:var(--muted)">체크인 사진은 체크인한 휴대폰에서 볼 수 있어요.</p>` : ""}
       <p class="small" style="font-size:12.5px;color:var(--muted)">${placeDone(b.id) ? `✓ ${placeHow(b.id)}으로 이 장소를 현장 인증했어요. 지도에 노란색으로 표시돼요.` : "위치 인증이나 사진 체크인을 해야 지도에서 노란색(현장 인증)으로 바뀌어요."}</p>
       <hr>
       <div class="cert-row">
@@ -2853,7 +2868,8 @@ function renderVisits(){
     const B = BLD[x.bid], where = B ? `${B.p.name} ${B.b.name}` : esc(x.bid), hs = x.hid && HS[x.hid] ? HS[x.hid].h.read : "";
     const [mk, label, cls] = x.kind === "gps" ? ["到", `위치 인증 · ${x.dist}m 거리${x.acc ? ` (±${x.acc}m)` : ""}`, ""]
       : x.kind === "photo" ? ["寫", `인증샷 · ${hs}`, ""] : x.kind === "checkin" ? ["察", "사진 체크인", ""] : ["試", "시연용 인증", " demo"];
-    return `<div class="vrow"><span class="vi${cls}">${mk}</span><span><b>${where}</b><small>${label}</small></span><time datetime="${esc(x.at)}">${fmtDate(x.at)}</time></div>`;
+    const th = x.kind === "checkin" ? ciPhoto(x.bid) : x.kind === "photo" && x.hid ? PHOTOS[x.hid] : null;
+    return `<div class="vrow${th ? " has-th" : ""}">${th ? `<img class="vth" src="${th}" alt="${where} 사진" loading="lazy">` : `<span class="vi${cls}">${mk}</span>`}<span><b>${where}</b><small>${label}</small></span><time datetime="${esc(x.at)}">${fmtDate(x.at)}</time></div>`;
   }).join("")}</div>` : `<p class="small">아직 인증 기록이 없어요. 궁궐에서 핀을 열고 ‘위치 인증’이나 ‘촬영’을 눌러 보세요.</p>`;
 }
 function renderPuzzles(){
@@ -3149,7 +3165,7 @@ async function enterRemote(user){
     st.forEach(x => { S.stamps[x.id] = x.data().earnedAt; });
     S.visits = vs.docs.map(x => { const r = x.data(); return { bid:r.buildingId, hid:r.hotspotId, kind:r.method, dist:r.distanceM, acc:r.accuracyM, path:r.photoUrl, at:r.verifiedAt }; });
     S.visits.forEach(v => { if (v.path && v.hid && !String(v.path).startsWith("fs:")) PHOTOS[v.hid] = v.path; });
-    ph.docs.forEach(x => { const r = x.data(); if (!x.id.startsWith("checkin-") && (r.url || r.data)) PHOTOS[x.id] = r.url || r.data; });
+    ph.docs.forEach(x => { const r = x.data(); if (r.url || r.data) PHOTOS[x.id] = r.url || r.data; });
     if (!user.isAnonymous && d.provider !== "google") remoteSaveProfile();   // 익명 → Google 연결 직후
   } else {
     // 첫 로그인: 이 기기의 비회원 기록을 계정으로 옮깁니다
@@ -3523,7 +3539,7 @@ function renderPalaceMap(){
         z.bids.map(id => BLD[id].b).map(b => {
           const seen = b.hotspots.filter(h => S.viewed[h.id]).length, done = placeDone(b.id);
           return `<button class="brow${done ? " done" : ""}" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span>
-            <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? placeHow(b.id) + " ✓" : "현장 인증 전"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`;
+            <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? placeHow(b.id) + " ✓" : "현장 인증 전"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span>${ciPhoto(b.id) ? `<img class="bthumb" src="${ciPhoto(b.id)}" alt="" aria-hidden="true">` : `<span class="go" aria-hidden="true">›</span>`}</button>`;
         }).join("");
     }).join("")}</div>`;
   if (!HINT.map) setTimeout(() => { HINT.map = true; }, 4600);   // 안내 문구는 처음 몇 초만
@@ -4583,8 +4599,10 @@ function grantGPS(bid, info, demo){
 }
 
 /* 사진으로 체크인: GPS가 잡히지 않는 곳(실내·숲길)에서 현장 사진 한 장으로 인증 */
-async function handleCheckin(file, bid){
-  if (!file || !BLD[bid] || S.certs["checkin:" + bid]) return;
+// 체크인 사진: 인증과 함께 PHOTOS["checkin-전각id"]에 남겨 현장 미션 칸 · 방문 인증 내역 · 지도 목록에 바로 보여 줌
+const ciPhoto = bid => PHOTOS["checkin-" + bid];
+async function handleCheckin(file, bid, redo){
+  if (!file || !BLD[bid] || (S.certs["checkin:" + bid] && !redo)) return;
   const b = BLD[bid].b;
   certUI = { bid, busy:false, ciBusy:true, msg:"", err:false, demo:false }; rerenderSheet();
   let url;
@@ -4593,12 +4611,17 @@ async function handleCheckin(file, bid){
   } catch(e) {
     console.warn("checkin read:", e); certUI = { bid, busy:false, ciBusy:false, msg:PHOTO_READ_ERR, err:true, demo:false }; rerenderSheet(); return;
   }
+  PHOTOS["checkin-" + bid] = url;
+  const stored = savePhotos();
   remoteUploadPhoto("checkin-" + bid, url);   // 뒤에서 저장
+  if (redo) { certUI = { bid, busy:false, ciBusy:false, msg: stored ? "체크인 사진을 바꿨어요." : "기기 저장 공간이 가득 차서 이 사진은 이번 접속 동안만 보여요.", err:false, demo:false }; rerenderSheet(); return; }
+  if (!stored) certUI.msg = "기기 저장 공간이 가득 차서 사진은 이번 접속 동안만 보여요. 체크인 기록은 남습니다.";
   const at = new Date().toISOString();
   S.certs["checkin:" + bid] = { at };
   Rec.visit({ bid, kind:"checkin", at, path:null });
-  certUI = { bid, busy:false, ciBusy:false, msg:"", err:false, demo:false };
+  certUI = { bid, busy:false, ciBusy:false, msg: stored ? "" : "기기 저장 공간이 가득 차서 사진은 이번 접속 동안만 보여요. 체크인 기록은 남습니다.", err:false, demo:false };
   rerenderSheet(); setTimeout(() => checkZones(), 2600);
+  if (curScreen === "map") renderMap();
   eobo("到訪之寶", `${b.name} 체크인`, "현장 사진으로 방문을 인증했습니다", () => gain(REWARD.photo, `${b.name} 체크인`));
 }
 
@@ -4768,7 +4791,7 @@ document.addEventListener("click", e => {
 document.addEventListener("change", e => {
   if (e.target.classList.contains("photoIn")) { const f = e.target.files[0]; e.target.value = ""; handlePhoto(f); }
   if (e.target.classList.contains("shotIn")) { const f = e.target.files[0]; e.target.value = ""; handleShot(f); }
-  if (e.target.classList.contains("checkinIn")) { const f = e.target.files[0], bid = e.target.dataset.b; e.target.value = ""; handleCheckin(f, bid); }
+  if (e.target.classList.contains("checkinIn")) { const f = e.target.files[0], bid = e.target.dataset.b, redo = !!e.target.dataset.redo; e.target.value = ""; handleCheckin(f, bid, redo); }
 });
 document.addEventListener("input", e => {
   if (e.target.id === "plaqueText" || e.target.id === "writer") drawPlaque();
