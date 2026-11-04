@@ -712,6 +712,125 @@ html.master #phone{display:none!important}
 #mstCfmBox label.ck{display:flex;gap:8px;align-items:center;font-size:13.5px}
 #mstCfmBox label.ck input{width:18px;height:18px}
 
+/* ── 컴팩트 레이아웃: 첫 화면에 핵심이 들어오도록 여백·높이 줄이기 ── */
+.screen{gap:10px;padding-top:10px}
+.panel{padding:13px 14px;gap:10px;border-radius:14px}
+.h-sec{font-size:16px}
+.top{padding-block:6px 0}
+.top-row{padding-bottom:6px;gap:8px}
+.top .teambar{min-height:38px}
+.seg button{min-height:34px;padding:5px 11px;font-size:13.5px}
+.maprow{display:flex;gap:6px;align-items:stretch}
+.maprow .palseg{flex:1;min-width:0}
+.maprow .mapseg{align-self:stretch}
+.maprow .mapseg button{padding:5px 10px}
+.map-head{gap:6px;flex-wrap:nowrap}
+.map-head .ttl{flex-direction:column;gap:0;align-items:flex-start}
+.map-head .ttl b{font-size:19px;line-height:1.2}
+.map-head .ttl span{font-size:11.5px}
+.map-head .maptools{flex-wrap:nowrap;gap:5px;align-items:center;flex:none}
+.maptools .chip{min-height:34px;font-size:12.5px;padding:4px 10px}
+.map-head .zoom{min-height:34px;padding:4px 9px;font-size:12px}
+.map-head .zpct{min-width:0;font-size:11px}
+#mapView{display:flex;flex-direction:column;gap:8px}
+.map-legend{font-size:11px;gap:4px 10px}
+.huwon-ask{padding:11px 12px;gap:7px}
+.huwon-ask .small{font-size:12px}
+.hw-tgl{padding:7px 10px}
+.hw-tgl b{font-size:13px}.hw-tgl small{font-size:11px}
+.tip{font-size:12px;padding:6px 6px 6px 10px}
+.brow{padding-block:7px}
+.subtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:sticky;top:0;z-index:5;box-shadow:0 2px 8px rgba(43,37,35,.06)}
+.subtabs button{padding:5px 2px;font-size:12.5px;white-space:nowrap}
+.rank-hero{gap:12px}
+.ladder-box summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;min-height:40px}
+.ladder-box summary::-webkit-details-marker{display:none}
+.ladder-box summary::after{content:"▾";color:var(--muted);transition:transform .2s}
+.ladder-box[open] summary::after{transform:rotate(180deg)}
+.ladder-box summary span{display:flex;flex-direction:column}
+.ladder-box summary b{font-size:15px}.ladder-box summary small{font-size:12px;color:var(--muted)}
+.ladder-box[open] .ladder{margin-top:8px}
+.game-card{padding:12px}
+.guide-btn{min-height:40px;margin:2px 0}
+/* ☰ 메뉴 버튼 · 드로어 */
+.menu-btn{flex:none;width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;padding:0}
+.menu-btn span{display:block;width:17px;height:2px;border-radius:2px;background:var(--ink)}
+.menu-btn:active{transform:scale(.94)}
+.top-row .rank{flex:1;min-width:0}
+.drawer-bg{position:fixed;inset:0;z-index:64;background:rgba(43,37,35,.42);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.drawer-bg.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;z-index:65;width:min(84%,330px);background:var(--bg);display:flex;flex-direction:column;transform:translateX(-104%);transition:transform .32s cubic-bezier(.2,.8,.2,1);box-shadow:12px 0 32px rgba(43,37,35,.22);border-radius:0 20px 20px 0;overflow:hidden;visibility:hidden}
+.drawer.open{transform:translateX(0);visibility:visible}
+.drawer:not(.open){transition:transform .28s ease-in,visibility 0s .28s}
+.dr-head{flex:none;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 10px 16px;background:var(--ink);color:var(--white)}
+.dr-head b{font:400 19px/1.25 "Song Myung","Noto Serif KR",serif}
+.dr-eye{font-size:10.5px;letter-spacing:.12em;color:var(--yellow)}
+.dr-head .pm-x{background:rgba(255,255,255,.1);color:var(--white);border-color:rgba(255,255,255,.25);width:40px;height:40px}
+.dr-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 12px calc(env(safe-area-inset-bottom,0px) + 18px);display:flex;flex-direction:column;gap:12px}
+.dr-me{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px 12px;text-align:left;font:inherit;color:var(--ink);width:100%}
+.dr-me .av{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--gilt);display:grid;place-items:center;font:900 19px var(--f-disp)}
+.dr-me .dwho{display:flex;flex-direction:column;align-items:stretch;gap:2px;min-width:0;text-align:left}
+.dr-me b{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dr-me small{font-size:11.5px;color:var(--muted)}
+.dr-me .bar{display:block;height:5px;border-radius:9px;background:var(--line2);overflow:hidden;margin-top:3px}
+.dr-me .bar i{display:block;height:100%;background:var(--red);border-radius:9px}
+.dr-sec h4{margin:0 0 6px 2px;font-size:11.5px;color:var(--muted);letter-spacing:.06em}
+.dr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.dr-tile{display:flex;flex-direction:column;align-items:center;gap:1px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 4px;font:inherit;color:var(--ink);min-width:0}
+.dr-tile .ic{font-size:20px;line-height:1.2}
+.dr-tile b{font-size:12px;white-space:nowrap}
+.dr-tile small{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dr-tile.on{border-color:var(--blue);background:var(--blue-soft)}
+.dr-qcard{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.dr-qtop{display:flex;align-items:center;gap:10px}
+.dr-qtop b{font-size:13.5px;white-space:nowrap}
+.dr-qtop .qbar{flex:1;height:6px;border-radius:9px;background:var(--line2);overflow:hidden}
+.dr-qtop .qbar i{display:block;height:100%;background:var(--yellow)}
+.dr-next{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px dashed var(--red);background:var(--red-soft);border-radius:10px;padding:8px 10px;text-align:left;font:inherit;color:var(--ink);width:100%}
+.dr-next span{display:flex;flex-direction:column;min-width:0}
+.dr-next b{font-size:13.5px}.dr-next small{font-size:11px;color:var(--muted)}
+.dr-next .go{color:var(--red);font-size:18px}
+.dr-qcard .tiny{align-self:flex-start}
+.dr-team{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:9px 12px}
+.dr-team .flag{width:28px;height:28px;flex:none}
+.dr-team span{flex:1;min-width:0;display:flex;flex-direction:column}
+.dr-team b{font-size:14px}.dr-team small{font-size:11.5px;color:var(--muted)}
+.dr-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;min-height:48px;border:0;border-bottom:1px solid var(--line2);background:none;text-align:left;font:inherit;color:var(--ink);padding:6px 4px}
+.dr-row .ic{font-size:18px;text-align:center}
+.dr-row b{display:block;font-size:14px}.dr-row small{font-size:11.5px;color:var(--muted)}
+.dr-row .go{color:var(--muted);font-size:18px}
+.dr-row.admin b{color:var(--blue)}
+.dr-row.out{border-bottom:0}.dr-row.out b{color:var(--red)}
+.dr-sec > .dr-row:first-of-type{border-top:0}
+@media (max-width:370px){.maptools .chip{padding:4px 8px}.top-row{gap:6px}.menu-btn{width:36px;height:36px}}
+
+/* 지도 아래 장소: 구역별 3열 카드 */
+.blist{gap:6px}
+.zrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:center;padding-top:6px}
+.zrow:first-child{padding-top:0}
+.zrow .zmini{width:30px;height:30px;font-size:10.5px}
+.zrow .zmini svg{width:28px;height:28px}
+.zrow.got .zmini{border:0}
+.zrow .zt{display:flex;align-items:baseline;gap:6px;min-width:0;flex-wrap:wrap}
+.zrow .zt b{font:700 14px var(--f-disp)}
+.zrow .zt small{font-size:11px;color:var(--muted)}
+.zrow.off{opacity:.55}
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pcard{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:1px;min-height:68px;padding:24px 7px 6px;border:1px solid var(--line);border-radius:11px;background:var(--bg);text-align:left;font:inherit;color:var(--ink);min-width:0}
+.pcard:active{transform:scale(.97)}
+.pc-no{position:absolute;top:5px;left:6px;width:21px;height:21px;border-radius:50%;border:1.5px solid var(--blue);background:var(--card);color:var(--blue);display:grid;place-items:center;font:700 11px var(--f-body);font-variant-numeric:tabular-nums;z-index:1}
+.pc-memo{position:absolute;top:5px;right:6px;font-size:11px;color:#9a6a10;z-index:1}
+.pc-nm{font-size:12.5px;line-height:1.25;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:1}
+.pc-st{font-size:10.5px;color:var(--muted);white-space:nowrap;position:relative;z-index:1}
+.pcard.done{background:var(--yellow-soft);border-color:rgba(229,169,59,.7)}
+.pcard.done .pc-no{background:var(--yellow);border-color:var(--ink);color:var(--ink)}
+.pcard.done .pc-st{color:#8a5f12;font-weight:700}
+.pcard.off{opacity:.5}
+.pcard.ph .pc-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pcard.ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,37,35,0) 30%,rgba(43,37,35,.72))}
+.pcard.ph .pc-nm,.pcard.ph .pc-st{color:var(--white)}
+@media (min-width:520px){.pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -959,6 +1078,7 @@ html.master #phone{display:none!important}
   <header class="top">
     <div class="tip tip-head" id="tipHead" role="note" hidden><span>✦ 내 <b>품계와 경험치</b>예요. 현장 인증·퀴즈로 쑥쑥 올라가요.</span><button class="tip-x" data-tipx="head" aria-label="안내 닫기">×</button></div>
     <div class="top-row">
+    <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-controls="drawer" aria-expanded="false"><span></span><span></span><span></span></button>
     <button class="rank" id="rankBtn" aria-label="나의 관직 보기">
       <div class="seal" id="hSeal">從九</div>
       <div class="rank-meta">
@@ -978,10 +1098,12 @@ html.master #phone{display:none!important}
   <main id="main">
     <!-- 유적 지도 -->
     <section class="screen" id="s-map">
-      <div class="seg palseg" role="tablist" aria-label="궁궐·유적 선택" id="palTabs"></div>
-      <div class="seg mapseg" id="mapSeg" role="tablist" aria-label="지도 보기 방식">
-        <button role="tab" data-mv="map" aria-selected="true">🗺️ 지도</button>
-        <button role="tab" data-mv="scene" aria-selected="false">전각</button>
+      <div class="maprow">
+        <div class="seg palseg" role="tablist" aria-label="궁궐·유적 선택" id="palTabs"></div>
+        <div class="seg mapseg" id="mapSeg" role="tablist" aria-label="지도 보기 방식">
+          <button role="tab" data-mv="map" aria-selected="true" aria-label="지도로 보기">지도</button>
+          <button role="tab" data-mv="scene" aria-selected="false" aria-label="전각 그림으로 보기">전각</button>
+        </div>
       </div>
       <div class="subview" id="mapView"></div>
       <div class="subview" id="sceneView" hidden>
@@ -1001,9 +1123,12 @@ html.master #phone{display:none!important}
 
     <!-- 나의 관직 -->
     <section class="screen" id="s-rank" hidden>
-      <div class="panel lb-panel" id="lbPanel"></div>
-      <div class="panel" id="rosterPanel"></div>
-      <div class="panel">
+      <div class="seg subtabs" id="rankTabs" role="tablist" aria-label="관직·도장 보기">
+        <button role="tab" data-rt="me">📜 관직</button><button role="tab" data-rt="book">🔏 도장첩</button><button role="tab" data-rt="lb">🏆 랭킹</button><button role="tab" data-rt="log">🗂 기록</button>
+      </div>
+      <div class="panel lb-panel" id="lbPanel" data-rg="lb"></div>
+      <div class="panel" id="rosterPanel" data-rg="lb"></div>
+      <div class="panel" data-rg="me">
         <div class="rank-hero">
           <div class="seal lg" id="rSeal">從九</div>
           <div>
@@ -1015,7 +1140,7 @@ html.master #phone{display:none!important}
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel" data-rg="book">
         <div class="book-head"><h3 class="h-sec">탐방 도장첩</h3><span class="small" id="bookCount"></span></div>
         <button class="guide-btn" data-guide>📖 도장은 언제 찍히나요? <span>설명서 보기 ›</span></button>
         <div class="book"><div class="book-pages" id="bookPages" aria-label="도장첩 페이지, 옆으로 넘기기"></div></div>
@@ -1027,17 +1152,17 @@ html.master #phone{display:none!important}
         <p class="small" style="text-align:center">옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 <b class="xpt">+60 EXP</b>. 모두 모으면 명주실로 엮어 드려요. (창덕궁 후원은 예약했을 때만 열 수 있어요)</p>
       </div>
 
-      <div class="panel">
+      <div class="panel" data-rg="log">
         <h3 class="h-sec">방문 인증 내역</h3>
         <div id="visits"></div>
       </div>
 
-      <div class="panel">
+      <div class="panel" data-rg="log">
         <h3 class="h-sec">퍼즐 기록</h3>
         <div id="puzzles"></div>
       </div>
 
-      <div class="panel" id="gyojiPanel">
+      <div class="panel" id="gyojiPanel" data-rg="me">
         <h3 class="h-sec">교지(敎旨) 발급</h3>
         <p class="small" id="gyojiMsg"></p>
         <div class="field">
@@ -1048,10 +1173,9 @@ html.master #phone{display:none!important}
         <div class="out" id="gyojiOut" hidden></div>
       </div>
 
-      <div class="panel">
-        <h3 class="h-sec">품계와 관직</h3>
-        <p class="small">조선의 18품계. 종9품 참봉에서 시작해 정1품 영의정까지 올라갑니다.</p>
-        <ol class="ladder" id="ladder"></ol>
+      <div class="panel" data-rg="me">
+        <details class="ladder-box"><summary><span><b>품계와 관직 18단계</b><small>종9품 참봉 → 정1품 영의정 · 눌러서 펼치기</small></span></summary>
+        <ol class="ladder" id="ladder"></ol></details>
         <button class="tiny" id="resetBtn">기록 처음부터 다시 하기</button>
         <div id="resetConfirm" hidden class="btn-row">
           <span class="small">모든 EXP·도장·사진이 지워집니다.</span>
@@ -1217,6 +1341,13 @@ html.master #phone{display:none!important}
   <div class="pm-body" id="vwBody"></div>
   <div id="vwSay"></div>
 </div>
+
+<!-- 사이드 메뉴(드로어) -->
+<div class="drawer-bg" id="drawerBg" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" aria-label="전체 메뉴" aria-hidden="true">
+  <div class="dr-head"><div><div class="dr-eye">昌德宮 · 昌慶宮 · 宗廟</div><b>문학의 공간을 거닐다</b></div><button class="pm-x" id="drClose" aria-label="메뉴 닫기">×</button></div>
+  <div class="dr-body" id="drBody"></div>
+</aside>
 
 <!-- 도장 받는 법 설명서 -->
 <div class="pm over" id="guide" role="dialog" aria-modal="true" aria-labelledby="gdTitle" hidden>
@@ -2378,7 +2509,7 @@ function checkZones(silent){
 const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-plaques-photos-v1";
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
-  team:null, playMode:null, tips:{}, huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
+  team:null, playMode:null, tips:{}, rankTab:"me", huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
   mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
@@ -2933,7 +3064,13 @@ async function handlePhoto(file){
 })();
 
 /* ═════════ RANK SCREEN ═════════ */
+function applyRankTab(){
+  const tab = S.rankTab || "me";
+  document.querySelectorAll("#rankTabs [data-rt]").forEach(b => b.setAttribute("aria-selected", b.dataset.rt === tab));
+  document.querySelectorAll("#s-rank [data-rg]").forEach(el => el.hidden = el.dataset.rg !== tab);
+}
 function renderRank(){
+  applyRankTab();
   Players.render();
   const L = levelInfo(S.exp), R = RANKS[L.lv];
   $("#rSeal").textContent = R[1].slice(0, 2);
@@ -3064,6 +3201,60 @@ function openGuide(){
       return `<div class="gd-zone${st ? " got" : ""}${on ? "" : " off"}"><span>${pal.name} · <b>${z.name}</b><br><small>${z.bids.length}곳 중 ${zoneNeed(z)}곳 인증하면 도장</small></span><span class="st">${!on ? "닫힘" : st ? "도장 ✓" : `${k}/${zoneNeed(z)}`}</span></div>`; }).join("")}</div>`;
   $("#guide").hidden = false; $("#gdBody").scrollTop = 0; setTimeout(() => $("#gdClose").focus(), 30);
 }
+/* ═════════ ☰ 사이드 메뉴(드로어) ═════════
+   상단 왼쪽 ☰ → 왼쪽에서 스르륵. 바깥(어두운 배경)을 누르거나 왼쪽으로 밀면 닫힘 */
+function renderDrawer(){
+  const L = levelInfo(S.exp), Rk = RANKS[L.lv], k = acctKind(), t = Team.mine(), AZ = activeZones();
+  const got = AZ.filter(z => S.stamps[z.id]).length, nz = AZ.find(z => !S.stamps[z.id]);
+  const nzPal = nz && DATA.palaces.find(p => p.id === nz.pid), nzNext = nz && (nz.bids.find(b => !placeDone(b)) || nz.bids[0]);
+  const unread = Chat.unread();
+  const go = (s, ic, label, sub) => `<button class="dr-tile${curScreen === s ? " on" : ""}" data-dr="${s}"><span class="ic">${ic}</span><b>${label}</b><small>${sub}</small></button>`;
+  $("#drBody").innerHTML = `
+    <button class="dr-me" data-dr="settings">
+      <span class="av">${esc([...(S.nickname || "객")][0])}</span>
+      <span class="dwho"><b>${esc(S.nickname || "탐방객")}</b><small>${Rk[0]} ${Rk[2]} · ${acctLabel(k).split(" · ")[0]}</small>
+        <span class="bar"><i style="width:${L.lv >= MAX ? 100 : (L.into / L.need * 100).toFixed(1)}%"></i></span>
+        <small class="xpt" style="font-weight:600">${L.lv >= MAX ? `${S.exp} EXP` : `${L.into}/${L.need} EXP`}</small></span>
+      <span class="go" aria-hidden="true">›</span></button>
+    <div class="dr-sec"><h4>바로 가기</h4><div class="dr-grid">
+      ${go("map", "🗺️", "지도", "궁궐 지도")}${go("rank", "📜", "관직·도장", "품계 · 도장첩")}${go("quest", "🎮", "승급 퀘스트", "퀴즈 · 퀘스트")}
+      ${go("album", "📷", "사진첩", "풍경의 조각")}${go("studio", "🖌️", "체험 공간", "현판 만들기")}<button class="dr-tile" data-dr="lb"><span class="ic">🏆</span><b>랭킹존</b><small>TOP 3 · 명단</small></button>
+    </div></div>
+    <div class="dr-sec dr-quest"><h4>퀘스트 안내</h4>
+      <div class="dr-qcard"><div class="dr-qtop"><b>구역 도장 ${got}/${AZ.length}</b><span class="qbar"><i style="width:${AZ.length ? got / AZ.length * 100 : 0}%"></i></span></div>
+        ${nz ? `<button class="dr-next" data-dr-go="${nzNext}"><span><small>다음 목표</small><b>${nzPal.name} · ${nz.name}</b><small>${nz.bids.length}곳 중 ${zoneNeed(nz)}곳 현장 인증 · 지금 ${Math.min(zoneSeen(nz), zoneNeed(nz))}/${zoneNeed(nz)}</small></span><span class="go">›</span></button>`
+          : `<p class="small">구역 도장을 모두 모았어요! 도장첩을 확인해 보세요.</p>`}
+        <button class="tiny" data-dr="guide">📖 도장은 언제 찍히나요?</button></div></div>
+    <div class="dr-sec"><h4>우리 팀</h4>
+      ${t ? `<div class="dr-team">${flagSVG(t.color)}<span><b>${esc(t.name)}</b><small>팀원 ${teamMembersList().length}명 · 코드 ${esc(t.code || "")}</small></span>
+          <button class="btn sm" data-dr="chat">💬 채팅${unread ? ` <span class="badge">${unread}</span>` : ""}</button></div>`
+        : `<button class="dr-row" data-dr="team"><span class="ic">🚩</span><span><b>팀으로 참여하기</b><small>팀 코드로 모여 함께 도장 모으기</small></span><span class="go">›</span></button>`}</div>
+    <div class="dr-sec"><h4>설정</h4>
+      <button class="dr-row" data-dr="settings"><span class="ic">⚙️</span><span><b>내 정보 · 설정</b><small>닉네임 · 계정 · 팀 설정</small></span><span class="go">›</span></button>
+      <button class="dr-row" data-dr="diag"><span class="ic">🩺</span><span><b>연결 점검</b><small>채팅·사진이 안 될 때</small></span><span class="go">›</span></button>
+      <button class="dr-row" data-dr="tips"><span class="ic">💡</span><span><b>안내 말풍선 다시 보기</b></span><span class="go">›</span></button>
+      ${Store.admin ? `<button class="dr-row admin" data-dr="master"><span class="ic">🛡️</span><span><b>마스터(관리자) 페이지</b><small>참여 계정 명단 · 강퇴 관리 (새 창)</small></span><span class="go">›</span></button>` : ""}
+      <button class="dr-row out" data-act="logout"><span class="ic">🚪</span><span><b>${k === "google" ? "로그아웃" : "처음 화면으로 나가기"}</b></span></button>
+    </div>`;
+}
+function openDrawer(){
+  renderDrawer();
+  $("#drawer").classList.add("open"); $("#drawerBg").classList.add("on"); $("#drawer").setAttribute("aria-hidden", "false");
+  $("#menuBtn").setAttribute("aria-expanded", "true"); $("#app").classList.add("locked");
+  setTimeout(() => $("#drClose").focus({ preventScroll:true }), 60);
+}
+function closeDrawer(){
+  const d = $("#drawer"); if (!d || !d.classList.contains("open")) return;
+  d.classList.remove("open"); $("#drawerBg").classList.remove("on"); d.setAttribute("aria-hidden", "true"); d.style.transform = "";
+  $("#menuBtn").setAttribute("aria-expanded", "false");
+  if (!sheetOpen() && ["#setm", "#viewer", "#chat", "#guide"].every(id => $(id).hidden)) $("#app").classList.remove("locked");
+}
+(function(){   // 드로어를 왼쪽으로 밀어 닫기
+  const d = $("#drawer"); let x0 = null, dx = 0;
+  d.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; dx = 0; }, { passive:true });
+  d.addEventListener("touchmove", e => { if (x0 === null) return; dx = Math.min(0, e.touches[0].clientX - x0); if (dx < -8) { d.style.transition = "none"; d.style.transform = `translateX(${dx}px)`; } }, { passive:true });
+  d.addEventListener("touchend", () => { d.style.transition = ""; if (dx < -70) closeDrawer(); else d.style.transform = ""; x0 = null; });
+})();
 function closeGuide(){ const g = $("#guide"); if (g) g.hidden = true; }
 function renderQuests(){
   $("#quests").innerHTML = ZONES.map(z => {
@@ -3390,7 +3581,7 @@ async function enterGuest(){
    - Google 계정: Firebase 로그아웃 (기록은 서버에 남음)
    - 비회원(이 기기): 입장 상태만 끄고, 관직·도장 기록은 이 기기에 남김 */
 async function logout(){
-  closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); Store.admin = false;
+  closeDrawer(); closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); Store.admin = false;
   const app = $("#app"); app.classList.add("fade-out");
   Team.stop(); if (sheetOpen()) closeSheet();
   if (cloudOn()) { try { await fb.auth.signOut(); } catch(e) {} }
@@ -3651,12 +3842,12 @@ function renderPalaceMap(){
         || `<p class="small">장소 이야기 화면 아래 ‘나의 메모’에 적은 글이 여기에 모여요.</p>`}</div>
     </div>` : "";
   $("#mapView").innerHTML = `
-    <div class="map-head"><div class="ttl"><b>${pal.hanja}</b><span>${pal.name} · ${pal.buildings.length}곳 · 도장 ${palaceZones(pal.id).filter(z => S.stamps[z.id]).length}/${palaceZones(pal.id).length}</span></div>
-      <div class="zlv"><span class="zpct" id="mapZpct">${Math.round(mapZ * 100)}%</span><button class="zoom" id="mapZoom" aria-pressed="${mapZ > 1.01}"${mapZ > 1.01 ? "" : " hidden"}>전체 보기</button></div></div>
-    <div class="maptools" role="group" aria-label="지도 보기 옵션">
-      <button class="chip" id="tglRoute" aria-pressed="${MAPUI.route}">🧭 추천 동선</button>
-      <button class="chip" id="tglMemo" aria-pressed="${MAPUI.memo}">📝 메모${memoCount ? ` ${memoCount}` : ""}</button>
-    </div>
+    <div class="map-head"><div class="ttl"><b>${pal.hanja}</b><span>${pal.buildings.length}곳 · 도장 ${palaceZones(pal.id).filter(z => S.stamps[z.id]).length}/${palaceZones(pal.id).length}</span></div>
+      <div class="maptools" role="group" aria-label="지도 보기 옵션">
+        <button class="chip" id="tglRoute" aria-pressed="${MAPUI.route}" aria-label="추천 동선 보기">🧭 동선</button>
+        <button class="chip" id="tglMemo" aria-pressed="${MAPUI.memo}" aria-label="메모">📝${memoCount ? ` ${memoCount}` : " 메모"}</button>
+        <span class="zpct" id="mapZpct" hidden>${Math.round(mapZ * 100)}%</span><button class="zoom" id="mapZoom" aria-pressed="${mapZ > 1.01}"${mapZ > 1.01 ? "" : " hidden"}>전체</button>
+      </div></div>
     ${pal.id === "cdg" ? (S.huwonOpen === null && !S.stamps[HUWON_ZONE] ? `<div class="huwon-ask"><b>🌿 창덕궁 후원 관람을 예약했나요?</b><p class="small">후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원 구역을 빼고도 도장첩을 완성할 수 있어요. 나중에 언제든 바꿀 수 있어요.</p>
         <div class="btn-row"><button class="btn sm" data-huwon="open">예약했어요 · 후원 열기</button><button class="btn sm ghost" data-huwon="close">아니요 · 후원 닫기</button></div></div>` : huwonToggleHTML()) : ""}
     ${memoPanel}
@@ -3665,15 +3856,19 @@ function renderPalaceMap(){
       <span class="pinch-hint${HINT.map ? " off" : ""}" id="mapHint" aria-hidden="true">두 손가락으로 벌려 확대 · 오므려 축소</span></div>
     <p class="map-legend"><span><i class="b"></i>장소 번호</span><span><i class="y"></i>현장 인증</span>${MAPUI.route ? `<span><i class="rt"></i>추천 동선 (1번부터)</span>` : ""}<span><i class="r"></i>길</span>${M.sacred ? `<span><i class="s"></i>신로</span>` : ""}</p>
     <div class="panel blist">${ZONES.filter(z => z.pid === pal.id).map(z => {
-      const got = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z));
-      if (!zoneOn(z)) return `<div class="zhead off"><span class="zmini">닫힘</span><span><b>${z.name}</b><small>후원이 닫혀 있어요 · 도장 조건에서 빠져요</small></span></div>` + z.bids.map(id => BLD[id].b).map(b => `<button class="brow off" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span><span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>후원 닫힘 · 설명은 볼 수 있어요</small></span><span class="go" aria-hidden="true">›</span></button>`).join("");
-      return `<div class="zhead${got ? " got" : ""}"><span class="zmini">${got ? sealSVG(z.seal) : `${k}/${zoneNeed(z)}`}</span>
-          <span><b>${z.name}</b><small>${got ? `도장 받음 · ${stampDate(got)}` : `${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장`}</small></span></div>` +
-        z.bids.map(id => BLD[id].b).map(b => {
-          const seen = b.hotspots.filter(h => S.viewed[h.id]).length, done = placeDone(b.id);
-          return `<button class="brow${done ? " done" : ""}" data-mb="${b.id}"><span class="bi">${nums[b.id]}</span>
-            <span><b>${b.name}<span class="hz">${b.hanja}</span></b><small>${done ? placeHow(b.id) + " ✓" : "현장 인증 전"} · 글씨 ${seen}/${b.hotspots.length}${S.quizDone[b.id] ? " · 퀴즈 ✓" : ""}${S.memos[b.id] ? " · ✎ 메모" : ""}</small></span>${ciPhoto(b.id) ? `<img class="bthumb" src="${ciPhoto(b.id)}" alt="" aria-hidden="true">` : `<span class="go" aria-hidden="true">›</span>`}</button>`;
-        }).join("");
+      // 구역 이름 한 줄 + 장소는 3열 작은 카드 (번호 · 이름 · 인증 상태만)
+      const got = S.stamps[z.id], k = Math.min(zoneSeen(z), zoneNeed(z)), on = zoneOn(z);
+      const card = b => {
+        const done = placeDone(b.id), ph = ciPhoto(b.id), memo = S.memos[b.id];
+        return `<button class="pcard${done ? " done" : ""}${on ? "" : " off"}${ph ? " ph" : ""}" data-mb="${b.id}" aria-label="${nums[b.id]}번 ${b.name}${done ? ", " + placeHow(b.id) + " 완료" : ", 현장 인증 전"}">
+          ${ph ? `<img class="pc-bg" src="${ph}" alt="" aria-hidden="true">` : ""}
+          <span class="pc-no">${nums[b.id]}</span>${memo ? `<span class="pc-memo" aria-hidden="true">✎</span>` : ""}
+          <b class="pc-nm">${b.name}</b>
+          <small class="pc-st">${!on ? "후원 닫힘" : done ? `✓ ${placeHow(b.id)}` : "인증 전"}</small></button>`;
+      };
+      return `<div class="zrow${got ? " got" : ""}${on ? "" : " off"}"><span class="zmini">${!on ? "닫힘" : got ? sealSVG(z.seal) : `${k}/${zoneNeed(z)}`}</span>
+          <span class="zt"><b>${z.name}</b><small>${!on ? "후원이 닫혀 있어 도장 조건에서 빠져요" : got ? `도장 받음 · ${stampDate(got)}` : `${zoneNeed(z)}곳 인증하면 도장`}</small></span></div>
+        <div class="pgrid">${z.bids.map(id => card(BLD[id].b)).join("")}</div>`;
     }).join("")}</div>`;
   if (!HINT.map) setTimeout(() => { HINT.map = true; }, 4600);   // 안내 문구는 처음 몇 초만
   // 스크롤 위치 되살리기 (목록·지도 모두)
@@ -3688,7 +3883,7 @@ function applyMapZ(z){
   mapZ = z; const sc = $("#mapScroll"); if (!sc) return;
   const pm = sc.querySelector(".pmap"); pm.style.setProperty("--z", z); pm.classList.toggle("zl", z >= LABEL_Z);
   const btn = $("#mapZoom"); if (btn) { btn.hidden = z <= 1.01; btn.setAttribute("aria-pressed", z > 1.01); }
-  const pc = $("#mapZpct"); if (pc) pc.textContent = Math.round(z * 100) + "%";
+  const pc = $("#mapZpct"); if (pc) { pc.textContent = Math.round(z * 100) + "%"; pc.hidden = z <= 1.01; }
 }
 function setMapZoom(z){
   applyMapZ(z); const sc = $("#mapScroll"); if (!sc) return;
@@ -4869,6 +5064,22 @@ document.addEventListener("click", e => {
   if (t.closest("#smo")) { clearTimeout(smoT); closeSmo(); return; }
   /* 계정 */
   if (t.closest("#profileBtn")) { openSettings(); return; }
+  if (t.closest("#menuBtn")) { openDrawer(); return; }
+  if (t.closest("#drClose") || t.closest("#drawerBg")) { closeDrawer(); return; }
+  if ((el = t.closest("[data-dr-go]"))) { closeDrawer(); const id = el.dataset.drGo, { p } = BLD[id]; S.palace = p.id; S.bsel[p.id] = id; S.mapView = "map"; save(); renderHeader(); show("map"); openBuilding(id); return; }
+  if ((el = t.closest("[data-dr]"))) {
+    const a = el.dataset.dr; closeDrawer();
+    if (["map", "rank", "quest", "album", "studio"].includes(a)) { show(a); return; }
+    if (a === "lb") { S.rankTab = "lb"; save(); show("rank"); return; }
+    if (a === "settings") { openSettings(); return; }
+    if (a === "guide") { openGuide(); return; }
+    if (a === "chat") { openChat(); return; }
+    if (a === "team") { showModeSel("create"); return; }
+    if (a === "diag") { openSettings(); runDiag(); return; }
+    if (a === "tips") { S.tips = {}; save(); curScreen = "map"; renderAll(); toast("안내 말풍선을 다시 켰어요", "처음처럼 탭마다 작은 안내가 보여요"); return; }
+    if (a === "master") { window.open(location.pathname + "?master", "_blank"); return; }
+    return;
+  }
   if (t.closest("#setmClose")) { closeSettings(); return; }
   if ((el = t.closest("[data-tipx]"))) { dismissTip(el.dataset.tipx); return; }
   if (t.closest("#setTips")) { S.tips = {}; save(); closeSettings(); curScreen = "map"; renderAll(); toast("안내 말풍선을 다시 켰어요", "처음처럼 탭마다 작은 안내가 보여요"); return; }
@@ -4883,14 +5094,15 @@ document.addEventListener("click", e => {
   if (t.closest("#setChat") || t.closest("#tbChat") || t.closest("#openChat2")) { openChat(); return; }
   if (t.closest("#setGallery")) { closeSettings(); show("album"); requestAnimationFrame(() => { const m = $("#main"), r = $("#galleryPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
   if (t.closest("#setRank")) { closeSettings(); show("rank"); return; }
-  if (t.closest("#setRoster")) { closeSettings(); show("rank"); $("#main").scrollTop = 0; return; }
+  if (t.closest("#setRoster")) { closeSettings(); S.rankTab = "lb"; show("rank"); $("#main").scrollTop = 0; return; }
+  if ((el = t.closest("[data-rt]"))) { S.rankTab = el.dataset.rt; save(); applyRankTab(); $("#main").scrollTop = 0; if (S.rankTab === "book") renderBook(); return; }
   if ((el = t.closest("[data-shotdel]"))) { deleteShot(el.dataset.shotdel); return; }
   if ((el = t.closest("[data-shot]"))) { openViewer(el.dataset.shot); return; }
   if (t.closest("#vwClose")) { closeViewer(); return; }
   if (t.closest("#chatClose")) { closeChat(); return; }
   if ((el = t.closest("[data-delc]"))) { Cmt.remove(el.dataset.delc); return; }
   if ((el = t.closest("[data-act]"))) {
-    const a = el.dataset.act;
+    const a = el.dataset.act; closeDrawer();
     if (a === "google") { oauth("google", el); return; }
     if (a === "withdraw") { withdraw(); return; }
     if (el.dataset.confirm && !el.dataset.armed) { el.dataset.armed = "1"; el.textContent = el.dataset.confirm; return; }
@@ -5005,6 +5217,7 @@ document.addEventListener("input", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (!$("#cfm").hidden) { $("#cfmNo").click(); }
+    else if ($("#drawer").classList.contains("open")) closeDrawer();
     else if (!$("#guide").hidden) closeGuide();
     else if (!$("#chat").hidden) closeChat();
     else if (!$("#viewer").hidden) closeViewer();
