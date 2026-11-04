@@ -3276,6 +3276,10 @@ async function shrinkPhoto(file, max, q){ const img = await loadImage(file); con
 async function shrinkDataUrl(url, max, q){ const img = new Image(); img.src = url; await img.decode(); return drawSmall(img, max, q); }
 const nickFrom = u => String(u.displayName || (u.email || "").split("@")[0] || "탐방객").slice(0, 6);
 async function enterRemote(user){
+  // 강퇴(탈퇴 처리)된 뒤 다시 로그인한 경우: 표시를 지우고 처음부터
+  let wasKicked = false;
+  try { const k = await fb.db.collection("kicks").doc(user.uid).get(); if (k.exists) { await k.ref.delete(); wasKicked = true; wipeLocal(); } } catch(e) { console.warn("kick check:", e.code || e.message); }
+  if (wasKicked) setTimeout(() => toast("새로 시작해요", "이전 기록은 관리자 탈퇴 처리로 지워졌어요"), 1200);
   const uid = user.uid, guest = readLocal(), guestPhotos = readPhotos();
   Store.mode = "cloud"; Store.uid = uid; Store.provider = user.isAnonymous ? "anonymous" : "google";
   if (guest.team && guest.team.local) { guest.team = null; guest.playMode = null; }   // 이 기기 전용 팀은 서버로 옮기지 않음
@@ -3935,23 +3939,30 @@ function stampMoment(zid, after){
   smoT = setTimeout(() => { closeSmo(); if (S.bookAnim) setTimeout(() => toast("도장첩 완성!", "명주실로 엮었어요 · ‘관직·도장’에서 확인하세요"), 300); }, 3000);
 }
 function closeSmo(){ const el = $("#smo"); el.classList.remove("on"); setTimeout(() => { el.hidden = true; el.classList.remove("play"); }, 260); if (curScreen === "rank") renderBook(); }
-/* 마스터 페이지에서 강퇴되면 bans/{행사_uid} 문서가 생김 → 바로 로그아웃하고 첫 화면으로 */
+/* 마스터 페이지에서 강퇴(탈퇴 처리)되면 kicks/{uid} 문서가 생김
+   → 접속 중이면 바로 이 기기 기록을 지우고 로그아웃 (서버 기록은 관리자가 지움)
+   → 나중에 같은 계정으로 다시 로그인하면 kicks 문서를 지우고 처음부터 새로 시작 */
 const Ban = {
   un:null,
   watch(){
     this.stop(); if (!cloudOn()) return;
-    try { this.un = fb.db.collection("bans").doc(`${CONFIG.EVENT_ID}_${Store.uid}`).onSnapshot(d => { if (d.exists) kicked(d.data() || {}); }, e => console.warn("ban:", e.code || e.message)); } catch(e) { console.warn("ban watch:", e); }
+    try { this.un = fb.db.collection("kicks").doc(Store.uid).onSnapshot(d => { if (d.exists) kicked(d.data() || {}); }, e => console.warn("kick:", e.code || e.message)); } catch(e) { console.warn("kick watch:", e); }
   },
   stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; }
 };
+function wipeLocal(){
+  [KEY, OLDKEY, PKEY, GKEY].forEach(k => { try { localStorage.removeItem(k); } catch(e) {} });
+  try { Object.keys(localStorage).filter(k => k.startsWith(CHAT_KEY) || k.startsWith(CMT_KEY)).forEach(k => localStorage.removeItem(k)); } catch(e) {}
+}
 async function kicked(info){
-  Ban.stop(); Team.stop(); Players.stop(); clearInterval(Players.beat);
+  Ban.stop(); Team.stop(); Players.stop(); clearInterval(Players.beat); clearTimeout(Store.t);
+  Store.mode = "guest"; Store.uid = null; Store.provider = null; Store.admin = false;   // 먼저 서버 저장을 멈춤
   closeSettings(); closeViewer(); closeChat(); closeGuide(); if (sheetOpen()) closeSheet(); $("#cfm").hidden = true;
   try { await fb.auth.signOut(); } catch(e) {}
-  Store.mode = "guest"; Store.uid = null; Store.provider = null; Store.admin = false;
-  S = readLocal(); S.entered = false; save(); PHOTOS = readPhotos(); Team.board = []; GAL.items = [];
+  wipeLocal();
+  S = fresh(); PHOTOS = {}; Team.board = []; GAL.items = []; Object.keys(SCROLL).forEach(x => delete SCROLL[x]);
   hideModeSel(); curScreen = "map"; renderAll(); showLogin();
-  loginNote(`관리자가 이 탐방에서 계정을 내보냈어요.${info.reason ? `<br>사유: ${esc(info.reason)}` : ""}<br>궁금한 점은 선생님께 문의해 주세요.`, true);
+  loginNote(`관리자가 이 계정을 탈퇴 처리했어요. 지금까지의 기록은 모두 지워졌어요.${info.reason ? `<br>사유: ${esc(info.reason)}` : ""}<br>같은 계정으로 다시 로그인하면 처음부터 새로 시작할 수 있어요.`, true);
 }
 function checkAdmin(){
   Store.admin = false;
@@ -5048,10 +5059,10 @@ async function boot(){
 /* ═════════ 🛡️ 마스터(관리자) 페이지 ═════════
    주소: (앱 주소)?master  — 일반 화면과 완전히 따로 열립니다.
    - 관리자 Google 계정으로 로그인해야 열림 (관리자 이메일은 firestore.rules 의 isAdmin()에만 있음)
-   - 참여자 명단(players)을 실시간으로 보고, 강퇴하면 bans/{행사_uid} 를 만들고 명단·팀원 기록(선택: 오늘 사진)을 지웁니다.
-   - 강퇴된 사람의 앱은 즉시 로그아웃되고, 같은 계정으로는 명단·팀에 다시 들어올 수 없습니다. '강퇴 해제'로 되돌릴 수 있어요. */
+   - 참여자 명단(players)을 실시간으로 보고, 강퇴하면 kicks/{uid} 표시 후 그 계정의 서버 기록·사진을 모두 지웁니다(탈퇴 처리).
+   - 강퇴된 사람의 앱은 즉시 이 기기 기록까지 지우고 로그아웃되며, 같은 계정으로 다시 로그인하면 처음부터 새로 시작합니다. */
 const MASTER = (() => { try { const q = new URLSearchParams(location.search); return q.has("master") || location.hash === "#master"; } catch(e) { return false; } })();
-const MST = { players:[], bans:[], q:"", filter:"all", un:[], tick:null, email:"", msg:"" };
+const MST = { players:[], kicks:[], q:"", filter:"all", un:[], tick:null, email:"", msg:"" };
 function mstAgo(iso){
   if (!iso) return "기록 없음";
   const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
@@ -5088,15 +5099,15 @@ async function mstEnter(user){
   MST.un.forEach(f => { try { f(); } catch(e) {} }); MST.un = [];
   MST.un.push(fb.db.collection("players").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.players = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
     e => { MST.msg = "참여자 명단을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
-  MST.un.push(fb.db.collection("bans").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.bans = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
-    e => { MST.msg = "강퇴 목록을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
+  MST.un.push(fb.db.collection("kicks").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.kicks = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
+    e => { MST.msg = "강퇴 기록을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
   clearInterval(MST.tick); MST.tick = setInterval(mstRender, 30000);   // '접속 중' 표시 갱신
   mstRender();
 }
 function mstRender(){
   const main = $("#mstMain"); if (!main || !MST.email) return;
   const now = Date.now(), on = p => p.seenAt && now - new Date(p.seenAt).getTime() < ONLINE_MS;
-  const banned = new Set(MST.bans.map(b => b.uid));
+  const banned = new Set(MST.kicks.map(b => b.uid));
   let list = MST.players.filter(p => !banned.has(p.uid));
   const q = MST.q.trim().toLowerCase();
   if (q) list = list.filter(p => String(p.nickname || "").toLowerCase().includes(q) || String(p.teamName || "").toLowerCase().includes(q) || String(p.uid).toLowerCase().startsWith(q));
@@ -5107,7 +5118,7 @@ function mstRender(){
       <span><b>${esc(p.nickname || "탐방객")}</b><small>${p.provider === "google" ? "Google" : p.provider === "anonymous" ? "게스트" : "계정"} · ${esc(String(p.uid).slice(0, 8))}…</small></span>
       <span class="mid"><b>${esc(rk(p))}</b><small>최근 접속 ${mstAgo(p.seenAt)}</small></span>
       <span class="mxp"><b>${(p.exp | 0).toLocaleString()}</b> EXP</span>
-      <span class="act"><button class="mst-kick" data-kick="${esc(p.uid)}">강퇴</button></span></div>`;
+      <span class="act"><button class="mst-kick" data-kick="${esc(p.uid)}">강퇴 · 탈퇴</button></span></div>`;
   const groups = new Map();
   list.forEach(p => { const k = p.teamId || "_solo"; if (!groups.has(k)) groups.set(k, { id:k, name:p.teamId ? (p.teamName || "조") : "개인 참여", color:p.teamColor, list:[] }); groups.get(k).list.push(p); });
   const gs = [...groups.values()].sort((a, b) => (a.id === "_solo") - (b.id === "_solo") || a.name.localeCompare(b.name, "ko", { numeric:true }));
@@ -5116,7 +5127,7 @@ function mstRender(){
       <div class="mst-stat"><b>${MST.players.filter(p => !banned.has(p.uid)).length}</b><small>참여 계정</small></div>
       <div class="mst-stat on"><b>${MST.players.filter(p => !banned.has(p.uid) && on(p)).length}</b><small>접속 중 (10분 안)</small></div>
       <div class="mst-stat"><b>${teams.size}</b><small>조(팀)</small></div>
-      <div class="mst-stat ban"><b>${MST.bans.length}</b><small>강퇴됨</small></div>
+      <div class="mst-stat ban"><b>${MST.kicks.length}</b><small>강퇴(탈퇴 처리) · 재접속 전</small></div>
     </div>
     ${MST.msg ? `<p class="note err">${MST.msg}</p>` : ""}
     <div class="mst-card">
@@ -5126,40 +5137,50 @@ function mstRender(){
           ${g.list.sort((a, b) => String(a.nickname || "").localeCompare(String(b.nickname || ""), "ko")).map(row).join("")}</div>`).join("")
         : `<div class="mst-empty">${q || MST.filter === "on" ? "조건에 맞는 참여자가 없어요." : "아직 참여한 계정이 없어요."}</div>`}
     </div>
-    <div class="mst-card"><b>강퇴된 계정 ${MST.bans.length}</b>
-      ${MST.bans.length ? `<div class="mst-grp">${MST.bans.slice().sort((a, b) => String(b.at).localeCompare(String(a.at))).map(b => `<div class="mst-row"><i class="dot"></i>
+    <div class="mst-card"><b>강퇴(탈퇴 처리)한 계정 ${MST.kicks.length}</b>
+      ${MST.kicks.length ? `<div class="mst-grp">${MST.kicks.slice().sort((a, b) => String(b.at).localeCompare(String(a.at))).map(b => `<div class="mst-row"><i class="dot"></i>
           <span><b>${esc(b.nickname || "탐방객")}</b><small>${esc(b.teamName || "개인")} · ${esc(String(b.uid).slice(0, 8))}…</small></span>
-          <span class="mid"><b>${esc(b.reason || "사유 없음")}</b><small>${mstAgo(b.at)} · ${esc(b.by || "")}</small></span><span class="mxp"></span>
-          <span class="act"><button class="mst-kick un" data-unban="${esc(b._id)}">강퇴 해제</button></span></div>`).join("")}</div>`
-        : `<div class="mst-empty">강퇴된 계정이 없어요.</div>`}
-      <p class="mst-help" style="margin-top:8px">강퇴하면 그 학생의 앱이 바로 로그아웃되고, 같은 계정으로는 명단·팀에 다시 들어올 수 없어요. 게스트 계정은 새 게스트로 다시 들어올 수 있으니 필요하면 다시 강퇴해 주세요.</p></div>`;
+          <span class="mid"><b>${esc(b.reason || "사유 없음")}</b><small>${mstAgo(b.at)} · ${b.done ? "기록 삭제 완료" : "삭제 중…"}</small></span><span class="mxp"></span>
+          <span class="act"><small style="color:var(--muted)">재접속 대기</small></span></div>`).join("")}</div>`
+        : `<div class="mst-empty">강퇴한 계정이 없어요.</div>`}
+      <p class="mst-help" style="margin-top:8px">강퇴하면 그 계정의 관직·EXP·도장·방문 인증·사진·팀원 기록·댓글·채팅이 모두 지워지는 <b>탈퇴 처리</b>가 돼요. 접속 중이던 학생 앱은 바로 로그아웃돼요.<br>같은 계정으로 다시 로그인하면 처음부터 새로 시작할 수 있고, 그때 이 목록에서 자동으로 빠져요.</p></div>`;
   const qi = $("#mstQ"); if (qi && MST.focus) { qi.focus(); qi.setSelectionRange(qi.value.length, qi.value.length); }
 }
 function mstConfirm(html){ return new Promise(res => { $("#mstCfmBox").innerHTML = html; $("#mstCfm").hidden = false; MST.res = v => { $("#mstCfm").hidden = true; res(v); }; }); }
+// 강퇴 = 탈퇴 처리: 표시(kicks) → 그 계정의 서버 기록·사진 모두 삭제. 로그인 계정 자체는 남아 같은 계정으로 다시 로그인 가능
+async function mstPurge(uid, step){
+  const users = fb.db.collection("users").doc(uid);
+  step("댓글·채팅 지우는 중…");
+  try { const rq = await users.collection("refs").get(); await Promise.all(rq.docs.map(d => { const p = d.data().path; return p ? fb.db.doc(p).delete().catch(() => {}) : null; })); } catch(e) { console.warn("refs:", e.code || e.message); }
+  step("사진 지우는 중…");
+  try { const g = await fb.db.collection("gallery").where("uid", "==", uid).get();
+    for (const d of g.docs) { try { const cq = await d.ref.collection("comments").get(); await Promise.all(cq.docs.map(c => c.ref.delete())); } catch(e) {} await d.ref.delete(); } } catch(e) { console.warn("gallery:", e.code || e.message); }
+  if (fb.st) for (const folder of ["certshots", "gallery"]) { try { const l = await fb.st.ref(`${folder}/${uid}`).listAll(); await Promise.all(l.items.map(it => it.delete())); } catch(e) { console.warn("storage:", e.code || e.message); } }
+  step("팀·명단에서 빼는 중…");
+  try { const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete())); } catch(e) { console.warn("team:", e.code || e.message); }
+  try { const pq = await fb.db.collection("players").where("uid", "==", uid).get(); await Promise.all(pq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("players:", e.code || e.message); }
+  step("관직·도장 기록 지우는 중…");
+  for (const sub of ["stamps", "visits", "puzzles", "refs", "photos"]) { try { const q = await users.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); } catch(e) { console.warn(sub + ":", e.code || e.message); } }
+  await users.delete();
+}
 async function mstKick(uid){
   const p = MST.players.find(x => x.uid === uid); if (!p) return;
-  const ok = await mstConfirm(`<h2 id="mstCfmT">${esc(p.nickname || "탐방객")} 계정을 강퇴할까요?</h2>
+  const ok = await mstConfirm(`<h2 id="mstCfmT">${esc(p.nickname || "탐방객")} 계정을 강퇴(탈퇴 처리)할까요?</h2>
     <p class="small">${esc(p.teamName || "개인 참여")} · ${(p.exp | 0).toLocaleString()} EXP</p>
+    <p class="small">관직·EXP·도장·방문 인증·사진·팀원 기록·댓글·채팅이 <b>모두 지워지고</b> 되돌릴 수 없어요. 같은 계정으로 다시 로그인하면 처음부터 새로 시작해요.</p>
     <input class="input" id="mstReason" maxlength="60" placeholder="사유 (선택, 학생 화면에 보여요)">
-    <label class="ck"><input type="checkbox" id="mstPhotos"> 이 계정이 올린 풍경의 조각 사진도 지우기</label>
-    <div class="cfm-btns"><button class="btn ghost" data-mst="no">취소</button><button class="btn red" data-mst="yes">강퇴하기</button></div>`);
+    <p class="note err" id="mstStep" hidden></p>
+    <div class="cfm-btns"><button class="btn ghost" data-mst="no">취소</button><button class="btn red" data-mst="yes">강퇴 · 탈퇴 처리</button></div>`);
   if (!ok) return;
-  const reason = ok.reason, photos = ok.photos;
+  const step = t => { MST.msg = `${esc(p.nickname || "탐방객")}: ${t}`; mstRender(); };
   try {
-    await fb.db.collection("bans").doc(`${CONFIG.EVENT_ID}_${uid}`).set({ uid, event:CONFIG.EVENT_ID, nickname:p.nickname || "", teamName:p.teamName || null, reason, by:MST.email, at:new Date().toISOString() });
-    try { await fb.db.collection("players").doc(p._id).delete(); } catch(e) { console.warn(e); }
-    try { const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete())); } catch(e) { console.warn(e); }
-    if (photos) { try { const g = await fb.db.collection("gallery").where("uid", "==", uid).get(); await Promise.all(g.docs.map(d => d.ref.delete())); } catch(e) { console.warn(e); } }
+    const kref = fb.db.collection("kicks").doc(uid);
+    await kref.set({ uid, event:CONFIG.EVENT_ID, nickname:p.nickname || "", teamName:p.teamName || null, reason:ok.reason, by:MST.email, at:new Date().toISOString(), done:false });
+    await mstPurge(uid, step);
+    try { await kref.set({ done:true }, { merge:true }); } catch(e) {}
     MST.msg = "";
-  } catch(e) { MST.msg = `강퇴하지 못했어요 (${esc(e.code || e.message)}). firestore.rules 를 새로 게시했는지 확인해 주세요.`; }
+  } catch(e) { MST.msg = `탈퇴 처리 중 문제가 생겼어요 (${esc(e.code || e.message)}). firestore.rules·storage.rules 를 새로 게시했는지 확인해 주세요.`; }
   mstRender();
-}
-async function mstUnban(id){
-  const b = MST.bans.find(x => x._id === id); if (!b) return;
-  const ok = await mstConfirm(`<h2 id="mstCfmT">${esc(b.nickname || "탐방객")} 강퇴를 해제할까요?</h2><p class="small">해제하면 다시 접속해 명단과 팀에 들어올 수 있어요. (지워진 팀원 기록은 팀 코드로 다시 참여해야 해요)</p>
-    <div class="cfm-btns"><button class="btn ghost" data-mst="no">취소</button><button class="btn" data-mst="yes">해제하기</button></div>`);
-  if (!ok) return;
-  try { await fb.db.collection("bans").doc(id).delete(); } catch(e) { MST.msg = `해제하지 못했어요 (${esc(e.code || e.message)})`; mstRender(); }
 }
 if (MASTER) {
   document.addEventListener("click", async e => {
@@ -5173,8 +5194,7 @@ if (MASTER) {
     if (t.closest("#mstOut")) { MST.un.forEach(f => { try { f(); } catch(_) {} }); MST.un = []; MST.email = ""; clearInterval(MST.tick); try { await fb.auth.signOut(); } catch(_) {} mstLogin(); return; }
     if ((el = t.closest("[data-mf]"))) { MST.filter = el.dataset.mf; MST.focus = false; mstRender(); return; }
     if ((el = t.closest("[data-kick]"))) { mstKick(el.dataset.kick); return; }
-    if ((el = t.closest("[data-unban]"))) { mstUnban(el.dataset.unban); return; }
-    if ((el = t.closest("[data-mst]"))) { const yes = el.dataset.mst === "yes"; const r = $("#mstReason"), ph = $("#mstPhotos"); MST.res && MST.res(yes ? { reason: r ? r.value.trim().slice(0, 60) : "", photos: ph ? ph.checked : false } : false); return; }
+    if ((el = t.closest("[data-mst]"))) { const yes = el.dataset.mst === "yes"; const r = $("#mstReason"); MST.res && MST.res(yes ? { reason: r ? r.value.trim().slice(0, 60) : "" } : false); return; }
   });
   document.addEventListener("input", e => { if (e.target.id === "mstQ") { MST.q = e.target.value; MST.focus = true; mstRender(); } });
   masterBoot();
