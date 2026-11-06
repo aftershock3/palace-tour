@@ -11,6 +11,17 @@
 <meta property="og:title" content="궁궐을 읽다">
 <meta property="og:description" content="궁궐 현판 탐험기 · 창덕궁 · 창경궁 · 종묘">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="궁궐을 읽다">
+<meta property="og:url" content="https://palace-tour-vb87.vercel.app/">
+<meta property="og:image" content="https://palace-tour-vb87.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="궁궐을 읽다">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="궁궐을 읽다">
+<meta name="twitter:description" content="궁궐 현판 탐험기 · 창덕궁 · 창경궁 · 종묘">
+<meta name="twitter:image" content="https://palace-tour-vb87.vercel.app/og.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2623,7 +2634,7 @@ function checkZones(silent){
 const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-plaques-photos-v1";
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
-  team:null, playMode:null, tips:{}, rankTab:"me", from:"", huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
+  team:null, playMode:null, tips:{}, rankTab:"me", from:"", huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마", shotTagCustom:"",
   mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
@@ -3389,13 +3400,14 @@ function startGame(mode){
   mode === "quiz" ? newQuiz() : newOrder();
 }
 function newQuiz(){
-  const keys = Object.keys(HANJA), c = pick(keys), ans = HANJA[c].h + " " + HANJA[c].e;
-  const pool = shuffle(keys.filter(k => k !== c).map(k => HANJA[k].h + " " + HANJA[k].e).filter(v => v !== ans));
+  const en = LANG === "en", lab = k => en ? hanjaEN(k) : HANJA[k].h + " " + HANJA[k].e;
+  const keys = Object.keys(HANJA), c = pick(keys), ans = lab(c);
+  const pool = shuffle(keys.filter(k => k !== c).map(lab).filter(v => v !== ans));
   const opts = shuffle([ans, ...[...new Set(pool)].slice(0, 3)]);
   G.q = {c, ans, opts, done:false};
-  $("#game").innerHTML = `<div class="quiz-char">${c}</div><p class="small" style="text-align:center">이 한자의 훈과 음은?</p>
-    <div class="opts">${opts.map((o, i) => `<button class="opt" data-o="${i}">${o}</button>`).join("")}</div>
-    <div class="fb" id="fb"></div>${G.streak > 1 ? `<div class="streak">${G.streak}연속 정답 중</div>` : ""}`;
+  $("#game").innerHTML = `<div class="quiz-char">${c}</div><p class="small" style="text-align:center"${en ? " data-noi18n" : ""}>${en ? "What does this Hanja mean? (sound in brackets)" : "이 한자의 훈과 음은?"}</p>
+    <div class="opts"${en ? " data-noi18n" : ""}>${opts.map((o, i) => `<button class="opt" data-o="${i}">${o}</button>`).join("")}</div>
+    <div class="fb" id="fb"${en ? " data-noi18n" : ""}></div>${G.streak > 1 ? `<div class="streak">${en ? `${G.streak} correct in a row` : `${G.streak}연속 정답 중`}</div>` : ""}`;
 }
 function answerQuiz(i, btn){
   if (G.q.done) return; G.q.done = true;
@@ -3405,11 +3417,14 @@ function answerQuiz(i, btn){
   if (ok) {
     G.streak++; P.right++; P.best = Math.max(P.best, G.streak);
     const n = Math.min(30, REWARD.quiz + (G.streak - 1) * 5); G.q.n = n;
-    Rec.puzzle("quiz", G.q.c, n); gain(n, G.streak > 1 ? `훈음 맞히기 · ${G.streak}연속 정답` : "훈음 맞히기 정답");
+    Rec.puzzle("quiz", G.q.c, n); gain(n, LANG === "en" ? (G.streak > 1 ? `Hanja quiz · ${G.streak} in a row` : "Hanja quiz correct") : (G.streak > 1 ? `훈음 맞히기 · ${G.streak}연속 정답` : "훈음 맞히기 정답"));
   }
   else { G.streak = 0; btn.classList.add("wrong"); save(); }
-  $("#fb").innerHTML = `${ok ? `<span class="fbx ok">정답 <b class="xpt">+${G.q.n} EXP</b>${G.streak > 1 ? ` · ${G.streak}연속` : ""}</span>` : `<span class="fbx">아쉬워요 · <b>+0 EXP</b></span>`}${G.q.c} = ${d.h} ${d.e} · ${d.m}`;
-  $("#game").insertAdjacentHTML("beforeend", `<button class="btn" id="nextQ">다음 문제</button>`);
+  const en = LANG === "en";
+  $("#fb").innerHTML = en
+    ? `${ok ? `<span class="fbx ok">Correct <b class="xpt">+${G.q.n} EXP</b>${G.streak > 1 ? ` · ${G.streak} in a row` : ""}</span>` : `<span class="fbx">Not quite · <b>+0 EXP</b></span>`}${G.q.c} = ${hanjaEN(G.q.c)} · Korean: ${d.h} ${d.e}`
+    : `${ok ? `<span class="fbx ok">정답 <b class="xpt">+${G.q.n} EXP</b>${G.streak > 1 ? ` · ${G.streak}연속` : ""}</span>` : `<span class="fbx">아쉬워요 · <b>+0 EXP</b></span>`}${G.q.c} = ${d.h} ${d.e} · ${d.m}`;
+  $("#game").insertAdjacentHTML("beforeend", `<button class="btn" id="nextQ">${en ? "Next question" : "다음 문제"}</button>`);
 }
 function newOrder(){
   const pool = Object.values(HS).filter(x => x.h.type === "현판" || x.h.type === "시판");
@@ -3420,11 +3435,12 @@ function newOrder(){
 }
 function drawOrder(){
   const {h, b, chars, mixed, k} = G.o, v = h.layout === "v";
-  $("#game").innerHTML = `<p class="small" style="text-align:center">${b.name}의 ${h.type}</p>
+  const en = LANG === "en", TY = { "현판":"plaque", "시판":"poem board", "주련":"pillar couplet", "편액":"plaque" };
+  $("#game").innerHTML = `<p class="small" style="text-align:center"${en ? " data-noi18n" : ""}>${en ? `${enName(b.id)} · ${TY[h.type] || h.type}` : `${b.name}의 ${h.type}`}</p>
     <div class="slots">${chars.map((c, i) => `<div class="slot${i < k ? ' fill' : ''}">${i < k ? c : ""}</div>`).join("")}</div>
     <div class="tiles" id="otiles">${mixed.map((c, i) => `<button class="tilebtn" data-t="${i}">${c}</button>`).join("")}</div>
-    <div class="fb" id="fb">${k === chars.length ? `<span class="fbx ok">완성 <b class="xpt">+${REWARD.order} EXP</b></span>${h.text} · ${h.read} — ${h.gist}` : ""}</div>`;
-  if (k === chars.length) $("#game").insertAdjacentHTML("beforeend", `<button class="btn" id="nextO">다른 현판</button>`);
+    <div class="fb" id="fb"${en ? " data-noi18n" : ""}>${k === chars.length ? (en ? `<span class="fbx ok">Complete <b class="xpt">+${REWARD.order} EXP</b></span>${h.text} · ${romanize(h.read).replace(/^./, m => m.toUpperCase())} — ${[...h.text].filter(c => EN_HANJA[c]).map(c => `${c} ${EN_HANJA[c]}`).join(" · ")}` : `<span class="fbx ok">완성 <b class="xpt">+${REWARD.order} EXP</b></span>${h.text} · ${h.read} — ${h.gist}`) : ""}</div>`;
+  if (k === chars.length) $("#game").insertAdjacentHTML("beforeend", `<button class="btn" id="nextO">${en ? "Another plaque" : "다른 현판"}</button>`);
 }
 function tapOrder(i, btn){
   const o = G.o; if (o.k >= o.chars.length) return;
@@ -3435,7 +3451,7 @@ function tapOrder(i, btn){
     document.querySelectorAll(".tilebtn").forEach((b, j) => { if (used[j]) { b.disabled = true; b.textContent = "·"; } });
     if (o.k === o.chars.length) {
       S.puzzles.order[o.h.id] = (S.puzzles.order[o.h.id] || 0) + 1;
-      Rec.puzzle("order", o.h.id, REWARD.order); gain(REWARD.order, `현판 읽기 완성 · ${o.h.read}`);
+      Rec.puzzle("order", o.h.id, REWARD.order); gain(REWARD.order, LANG === "en" ? `Plaque complete · ${romanize(o.h.read)}` : `현판 읽기 완성 · ${o.h.read}`);
     }
   } else { btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake"); }
 }
@@ -3537,7 +3553,7 @@ async function initFirebase(){
 const cloudOn = () => Store.mode === "cloud";
 const userRef = (uid = Store.uid) => fb.db.collection("users").doc(uid);
 const progressOf = () => ({ viewed:S.viewed, cards:S.cards, certs:S.certs, puzzles:S.puzzles, palace:S.palace, bsel:S.bsel, style:S.style,
-  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, tips:S.tips, from:S.from, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
+  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, tips:S.tips, from:S.from, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, shotTagCustom:S.shotTagCustom, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
 async function remoteSaveProfile(){
   if (!cloudOn()) return;
   try {
@@ -4113,15 +4129,81 @@ function openBuilding(bid, back){
   $("#sheetBody").scrollTop = back ? (SH.bscroll || 0) : 0;   // 글씨 상세에서 돌아오면 보던 위치 그대로
   setTimeout(() => $("#shClose").focus({ preventScroll:true }), 50);
 }
+/* ═════ English: 전각 퀴즈 · 한자 뜻 · 로마자 읽기 ═════ */
+const QUIZ_EN = {
+  honghwamun:{ q:"In Honghwamun, what does ‘化 (hwa)’ mean?", o:["To teach and transform people","Flower","Fire","Picture"], why:"弘化 means ‘spread virtue widely and transform the people through teaching.’" },
+  myeongjeongjeon:{ q:"What do the rank stones in the Myeongjeongjeon courtyard show?", o:["Where officials stood","The time of day","How much it rained","Which way to go"], why:"At morning assemblies, officials lined up by the rank carved on each stone." },
+  haminjeong:{ q:"What do the four poem boards inside Haminjeong describe?", o:["Spring, summer, autumn and winter","Four kings","North, south, east and west","Four brothers"], why:"春水·夏雲·秋月·冬嶺 — each line paints the scenery of one season." },
+  donhwamun:{ q:"Which book does the phrase ‘敦化 (donhwa)’ come from?", o:["The Doctrine of the Mean","Donguibogam (medical book)","Hunminjeongeum","The Tale of Chunhyang"], why:"It comes from ‘大德敦化 — great virtue deepens transformation’ in The Doctrine of the Mean." },
+  injeongjeon:{ q:"What are the five flower emblems on the roof ridge of Injeongjeon?", o:["Plum blossoms (ihwa)","Rose of Sharon","Lotus","Apricot blossoms"], why:"The plum blossom was the emblem of the Korean Empire's imperial family." },
+  buyongjeong:{ q:"Seen from above, what shape is Buyongjeong Pavilion in the Buyongji Pond area?", o:["A cross (十)","A circle","A triangle","A star"], why:"Its roof forms a 十 shape — a very unusual pavilion." },
+  nakseonjae:{ q:"What stands out about how Nakseonjae looks?", o:["It has no colorful dancheong paint","Its roof is golden","It is three stories tall","It is built only of stone"], why:"It was built simply like a scholar's house, showing the natural wood grain." },
+  jeongjeon:{ q:"At Jongmyo, who uses the slightly raised path in the middle?", o:["The ancestral spirits","The king","Officials","Common people"], why:"Called sinro (spirit path); the king and crown prince walked on the lower paths beside it." },
+  yeongnyeongjeon:{ q:"Why are the four middle bays of Yeongnyeongjeon's roof higher?", o:["They honor King Taejo's four ancestors","To keep the rain out","To hang a bell","No special reason"], why:"They hold the tablets of Mokjo, Ikjo, Dojo and Hwanjo, so they were built higher." },
+  hyangdaecheong:{ q:"Which was NOT kept at Hyangdaecheong?", o:["Armor and swords","Incense","Prayer texts","Ritual offerings"], why:"Hyangdaecheong stored incense, prayer texts and offerings for the rites." },
+  okcheongyo:{ q:"What is the goblin face carved between the arches of Okcheongyo for?", o:["To drive away evil spirits coming by water","To make the bridge lighter","To measure water depth","Just decoration"], why:"It guarded the palace from spirits that might enter along the stream." },
+  munjeongjeon:{ q:"What was Munjeongjeon used for?", o:["The king's office for state affairs","The queen's bedroom","A grain storehouse","An archery range"], why:"It was a council hall for state affairs, and also used for royal funeral rites." },
+  sungmundang:{ q:"What attitude does ‘日監在玆’ inside Sungmundang describe?", o:["Heaven is watching, so stay respectful","Get up early every day","Watch the sun","Always keep the door shut"], why:"From the Book of Songs — never lose a respectful heart." },
+  gwancheondae:{ q:"What was placed on top of Gwancheondae?", o:["An astronomical instrument (sogani)","A bell","A flag","An incense burner"], why:"That is why it was also called Soganuidae." },
+  gyeongchunjeon:{ q:"Which kings were born in Gyeongchunjeon?", o:["Jeongjo and Heonjong","Sejong and Sejo","Taejo and Taejong","Gojong and Sunjong"], why:"King Jeongjo even wrote a ‘Birth Hall’ plaque to mark it." },
+  hwangyeongjeon:{ q:"What does ‘歡慶 (hwangyeong)’ mean?", o:["Joyful and blessed","Surroundings","A round mirror","Changing and respecting"], why:"歡 means joy and 慶 means celebration." },
+  tongmyeongjeon:{ q:"What is special about Tongmyeongjeon among Changgyeonggung's halls?", o:["It has no roof ridge","It has two stories","It is built only of stone","Its roof is blue"], why:"It is the only hall in Changgyeonggung without a ridge beam on the roof." },
+  yanghwadang:{ q:"Which king stayed at Yanghwadang after returning from Namhansanseong after the Qing invasion?", o:["Injo","Sejong","Jeongjo","Sukjong"], why:"King Injo stayed here." },
+  yeongchunheon:{ q:"Where did King Jeongjo read, work, and pass away?", o:["Yeongchunheon","Gyeongchunjeon","The Grand Greenhouse","Gwandeokjeong"], why:"King Jeongjo died at Yeongchunheon in 1800." },
+  punggidae:{ q:"What was measured with Punggidae?", o:["Wind direction and strength","Rainfall","The sun's height","Earthquakes"], why:"A flag on it showed which way and how hard the wind blew." },
+  taesilbi:{ q:"What was buried in a taesil?", o:["A royal baby's placenta and umbilical cord","The king's clothes","Books","Seeds"], why:"It was buried in a jar to pray for the child's health and the nation's prosperity." },
+  chundangji:{ q:"What was the site of the big Chundangji pond originally?", o:["A rice field where the king showed farming","An archery range","A horse farm","A market"], why:"In 1909 the Japanese dug a pond here and turned it into a pleasure park." },
+  daeonsil:{ q:"Why is the Grand Greenhouse important in Korea?", o:["It was the first Western-style greenhouse","It is the biggest pavilion","It is the oldest bridge","It was the first library"], why:"Completed in 1909, it was Korea's first Western-style greenhouse." },
+  gwandeokjeong:{ q:"What was Gwandeokjeong first built for?", o:["Archery","Fishing","Rites","Study"], why:"It was built as an archery pavilion (sajeong)." },
+  wolgeunmun:{ q:"Whom did King Jeongjo visit through Wolgeunmun (‘monthly visit’)?", o:["His father Crown Prince Sado's shrine","His mother's residence","His teacher's house","Foreign envoys"], why:"He passed this gate on the first day of every month to hold rites at Gyeongmogung." },
+  geumcheongyo:{ q:"What is special about Geumcheongyo?", o:["It is the oldest surviving palace stone bridge","It is the longest bridge","It is made of wood","Boats pass under it"], why:"Built in 1411, it still stands today." },
+  gwolnaegaksa:{ q:"What is Gwollaegaksa?", o:["Government offices inside the palace","The king's bedroom","The name of a pond","The name of the main gate"], why:"They were offices placed inside the palace to serve the king closely." },
+  seonwonjeon:{ q:"What was enshrined at Seonwonjeon?", o:["Portraits of past kings (eojin)","Books","Grain","Weapons"], why:"It was a shrine holding royal portraits for memorial rites." },
+  seonjeongjeon:{ q:"What is special about Seonjeongjeon's roof?", o:["Blue glazed tiles","A thatched roof","Golden tiles","A glass roof"], why:"It is the only palace building today with blue glazed roof tiles." },
+  huijeongdang:{ q:"What new feature was added when Huijeongdang was rebuilt in 1920?", o:["An entrance where cars could pull up","An archery range","A bridge over a pond","A thatched roof"], why:"It was redecorated in Western style with a porch for cars." },
+  daejojeon:{ q:"Whose living space was Daejojeon?", o:["The queen's","The crown prince's","Officials'","Foreign envoys'"], why:"It was the main royal bedchamber and the queen's living quarters." },
+  seongjeonggak:{ q:"Who was Seongjeonggak mainly for?", o:["The crown prince (for study)","The queen","Court ladies","Soldiers"], why:"It was part of the East Palace, where the crown prince studied." },
+  huwon:{ q:"Which is NOT one of the four valleys of the Huwon (Secret Garden)?", o:["Chundangji","Buyongji","Aeryeonji","Okryucheon"], why:"Chundangji is in Changgyeonggung. The Huwon areas are Buyongji, Aeryeonji, Gwallamji and Okryucheon." },
+  aeryeonji:{ q:"What does ‘愛蓮 (aeryeon)’ in Aeryeonji mean?", o:["Loving the lotus","A sad love","Flying a kite","A beloved neighbor"], why:"It was named by King Sukjong, who loved lotus flowers." },
+  gwallamji:{ q:"Which is the oldest pavilion around Gwallamji?", o:["Jondeokjeong","Gwallamjeong","Seungjaejeong","Pyeomusa"], why:"Jondeokjeong was built in 1644 (22nd year of King Injo)." },
+  okryucheon:{ q:"Whose handwriting are the three characters ‘玉流川’ on the rock at Okryucheon?", o:["King Injo","King Sukjong","King Jeongjo","King Sejong"], why:"Records say King Injo wrote them himself; the poem is by King Sukjong." },
+  oedaemun:{ q:"What stands outside Jongmyo's main gate?", o:["A dismount stone and a royal well","A sundial","An archery range","A pond"], why:"A stone telling riders to dismount and a well (eojeong) are outside the gate." },
+  mangmyoru:{ q:"What does ‘望廟 (mangmyo)’ in Mangmyoru mean?", o:["Looking toward the shrine","Forgetting the shrine","Building a new shrine","Guarding the shrine"], why:"The king looked toward the shrine and thought of his ancestors and the nation." },
+  gongminsindang:{ q:"Who is enshrined together with King Gongmin here?", o:["Queen Noguk","Sin Saimdang","Queen Insu","Lady Hyegyeong"], why:"A portrait of King Gongmin and his queen, Princess Noguk, is kept here." },
+  jaegung:{ q:"What did the king and crown prince do at Jaegung?", o:["Purified themselves and prepared for the rites","Practiced archery","Took state exams","Met foreign envoys"], why:"They bathed, calmed their minds and dressed properly before the rites." },
+  jeonsacheong:{ q:"What was prepared at Jeonsacheong?", o:["Food for the ancestral rites","Palace clothes","Weapons","Books"], why:"Food for the ritual tables was prepared and ritual vessels were stored here." },
+  gongsindang:{ q:"Who is honored in Gongsindang?", o:["Meritorious subjects","The king's brothers","Court ladies","Foreign envoys"], why:"Spirit tablets of 83 meritorious subjects are kept here." },
+  chilsadang:{ q:"How many spirits receive rites at Chilsadang?", o:["Seven","Three","Five","Ten"], why:"七祀 — seven spirits guarding roads, gates, homes, food, coming and going, life and death." },
+  jjakgongcheong:{ q:"Who waited in the musicians' hall?", o:["Musicians and ritual dancers","The crown prince","Cooks for the rites","Gatekeepers"], why:"Musicians for the ritual music and dancers waited here." },
+  ynakgongcheong:{ q:"Compared with the Jeongjeon musicians' hall, the Yeongnyeongjeon one is…", o:["Smaller","Larger","Two stories","Made of stone"], why:"It is 3 bays wide and 1 bay deep — smaller than the Jeongjeon hall." }
+};
+const EN_HANJA = { "弘":"broad","化":"transform","門":"gate","明":"bright","政":"government","殿":"palace hall","正":"right, upright","一":"one","品":"rank, item","涵":"soak, embrace","仁":"benevolence","亭":"pavilion","春":"spring","水":"water","滿":"full","四":"four","澤":"pond, blessing","夏":"summer","雲":"cloud","多":"many","奇":"strange, wondrous","峰":"peak","秋":"autumn","月":"moon","揚":"raise","輝":"shine","冬":"winter","嶺":"mountain pass","秀":"outstanding","孤":"lonely","松":"pine tree","敦":"sincere, deep","李":"plum","花":"flower","芙":"lotus","蓉":"lotus","魚":"fish","宙":"house, universe","合":"unite","樓":"pavilion tower","天":"sky, heaven","圓":"round","地":"earth","方":"square","樂":"joy","善":"good","齋":"study hall","神":"spirit","路":"road","臺":"terrace","永":"forever","寧":"peaceful","祧":"ancestral shrine","遷":"move","香":"fragrance","大":"big","廳":"office","宗":"ancestor, main","廟":"shrine","外":"outside","望":"look toward","恭":"respectful","愍":"pity","王":"king","宮":"palace","典":"law, manage","祀":"rite","功":"merit","臣":"subject, official","工":"craftsman","七":"seven","八":"eight","內":"inside","冽":"cold, clear","司":"manage","各":"each","和":"harmony","在":"be at","堂":"hall","塔":"pagoda","塘":"pond","宣":"proclaim","室":"room","尊":"honor","層":"layer, story","崇":"revere","川":"stream","後":"rear, after","德":"virtue","愛":"love","慶":"celebration","文":"writing","旗":"flag","日":"sun, day","景":"view","暎":"reflect","橋":"bridge","歡":"joy","池":"pond","泉":"spring (water)","流":"flow","源":"source","溫":"warm","演":"perform","熙":"bright","玆":"this","玉":"jade","璿":"fine jade","監":"watch","石":"stone","碑":"stele","福":"fortune","緝":"gather","纜":"rope","胎":"womb, placenta","苑":"garden","蓮":"lotus","覲":"visit (a superior)","觀":"view","角":"horn, corner","誠":"sincerity","軒":"house, eaves","迎":"welcome","通":"pass through","造":"make","錦":"silk","閣":"pavilion","闕":"palace","集":"gather","風":"wind","養":"nourish" };
+// 한글 → 로마자 (국어의 로마자 표기법, 음절 단위 · 소리 바뀜은 반영하지 않음)
+const RR_I = ["g","kk","n","d","tt","r","m","b","pp","s","ss","","j","jj","ch","k","t","p","h"];
+const RR_V = ["a","ae","ya","yae","eo","e","yeo","ye","o","wa","wae","oe","yo","u","wo","we","wi","yu","eu","ui","i"];
+const RR_F = ["","k","k","k","n","n","n","t","l","k","m","l","l","l","p","l","m","p","p","t","t","ng","t","t","k","t","p","t"];
+function romanize(str){
+  let out = "";
+  for (const ch of String(str || "")) {
+    const c = ch.charCodeAt(0) - 0xAC00;
+    if (c < 0 || c > 11171) { out += ch; continue; }
+    const i = Math.floor(c / 588), v = Math.floor((c % 588) / 28), f = c % 28;
+    out += (out === "" && i === 5 ? "r" : RR_I[i]) + RR_V[v] + RR_F[f];
+  }
+  return out;
+}
+const hanjaEN = c => { const d = HANJA[c]; return d ? `${EN_HANJA[c] || d.h} (${romanize(d.e)})` : c; };
+
 function quizHTML(b){
-  const q = QUIZ[b.id]; if (!q) return "";
+  const q0 = QUIZ[b.id]; if (!q0) return "";
+  const en = LANG === "en" && QUIZ_EN[b.id], q = en ? Object.assign({}, q0, QUIZ_EN[b.id]) : q0;
   const st = QZ[b.id] || (QZ[b.id] = { order:shuffle(q.o.map((_, i) => i)), pick:null });
   const done = S.quizDone[b.id], picked = st.pick !== null;
-  return `<div class="sec bq">
-    <h3>전각 퀴즈 ${done ? "· 정답 ✓" : `· 첫 정답 <b class="xpt">+${REWARD.bquiz} EXP</b>`}</h3>
+  return `<div class="sec bq"${en ? " data-noi18n" : ""}>
+    <h3>${en ? "Hall quiz" : "전각 퀴즈"} ${done ? (en ? "· Solved ✓" : "· 정답 ✓") : `· ${en ? "First correct answer" : "첫 정답"} <b class="xpt">+${REWARD.bquiz} EXP</b>`}</h3>
     <p class="qq">${q.q}</p>
     <div class="opts">${st.order.map(i => `<button class="opt${picked ? (i === q.a ? " right" : i === st.pick ? " wrong" : "") : ""}" data-bq="${b.id}" data-i="${i}"${picked ? " disabled" : ""}>${q.o[i]}</button>`).join("")}</div>
-    ${picked ? `<p class="small">${st.pick === q.a ? "맞았어요." : "아쉬워요."} ${q.why}</p><button class="tiny" data-bqr="${b.id}">다시 풀기</button>` : ""}
+    ${picked ? `<p class="small">${st.pick === q.a ? (en ? "Correct!" : "맞았어요.") : (en ? "Not quite." : "아쉬워요.")} ${q.why}</p><button class="tiny" data-bqr="${b.id}">${en ? "Try again" : "다시 풀기"}</button>` : ""}
   </div>`;
 }
 function renderBuildingBody(){
@@ -4625,6 +4707,7 @@ async function makeTeamGyoji(){
 
 /* ═════════ 🍃 풍경의 조각 ═════════ */
 const SHOT_TAGS = ["처마", "단청", "낙엽", "꽃담", "하늘", "기타"];
+const shotTagNow = () => { const t = S.shotTag || "처마"; return t === "기타" ? ((S.shotTagCustom || "").trim().slice(0, 12) || "기타") : t; };
 const GKEY = "palace-plaques-gallery-v1";
 const NAKGWAN = "문학탐방";   // 사진 낙관(도장)에 새기는 글자
 const GAL = { items:[], filter:"all", busy:false, msg:"" };
@@ -4663,7 +4746,9 @@ async function composeShot(file, tag){
   const t = Team.mine(), d = new Date();
   if (t) { g.fillStyle = C(TEAM_COLORS[t.color].v); g.fillRect(px, py + ph + 18, 56, 6); g.strokeStyle = "rgba(43,37,35,.25)"; g.lineWidth = 1; g.strokeRect(px, py + ph + 18, 56, 6); }
   g.fillStyle = C("--ink"); g.textAlign = "left"; g.textBaseline = "alphabetic";
-  g.font = '400 66px "Song Myung","Noto Serif KR",serif'; g.fillText(tag, px - 2, py + ph + 104);
+  let tf = 66; g.font = `400 ${tf}px "Song Myung","Noto Serif KR",serif`;
+  while (tf > 30 && g.measureText(tag).width > pw - 150) { tf -= 4; g.font = `400 ${tf}px "Song Myung","Noto Serif KR",serif`; }
+  g.fillText(tag, px - 2, py + ph + 104);
   g.fillStyle = C("--muted"); g.font = '500 24px "IBM Plex Sans KR",sans-serif';
   g.fillText(`${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}  ·  ${S.nickname || "탐방객"}${t ? "  ·  " + t.name : ""}`, px, py + ph + 150);
   g.font = '500 19px "IBM Plex Sans KR",sans-serif'; g.fillText("풍경의 조각 — 궁궐을 읽다", px, py + ph + 186);
@@ -4674,7 +4759,7 @@ async function handleShot(file){
   if (!file || GAL.busy) return;
   GAL.busy = true; GAL.msg = ""; renderGallery();
   try {
-    const tag = S.shotTag || "처마", url = await composeShot(file, tag), t = Team.mine();
+    const tag = shotTagNow(), url = await composeShot(file, tag), t = Team.mine();
     const item = { id:Date.now().toString(36), at:new Date().toISOString(), tag, nickname:S.nickname || "탐방객", team: t ? { id:t.id, name:t.name, color:t.color } : null, url, mine:true };
     let cloudSaved = false;
     if (remoteOn()) {
@@ -4747,6 +4832,7 @@ function renderGallery(){
     </div>
     <div class="field"><label>무엇을 찍었나요?</label>
       <div class="wrapchip">${SHOT_TAGS.map(x => `<button class="chip" data-tag="${x}" aria-pressed="${x === (S.shotTag || "처마")}">${x}</button>`).join("")}</div>
+      ${S.shotTag === "기타" ? `<input class="input" id="shotCustom" maxlength="12" value="${esc(S.shotTagCustom || "")}" placeholder="무엇을 찍었는지 적어 주세요 (예: 돌사자)" aria-label="찍은 것 직접 쓰기" style="margin-top:8px" autocomplete="off">` : ""}
     </div>
     <div class="btn-row">
       <label class="btn red${GAL.busy ? " dis" : ""}">${GAL.busy ? "액자에 넣는 중…" : "📷 사진 찍기"}<input type="file" accept="image/*" capture="environment" class="shotIn"${GAL.busy ? " disabled" : ""}></label>
@@ -5000,6 +5086,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing && (e.target.id === "chatIn" || e.target.id === "cmtIn")) { e.preventDefault(); e.target.form.requestSubmit(); }
 });
 document.addEventListener("input", e => {
+  if (e.target.id === "shotCustom") { S.shotTagCustom = e.target.value.slice(0, 12); save(); return; }
   if (e.target.id === "chatIn" || e.target.id === "cmtIn") { const a = e.target; a.style.height = "auto"; a.style.height = Math.min(110, a.scrollHeight) + "px"; }
 });
 
@@ -5442,7 +5529,7 @@ document.addEventListener("click", e => {
     const bid = el.dataset.bq, q = QUIZ[bid], st = QZ[bid], i = +el.dataset.i;
     if (st.pick !== null) return;
     st.pick = i;
-    if (i === q.a && !S.quizDone[bid]) { S.quizDone[bid] = true; Rec.puzzle("bquiz", bid, REWARD.bquiz); gain(REWARD.bquiz, `${BLD[bid].b.name} 퀴즈`); }
+    if (i === q.a && !S.quizDone[bid]) { S.quizDone[bid] = true; Rec.puzzle("bquiz", bid, REWARD.bquiz); gain(REWARD.bquiz, LANG === "en" ? `${enName(bid)} quiz` : `${BLD[bid].b.name} 퀴즈`); }
     renderBuildingBody(); return;
   }
   if ((el = t.closest("[data-bqr]"))) { const q = QUIZ[el.dataset.bqr]; QZ[el.dataset.bqr] = { order:shuffle(q.o.map((_, i) => i)), pick:null }; renderBuildingBody(); return; }
@@ -5477,7 +5564,7 @@ document.addEventListener("click", e => {
   if (t.closest("#teamGyojiBtn")) { makeTeamGyoji(); return; }
   if (t.closest("[data-tb]") || t.closest("#tbOpen")) { openSettings("team"); return; }
   /* 풍경의 조각 */
-  if ((el = t.closest("[data-tag]"))) { S.shotTag = el.dataset.tag; save(); renderGallery(); return; }
+  if ((el = t.closest("[data-tag]"))) { S.shotTag = el.dataset.tag; save(); renderGallery(); if (S.shotTag === "기타") { const ci = $("#shotCustom"); if (ci && !ci.value) ci.focus({ preventScroll:true }); } return; }
   if ((el = t.closest("[data-gf]"))) { GAL.filter = el.dataset.gf; renderGallery(); return; }
   if ((el = t.closest("#loginGoogle"))) { oauth("google", el); return; }
   if (t.closest("#loginGuest")) { enterGuest(); return; }
@@ -5634,7 +5721,7 @@ const nm = x => EN_NAMES[Object.keys(EN_NAMES).find(id => BLD[id] && BLD[id].b.n
 Object.assign(I18N, {
   // 공통 · 메뉴
   "지도":"Map","전각":"Hall","전체":"All","취소":"Cancel","바탕":"Background","사진":"Photo","현판":"Plaque","닫힘":"Closed","처음":"Start","한자":"Hanja","훈음":"Meaning & sound","의미":"Meaning",
-  "그림":"Picture","촬영":"Shoot","현재":"Now","처마":"Eaves","단청":"Dancheong","낙엽":"Leaves","꽃담":"Flower wall","하늘":"Sky","기타":"Other","설정":"Settings","절반":"half",
+  "그림":"Picture","촬영":"Shoot","현재":"Now","처마":"Eaves","단청":"Dancheong","낙엽":"Leaves","꽃담":"Flower wall","하늘":"Sky","기타":"Other","무엇을 찍었는지 적어 주세요 (예: 돌사자)":"What did you shoot? (e.g. stone lion)","찍은 것 직접 쓰기":"Write what you shot","설정":"Settings","절반":"half",
   "탐방객":"Explorer","비회원":"Guest","노란색":"yellow","지우기":"Delete","사진첩":"Album","먹":"Ink","청":"Blue","적":"Red","황":"Yellow","백":"White","흑":"Black","조경":"Landscape","길":"Path","보내기":"Send","도장첩":"Stamp book","만들기":"Make","올리기":"Post","남기기":"Post",
   "＋사진":"+ Photo","유적지":"Sites","랭킹존":"Rankings","경험치":"EXP","번호 핀":"numbered pin","인증 전":"Not yet","이 기기":"This device","팀 채팅":"Team chat","← 뒤로":"← Back",
   "팀 이름":"Team name","접속 중":"Online","우리 팀":"My team","내 사진":"Mine","자동으로":"automatically","🧭 동선":"🧭 Route","📝 메모":"📝 Notes","장소 번호":"Place no.",
