@@ -882,6 +882,56 @@ details.more p{margin:4px 0 0;line-height:1.65;color:var(--ink)}
 .dpal button[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
 .dpal button[aria-pressed="true"] b{color:var(--blue)}
 
+/* ── 한줄 소감 · 방명록 ── */
+.gb-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.gb-it{display:grid;grid-template-columns:28px minmax(0,1fr);gap:9px;align-items:start}
+.gb-it .av{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--gilt);display:grid;place-items:center;font:900 12px var(--f-disp)}
+.gb-it.me .av{background:var(--blue);color:var(--white)}
+.gb-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 7px;font-size:12px;color:var(--muted)}
+.gb-meta b{color:var(--ink);font-size:13px}
+.gb-from{border:1px solid var(--line);border-radius:999px;padding:0 7px;font-size:11px}
+.gb-pl{border:0;background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:1px 8px;font:600 11px var(--f-body)}
+.gb-del{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:11.5px;padding:2px 0}
+.gb-it p{margin:2px 0 0;font-size:14px;line-height:1.55;word-break:break-word}
+.gb-form{display:flex;gap:6px;margin-top:6px}
+.gb-form .input{flex:1;min-width:0;min-height:42px}
+.gb-form .btn{flex:none;min-height:42px}
+.gb-fromrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:4px}
+.gb-fromrow .input{flex:1;min-width:0;min-height:36px;padding:5px 10px}
+.gb-n{font-size:12px;color:var(--muted);font-weight:600}
+/* ── 언어 · 서버 선택 ── */
+.lang-pick{display:flex;flex-direction:column;gap:8px;width:100%}
+.lang-pick .seg{width:100%}
+.lang-pick .seg button{flex:1}
+.lang-pick .lp-l{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.langm .cfm-box{gap:14px;text-align:center}
+.langm .big{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.langm .big button{min-height:84px;border:1.5px solid var(--line);background:var(--card);border-radius:16px;font:700 18px var(--f-body);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.langm .big button small{font-size:12px;color:var(--muted);font-weight:500}
+.langm .big button:active{transform:scale(.97)}
+
+.dsw{grid-template-columns:1fr 1fr}
+.dpal button{justify-content:center;text-align:center}
+.dpal b,.dpal small{display:block;width:100%;text-align:center}
+html[lang="en"] .dpal b{white-space:normal;hyphens:manual;line-height:1.15;overflow:visible;text-overflow:clip;word-break:normal;font-size:11.5px;letter-spacing:-.01em}
+@media (max-width:345px){html[lang="en"] .palseg button{font-size:9px;padding:3px 1px}html[lang="en"] .dpal b{font-size:9.5px}html[lang="en"] .maprow .mapseg button{padding:5px 6px;font-size:11px}}
+html[lang="en"] .palseg button{font-size:10.5px;letter-spacing:-.01em;line-height:1.15;white-space:normal;hyphens:manual;padding:3px 2px;min-height:40px;overflow:hidden}
+html[lang="en"] .maprow .mapseg{flex:none}
+html[lang="en"] .maprow .mapseg button{font-size:12px;padding:5px 8px}
+.room-box{margin:6px 14px 0;padding:10px 12px;border:1px solid var(--line2);background:var(--card);border-radius:12px;display:flex;flex-direction:column;gap:8px}
+.rb-now{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center}
+.rb-now span{display:flex;flex-direction:column;min-width:0}
+.rb-now b{font-size:13.5px}.rb-now small{font-size:11.5px;color:var(--muted)}
+.rb-btns{display:flex;gap:6px;flex-wrap:wrap}
+.rb-btns .btn{flex:1;min-height:36px;font-size:12.5px;padding:4px 8px;white-space:nowrap}
+.room-code{font:900 30px/1 var(--f-body);letter-spacing:.25em;text-align:center;margin:10px 0 4px;color:var(--blue)}
+.dpal b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html[lang="en"] .dpal b{font-size:11.5px}
+.mini-seg{display:inline-flex}.mini-seg button{min-height:32px;padding:3px 10px;font-size:12.5px}
+.mini-seg button[aria-pressed="true"],.lang-pick .seg button[aria-pressed="true"]{background:var(--ink);color:var(--white)}
+.en-note{font-style:italic}
+#langm{z-index:120}
+
 /* ── 헤더 계정 메뉴 · 로그인 전환 ── */
 /* 헤더: 1줄(관직 · 계정) + 2줄(팀 미니 배너). 헤더 안에서만 그려져 지도·화면 가운데를 가리지 않음 */
 .top{position:relative;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding-block:8px 0}
@@ -1261,6 +1311,7 @@ details.more p{margin:4px 0 0;line-height:1.65;color:var(--ink)}
     <section class="screen" id="s-album" hidden>
       <div class="panel" id="galleryPanel"></div>
       <div class="panel" id="myPhotos"></div>
+      <div class="panel" id="guestPanel"></div>
     </section>
 
     <section class="screen" id="s-studio" hidden>
@@ -1341,6 +1392,10 @@ details.more p{margin:4px 0 0;line-height:1.65;color:var(--ink)}
     </div>
 
     <div class="land-actions rise d4">
+      <div class="lang-pick">
+        <div class="seg" role="group" aria-label="언어 · Language"><button data-lang="ko">한국어</button><button data-lang="en">English</button></div>
+        <div class="seg" role="group" aria-label="서버 · Server"><button data-srv="kr">한국 서버</button><button data-srv="intl">외국인 서버</button></div>
+      </div>
       <button class="gsi" id="loginGoogle"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span>Google 계정으로 시작하기</span></button>
       <p class="note" id="loginNote" role="alert" hidden></p>
       <button class="guest-btn" id="loginGuest">비회원(게스트)으로 궁궐 둘러보기<span class="arr" aria-hidden="true">→</span></button>
@@ -1378,7 +1433,7 @@ details.more p{margin:4px 0 0;line-height:1.65;color:var(--ink)}
 
 <!-- 내 정보 · 설정 (헤더의 이름을 누르면 열림) -->
 <div class="pm" id="setm" role="dialog" aria-modal="true" aria-labelledby="setmTitle" hidden>
-  <div class="pm-head"><h2 id="setmTitle">내 정보 · 설정<small>계정 · 팀 · 채팅</small></h2><button class="pm-x" id="setmClose" aria-label="설정 닫기">×</button></div>
+  <div class="pm-head"><h2 id="setmTitle">내 정보 · 설정<small id="setmSpace">계정 · 팀 · 채팅</small></h2><button class="pm-x" id="setmClose" aria-label="설정 닫기">×</button></div>
   <div class="pm-body" id="setmBody">
     <section class="panel" id="acct"></section>
     <section class="panel set-menu" id="setMenu"></section>
@@ -1392,6 +1447,13 @@ details.more p{margin:4px 0 0;line-height:1.65;color:var(--ink)}
   <div class="pm-head"><h2 id="vwTitle">풍경의 조각</h2><button class="pm-x" id="vwClose" aria-label="사진 닫기">×</button></div>
   <div class="pm-body" id="vwBody"></div>
   <div id="vwSay"></div>
+</div>
+
+<!-- 첫 방문: 언어 선택 -->
+<div class="cfm langm" id="langm" role="dialog" aria-modal="true" aria-labelledby="langmT" hidden data-noi18n>
+  <div class="cfm-box"><div class="eyebrow">昌德宮 · 昌慶宮 · 宗廟</div><h2 id="langmT">언어를 선택하세요<br><small style="font-weight:500">Choose your language</small></h2>
+    <div class="big"><button data-langpick="ko">한국어<small>Korean</small></button><button data-langpick="en">English<small>영어</small></button></div>
+    <p class="small">나중에 메뉴(☰)에서 바꿀 수 있어요 · You can change it later in the menu (☰).</p></div>
 </div>
 
 <!-- 사이드 메뉴(드로어) -->
@@ -1459,7 +1521,7 @@ const CONFIG = {
     messagingSenderId: "398109137952",
     appId: "1:398109137952:web:45e2c5988e26057062f045"
   },
-  EVENT_ID: "palace-2026",  // 행사(학급·체험학습) 구분 코드. 영문·숫자·하이픈만. 같은 값을 쓰는 팀끼리만 순위를 겨룹니다
+  EVENT_ID: "palace-2026",   // ※ 아래 SERVERS 에서 고른 서버의 값으로 실행 중에 바뀝니다  // 행사(학급·체험학습) 구분 코드. 영문·숫자·하이픈만. 같은 값을 쓰는 팀끼리만 순위를 겨룹니다
   GEO_RADIUS_M: 120,       // 전각 기준점에서 이 거리(+GPS 오차, 최대 80m) 안이면 방문 인증
   DEMO_CERT: false         // true로 바꾸면 위치를 쓸 수 없는 미리보기 창에서 '시연용 인증' 버튼이 보임 (운영 중에는 false)
 };
@@ -1538,8 +1600,8 @@ const DATA = {
             modern:"지붕 맨 꼭대기 용마루에 오얏꽃(자두꽃) 다섯 송이가 붙어 있어요. 대한제국 황실을 상징하는 문양입니다.",
             story:"오얏 리(李)는 조선 왕실의 성씨이기도 합니다. 대한제국 시기에 더해진 장식으로, 전통 궁궐 건물에 근대의 흔적이 남은 드문 예예요. 글씨 현판은 아니지만 꼭 찾아볼 만한 ‘지붕 위의 기호’입니다." }
         ]},
-      { id:"buyongjeong", name:"부용정", hanja:"芙蓉亭", geo:[37.58270,126.99250],scene:"buyong", opt:{},
-        built:"1707 택수재 · 1792 부용정", desc:"후원 부용지 연못가의 정자. 두 기둥을 물속에 담가 연못 위에 떠 있는 듯 보입니다. 연못 건너 언덕에 어수문과 주합루가 섭니다.",
+      { id:"buyongjeong", name:"부용지 일대", hanja:"芙蓉池 一帶", geo:[37.58270,126.99250],scene:"buyong", opt:{},
+        built:"1707 택수재 · 1792 부용정", desc:"부용지 연못을 둘러싼 후원의 첫 정원. 남쪽의 부용정, 북쪽 언덕의 어수문과 주합루, 동쪽의 영화당이 한데 어우러진 곳입니다. 후원 부용지 연못가의 정자. 두 기둥을 물속에 담가 연못 위에 떠 있는 듯 보입니다. 연못 건너 언덕에 어수문과 주합루가 섭니다.",
         hotspots:[
           { id:"by-p", type:"현판", anchor:"bp", text:"芙蓉亭", layout:"h", read:"부용정",
             gist:"연꽃 정자",
@@ -1940,10 +2002,10 @@ const EXTRA = {
     mkH("ij-m","현판","yard","仁政門","인정문","어진 정치로 들어가는 문",
       "인정전의 정문이에요. 앞면 3칸, 옆면 2칸의 팔작지붕 건물입니다.",
       "인정문은 왕의 장례(국장)가 있을 때 다음 왕의 즉위식을 치렀던 곳으로, 이곳에서 효종, 현종, 숙종, 영조, 순조, 철종, 고종이 왕위에 올랐다. 인정문은 1985년 보물로 지정되었다."));
-  upd("by-p", { story:"부용지(芙蓉池) 일원은 창덕궁 후원의 첫 번째 중심 정원으로 휴식뿐 아니라 학문과 교육을 하던 비교적 공개된 장소이다. 약 1000㎡ 넓이의 사각형 연못인 부용지를 중심으로 여러 건물을 지었다. 부용정은 원래 1707년(숙종 33) 택수재(澤水齋)라는 이름의 건물을 지었는데, 1793년(정조 17)에 고쳐 짓고 이름을 부용정으로 바꾸었다. 지붕 위에서 봤을 때 열 십(十)자의 독특한 모습을 하고 있다. 부용정은 2012년 보물로 지정되었다." });
+  upd("by-p", { story:"부용지(芙蓉池) 일대는 창덕궁 후원의 첫 번째 중심 정원으로 휴식뿐 아니라 학문과 교육을 하던 비교적 공개된 장소이다. 약 1000㎡ 넓이의 사각형 연못인 부용지를 중심으로 여러 건물을 지었다. 부용정은 원래 1707년(숙종 33) 택수재(澤水齋)라는 이름의 건물을 지었는데, 1793년(정조 17)에 고쳐 짓고 이름을 부용정으로 바꾸었다. 지붕 위에서 봤을 때 열 십(十)자의 독특한 모습을 하고 있다. 부용정은 2012년 보물로 지정되었다." });
   upd("by-y", { story:"주합루의 정문인 어수문(魚水門)은 물과 물고기, 즉 왕과 신하의 관계를 뜻하며 지은 이름이다. 주합루로 들어가기 위해 왕은 어수문으로 출입하지만, 신하들은 어수문 옆 협문으로 출입하였다." });
   upd("by-z", { gist:"천지 우주와 통한다", story:"부용지 북쪽으로는 1776년(정조 즉위)에 지은 주합루(宙合樓)가 있다. 2층 규모로 지어졌는데 1층은 왕실도서관인 규장각이고, 2층은 주합루이다. 주합루는 2012년 보물로 지정되었다." });
-  bupd("buyongjeong", { built:"1707 택수재 · 1793 부용정" });
+  bupd("buyongjeong", { built:"1707 택수재 · 1776 주합루 · 1793 부용정" });
   DATA.palaces.find(p => p.id === "cdg").buildings.find(b => b.id === "buyongjeong").hotspots.splice(3, 0,
     mkH("by-h","현판","yh","暎花堂","영화당","꽃과 어우러진다",
       "‘꽃(花)이 비친다(暎)’, 곧 꽃과 어우러지는 집이라는 뜻이에요.",
@@ -2001,7 +2063,7 @@ Object.assign(QUIZ, {
   jjakgongcheong:{ q:"악공청에서 기다리던 사람들은?", o:["악공과 일무원","왕세자","제사 음식 담당","문지기"], a:0, why:"제례악을 연주하는 악공과 춤추는 일무원이 대기했어요." },
   ynakgongcheong:{ q:"영녕전 악공청은 정전 악공청과 비교하면?", o:["규모가 작다","규모가 크다","2층이다","돌로 지었다"], a:0, why:"정면 3칸, 옆면 1칸으로 정전 악공청보다 작아요." }
 });
-QUIZ.buyongjeong = { q:"부용정을 위에서 내려다보면 어떤 모양일까요?", o:["열 십(十)자","동그라미","세모","별"], a:0, why:"지붕이 十자 모양인 독특한 정자예요." };
+QUIZ.buyongjeong = { q:"부용지 일대의 정자 부용정을 위에서 내려다보면 어떤 모양일까요?", o:["열 십(十)자","동그라미","세모","별"], a:0, why:"지붕이 十자 모양인 독특한 정자예요." };
 
 
 /* 추가 장소용 한자 (훈음은 제공 자료 기준) */
@@ -2281,12 +2343,12 @@ const PLACE_INFO = {
   ]
  },
  "buyongjeong": {
-  "name": "부용지 일원",
-  "hanja": "芙蓉池",
+  "name": "부용지 일대",
+  "hanja": "芙蓉池 一帶",
   "hun": "연꽃 부, 연꽃 용, 못(연못) 지",
   "mean": "부용지 남쪽에 있는 정자로, ‘부용’은 ‘연꽃’을 의미한다",
   "body": [
-   "부용지(芙蓉池) 일원은 창덕궁 후원의 첫 번째 중심 정원으로 휴식뿐 아니라 학문과 교육을 하던 비교적 공개된 장소이다. 300평(약 1000㎡) 넓이의 사각형 연못인 부용지를 중심으로 여러 건물을 지었다.",
+   "부용지(芙蓉池) 일대는 창덕궁 후원의 첫 번째 중심 정원으로 휴식뿐 아니라 학문과 교육을 하던 비교적 공개된 장소이다. 300평(약 1000㎡) 넓이의 사각형 연못인 부용지를 중심으로 여러 건물을 지었다.",
    "부용정(芙蓉亭)은 부용지 남쪽에 있는 정자로, ‘부용’은 ‘연꽃’을 의미한다. 원래는 1707년(숙종 33) 택수재(澤水齋)라는 이름의 건물을 지었는데, 1793년(정조 17)에 건물을 고쳐 짓고 이름을 부용정으로 바꾸었다. 부용정은 지붕 위에서 봤을 때 열 십(十)자의 독특한 모습을 하고 있다. 부용정은 2012년 보물로 지정되었다.",
    "부용지 북쪽으로는 1776년(정조 즉위)에 지은 주합루(宙合樓)가 있다. 주합루의 ‘주합’은 ‘천지 우주와 통한다’라는 뜻으로, 2층 규모로 지어졌는데 1층은 왕실도서관인 규장각이고, 2층은 주합루이다. 주합루의 정문인 어수문(魚水門)은 물과 물고기, 즉 왕과 신하의 관계를 뜻하며 지은 이름이다. 주합루로 들어가기 위해 왕은 어수문으로 출입하지만, 신하들은 어수문 옆 협문으로 출입하였다. 주합루는 2012년 보물로 지정되었다.",
    "부용지 동쪽으로는 왕이 직접 참관하여 과거시험을 행하였던 영화당(暎花堂)이 있다. 영화당의 ‘영화’는 ‘꽃과 어우러진다’라는 뜻으로, 현재 영화당에는 영조가 직접 쓴 현판이 걸려있다."
@@ -2561,7 +2623,7 @@ function checkZones(silent){
 const KEY = "palace-plaques-v2", OLDKEY = "palace-plaques-v1", PKEY = "palace-plaques-photos-v1";
 const fresh = () => ({ v:2, exp:0, viewed:{}, cards:{}, stamps:{}, certs:{}, visits:[],
   puzzles:{ quiz:{right:0,total:0,best:0}, order:{} },
-  team:null, playMode:null, tips:{}, rankTab:"me", huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
+  team:null, playMode:null, tips:{}, rankTab:"me", from:"", huwonOpen:null, palaceGot:{}, chatSeen:{}, shotDay:{d:"", n:0}, shotTag:"처마",
   mapView:"map", quizDone:{}, memos:{}, pmemo:{}, bookFresh:null, bookAnim:false, bookBound:null,
   nickname:"", entered:false, palace:"cgg", bsel:{cgg:"honghwamun", cdg:"donhwamun", jm:"jeongjeon"}, style:"ink" });
 function readLocal(){
@@ -2889,7 +2951,7 @@ function curBuilding(){
   const b = DATA.palaces.find(p => p.id === S.palace).buildings[0]; S.bsel[S.palace] = b.id; return b;
 }
 function renderTabs(){
-  $("#palTabs").innerHTML = DATA.palaces.map(p => `<button role="tab" data-p="${p.id}" aria-selected="${p.id===S.palace}">${p.name}</button>`).join("");
+  $("#palTabs").innerHTML = DATA.palaces.map(p => `<button role="tab" data-p="${p.id}" aria-selected="${p.id===S.palace}"${LANG === "en" ? ` data-noi18n aria-label="${EN_PAL_FULL[p.id]}"` : ""}>${LANG === "en" ? EN_PAL_SHORT[p.id] : p.name}</button>`).join("");
 }
 function renderMap(){
   renderTabs();
@@ -3266,7 +3328,7 @@ function renderDrawer(){
       <span class="tx"><b>${esc(S.nickname || "탐방객")}</b><small>${Rk[0]} ${Rk[2]} · <span class="xpt">${L.lv >= MAX ? `${S.exp} EXP` : `${L.into}/${L.need} EXP`}</span></small></span><span class="go" aria-hidden="true">›</span></button>
 
     <h4 class="dh">유적지</h4>
-    <div class="dpal" role="group" aria-label="유적지 선택">${DATA.palaces.map(p => `<button data-dr-pal="${p.id}" aria-pressed="${curScreen === "map" && S.palace === p.id}"><b>${p.name}</b><small>${palaceZones(p.id).filter(z => S.stamps[z.id]).length}/${palaceZones(p.id).length}</small></button>`).join("")}</div>
+    <div class="dpal" role="group" aria-label="유적지 선택">${DATA.palaces.map(p => `<button data-dr-pal="${p.id}" aria-pressed="${curScreen === "map" && S.palace === p.id}"><b${LANG === "en" ? " data-noi18n" : ""}>${LANG === "en" ? EN_PAL_SHORT[p.id] : p.name}</b><small>${palaceZones(p.id).filter(z => S.stamps[z.id]).length}/${palaceZones(p.id).length}</small></button>`).join("")}</div>
 
     <h4 class="dh">퀘스트 · 구역 도장 ${got}/${AZ.length}</h4>
     ${nz ? row(`data-dr-go="${nzNext}"`, "🎯", `${nzPal.name} · ${nz.name}`, `다음 목표 · ${Math.min(zoneSeen(nz), zoneNeed(nz))}/${zoneNeed(nz)}곳 인증`) : row('data-dr="rank"', "🎉", "구역 도장을 모두 모았어요", "도장첩 보기")}
@@ -3277,6 +3339,12 @@ function renderDrawer(){
     ${t ? row('data-dr="settings"', "🚩", esc(t.name), `팀원 ${teamMembersList().length}명 · ${esc(teamMembersList().map(m => m.nickname || "탐방객").join(", "))}`, false, "")
           + row('data-dr="chat"', "💬", "팀 채팅", "", false, unread ? `<span class="badge">${unread}</span>` : "")
         : row('data-dr="team"', "🚩", "팀으로 참여하기", "")}
+
+    <h4 class="dh">언어 · Language</h4>
+    <div class="dpal dsw" role="group"><button data-lang="ko" aria-pressed="${LANG === "ko"}"><b>한국어</b></button><button data-lang="en" aria-pressed="${LANG === "en"}"><b>English</b></button></div>
+    <h4 class="dh">서버 · 방</h4>
+    <div class="dpal dsw" role="group"><button data-srv="kr" aria-pressed="${SERVER === "kr"}"><b>한국 서버</b><small>Korean</small></button><button data-srv="intl" aria-pressed="${SERVER === "intl"}"><b>외국인 서버</b><small>International</small></button></div>
+    ${roomHTML()}
 
     <h4 class="dh">설정</h4>
     ${row('data-dr="settings"', "⚙️", "내 정보 · 설정", "")}
@@ -3426,6 +3494,28 @@ async function _drawPlaque(){
      users/{uid}/refs/{자동}           내가 쓴 댓글·채팅 위치 (탈퇴할 때 함께 지우기용)
    Storage: certshots/{uid}/… (현판 인증샷 · 사진 체크인), gallery/{uid}/… (풍경의 조각)
    보안 규칙은 함께 드린 firestore.rules · storage.rules 를 그대로 붙여 넣으면 됩니다. 별도 색인(index) 설정은 필요 없습니다. */
+/* 서버(그룹) 분리: 고른 서버마다 행사 코드(EVENT_ID)가 달라서
+   팀 · 팀 코드 · 참여자 명단/랭킹 · 풍경의 조각 갤러리 · 한줄 소감이 서로 섞이지 않습니다.
+   (개인 관직·EXP·도장은 계정에 그대로 남아요) */
+const SERVERS = {
+  kr:   { event:"palace-2026",      ko:"한국 서버", koSub:"Korean", en:"Korean server",   enSub:"한국" },
+  intl: { event:"palace-2026-intl", ko:"외국인 서버", koSub:"International", en:"International", enSub:"Foreign visitors" }
+};
+const LS = { get(k){ try { return localStorage.getItem(k); } catch(e) { return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e) {} } };
+/* ═════ 언어 (한국어 / English) ═════
+   화면 글자는 한국어로 그린 뒤, English를 고르면 I18N 사전으로 글자를 바꿔 끼웁니다(되돌리기도 바로).
+   장소의 긴 해설(선생님 원문)은 한국어 그대로 두고, 장소 이름·짧은 소개는 영어로 보여 줍니다. */
+let LANG = LS.get("palace-lang") === "en" ? "en" : "ko";
+const I18N = {}, I18N_RX = [], EN_NAMES = {}, EN_DESC = {};
+const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
+function t_(ko){ if (LANG !== "en") return ko; const k = String(ko); return I18N[k] ?? trRx(k) ?? k; }
+const enName = bid => EN_NAMES[bid] || (BLD[bid] ? BLD[bid].b.name : bid);
+let SERVER = SERVERS[LS.get("palace-server")] ? LS.get("palace-server") : "kr";
+/* 방(room): 한국 서버 안에서 반·모둠마다 따로 쓰는 공간. 방 코드마다 팀·명단·갤러리·방명록이 나뉩니다.
+   방에 들어가지 않으면 '한국 서버 전체'를 씁니다. */
+let ROOM = (LS.get("palace-room") || "").replace(/[^A-Z0-9]/g, "").slice(0, 6), ROOM_NAME = LS.get("palace-room-name") || "";
+const eventFor = (srv, room) => srv === "kr" && room ? `${SERVERS.kr.event}-room-${room}` : SERVERS[srv].event;
+CONFIG.EVENT_ID = eventFor(SERVER, ROOM);
 const FB_ON = !!(CONFIG.FIREBASE && CONFIG.FIREBASE.apiKey && CONFIG.FIREBASE.projectId);
 const FRAMED = (() => { try { return window.self !== window.top; } catch(e) { return true; } })();
 function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
@@ -3447,7 +3537,7 @@ async function initFirebase(){
 const cloudOn = () => Store.mode === "cloud";
 const userRef = (uid = Store.uid) => fb.db.collection("users").doc(uid);
 const progressOf = () => ({ viewed:S.viewed, cards:S.cards, certs:S.certs, puzzles:S.puzzles, palace:S.palace, bsel:S.bsel, style:S.style,
-  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, tips:S.tips, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
+  team:S.team, playMode:S.playMode, chatSeen:S.chatSeen, tips:S.tips, from:S.from, huwonOpen:S.huwonOpen, palaceGot:S.palaceGot, shotDay:S.shotDay, shotTag:S.shotTag, mapView:S.mapView, bookBound:S.bookBound, quizDone:S.quizDone, memos:S.memos, pmemo:S.pmemo });
 async function remoteSaveProfile(){
   if (!cloudOn()) return;
   try {
@@ -3629,7 +3719,7 @@ async function enterGuest(){
    - Google 계정: Firebase 로그아웃 (기록은 서버에 남음)
    - 비회원(이 기기): 입장 상태만 끄고, 관직·도장 기록은 이 기기에 남김 */
 async function logout(){
-  closeDrawer(); closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); Store.admin = false;
+  closeDrawer(); closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); GB.stop(); GB.list = []; Store.admin = false;
   const app = $("#app"); app.classList.add("fade-out");
   Team.stop(); if (sheetOpen()) closeSheet();
   if (cloudOn()) { try { await fb.auth.signOut(); } catch(e) {} }
@@ -3658,21 +3748,26 @@ function cfmError(text){ const m = $("#cfmMsg"); m.hidden = false; m.textContent
 async function withdraw(){
   closeAcctPop();
   const k = acctKind();
-  const what = `<ul><li>관직·EXP, 도장, 방문 인증 내역</li><li>메모, 퀴즈·퍼즐 기록</li><li>인증샷·체크인·풍경의 조각 사진</li><li>내가 쓴 댓글과 팀 채팅</li><li>팀원 기록 (팀에서 빠집니다)</li></ul>`;
-  const body = k === "local"
+  const EN = LANG === "en";
+  const what = EN ? `<ul><li>Rank, EXP, stamps and visit records</li><li>Notes, quiz and puzzle records</li><li>Plaque photos, check-in photos and Pieces of Scenery</li><li>Your comments, team chat and visitor notes</li><li>Team membership (you'll leave your team)</li></ul>`
+    : `<ul><li>관직·EXP, 도장, 방문 인증 내역</li><li>메모, 퀴즈·퍼즐 기록</li><li>인증샷·체크인·풍경의 조각 사진</li><li>내가 쓴 댓글과 팀 채팅 · 한줄 소감</li><li>팀원 기록 (팀에서 빠집니다)</li></ul>`;
+  const body = EN ? (k === "local"
+      ? `Everything saved on this phone will be deleted and you'll return to the start screen. This can't be undone.${what}`
+      : `Your ${k === "google" ? "Google account" : "guest account"} records and login will be permanently deleted from the server. This can't be undone.${what}${k === "google" ? `<p class="small" style="margin-top:8px">A Google sign-in window may open once more to confirm it's you.</p>` : ""}`)
+    : k === "local"
     ? `이 휴대폰에 저장된 기록이 모두 지워지고 첫 화면으로 돌아가요. 되돌릴 수 없어요.${what}`
     : `${k === "google" ? "Google 계정으로 저장된" : "게스트 계정의"} 기록과 로그인 계정이 서버에서 영구 삭제돼요. 되돌릴 수 없어요.${what}${k === "google" ? `<p class="small" style="margin-top:8px">본인 확인을 위해 Google 로그인 창이 한 번 더 열릴 수 있어요.</p>` : ""}`;
-  let ok = await askConfirm("정말 탈퇴할까요?", body, "탈퇴하기");
+  let ok = await askConfirm(EN ? "Delete your account?" : "정말 탈퇴할까요?", body, EN ? "Delete account" : "탈퇴하기");
   while (ok) {
     try {
-      cfmBusy("삭제하는 중…");
+      cfmBusy(EN ? "Deleting…" : "삭제하는 중…");
       if (cloudOn()) await deleteCloudAccount();
       break;
     } catch(e) {
       console.warn(e);
-      cfmError(e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request" ? "본인 확인이 취소되어 탈퇴하지 않았어요."
-        : e.code === "auth/requires-recent-login" ? "보안을 위해 다시 로그인한 뒤 탈퇴를 눌러 주세요."
-        : "탈퇴하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. (" + (e.code || e.message) + ")");
+      cfmError(e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request" ? (EN ? "Confirmation was cancelled, so your account was not deleted." : "본인 확인이 취소되어 탈퇴하지 않았어요.")
+        : e.code === "auth/requires-recent-login" ? (EN ? "For security, please sign in again and then tap Delete account." : "보안을 위해 다시 로그인한 뒤 탈퇴를 눌러 주세요.")
+        : (EN ? "Couldn't delete your account. Check your connection and try again. (" : "탈퇴하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. (") + (e.code || e.message) + ")");
       ok = await new Promise(res => { $("#cfmYes").onclick = () => res(true); $("#cfmNo").onclick = () => { $("#cfm").hidden = true; res(false); }; });
     }
   }
@@ -3688,7 +3783,7 @@ async function withdraw(){
   await new Promise(r => setTimeout(r, 260));
   hideModeSel(); curScreen = "map"; renderAll(); showLogin();
   requestAnimationFrame(() => app.classList.remove("fade-out"));
-  loginNote("탈퇴가 완료되었어요. 그동안 함께해 주셔서 고마워요.");
+  loginNote(EN ? "Your account has been deleted. Thank you for exploring with us." : "탈퇴가 완료되었어요. 그동안 함께해 주셔서 고마워요.");
 }
 async function deleteCloudAccount(){
   const u = fb.auth.currentUser, uid = Store.uid;
@@ -3704,6 +3799,7 @@ async function deleteCloudAccount(){
   for (const g of mine.docs) { const cq = await g.ref.collection("comments").get(); await Promise.all(cq.docs.map(d => d.ref.delete())); }
   for (const sub of ["stamps", "visits", "puzzles", "refs", "photos"]) { const q = await ref.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); }
   const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete()));
+  try { const gq = await fb.db.collection("guestbook").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("guestbook del:", e.code || e.message); }
   try { await fb.db.collection("players").doc(`${CONFIG.EVENT_ID}_${uid}`).delete(); } catch(e) { console.warn("players del:", e.code || e.message); }
   const gq = await fb.db.collection("gallery").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete()));
   await ref.delete();
@@ -3744,7 +3840,7 @@ function openSettings(focus){
 }
 function closeSettings(){ $("#setm").hidden = true; }
 const closeAcctPop = closeSettings;   // (예전 이름 호환)
-function renderSettings(){ renderAccount(); renderSetMenu(); renderTeamPanel(); }
+function renderSettings(){ const sp = $("#setmSpace"); if (sp) sp.textContent = spaceLabel(); renderAccount(); renderSetMenu(); renderTeamPanel(); }
 function renderSetMenu(){
   const t = Team.mine(), unread = Chat.unread();
   $("#setMenu").innerHTML = `
@@ -3752,6 +3848,9 @@ function renderSetMenu(){
     <button class="set-row" id="setGallery"><span class="si" aria-hidden="true">🍃</span><span><b>풍경의 조각</b><small>오늘의 갤러리 · 사진 댓글</small></span><span class="go">›</span></button>
     <button class="set-row" id="openDiag"><span class="si" aria-hidden="true">🩺</span><span><b>연결 점검</b><small>채팅·사진이 안 될 때 원인을 찾아 드려요</small></span><span class="go">›</span></button>
     <button class="set-row" id="setRoster"><span class="si" aria-hidden="true">🏆</span><span><b>랭킹존 · 참여자 명단</b><small>EXP TOP 3와 조별 전체 명단</small></span><span class="go">›</span></button>
+    <div class="set-row" style="cursor:default"><span class="si" aria-hidden="true">🌐</span><span><b>언어 · Language</b></span><span class="seg mini-seg"><button data-lang="ko" aria-pressed="${LANG === "ko"}">한국어</button><button data-lang="en" aria-pressed="${LANG === "en"}">EN</button></span></div>
+    <div class="set-row" style="cursor:default"><span class="si" aria-hidden="true">🗄️</span><span><b>서버</b><small>다른 서버와 팀·명단·사진이 섞이지 않아요</small></span><span class="seg mini-seg"><button data-srv="kr" aria-pressed="${SERVER === "kr"}">한국</button><button data-srv="intl" aria-pressed="${SERVER === "intl"}">외국인</button></span></div>
+    ${SERVER === "kr" ? `<div style="padding:4px 0 8px">${roomHTML()}</div>` : ""}
     <button class="set-row" id="setTips"><span class="si" aria-hidden="true">💡</span><span><b>안내 말풍선 다시 보기</b><small>처음 방문했을 때의 작은 안내를 다시 켜요</small></span><span class="go">›</span></button>
     ${Store.admin ? `<button class="set-row" id="setMaster"><span class="si" aria-hidden="true">🛡️</span><span><b>마스터(관리자) 페이지</b><small>참여 계정 명단 · 강퇴 관리 (새 창)</small></span><span class="go">›</span></button>` : ""}
     <button class="set-row" id="setRank"><span class="si" aria-hidden="true">📜</span><span><b>나의 관직 · 도장첩</b><small>품계, 도장, 방문 인증 내역</small></span><span class="go">›</span></button>`;
@@ -4029,7 +4128,7 @@ function renderBuildingBody(){
   const { b } = BLD[SH.bid], seen = b.hotspots.filter(h => S.viewed[h.id]).length, n = b.hotspots.length;
   const z = ZONE_OF[b.id], body = $("#sheetBody"), keep = body.scrollTop, memo = S.memos[b.id];
   body.innerHTML = `
-    <div class="sec"><p class="lead">${b.desc}</p></div>
+    <div class="sec"><p class="lead">${LANG === "en" && EN_DESC[b.id] ? EN_DESC[b.id] : b.desc}</p></div>
     ${z.id === HUWON_ZONE && !huwonOn() ? `<div class="zone-note">후원 구역은 지금 닫혀 있어요. 예약해서 들어왔다면 <button class="tiny" data-huwon="open">후원 열기</button></div>` : ""}
     <div class="zone-note${S.stamps[z.id] ? " got" : ""}"${z.id === HUWON_ZONE && !huwonOn() ? " hidden" : ""}>${S.stamps[z.id] ? `「${z.name}」 구역 도장을 받았어요` : `「${z.name}」 구역 · ${z.bids.length}곳 중 ${zoneNeed(z)}곳 현장 인증하면 도장 (${Math.min(zoneSeen(z), zoneNeed(z))}/${zoneNeed(z)})`}</div>
     ${placeInfoHTML(b)}
@@ -4044,6 +4143,7 @@ function renderBuildingBody(){
     </div>
     ${quizHTML(b)}
     ${gpsHTML(b)}
+    ${gbPlaceHTML(b)}
     <div class="sec">
       <h3>나의 메모</h3>
       <textarea class="input memo-in" id="bmemo" rows="3" maxlength="600" placeholder="이곳에서 본 것, 느낀 점, 궁금한 점을 적어 보세요">${esc(memo ? memo.t : "")}</textarea>
@@ -4061,7 +4161,8 @@ function placeInfoHTML(b){
       ${x.hun ? `<dt>훈음</dt><dd>${esc(x.hun)}</dd>` : ""}
       ${x.mean ? `<dt>의미</dt><dd>${esc(x.mean)}</dd>` : ""}
     </dl>
-    ${x.body.map(t => `<p>${esc(t)}</p>`).join("")}
+    ${LANG === "en" ? `<p class="small en-note">The detailed story below is in Korean.</p>` : ""}
+    <div class="pi-body" lang="ko">${x.body.map(t => `<p>${esc(t)}</p>`).join("")}</div>
   </div>`;
 }
 function rerenderSheet(){ if (!sheetOpen()) return; SH.mode === "building" ? renderBuildingBody() : renderSheetBody(); }
@@ -4213,6 +4314,7 @@ function checkAdmin(){
   fb.db.collection("adminCheck").doc("me").get().then(() => { Store.admin = true; if (!$("#setm").hidden) renderSetMenu(); }).catch(() => {});
 }
 function afterEnter(){
+  teamFitsServer(); GB.start();
   Ban.watch(); checkAdmin();
   Players.touch(); Players.heartbeat();
   if (!S.playMode) showModeSel("choose");
@@ -4251,9 +4353,9 @@ const Team = {
       batch.set(codeRef, { teamId:tref.id, event:CONFIG.EVENT_ID });
       batch.set(fb.db.collection("teamMembers").doc(`${tref.id}_${Store.uid}`), { teamId:tref.id, uid:Store.uid, event:CONFIG.EVENT_ID, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:now });
       await batch.commit();
-      S.team = { id:tref.id, code, name, color, points:0, joined:now };
+      S.team = { id:tref.id, code, name, color, points:0, joined:now, ev:CONFIG.EVENT_ID };
     } else {
-      S.team = { id:"local-" + Date.now().toString(36), code:genCode(), name, color, points:0, joined:new Date().toISOString(), local:true };
+      S.team = { id:"local-" + Date.now().toString(36), code:genCode(), name, color, points:0, joined:new Date().toISOString(), local:true, ev:CONFIG.EVENT_ID };
     }
     S.playMode = "team"; save(); Players.touch(); await this.refresh(); this.start();
     return S.team;
@@ -4274,7 +4376,7 @@ const Team = {
       await fb.db.collection("teamMembers").doc(`${tid}_${Store.uid}`).set({ teamId:tid, uid:Store.uid, event:CONFIG.EVENT_ID, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:new Date().toISOString() });
     }
     const td = tdoc.data();
-    S.team = { id:tid, code, name:td.name, color:td.color, points:0, joined:new Date().toISOString() };
+    S.team = { id:tid, code, name:td.name, color:td.color, points:0, joined:new Date().toISOString(), ev:CONFIG.EVENT_ID };
     S.playMode = "team"; save(); Players.touch(); await this.refresh(); this.start();
     return S.team;
   },
@@ -4888,9 +4990,11 @@ window.addEventListener("storage", e => {
   if (Cmt.shot && e.key === CMT_KEY + Cmt.shot && !Cmt.un) { Cmt.list = lsGet(e.key, []); const x = Cmt.item(); if (x) x.comments = Cmt.list.slice(); Cmt.render(); }
 });
 document.addEventListener("submit", async e => {
+  if (e.target.matches && e.target.matches("[data-gbform]")) { e.preventDefault(); const i = e.target.querySelector("input[name=t]"); if (await GB.add(i.value, e.target.dataset.gbform || null)) i.value = ""; return; }
   if (e.target.id === "chatForm") { e.preventDefault(); const i = $("#chatIn"); if (await Chat.send(i.value)) { i.value = ""; Chat.stick = true; Chat.render(); i.style.height = ""; } }
   if (e.target.id === "cmtForm") { e.preventDefault(); const i = $("#cmtIn"); if (await Cmt.send(i.value)) { i.value = ""; i.style.height = ""; const b = $("#vwBody"); b.scrollTop = b.scrollHeight; } }
 });
+document.addEventListener("change", e => { if (e.target.matches && e.target.matches("[data-gbfrom]")) { S.from = e.target.value.trim().slice(0, 24); save(); } });
 document.addEventListener("keydown", e => {
   // Enter = 보내기, Shift+Enter = 줄바꿈 (한글 조합 중에는 보내지 않음)
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing && (e.target.id === "chatIn" || e.target.id === "cmtIn")) { e.preventDefault(); e.target.form.requestSubmit(); }
@@ -4898,6 +5002,159 @@ document.addEventListener("keydown", e => {
 document.addEventListener("input", e => {
   if (e.target.id === "chatIn" || e.target.id === "cmtIn") { const a = e.target; a.style.height = "auto"; a.style.height = Math.min(110, a.scrollHeight) + "px"; }
 });
+
+/* 다른 서버·방에서 만든 팀은 여기서 쓰지 않음 (옛 기록은 한국 서버 전체의 팀으로 봄) */
+function teamFitsServer(){
+  if (S.team && (S.team.ev || SERVERS.kr.event) !== CONFIG.EVENT_ID) { S.team = null; S.playMode = "solo"; save(); }
+}
+const srvName = k => (LANG === "en" ? SERVERS[k].en : SERVERS[k].ko);
+async function setServer(k){
+  if (!SERVERS[k] || k === SERVER) return;
+  if (S.team) {
+    const ok = await askConfirm(t_("서버를 바꿀까요?"), `<p>${t_("지금 팀에서 나가게 돼요. 새 서버에서는 그 서버의 팀에 다시 참여해 주세요.")}</p>`, t_("바꾸기"));
+    $("#cfm").hidden = true;
+    if (!ok) return;
+    await Team.leave();
+  }
+  await moveSpace(k, k === "kr" ? ROOM : "", k === "kr" ? ROOM_NAME : "");
+  toast(t_("서버를 바꿨어요"), srvName(k));
+}
+// 서버·방을 옮길 때 공통: 이전 명단에서 빠지고, 새 공간의 팀·명단·방명록으로 다시 연결
+async function moveSpace(srv, room, roomName){
+  if (cloudOn()) { try { await fb.db.collection("players").doc(`${CONFIG.EVENT_ID}_${Store.uid}`).delete(); } catch(e) { console.warn("players move:", e.code || e.message); } }
+  SERVER = srv; ROOM = room || ""; ROOM_NAME = roomName || "";
+  LS.set("palace-server", srv); LS.set("palace-room", ROOM); LS.set("palace-room-name", ROOM_NAME);
+  CONFIG.EVENT_ID = eventFor(SERVER, ROOM);
+  Team.stop(); Players.stop(); GB.stop(); Chat.stop(); Team.board = []; GAL.items = [];
+  if (cloudOn()) { Players.touch(); Team.start(); }
+  GB.start();
+  renderAll(); renderLangPick(); if (!$("#setm").hidden) renderSettings();
+  if ($("#drawer").classList.contains("open")) renderDrawer();
+}
+const spaceLabel = () => SERVER === "kr" ? (ROOM ? `${t_("한국 서버")} · ${ROOM_NAME || t_("방")} (${ROOM})` : `${t_("한국 서버")} · ${t_("전체")}`) : srvName(SERVER);
+async function leaveTeamFirst(){
+  if (!S.team) return true;
+  const ok = await askConfirm(t_("방을 옮길까요?"), `<p>${t_("지금 팀에서 나가게 돼요. 새 방에서는 그 방의 팀에 다시 참여해 주세요.")}</p>`, t_("옮기기"));
+  $("#cfm").hidden = true; if (!ok) return false;
+  await Team.leave(); return true;
+}
+const genRoom = () => Array.from({ length:5 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]).join("");
+async function createRoom(){
+  const ok = await askConfirm(t_("새 방 만들기"), `<p>${t_("반이나 모둠마다 방을 만들면 팀·명단·랭킹·사진이 그 방 안에서만 보여요.")}</p>
+    <input class="input" id="roomName" maxlength="20" placeholder="${t_("방 이름 (예: 2학년 3반)")}" style="margin-top:8px">`, t_("만들기"));
+  if (!ok) { $("#cfm").hidden = true; return; }
+  const name = (($("#roomName") || {}).value || "").trim().slice(0, 20) || t_("우리 방");
+  $("#cfm").hidden = true;
+  if (!(await leaveTeamFirst())) return;
+  let code = genRoom();
+  if (cloudOn()) {
+    try {
+      for (let i = 0; i < 5; i++) { const d = await fb.db.collection("rooms").doc(code).get(); if (!d.exists) break; code = genRoom(); }
+      await fb.db.collection("rooms").doc(code).set({ code, name, createdBy:Store.uid, nickname:S.nickname || "", at:new Date().toISOString() });
+    } catch(e) { toast(t_("방을 만들지 못했어요"), e.code || e.message); return; }
+  }
+  await moveSpace("kr", code, name);
+  await askConfirm(t_("방을 만들었어요"), `<p>${t_("참여자에게 아래 방 코드를 알려 주세요. 메뉴(☰) → 방 → ‘코드로 들어가기’에 넣으면 같은 방이 돼요.")}</p><p class="room-code">${code}</p><p class="small">${esc(name)}</p>`, t_("확인"));
+  $("#cfm").hidden = true;
+}
+async function joinRoom(){
+  const ok = await askConfirm(t_("방 코드로 들어가기"), `<input class="input" id="roomCode" maxlength="6" placeholder="${t_("방 코드 5자리")}" style="text-transform:uppercase;letter-spacing:.2em;text-align:center;font-weight:700" autocomplete="off">`, t_("들어가기"));
+  const code = (((($("#roomCode") || {}).value) || "").toUpperCase().replace(/[^A-Z0-9]/g, "")).slice(0, 6);
+  $("#cfm").hidden = true;
+  if (!ok || code.length < 4) { if (ok) toast(t_("방 코드를 확인해 주세요"), ""); return; }
+  let name = "";
+  if (cloudOn()) {
+    try { const d = await fb.db.collection("rooms").doc(code).get(); if (!d.exists) { toast(t_("그런 방이 없어요"), code); return; } name = d.data().name || ""; }
+    catch(e) { toast(t_("방을 찾지 못했어요"), e.code || e.message); return; }
+  }
+  if (!(await leaveTeamFirst())) return;
+  await moveSpace("kr", code, name);
+  toast(t_("방에 들어왔어요"), `${name || t_("방")} (${code})`);
+}
+async function leaveRoom(){
+  if (!ROOM) return;
+  if (!(await leaveTeamFirst())) return;
+  await moveSpace("kr", "", "");
+  toast(t_("한국 서버 전체로 돌아왔어요"), "");
+}
+function roomHTML(){
+  if (SERVER !== "kr") return "";
+  return `<div class="room-box"><div class="rb-now"><span class="ic" aria-hidden="true">🚪</span><span><b>${ROOM ? esc(ROOM_NAME || t_("방")) : t_("한국 서버 전체")}</b><small>${ROOM ? `${t_("방 코드")} ${ROOM}` : t_("방에 들어가면 반·모둠끼리만 따로 겨뤄요")}</small></span>${ROOM ? `<button class="tiny" data-room="copy">${t_("코드 복사")}</button>` : ""}</div>
+    <div class="rb-btns"><button class="btn sm" data-room="create">${t_("방 만들기")}</button><button class="btn sm ghost" data-room="join">${t_("코드로 들어가기")}</button>${ROOM ? `<button class="btn sm ghost" data-room="leave">${t_("전체로 나가기")}</button>` : ""}</div></div>`;
+}
+
+/* ═════════ ✍️ 한줄 소감 · 방명록 (Visitor notes) ═════════
+   서버: guestbook/{자동} { event, uid, nickname, from, lang, text, bid(장소 id 또는 null), at }
+   - 같은 서버(행사) 안에서만 보입니다. 장소 설명 창 아래와 사진첩 탭 '방명록'에서 쓰고 읽어요.
+   서버 없음: 이 기기에만 저장 */
+const GBKEY = "palace-guestbook-v1";
+const GB = {
+  list:[], un:null, msg:"", busy:false,
+  start(){
+    this.stop(); this.msg = "";
+    if (!cloudOn()) { this.list = (JSON.parse(LS.get(GBKEY) || "[]") || []).filter(x => x.event === CONFIG.EVENT_ID); this.changed(); return; }
+    try {
+      this.un = fb.db.collection("guestbook").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => {
+        this.list = q.docs.map(d => Object.assign({ id:d.id }, d.data())).sort((a, b) => String(b.at).localeCompare(String(a.at)));
+        this.msg = ""; this.changed();
+      }, e => { console.warn("guestbook:", e.code || e.message); this.msg = serverErr(e, t_("방명록")); this.changed(); });
+    } catch(e) { console.warn(e); }
+  },
+  stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; },
+  of(bid){ return this.list.filter(x => (x.bid || null) === (bid || null)); },
+  async add(text, bid){
+    text = String(text || "").trim().slice(0, 200); if (!text || this.busy) return false;
+    const e = { event:CONFIG.EVENT_ID, uid:Store.uid || "me", nickname:S.nickname || "탐방객", from:String(S.from || "").slice(0, 24), lang:LANG, text, bid:bid || null, at:new Date().toISOString() };
+    if (cloudOn()) {
+      this.busy = true; this.changed();
+      try { await fb.db.collection("guestbook").add(e); this.busy = false; this.msg = ""; return true; }
+      catch(err) { this.busy = false; this.msg = serverErr(err, t_("방명록")); this.changed(); return false; }
+    }
+    e.id = Date.now().toString(36); e.mine = true;
+    const all = JSON.parse(LS.get(GBKEY) || "[]") || []; all.unshift(e); LS.set(GBKEY, JSON.stringify(all.slice(0, 300)));
+    this.list.unshift(e); this.changed(); return true;
+  },
+  async remove(id){
+    const x = this.list.find(y => y.id === id); if (!x) return;
+    if (cloudOn()) { try { await fb.db.collection("guestbook").doc(id).delete(); } catch(e) { this.msg = serverErr(e, t_("방명록")); this.changed(); } return; }
+    const all = (JSON.parse(LS.get(GBKEY) || "[]") || []).filter(y => y.id !== id); LS.set(GBKEY, JSON.stringify(all));
+    this.list = this.list.filter(y => y.id !== id); this.changed();
+  },
+  mine(x){ return x.mine || (x.uid && x.uid === (Store.uid || "me")); },
+  changed(){
+    if (sheetOpen() && SH.mode === "building") { const el = $("#gbPlace"); if (el) el.outerHTML = gbPlaceHTML(BLD[SH.bid].b); }
+    if (curScreen === "album") renderGuestbook();
+  }
+};
+function gbItem(x, withPlace){
+  const pl = withPlace && x.bid && BLD[x.bid] ? `<button class="gb-pl" data-mb="${x.bid}">${esc(LANG === "en" ? enName(x.bid) : BLD[x.bid].b.name)}</button>` : "";
+  return `<li class="gb-it${GB.mine(x) ? " me" : ""}"><span class="av" aria-hidden="true">${esc([...(x.nickname || "객")][0])}</span>
+    <div><div class="gb-meta"><b>${esc(x.nickname || "탐방객")}</b>${x.from ? `<span class="gb-from">${esc(x.from)}</span>` : ""}<time>${shortTime(x.at)}</time>${pl}${GB.mine(x) ? `<button class="gb-del" data-gbdel="${esc(x.id)}">${t_("지우기")}</button>` : ""}</div>
+    <p lang="${x.lang === "en" ? "en" : "ko"}">${esc(x.text)}</p></div></li>`;
+}
+function gbFormHTML(bid){
+  return `<form class="gb-form" data-gbform="${bid || ""}" autocomplete="off">
+      <input class="input" name="t" maxlength="200" placeholder="${t_("이곳에서의 한줄 소감을 남겨 주세요")}" aria-label="${t_("한줄 소감")}">
+      <button class="btn sm" type="submit"${GB.busy ? " disabled" : ""}>${t_("남기기")}</button>
+    </form>
+    <label class="gb-fromrow">${t_("어디에서 왔나요? (선택)")}<input class="input" data-gbfrom maxlength="24" value="${esc(S.from || "")}" placeholder="${t_("예: 서울 · USA · France")}"></label>`;
+}
+function gbPlaceHTML(b){
+  const list = GB.of(b.id);
+  return `<div class="sec" id="gbPlace"><h3>✍️ ${t_("한줄 소감")} <small class="gb-n">${list.length}</small></h3>
+    ${GB.msg ? `<p class="note err">${GB.msg}</p>` : ""}
+    ${list.length ? `<ul class="gb-list">${list.slice(0, 6).map(x => gbItem(x, false)).join("")}</ul>${list.length > 6 ? `<button class="tiny" data-goguest>${t_("모두 보기")} (${list.length})</button>` : ""}` : `<p class="small">${t_("아직 소감이 없어요. 첫 소감을 남겨 보세요.")}</p>`}
+    ${gbFormHTML(b.id)}</div>`;
+}
+function renderGuestbook(){
+  const el = $("#guestPanel"); if (!el) return;
+  const list = GB.list;
+  el.innerHTML = `<h3 class="h-sec">✍️ ${t_("방명록")}</h3>
+    <details class="more"><summary>${t_("무엇을 쓰나요?")}</summary><p>${t_("탐방 소감을 한 줄로 남겨 주세요. 같은 서버의 참여자끼리만 보여요. 외국인 방문객도 영어로 자유롭게 남길 수 있어요.")}</p></details>
+    ${GB.msg ? `<p class="note err">${GB.msg}</p>` : ""}
+    ${gbFormHTML(null)}
+    ${list.length ? `<ul class="gb-list">${list.slice(0, 40).map(x => gbItem(x, true)).join("")}</ul>` : `<div class="gal-empty">${t_("아직 방명록이 비어 있어요.")}</div>`}`;
+}
 
 /* ═════════ 🏆 랭킹존 TOP 3 · 전체 참여자 명단 ═════════
    서버: players/{행사id_uid} 에 닉네임 · EXP · 소속 조만 공개로 올림 (로그인한 참여자끼리만 읽기).
@@ -5099,7 +5356,7 @@ function show(sc, opts = {}){
   $("#main").scrollTop = 0;
   if (sc === "rank") { renderRank(); Players.start(); } else Players.stop();
   if (sc === "quest") renderQuests();
-  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); }
+  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); renderGuestbook(); }
   renderTips();
   if (sc === "studio") renderStudio();
   if (sc === "map") renderMap();
@@ -5145,6 +5402,21 @@ document.addEventListener("click", e => {
   if (t.closest("#setRank")) { closeSettings(); show("rank"); return; }
   if (t.closest("#setRoster")) { closeSettings(); S.rankTab = "lb"; show("rank"); $("#main").scrollTop = 0; return; }
   if ((el = t.closest("[data-rt]"))) { S.rankTab = el.dataset.rt; save(); applyRankTab(); $("#main").scrollTop = 0; if (S.rankTab === "book") renderBook(); return; }
+  if ((el = t.closest("[data-gbdel]"))) { if (el.dataset.armed) GB.remove(el.dataset.gbdel); else { el.dataset.armed = "1"; el.textContent = t_("한 번 더 누르면 지워요"); } return; }
+  if (t.closest("[data-goguest]")) { closeSheet(); show("album"); requestAnimationFrame(() => { const m = $("#main"), r = $("#guestPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
+  if ((el = t.closest("[data-srv]"))) { setServer(el.dataset.srv).then(renderLangPick); if ($("#drawer").classList.contains("open")) setTimeout(renderDrawer, 50); return; }
+  if ((el = t.closest("[data-lang]"))) { setLang(el.dataset.lang); return; }
+  if ((el = t.closest("[data-room]"))) {
+    const a = el.dataset.room;
+    if (a === "create") createRoom(); else if (a === "join") joinRoom(); else if (a === "leave") leaveRoom();
+    else if (a === "copy") { try { navigator.clipboard.writeText(ROOM); toast(t_("방 코드를 복사했어요"), ROOM); } catch(e) {} }
+    return;
+  }
+  if ((el = t.closest("[data-langpick]"))) {
+    const l = el.dataset.langpick; $("#langm").hidden = true;
+    if (!LS.get("palace-server")) { SERVER = l === "en" ? "intl" : "kr"; LS.set("palace-server", SERVER); CONFIG.EVENT_ID = SERVERS[SERVER].event; }
+    setLang(l); return;
+  }
   if ((el = t.closest("[data-shotdel]"))) { deleteShot(el.dataset.shotdel); return; }
   if ((el = t.closest("[data-shot]"))) { openViewer(el.dataset.shot); return; }
   if (t.closest("#vwClose")) { closeViewer(); return; }
@@ -5276,6 +5548,330 @@ document.addEventListener("keydown", e => {
     else if (curH) closeSheet();
   }});
 
+/* ═════════ 🌐 English 번역 사전 · 화면 글자 바꾸기 ═════════ */
+Object.assign(EN_NAMES, {
+  honghwamun:"Honghwamun Gate", okcheongyo:"Okcheongyo Bridge", myeongjeongjeon:"Myeongjeongjeon Hall", munjeongjeon:"Munjeongjeon Hall",
+  sungmundang:"Sungmundang Hall", gwancheondae:"Gwancheondae Observatory", haminjeong:"Haminjeong Pavilion", gyeongchunjeon:"Gyeongchunjeon Hall",
+  hwangyeongjeon:"Hwangyeongjeon Hall", tongmyeongjeon:"Tongmyeongjeon Hall", yanghwadang:"Yanghwadang Hall", yeongchunheon:"Yeongchunheon & Jipbokheon",
+  punggidae:"Punggidae (Wind Flag Stand)", taesilbi:"King Seongjong's Placenta Stele", chundangji:"Chundangji Pond & Octagonal Pagoda", daeonsil:"Grand Greenhouse",
+  gwandeokjeong:"Gwandeokjeong Pavilion", wolgeunmun:"Wolgeunmun Gate",
+  donhwamun:"Donhwamun Gate", geumcheongyo:"Geumcheongyo Bridge", gwolnaegaksa:"Gwollaegaksa (Court Offices)", seonwonjeon:"Former Seonwonjeon Shrine",
+  injeongjeon:"Injeongjeon Hall", seonjeongjeon:"Seonjeongjeon Hall", huijeongdang:"Huijeongdang Hall", daejojeon:"Daejojeon Hall",
+  seongjeonggak:"Seongjeonggak Pavilion", nakseonjae:"Nakseonjae Complex", huwon:"Secret Garden (Huwon)", buyongjeong:"Buyongji Pond Area",
+  aeryeonji:"Aeryeonji Pond & Yeongyeongdang", gwallamji:"Gwallamji Pond Area", okryucheon:"Okryucheon Stream Area",
+  oedaemun:"Main Gate (Oedaemun)", mangmyoru:"Mangmyoru Pavilion", gongminsindang:"Shrine of King Gongmin", hyangdaecheong:"Hyangdaecheong Hall",
+  jaegung:"Jaegung (Purification Hall)", jeonsacheong:"Jeonsacheong (Ritual Kitchen)", gongsindang:"Gongsindang (Meritorious Subjects)", jeongjeon:"Jeongjeon Main Shrine",
+  chilsadang:"Chilsadang (Seven Spirits)", jjakgongcheong:"Musicians' Hall (Jeongjeon)", ynakgongcheong:"Musicians' Hall (Yeongnyeongjeon)", yeongnyeongjeon:"Yeongnyeongjeon Shrine"
+});
+Object.assign(EN_DESC, {
+  honghwamun:"The main gate of Changgyeonggung, a two-story gate tower facing east.",
+  okcheongyo:"A stone bridge over the palace stream, crossed on the way to the throne hall.",
+  myeongjeongjeon:"The throne hall of Changgyeonggung — the oldest surviving main hall of any Joseon palace.",
+  munjeongjeon:"The king's council hall, where daily state affairs were discussed.",
+  sungmundang:"A hall where the king studied and met scholars.",
+  gwancheondae:"A stone platform used to observe the stars and sky.",
+  haminjeong:"An open pavilion where the king met scholars who passed the state exam.",
+  gyeongchunjeon:"A residence hall for queens and queen mothers.",
+  hwangyeongjeon:"A residence hall used by kings and crown princes.",
+  tongmyeongjeon:"The queen's main residence, with a stone pond beside it.",
+  yanghwadang:"A residence hall in the inner palace.",
+  yeongchunheon:"Residence halls where King Jeongjo lived and King Sunjo was born.",
+  punggidae:"A stone stand that held a flag to read the wind.",
+  taesilbi:"A stele marking where King Seongjong's placenta was enshrined.",
+  chundangji:"A large pond and a stone pagoda in the quiet woods of the rear garden.",
+  daeonsil:"A glass greenhouse built in 1909, Korea's first Western-style greenhouse.",
+  gwandeokjeong:"An archery pavilion in the wooded north of the palace.",
+  wolgeunmun:"A small gate King Jeongjo used to visit his father's shrine.",
+  donhwamun:"The main gate of Changdeokgung — the oldest surviving palace gate in Seoul.",
+  geumcheongyo:"The oldest stone bridge in Seoul, crossing the palace stream.",
+  gwolnaegaksa:"Government offices inside the palace walls.",
+  seonwonjeon:"A shrine that once held portraits of past kings.",
+  injeongjeon:"The throne hall of Changdeokgung, used for coronations and state ceremonies.",
+  seonjeongjeon:"The king's office hall with a rare blue-tiled roof.",
+  huijeongdang:"The king's living and working quarters, later modernized.",
+  daejojeon:"The queen's residence, the heart of the inner palace.",
+  seongjeonggak:"The crown prince's study hall in the East Palace area.",
+  nakseonjae:"A simple, elegant residence complex built without colorful paint.",
+  huwon:"The palace's rear garden, a reserved-entry woodland of ponds and pavilions.",
+  buyongjeong:"The first garden of the Huwon: Buyongjeong Pavilion, Eosumun Gate and Juhamnu Pavilion around Buyongji Pond.",
+  aeryeonji:"A lotus pond and Yeongyeongdang, a house built in the style of a scholar's home.",
+  gwallamji:"A pond shaped like the Korean peninsula, with pavilions around it.",
+  okryucheon:"A stream in the deepest part of the garden with a carved rock poem.",
+  oedaemun:"The simple main gate of Jongmyo Shrine.",
+  mangmyoru:"A pavilion where the king looked toward the shrine and remembered his ancestors.",
+  gongminsindang:"A small shrine for King Gongmin of Goryeo and his queen.",
+  hyangdaecheong:"Where incense and ritual items were kept before ceremonies.",
+  jaegung:"Where the king and crown prince purified themselves before rites.",
+  jeonsacheong:"The kitchen where food for the ancestral rites was prepared.",
+  gongsindang:"A long hall honoring 83 meritorious subjects.",
+  jeongjeon:"The main shrine of Jongmyo, holding the spirit tablets of Joseon kings and queens.",
+  chilsadang:"A hall for rites to seven spirits who guard daily life.",
+  jjakgongcheong:"Where musicians and dancers waited for the Jeongjeon rites.",
+  ynakgongcheong:"Where musicians waited for the Yeongnyeongjeon rites.",
+  yeongnyeongjeon:"The second shrine of Jongmyo, for other kings and queens."
+});
+const EN_ZONES = { "정문과 정전":"Main Gate & Throne Hall", "왕실의 생활 공간":"Royal Living Quarters", "바람과 봄의 뜰":"Wind & Spring Garden", "춘당지 숲길":"Chundangji Woods",
+  "돈화문과 금천":"Donhwamun & Palace Stream", "정전과 편전":"Throne & Council Halls", "동궁과 낙선재":"East Palace & Nakseonjae", "창덕궁 후원":"Secret Garden (Huwon)",
+  "정문에서 정전까지":"Gate to Main Shrine", "영녕전":"Yeongnyeongjeon" };
+const EN_PAL_SHORT = { cgg:"Changgyeong", cdg:"Changdeok", jm:"Jongmyo" }, EN_PAL_FULL = { cgg:"Changgyeonggung Palace", cdg:"Changdeokgung Palace", jm:"Jongmyo Shrine" };
+const EN_PAL = { "창경궁":"Changgyeong\u00ADgung", "창덕궁":"Changdeok\u00ADgung", "종묘":"Jongmyo" };
+const EN_RANK = { "종9품":"Rank 9B","정9품":"Rank 9A","종8품":"Rank 8B","정8품":"Rank 8A","종7품":"Rank 7B","정7품":"Rank 7A","종6품":"Rank 6B","정6품":"Rank 6A","종5품":"Rank 5B","정5품":"Rank 5A",
+  "종4품":"Rank 4B","정4품":"Rank 4A","종3품":"Rank 3B","정3품":"Rank 3A","종2품":"Rank 2B","정2품":"Rank 2A","종1품":"Rank 1B","정1품":"Rank 1A",
+  "참봉":"Chambong","정자":"Jeongja","봉사":"Bongsa","저작":"Jeojak","직장":"Jikjang","박사":"Baksa","주부":"Jubu","좌랑":"Jwarang","판관":"Pangwan","정랑":"Jeongnang",
+  "첨정":"Cheomjeong","사인":"Sain","집의":"Jibui","참의":"Chamui","참판":"Champan","판서":"Panseo","찬성":"Chanseong","영의정":"Yeonguijeong (Chief State Councillor)" };
+// 이름 토큰: 장소·구역·궁궐·품계 이름 (섞인 문장에서 바꿔 끼우는 데 사용)
+const EN_TOKENS = (() => {
+  const m = Object.assign({}, EN_PAL, EN_ZONES, EN_RANK, { "탐방객":"Explorer", "창건":"built", "중건":"rebuilt", "보물":"Treasure", "국보":"National Treasure", "나":"me", "구역":"zone", "후원 제외":"Huwon excluded", "후원 닫힘":"Huwon closed" });
+  try { DATA.palaces.forEach(p => p.buildings.forEach(b => { if (EN_NAMES[b.id]) m[b.name] = EN_NAMES[b.id]; })); } catch(e) {}
+  return Object.entries(m).sort((a, b) => b[0].length - a[0].length);
+})();
+function trTokens(k){
+  if (k.length > 90) return null;
+  let o = k; for (const [ko, en] of EN_TOKENS) if (o.includes(ko)) o = o.split(ko).join(en);
+  return /[가-힣]/.test(o) ? null : o;
+}
+const nm = x => EN_NAMES[Object.keys(EN_NAMES).find(id => BLD[id] && BLD[id].b.name === x)] || EN_ZONES[x] || EN_PAL[x] || trTokens(x) || x;
+Object.assign(I18N, {
+  // 공통 · 메뉴
+  "지도":"Map","전각":"Hall","전체":"All","취소":"Cancel","바탕":"Background","사진":"Photo","현판":"Plaque","닫힘":"Closed","처음":"Start","한자":"Hanja","훈음":"Meaning & sound","의미":"Meaning",
+  "그림":"Picture","촬영":"Shoot","현재":"Now","처마":"Eaves","단청":"Dancheong","낙엽":"Leaves","꽃담":"Flower wall","하늘":"Sky","기타":"Other","설정":"Settings","절반":"half",
+  "탐방객":"Explorer","비회원":"Guest","노란색":"yellow","지우기":"Delete","사진첩":"Album","먹":"Ink","청":"Blue","적":"Red","황":"Yellow","백":"White","흑":"Black","조경":"Landscape","길":"Path","보내기":"Send","도장첩":"Stamp book","만들기":"Make","올리기":"Post","남기기":"Post",
+  "＋사진":"+ Photo","유적지":"Sites","랭킹존":"Rankings","경험치":"EXP","번호 핀":"numbered pin","인증 전":"Not yet","이 기기":"This device","팀 채팅":"Team chat","← 뒤로":"← Back",
+  "팀 이름":"Team name","접속 중":"Online","우리 팀":"My team","내 사진":"Mine","자동으로":"automatically","🧭 동선":"🧭 Route","📝 메모":"📝 Notes","장소 번호":"Place no.",
+  "현장 인증":"On-site check","전체 보기":"Full view","📜 관직":"📜 Rank","🏆 랭킹":"🏆 Ranking","🗂 기록":"🗂 Records","퍼즐 기록":"Puzzle records","교지 받기":"Get certificate",
+  "벼슬 시험":"Rank exam","현판 읽기":"Read the plaque","관직·도장":"Rank·Stamps","체험 공간":"Workshop","연결 점검":"Connection check","개인 접속":"Solo","팀 만들기":"Create team",
+  "💬 채팅":"💬 Chat","코드 복사":"Copy code","후원 닫힘":"Huwon closed","현장 미션":"On-site missions","위치 인증":"Location check","나의 메모":"My notes","쉬운 해설":"Easy explanation",
+  "비어 있음":"Empty","훈음 정답":"Correct answers","최고 연속":"Best streak","계정 탈퇴":"Delete account","팀원 전체":"All members","단체 교지":"Team certificate","팀 나가기":"Leave team",
+  "사용 방법":"How to use","닫아 두면":"close it","🔏 도장첩":"🔏 Stamps","탐방 도장첩":"Stamp book","훈음 맞히기":"Hanja quiz","탐방 퀘스트":"Exploration quests","글씨 지우기":"Clear",
+  "승급 퀘스트":"Quests","풍경의 조각":"Pieces of Scenery","코드로 참여":"Join with code","왜 묻나요?":"Why?","나의 인증샷":"My plaque photo","장소 이야기":"Story of the place",
+  "닉네임 저장":"Save nickname","✍️ 방명록":"✍️ Guestbook","방명록":"Guestbook","사진 체크인":"Photo check-in","현판 인증샷":"Plaque photo","쾅 찍혀요.":"is stamped.","품계와 경험치":"rank and EXP",
+  "탐방 시작하기":"Start exploring","오늘의 갤러리":"Today's gallery","이미지로 저장":"Save as image","도장 받는 법":"How to get stamps","처음 화면으로":"Back to start","설명서 보기 ›":"Open guide ›",
+  "도장첩 보는 법":"About the stamp book","방문 인증 내역":"Visit records","낙관(쓴 사람)":"Seal (writer)","팀으로 참여하기":"Join as a team","사진으로 체크인":"Check in with a photo",
+  "✍️ 한줄 소감":"✍️ Visitor notes","한줄 소감":"Visitor notes","단체 교지 받기":"Get team certificate","📷 사진 찍기":"📷 Take photo","앨범에서 고르기":"Choose from album","나의 현장 사진":"My on-site photos",
+  "무엇을 쓰나요?":"What to write?","글씨 사진 등록":"post a photo of the plaque","교지(敎旨) 발급":"Royal certificate (Gyoji)","교지에 적을 이름":"Name on the certificate","궁궐 현판 탐험기":"Palace Plaque Explorer",
+  "내 정보 · 설정":"My info · Settings","전체 참여자 명단":"All participants","나의 현판 인증샷":"My plaque photo","무엇을 찍었나요?":"What did you shoot?","무엇이 모이나요?":"What's collected here?",
+  "장소 120m 안":"within 120 m","그 자리에서 촬영":"shoot on the spot","정답 +15 EXP":"Correct +15 EXP","완성 +25 EXP":"Complete +25 EXP","나만의 현판 만들기":"Make your own plaque",
+  "현판 글씨 (한자)":"Plaque text (Hanja)","📖 도장 받는 법":"📖 How to get stamps","어떻게 둘러볼까요?":"How will you explore?","팀 깃발 (오방색)":"Team flag (five colors)","원문 · 걸린 모습":"Original · as hung",
+  "경험치 · 품계 순":"By EXP · rank","💬 팀 채팅 열기":"💬 Open team chat","문학의 공간을 거닐다":"Walking Through Literary Spaces","🛡️ 마스터 페이지":"🛡️ Master page","품계와 관직 18단계":"18 ranks of officials",
+  "모은 한자에서 고르기":"Pick from collected Hanja","← 전각으로 돌아가기":"← Back to hall","계정 · 팀 · 채팅":"Account · Team · Chat","팀 만들고 코드 받기":"Create team & get code",
+  "아니요 · 후원 닫기":"No · close Huwon","예약했어요 · 후원 열기":"Yes · open Huwon","적으면 바로 저장돼요":"Saved as you type","해서체 · 읽는 순서":"Print style · reading order",
+  "앨범에서 사진 고르기":"Choose a photo","처음 화면으로 나가기":"Back to start screen","나의 관직 · 도장첩":"My rank · Stamps","팀이라면 함께 모으기":"Collect together as a team","아직 대화가 없어요.":"No messages yet.",
+  "추천 동선 (1번부터)":"Suggested route (from 1)","전각 퀴즈 · 첫 정답":"Hall quiz · first correct answer","🏆 랭킹존 TOP 3":"🏆 Top 3","+60 EXP · 도장":"+60 EXP · Stamp",
+  "🌿 창덕궁 후원 닫힘":"🌿 Huwon closed","🌿 창덕궁 후원 열림":"🌿 Huwon open","이 한자의 훈과 음은?":"What does this Hanja mean and sound like?","랭킹존 · 참여자 명단":"Rankings · Participants","안내 말풍선 다시 보기":"Show tips again",
+  "도장에는 세지 않는 것":"What doesn't count for stamps","기록 처음부터 다시 하기":"Reset my records","전각에서 글씨 위치 보기":"Show plaques on the hall","전부 모으면 도장첩 완성":"Collect them all to finish the book",
+  "어디에서 왔나요? (선택)":"Where are you from? (optional)","비회원 · 이 기기에 저장":"Guest · saved on this device","아직 현장 사진이 없어요.":"No on-site photos yet.","TOP 3 · 참여자 명단":"Top 3 · Participants",
+  "장소에서 ‘현장 인증’하기":"Do an ‘on-site check’ at a place","두 손가락으로 확대 · 축소":"Pinch to zoom","📖 도장은 언제 찍히나요?":"📖 When do I get a stamp?","한자를 보고 훈과 음 고르기":"Choose the meaning and sound",
+  "현판 하나를 다 읽을 때마다":"For every plaque you complete","이 현판을(를) 찍어 올리면":"Post a photo of this plaque","아직 방명록이 비어 있어요.":"The guestbook is empty.","오늘의 갤러리 · 사진 댓글":"Today's gallery · comments",
+  "Google 계정으로 시작하기":"Continue with Google","언제, 어떻게 도장이 찍히는지":"When and how stamps are given","첫 번째 풍경을 걸어 보세요.":"Post the first scene.","품계, 도장, 방문 인증 내역":"Rank, stamps, visit records",
+  "낱말 카드 · 눌러서 풀이 보기":"Word cards · tap to see","아직 오늘 걸린 사진이 없어요.":"No photos today yet.","전각을 누르면 지도로 이동합니다.":"Tap a hall to go to the map.","비회원(게스트)으로 궁궐 둘러보기":"Explore as a guest",
+  "오늘 보상 3번 남음 · 한 장에":"3 rewards left today · per photo","문제를 풀 때마다 경험치를 받아요.":"Earn EXP for every question.","뒤섞인 글자를 읽는 순서대로 누르기":"Tap the mixed characters in reading order",
+  "EXP TOP 3와 조별 전체 명단":"EXP Top 3 and all participants","모든 EXP·도장·사진이 지워집니다.":"All EXP, stamps and photos will be deleted.","연속 정답이면 한 문제에 최대 +30":"Up to +30 per question for streaks",
+  "🌿 창덕궁 후원 관람을 예약했나요?":"🌿 Did you book a Huwon (Secret Garden) tour?","전각 120m 안에서 위치를 확인하면":"Check your location within 120 m","← 현판은 오른쪽에서 왼쪽으로 읽어요":"← Plaques read right to left",
+  "구역의 절반을 인증하면 ‘구역 도장’":"Certify half a zone → ‘zone stamp’","궁궐 구역을 다 모으면 ‘궁궐 도장’":"All zones of a palace → ‘palace stamp’","후원이 닫혀 있어 도장 조건에서 빠져요":"Huwon is closed, so it doesn't count",
+  "두 손가락으로 벌려 확대 · 오므려 축소":"Spread two fingers to zoom in · pinch to zoom out","후원 닫힘 · 예약했다면 퀘스트에서 열기":"Huwon closed · open it in Quests if booked",
+  "채팅·사진이 안 될 때 원인을 찾아 드려요":"Find out why chat or photos don't work","처음 방문했을 때의 작은 안내를 다시 켜요":"Turn the first-visit tips back on","아직 소감이 없어요. 첫 소감을 남겨 보세요.":"No notes yet. Leave the first one.",
+  "종9품 참봉 → 정1품 영의정 · 눌러서 펼치기":"Rank 9B → Rank 1A · tap to expand","스쳐 지나가는 아름다운 순간을 사진 한 장으로 ·":"Capture a fleeting beautiful moment ·",
+  "또는 이미지를 길게 눌러 사진에 저장할 수 있어요.":"Or long-press the image to save it.","나중에 ‘관직·도장’ 화면에서 언제든 바꿀 수 있어요.":"You can change this anytime in ‘Rank·Stamps’.",
+  "이곳에서 본 것, 느낀 점, 궁금한 점을 적어 보세요":"Write what you saw, felt or wondered here","지도에서 장소를 열고 ‘사진으로 체크인’을 해 보세요.":"Open a place on the map and ‘check in with a photo’.",
+  "승급 퀘스트의 ‘현판 읽기’를 클리어하면 여기에 쌓여요.":"Clear ‘Read the plaque’ in Quests to fill this.","서버에 연결되지 않아 이 기기에서만 동작하는 체험용 팀이에요.":"Not connected to the server — a practice team on this device only.",
+  "“우리 인정전 앞에서 만나요!”처럼 첫 메시지를 보내 보세요.":"Send the first message, like “Meet at Injeongjeon!”","혼자 자유롭게 둘러봐요. 관직과 도장은 나만의 기록으로 쌓여요.":"Explore freely on your own. Your rank and stamps are yours.",
+  "팀원 누구든 받은 도장을 모두 합쳐 셉니다. 함께 나눠 둘러보세요.":"Stamps from any teammate count for the team. Split up and explore.","한자 2~5자를 넣으면 실제 현판처럼 오른쪽에서 왼쪽으로 새겨 드려요.":"Enter 2–5 Hanja and we'll carve them right to left like a real plaque.",
+  "스쳐 지나가는 아름다운 순간을 담아, 오늘의 기억을 사진으로 담아보세요.":"Capture a fleeting beautiful moment and keep today's memory in a photo.","창경궁·창덕궁·종묘마다 구역 도장을 모두 모으면 큰 궁궐 도장이 찍혀요.":"Collect every zone stamp of a palace to get its big palace stamp.",
+  "로그인 정보를 불러오지 못했어요. 다시 로그인하거나 게스트로 계속해 주세요.":"Couldn't load your login. Sign in again or continue as a guest.","위치 인증이나 사진 체크인을 해야 지도에서 노란색(현장 인증)으로 바뀌어요.":"Do a location check or photo check-in to turn it yellow on the map.",
+  "사진 체크인과 현판 인증샷이 여기에 모여요. 누르면 그 장소 설명으로 가요.":"Your photo check-ins and plaque photos gather here. Tap one to open the place.","팀 코드로 모여 함께 탐방해요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.":"Gather with a team code and explore together. Team stamps earn a team certificate.",
+  "후원 관람을 예약했다면 눌러서 열어요 · 닫혀 있으면 후원 없이도 도장첩 완성":"Tap to open if you booked the Huwon · while closed, you can finish without it","후원 도장도 모아요 · 누르면 다시 닫아요":"Huwon stamps count too · tap to close again",
+  "처마 아래 걸린 글씨를 읽으며 종9품 참봉에서 정1품 영의정까지 올라가 보세요.":"Read the plaques under the eaves and rise from Rank 9B to Chief State Councillor.","현판 글씨 열어 보기 · 한자 카드 · 전각 퀴즈 · 벼슬 시험 · 풍경의 조각은":"Opening plaques · Hanja cards · hall quizzes · rank exams · Pieces of Scenery",
+  "비회원 기록은 이 기기에 남아 있어요. Google로 로그인하면 계정으로 옮겨 드려요.":"Guest records stay on this device. Sign in with Google to move them to your account.","아직 인증 기록이 없어요. 궁궐에서 핀을 열고 ‘위치 인증’이나 ‘촬영’을 눌러 보세요.":"No check-ins yet. Open a pin at the palace and tap ‘Location check’ or ‘Shoot’.",
+  "팀원에게 아래 코드를 알려 주세요. ‘팀으로 참여하기 → 코드로 참여’에 넣으면 같은 팀이 됩니다.":"Share this code. Teammates enter it in ‘Join as a team → Join with code’.","팀원 누구든 받은 도장을 합쳐 셉니다. 팀 전체로 도장을 모두 모으면 ‘단체 교지’를 받을 수 있어요.":"Any teammate's stamps count. Collect them all as a team to get the ‘team certificate’.",
+  "지금은 서버에 연결되지 않아 이 기기에서만 동작하는 체험용 팀이에요. 다른 기기에서는 이 코드로 들어올 수 없어요.":"Not connected to the server — this practice team works on this device only.","지금은 비회원(이 기기 저장)이라 나만 보여요. Google이나 게스트 계정으로 들어오면 모든 참여자와 순위를 겨뤄요.":"As a guest (this device only) you only see yourself. Sign in to compete with everyone.",
+  "탐방 소감을 한 줄로 남겨 주세요. 같은 서버의 참여자끼리만 보여요. 외국인 방문객도 영어로 자유롭게 남길 수 있어요.":"Leave a one-line note about your visit. Only people on the same server see it. Feel free to write in English.",
+  "후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원 구역을 빼고도 도장첩을 완성할 수 있어요. 나중에 언제든 바꿀 수 있어요.":"The Huwon needs a separate reservation. If you didn't book, you can finish the stamp book without it. You can change this anytime.",
+  "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 사진을 누르면 팀원과 댓글을 나눌 수 있고, 내 사진은 🗑으로 지울 수 있어요.":"We frame it with a ‘문학탐방’ seal and hang it in today's gallery. Tap a photo to comment with teammates; delete yours with 🗑.",
+  "옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 +60 EXP. 모두 모으면 명주실로 엮어 드려요. (창덕궁 후원은 예약했을 때만 열 수 있어요)":"Swipe through. Each palace has zone stamps: certify half of a zone on site (location or photo check-in) for a stamp, +60 EXP. Collect them all and the book is bound with silk thread. (The Huwon opens only if you booked it.)",
+  "탐방객 님, 반가워요":"Welcome, Explorer","탐방객 (나)":"Explorer (me)","탐방객 · 이 기기 체험용":"Explorer · practice on this device","탐방객 정자":"Explorer Jeongja","탐방객 참봉":"Explorer Chambong",
+  "종묘 정전":"Jongmyo Main Shrine","종묘 宗廟":"Jongmyo 宗廟","창경궁 昌慶宮":"Changgyeonggung 昌慶宮","창덕궁 昌德宮":"Changdeokgung 昌德宮","종묘 도장":"Jongmyo stamp","창경궁 도장":"Changgyeonggung stamp","창덕궁 도장":"Changdeokgung stamp",
+  "跋 · 맺음":"跋 · Epilogue","1조 · 우리 조":"Team 1 · my team","정문에서 정전까지":"Gate to Main Shrine","신로 · 조상의 혼령이 다니는 길":"Spirit path · the road for ancestral spirits","월대 · 정전 앞의 넓은 돌 마당":"Woldae · the wide stone terrace",
+  "정전 · 종묘의 으뜸 사당":"Jeongjeon · Jongmyo's main shrine","글씨 사진 등록":"Post a plaque photo","으로 바뀌어요.":".","으로만 찍혀요.":".","이 되고 도장이 찍혀요.":"and a stamp is given.","예요. 현장 인증·퀴즈로 쑥쑥 올라가요.":". It grows with on-site checks and quizzes.",
+  "✦ 내":"✦ Your","만 주고, 도장 조건에는 들어가지 않아요. 도장은 꼭":"give EXP only and don't count for stamps. Stamps come only from","을 누르면 장소 이야기가 열려요. 현장에서 인증하면 핀이":"opens the place story. Check in on site and the pin turns",
+  "궁궐에 직접 가서 아래 셋 중 하나를 하면 그 장소가 지도에서":"Go to the palace and do one of these three, and the place turns","가까운 장소끼리 한 구역으로 묶여 있어요. 구역 장소의":"Nearby places form a zone. Certify","(예: 4곳이면 2곳)을 현장 인증하면 도장이":"(e.g. 2 of 4) on site and a stamp is",
+  "후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원을":"The Huwon needs a reservation. If you didn't book,","후원 없이도 도장첩을 완성할 수 있어요. 창덕궁 지도 위나 승급 퀘스트의 스위치로 언제든 열고 닫을 수 있어요.":"and you can finish without it. Toggle it anytime on the Changdeokgung map or in Quests.",
+  "에만 저장돼요. 나중에 Google로 로그인하면 지금까지의 관직과 도장을 계정으로 옮겨 드립니다.":". Sign in with Google later to move your rank and stamps to your account.","게스트 기록은":"Guest records are saved on","정답이면":"if correct",". 모두 모으면 명주실로 엮어 드려요. (창덕궁 후원은 예약했을 때만 열 수 있어요)":". Collect them all to bind the book. (The Huwon opens only if booked.)",
+  "옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장":"Swipe through. Certify half of each zone on site for a stamp",", 1조 점수에도":", also for Team 1",
+  "가르쳐 바꾸다(교화)":"to teach and transform","후원 구역은 지금 닫혀 있어요. 예약해서 들어왔다면":"The Huwon zone is closed now. If you booked,","후원 열기":"Open Huwon",
+  // 설정 · 계정
+  "닉네임":"Nickname","Google 계정":"Google account","게스트 계정":"Guest account","로그아웃":"Log out","처음 화면으로 나가기 ":"Back to start","내 정보 · 설정":"My info · Settings","팀 설정":"Team settings",
+  "한국 서버":"Korean server","서버 · 방":"Server · Room","방":"Room","방 코드":"Room code","방 만들기":"Create room","코드로 들어가기":"Join with code","전체로 나가기":"Leave room","한국 서버 전체":"Korean server (all)",
+  "방에 들어가면 반·모둠끼리만 따로 겨뤄요":"Join a room to compete only within your class","방을 옮길까요?":"Move to another room?","옮기기":"Move","지금 팀에서 나가게 돼요. 새 방에서는 그 방의 팀에 다시 참여해 주세요.":"You'll leave your current team. Join a team in the new room.",
+  "새 방 만들기":"Create a new room","반이나 모둠마다 방을 만들면 팀·명단·랭킹·사진이 그 방 안에서만 보여요.":"Make a room for each class or group — teams, rankings and photos stay inside the room.","방 이름 (예: 2학년 3반)":"Room name (e.g. Class 2-3)",
+  "우리 방":"Our room","방을 만들었어요":"Room created","참여자에게 아래 방 코드를 알려 주세요. 메뉴(☰) → 방 → ‘코드로 들어가기’에 넣으면 같은 방이 돼요.":"Share this room code. Others enter it in Menu (☰) → Room → ‘Join with code’.",
+  "방 코드로 들어가기":"Join a room with a code","방 코드 5자리":"5-character room code","들어가기":"Join","방 코드를 확인해 주세요":"Please check the room code","그런 방이 없어요":"No such room","방을 찾지 못했어요":"Couldn't find the room","방에 들어왔어요":"Joined the room",
+  "한국 서버 전체로 돌아왔어요":"Back to the whole Korean server","방을 만들지 못했어요":"Couldn't create the room","방 코드를 복사했어요":"Room code copied","Korean":"Korean","한국":"Korean","외국인":"Intl.",
+  "언어 · Language":"Language","서버":"Server","우리 서버":"Korean server","외국인 서버":"International","한국 탐방단":"Our class","서버를 바꿀까요?":"Switch server?","바꾸기":"Switch","서버를 바꿨어요":"Server switched",
+  "지금 팀에서 나가게 돼요. 새 서버에서는 그 서버의 팀에 다시 참여해 주세요.":"You'll leave your current team. Join a team on the new server.","팀원끼리만 보여요":"Only teammates can see",
+  "이곳에서의 한줄 소감을 남겨 주세요":"Leave a one-line note about this place","예: 서울 · USA · France":"e.g. Seoul · USA · France","모두 보기":"See all","한 번 더 누르면 지워요":"Tap again to delete",
+  "정답":"Correct","아쉬워요":"Not quite","완성":"Complete","확인":"OK","확인 ✓":"Read ✓","닫기":"Close","메모":"Notes","표지":"Cover","이전 장":"Previous page","다음 장":"Next page","메뉴 열기":"Open menu","안내 닫기":"Close tip",
+  "전각 선택":"Choose hall","주요 메뉴":"Main menu","설정 닫기":"Close settings","사진 닫기":"Close photo","전체 메뉴":"Menu","메뉴 닫기":"Close menu","채팅 닫기":"Close chat","설명서 닫기":"Close guide","채팅 메시지":"Chat message","팀원에게 한마디":"Say something to your team",
+  "지도로 보기":"Map view","전각 그림으로 보기":"Hall view","다른 전각으로 이동":"Go to another hall","나의 관직 보기":"My rank","궁궐·유적 선택":"Choose a site","지도 보기 방식":"View mode","지도 보기 옵션":"Map options","추천 동선 보기":"Show route","관직·도장 보기":"Rank & stamps view",
+  "유적지 선택":"Choose a site","경험치 상위 3명":"Top 3 by EXP","도장첩 페이지, 옆으로 넘기기":"Stamp book pages, swipe","예: 홍길동":"e.g. Hong Gildong","이름 (선택)":"Name (optional)","팀 참여 방법":"How to join","우리 팀 보기":"My team","팀 코드 복사":"Copy team code","팀 코드":"Team code","갤러리 보기":"Gallery view",
+  "청색 깃발":"Blue flag","적색 깃발":"Red flag","황색 깃발":"Yellow flag","백색 깃발":"White flag","흑색 깃발":"Black flag","靑旗 · 청팀":"靑旗 · Blue team","다음 목표":"Next goal","퀘스트":"Quests","팀":"Team","메뉴":"Menu","팀 채팅 ":"Team chat",
+  "1조":"Team 1","2조":"Team 2","3조":"Team 3","4조":"Team 4","5조":"Team 5","6조":"Team 6","개인 참여":"Solo","우리 조":"my team","실시간":"Live","연결 중…":"Connecting…","이 기기 체험용":"Practice on this device",
+  "한국어":"Korean","언어":"Language","Language":"Language","도장 받음":"Stamped","도장 ✓":"Stamped ✓","인증 전 ":"Not yet","✓ 위치 인증":"✓ Location","✓ 사진 체크인":"✓ Photo check-in","✓ 인증샷":"✓ Plaque photo",
+  "위치 인증 ✓":"Location ✓","체크인 완료":"Checked in","사진 바꾸기":"Change photo","📸 나의 체크인 사진":"📸 My check-in photo","이 사진 지우기":"Delete this photo","🗑 이 사진 지우기":"🗑 Delete this photo","지우는 중…":"Deleting…",
+  "아직 현장 사진이 없어요.<br>지도에서 장소를 열고 ‘사진으로 체크인’을 해 보세요.":"No on-site photos yet.","나는":"I am","전체":"All","순위":"Rank","1위":"#1","이 기기 ":"This device"
+});
+const PL = (s) => s; // placeholder
+I18N_RX.push(
+  [/^(\d+)곳 · 도장 (\d+)\/(\d+)$/, m => `${m[1]} places · stamps ${m[2]}/${m[3]}`],
+  [/^(\d+)곳 중 (\d+)곳 인증하면 도장$/, m => `Certify ${m[2]} of ${m[1]} for a stamp`],
+  [/^(\d+)곳 중 (\d+)곳 현장 인증 · (\d+)\/(\d+)$/, m => `Certify ${m[2]} of ${m[1]} on site · ${m[3]}/${m[4]}`],
+  [/^(\d+)곳 인증하면 도장$/, m => `Certify ${m[1]} for a stamp`],
+  [/^(\d+)번 (.+), 현장 인증 전$/, m => `No. ${m[1]} ${nm(m[2])}, not checked yet`],
+  [/^(\d+)번 (.+), 글씨 (\d+)\/(\d+) 확인$/, m => `No. ${m[1]} ${nm(m[2])}, plaques ${m[3]}/${m[4]} read`],
+  [/^(\d+)번 (.+), (.+) 완료$/, m => `No. ${m[1]} ${nm(m[2])}, done`],
+  [/^구역마다 절반을 현장 인증하면 도장 · (\d+)\/(\d+)$/, m => `Certify half of each zone for a stamp · ${m[1]}/${m[2]}`],
+  [/^팀원 (\d+)명 · (.+)$/, m => `${m[1]} members · ${trTokens(m[2]) || m[2]}`],
+  [/^팀원 (\d+)명$/, m => `${m[1]} members`],
+  [/^(\d+)명$/, m => `${m[1]}`], [/^(\d+)점$/, m => `${m[1]} pts`], [/^(\d+)위$/, m => `#${m[1]}`],
+  [/^· 도장 (\d+)\/(\d+)$/, m => `· stamps ${m[1]}/${m[2]}`], [/^도장 (\d+)\/(\d+)$/, m => `Stamps ${m[1]}/${m[2]}`],
+  [/^(\d+) \/ (\d+) · 후원 제외$/, m => `${m[1]} / ${m[2]} · Huwon excluded`],
+  [/^나의 구역 도장 · (\d+)\/(\d+)$/, m => `My zone stamps · ${m[1]}/${m[2]}`],
+  [/^퀘스트 · 구역 도장 (\d+)\/(\d+)$/, m => `Quests · zone stamps ${m[1]}/${m[2]}`],
+  [/^다음 목표 · (\d+)\/(\d+)곳 인증$/, m => `Next goal · ${m[1]}/${m[2]} checked`],
+  [/^현판 · 글씨 (\d+)\/(\d+)$/, m => `Plaques ${m[1]}/${m[2]}`],
+  [/^다음 (\S+) (\S+)까지 (\d+) EXP · 누적 (\d+) EXP$/, m => `${m[3]} EXP to ${EN_RANK[m[1]] || m[1]} ${EN_RANK[m[2]] || m[2]} · total ${m[4]} EXP`],
+  [/^정1품 영의정에 오르면 발급됩니다\. 앞으로 (\d+) EXP\.$/, m => `Issued when you reach Rank 1A. ${m[1]} EXP to go.`],
+  [/^오늘 보상 (\d+)번 남음 · 한 장에$/, m => `${m[1]} rewards left today · per photo`],
+  [/^(\d+)개 조 · (\d+)명 참여 · 접속 중 (\d+)명$/, m => `${m[1]} teams · ${m[2]} participants · ${m[3]} online`],
+  [/^나는 전체 (\d+)명 중$/, m => `Among ${m[1]} participants, I'm`],
+  [/^(.+) 팀 채팅 · (\d+)명$/, m => `${m[1]} chat · ${m[2]}`],
+  [/^(.+) 팀이 만들어졌어요$/, m => `Team ${m[1]} created`],
+  [/^(.+) 님, 반가워요$/, m => `Welcome, ${trTokens(m[1]) || m[1]}`],
+  [/^(\d+)명 · 접속 (\d+)$/, m => `${m[1]} · ${m[2]} online`],
+  [/^(\d+)명 · 이 기기$/, m => `${m[1]} · this device`],
+  [/^(\d+) \/ (\d+) · 표지$/, m => `${m[1]} / ${m[2]} · Cover`],
+  [/^읽은 현판 · (\d+)회$/, m => `Plaques read · ${m[1]}`],
+  [/^승급! (\S+) (\S+)$/, m => `Promoted! ${EN_RANK[m[1]] || m[1]} ${EN_RANK[m[2]] || m[2]}`],
+  [/^코드 (\w+)$/, m => `Code ${m[1]}`],
+  [/^팀원 전체 (\d+)명$/, m => `All ${m[1]} members`],
+  [/^(.+) 팀원과 이야기 나누기$/, m => `Chat with ${m[1]}`],
+  [/^팀 전체로 도장 (\d+)\/(\d+)개 모으기(.*)$/, m => `Team stamps ${m[1]}/${m[2]}${m[3] ? " (Huwon excluded)" : ""}`],
+  [/^도장 (\d+)\/(\d+) · 모두 모으면 명주실로 엮어 드려요$/, m => `Stamps ${m[1]}/${m[2]} · collect all to bind the book`],
+  [/^구역 도장 (\d+)개를 모두 모으면 도장첩을 명주실로 엮어 드려요\.(.*)$/, m => `Collect all ${m[1]} zone stamps to bind the stamp book.${m[2] ? " (Huwon is closed, so it's not counted.)" : ""}`],
+  [/^「(.+)」 구역 · (\d+)곳 중 (\d+)곳 현장 인증하면 도장 \((\d+)\/(\d+)\)$/, m => `${EN_ZONES[m[1]] || m[1]} zone · certify ${m[3]} of ${m[2]} for a stamp (${m[4]}/${m[5]})`],
+  [/^「(.+)」 구역 도장을 받았어요$/, m => `${EN_ZONES[m[1]] || m[1]} zone stamp earned`],
+  [/^(.*?)글씨 (\d+)\/(\d+) 확인 · (.+) 구역$/, m => `${trTokens(m[1]) || ""}plaques ${m[2]}/${m[3]} read · ${EN_ZONES[m[4]] || m[4]} zone`],
+  [/^남은 구역: (.+)$/, m => `Remaining: ${m[1].split(", ").map(x => EN_ZONES[x] || x).join(", ")}`],
+  [/^장소 이야기 · (.+)$/, m => `Story · ${nm(m[1])}`],
+  [/^현장 방문 인증 · (.+)$/, m => `On-site check · ${nm(m[1])}`],
+  [/^GPS가 잡히지 않으면 지금 이 자리에서 (.+)을\(를\) 찍어 체크인 ·$/, m => `No GPS? Photograph ${nm(m[1])} right here to check in ·`],
+  [/^(\d+) \/ (\d+)$/, m => `${m[1]} / ${m[2]}`],
+  [/^(.+) · (\d{4}) 창건 · (\d{4}) 중건$/, m => `${nm(m[1])} · built ${m[2]} · rebuilt ${m[3]}`]
+);
+// 문장 안에 <b> 등이 섞인 요소: 요소 전체 글자 → 영어 HTML
+const I18N_HTML = {
+  "✦ 내 품계와 경험치예요. 현장 인증·퀴즈로 쑥쑥 올라가요.":"✦ Your <b>rank and EXP</b>. They grow with on-site checks and quizzes.",
+  "✦ 번호 핀을 누르면 장소 이야기가 열려요. 현장에서 인증하면 핀이 노란색이 되고 도장이 찍혀요.":"✦ Tap a <b>numbered pin</b> to open its story. Check in on site and the pin turns <b>yellow</b> and you get a stamp.",
+  "게스트 기록은 이 기기에만 저장돼요. 나중에 Google로 로그인하면 지금까지의 관직과 도장을 계정으로 옮겨 드립니다.":"Guest records are saved on <b>this device</b> only. Sign in with Google later to move your rank and stamps to your account.",
+  "문학의 공간을거닐다":"Walking Through<br>Literary Spaces",
+  "궁궐에 직접 가서 아래 셋 중 하나를 하면 그 장소가 지도에서 노란색으로 바뀌어요.":"Go to the palace and do one of these three — the place turns <b style=\"color:#9a6a10\">yellow</b> on the map.",
+  "📍위치 인증장소 120m 안":"<i>📍</i>Location check<br><small>within 120 m</small>",
+  "📸사진 체크인그 자리에서 촬영":"<i>📸</i>Photo check-in<br><small>shoot on the spot</small>",
+  "🪧현판 인증샷글씨 사진 등록":"<i>🪧</i>Plaque photo<br><small>post a plaque photo</small>",
+  "가까운 장소끼리 한 구역으로 묶여 있어요. 구역 장소의 절반(예: 4곳이면 2곳)을 현장 인증하면 도장이 자동으로 쾅 찍혀요. +60 EXP":"Nearby places form a zone. Certify <b>half</b> of a zone's places on site (e.g. 2 of 4) and a stamp is given <b>automatically</b>. <b class=\"xpt\">+60 EXP</b>",
+  "창경궁·창덕궁·종묘마다 구역 도장을 모두 모으면 큰 궁궐 도장이 찍혀요. +100 EXP":"Collect every zone stamp of Changgyeonggung, Changdeokgung or Jongmyo to get its big palace stamp. <b class=\"xpt\">+100 EXP</b>",
+  "구역 도장 9개를 모두 모으면 도장첩을 명주실로 엮어 드려요. (지금은 창덕궁 후원이 닫혀 있어 후원 구역은 빼고 셉니다)":"Collect all 9 zone stamps to bind the stamp book with silk thread. (The Huwon is closed now, so it isn't counted.)",
+  "구역 도장 10개를 모두 모으면 도장첩을 명주실로 엮어 드려요.":"Collect all 10 zone stamps to bind the stamp book with silk thread.",
+  "팀원 누구든 받은 도장을 합쳐 셉니다. 팀 전체로 도장을 모두 모으면 ‘단체 교지’를 받을 수 있어요.":"Any teammate's stamps count. Collect them all as a team to get the ‘team certificate’.",
+  "도장에는 세지 않는 것현판 글씨 열어 보기 · 한자 카드 · 전각 퀴즈 · 벼슬 시험 · 풍경의 조각은 경험치만 주고, 도장 조건에는 들어가지 않아요. 도장은 꼭 현장 인증으로만 찍혀요.":"<b>What doesn't count for stamps</b><br>Opening plaques · Hanja cards · hall quizzes · rank exams · Pieces of Scenery give <b class=\"xpt\">EXP</b> only. Stamps come only from <b>on-site checks</b>.",
+  "🌿 창덕궁 후원후원은 따로 예약해야 들어갈 수 있어요. 예약하지 않았다면 후원을 닫아 두면 후원 없이도 도장첩을 완성할 수 있어요. 창덕궁 지도 위나 승급 퀘스트의 스위치로 언제든 열고 닫을 수 있어요.":"<b>🌿 Changdeokgung Huwon</b><br>The Huwon (Secret Garden) needs a separate reservation. If you didn't book, <b>close it</b> and you can finish the stamp book without it. Toggle it anytime on the Changdeokgung map or in Quests.",
+  "옆으로 넘겨 보세요. 궁궐마다 구역 도장이 있고, 구역의 절반에서 현장 인증(위치·사진 체크인)을 하면 도장 +60 EXP. 모두 모으면 명주실로 엮어 드려요. (창덕궁 후원은 예약했을 때만 열 수 있어요)":"Swipe through. Each palace has zone stamps: certify half of a zone on site (location or photo check-in) for a stamp, <b class=\"xpt\">+60 EXP</b>. Collect them all and the book is bound with silk thread. (The Huwon opens only if you booked it.)",
+  "전각 120m 안에서 위치를 확인하면 +50 EXP":"Check your location within 120 m <b class=\"xpt\">+50 EXP</b>",
+  "스쳐 지나가는 아름다운 순간을 사진 한 장으로 · +15 EXP":"Capture a fleeting beautiful moment · <b class=\"xpt\">+15 EXP</b>"
+};
+const ORIG_T = new Map(), ORIG_A = new Map(), ORIG_H = new Map();
+function trString(raw){
+  const k = raw.replace(/\s+/g, " ").trim(); if (!k || !/[가-힣]/.test(k)) return null;
+  const en = I18N[k] ?? trRx(k) ?? trTokens(k) ?? (k.includes(" · ") ? (() => { const parts = k.split(" · ").map(x => I18N[x] ?? trRx(x) ?? trTokens(x)); return parts.every(x => x != null) ? parts.join(" · ") : null; })() : null);
+  return en == null ? null : raw.replace(raw.trim(), en);
+}
+const I18n = {
+  busy:false, obs:null,
+  node(n){
+    if (n.nodeType === 3) {
+      const p = n.parentElement; if (!p || p.closest("script,style,textarea,[data-noi18n],.pi-body")) return;
+      if (/[가-힣]/.test(n.nodeValue)) {   // 문장 안에 <b> 등이 섞인 요소는 통째로 먼저
+        for (let el = p, d = 0; el && d < 3; el = el.parentElement, d++) {
+          if (ORIG_H.has(el)) return;
+          const key = el.textContent.replace(/\s+/g, " ").trim();
+          if (key.length < 400 && I18N_HTML[key]) { ORIG_H.set(el, el.innerHTML); el.innerHTML = I18N_HTML[key]; return; }
+        }
+      }
+      const v = trString(n.nodeValue);
+      if (v != null && v !== n.nodeValue) { if (!ORIG_T.has(n)) ORIG_T.set(n, n.nodeValue); n.nodeValue = v; return; }
+      if (/[가-힣]/.test(n.nodeValue)) {   // 문장 중간에 <b>가 섞인 경우: 부모 요소 통째로
+        const el = p.closest("span,p,small,li,summary,label,div");
+        if (el && !ORIG_H.has(el)) { const key = el.textContent.replace(/\s+/g, " ").trim(); if (I18N_HTML[key]) { ORIG_H.set(el, el.innerHTML); el.innerHTML = I18N_HTML[key]; } }
+      }
+      return;
+    }
+    if (n.nodeType !== 1) return;
+    for (const a of ["placeholder", "aria-label", "title"]) {
+      const v0 = n.getAttribute && n.getAttribute(a);
+      if (v0 && /[가-힣]/.test(v0)) { const v = trString(v0); if (v != null) { const m = ORIG_A.get(n) || {}; if (!(a in m)) m[a] = v0; ORIG_A.set(n, m); n.setAttribute(a, v); } }
+    }
+  },
+  apply(root){
+    if (LANG !== "en" || !root) return;
+    this.busy = true;
+    if (root.nodeType === 3) this.node(root);
+    else {
+      this.node(root);
+      const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT); let n;
+      const list = []; while ((n = w.nextNode())) list.push(n);
+      list.forEach(x => this.node(x));
+    }
+    if (this.obs) this.obs.takeRecords();
+    this.busy = false;
+  },
+  restore(){
+    this.busy = true;
+    ORIG_T.forEach((v, n) => { if (n.isConnected) n.nodeValue = v; }); ORIG_T.clear();
+    ORIG_A.forEach((m, n) => { if (n.isConnected) Object.entries(m).forEach(([a, v]) => n.setAttribute(a, v)); }); ORIG_A.clear();
+    ORIG_H.forEach((v, el) => { if (el.isConnected) el.innerHTML = v; }); ORIG_H.clear();
+    if (this.obs) this.obs.takeRecords();
+    this.busy = false;
+  },
+  prune(){ if (ORIG_T.size > 4000) [...ORIG_T.keys()].forEach(n => { if (!n.isConnected) ORIG_T.delete(n); }); if (ORIG_A.size > 2000) [...ORIG_A.keys()].forEach(n => { if (!n.isConnected) ORIG_A.delete(n); }); },
+  start(){
+    this.obs = new MutationObserver(recs => {
+      if (this.busy || LANG !== "en") return;
+      this.busy = true;
+      for (const r of recs) {
+        if (r.type === "childList") r.addedNodes.forEach(n => { this.busy = false; this.apply(n); this.busy = true; });
+        else if (r.type === "characterData") this.node(r.target);
+        else if (r.type === "attributes") this.node(r.target);
+      }
+      this.obs.takeRecords(); this.busy = false; this.prune();
+    });
+    this.obs.observe(document.body, { childList:true, subtree:true, characterData:true, attributes:true, attributeFilter:["placeholder", "aria-label", "title"] });
+    if (LANG === "en") this.apply(document.body);
+  }
+};
+function setLang(l){
+  if (l !== "en" && l !== "ko") return;
+  LANG = l; LS.set("palace-lang", l); document.documentElement.lang = l;
+  if (l === "en") { I18n.apply(document.body); } else I18n.restore();
+  document.title = l === "en" ? "Walking Through Literary Spaces" : "문학의 공간을 거닐다";
+  renderAll(); renderLangPick();
+  if (sheetOpen()) { if (SH.mode === "building") renderBuildingBody(); }
+  if (!$("#setm").hidden) renderSettings();
+  if ($("#drawer").classList.contains("open")) renderDrawer();
+}
+function renderLangPick(){
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === LANG));
+  document.querySelectorAll("[data-srv]").forEach(b => b.setAttribute("aria-pressed", b.dataset.srv === SERVER));
+}
+
 /* 키보드가 올라올 때: 화면이 확대되거나 밀리지 않도록 열린 창(채팅·댓글)을 보이는 화면 높이에 딱 맞춤 */
 (function(){
   const vv = window.visualViewport;
@@ -5303,6 +5899,9 @@ if (INAPP) {
   $("#inapp").innerHTML = `<span>${INAPP} 브라우저에서는 사진 찍기·Google 로그인이 막힐 수 있어요. Chrome·Safari에서 열어 주세요.</span>${INAPP === "카카오톡" ? `<button id="inappOpen">브라우저로 열기</button>` : ""}<button class="x" id="inappX" aria-label="안내 닫기">×</button>`;
 }
 async function boot(){
+  document.documentElement.lang = LANG;
+  I18n.start(); renderLangPick();
+  if (!LS.get("palace-lang")) $("#langm").hidden = false;
   normalizeStamps(); checkZones(true);
   renderTabs(); renderHeader(); renderMap();
   if (FB_ON && !FRAMED) {
@@ -5358,13 +5957,17 @@ async function mstEnter(user){
     $("#mstMain").innerHTML = `<div class="mst-card"><b>관리자 계정이 아니에요.</b><p class="mst-help" style="margin-top:6px">${esc(MST.email)} 계정은 관리자로 등록되어 있지 않아요. Firebase 콘솔 → Firestore → 규칙의 <b>isAdmin()</b> 목록에 이 이메일을 넣고 [게시]한 뒤 다시 열어 주세요. (${esc(e.code || e.message)})</p></div>`;
     return;
   }
-  MST.un.forEach(f => { try { f(); } catch(e) {} }); MST.un = [];
+  mstSubscribe();
+  clearInterval(MST.tick); MST.tick = setInterval(mstRender, 30000);   // '접속 중' 표시 갱신
+  mstRender();
+}
+function mstSubscribe(){
+  MST.un.forEach(f => { try { f(); } catch(e) {} }); MST.un = []; MST.players = []; MST.kicks = [];
+  MST.un.push(fb.db.collection("rooms").onSnapshot(q => { MST.rooms = q.docs.map(d => d.data()).sort((a, b) => String(a.name).localeCompare(String(b.name), "ko", { numeric:true })); mstRender(); }, e => console.warn("rooms:", e.code || e.message)));
   MST.un.push(fb.db.collection("players").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.players = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
     e => { MST.msg = "참여자 명단을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
   MST.un.push(fb.db.collection("kicks").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.kicks = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
     e => { MST.msg = "강퇴 기록을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
-  clearInterval(MST.tick); MST.tick = setInterval(mstRender, 30000);   // '접속 중' 표시 갱신
-  mstRender();
 }
 function mstRender(){
   const main = $("#mstMain"); if (!main || !MST.email) return;
@@ -5385,6 +5988,8 @@ function mstRender(){
   list.forEach(p => { const k = p.teamId || "_solo"; if (!groups.has(k)) groups.set(k, { id:k, name:p.teamId ? (p.teamName || "조") : "개인 참여", color:p.teamColor, list:[] }); groups.get(k).list.push(p); });
   const gs = [...groups.values()].sort((a, b) => (a.id === "_solo") - (b.id === "_solo") || a.name.localeCompare(b.name, "ko", { numeric:true }));
   main.innerHTML = `
+    <div class="mst-tools"><b style="font-size:13px">서버</b><div class="seg" role="tablist">${Object.entries(SERVERS).map(([k, v]) => `<button role="tab" data-msrv="${k}" aria-selected="${SERVER === k}">${v.ko}</button>`).join("")}</div>
+      ${SERVER === "kr" ? `<b style="font-size:13px">방</b><select class="input" id="mstRoom" style="max-width:260px;min-height:40px"><option value="">한국 서버 전체</option>${(MST.rooms || []).map(r => `<option value="${esc(r.code)}"${ROOM === r.code ? " selected" : ""}>${esc(r.name || "방")} (${esc(r.code)})</option>`).join("")}</select>` : ""}</div>
     <div class="mst-stats">
       <div class="mst-stat"><b>${MST.players.filter(p => !banned.has(p.uid)).length}</b><small>참여 계정</small></div>
       <div class="mst-stat on"><b>${MST.players.filter(p => !banned.has(p.uid) && on(p)).length}</b><small>접속 중 (10분 안)</small></div>
@@ -5420,6 +6025,7 @@ async function mstPurge(uid, step){
   if (fb.st) for (const folder of ["certshots", "gallery"]) { try { const l = await fb.st.ref(`${folder}/${uid}`).listAll(); await Promise.all(l.items.map(it => it.delete())); } catch(e) { console.warn("storage:", e.code || e.message); } }
   step("팀·명단에서 빼는 중…");
   try { const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete())); } catch(e) { console.warn("team:", e.code || e.message); }
+  try { const gq = await fb.db.collection("guestbook").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("guestbook:", e.code || e.message); }
   try { const pq = await fb.db.collection("players").where("uid", "==", uid).get(); await Promise.all(pq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("players:", e.code || e.message); }
   step("관직·도장 기록 지우는 중…");
   for (const sub of ["stamps", "visits", "puzzles", "refs", "photos"]) { try { const q = await users.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); } catch(e) { console.warn(sub + ":", e.code || e.message); } }
@@ -5454,10 +6060,12 @@ if (MASTER) {
       return;
     }
     if (t.closest("#mstOut")) { MST.un.forEach(f => { try { f(); } catch(_) {} }); MST.un = []; MST.email = ""; clearInterval(MST.tick); try { await fb.auth.signOut(); } catch(_) {} mstLogin(); return; }
+    if ((el = t.closest("[data-msrv]"))) { SERVER = el.dataset.msrv; ROOM = ""; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); mstSubscribe(); mstRender(); return; }
     if ((el = t.closest("[data-mf]"))) { MST.filter = el.dataset.mf; MST.focus = false; mstRender(); return; }
     if ((el = t.closest("[data-kick]"))) { mstKick(el.dataset.kick); return; }
     if ((el = t.closest("[data-mst]"))) { const yes = el.dataset.mst === "yes"; const r = $("#mstReason"); MST.res && MST.res(yes ? { reason: r ? r.value.trim().slice(0, 60) : "" } : false); return; }
   });
+  document.addEventListener("change", e => { if (e.target.id === "mstRoom") { ROOM = e.target.value; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); mstSubscribe(); mstRender(); } });
   document.addEventListener("input", e => { if (e.target.id === "mstQ") { MST.q = e.target.value; MST.focus = true; mstRender(); } });
   masterBoot();
 } else boot();
