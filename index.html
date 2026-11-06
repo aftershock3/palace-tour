@@ -936,6 +936,25 @@ html[lang="en"] .maprow .mapseg button{font-size:12px;padding:5px 8px}
 .rb-btns{display:flex;gap:6px;flex-wrap:wrap}
 .rb-btns .btn{flex:1;min-height:36px;font-size:12.5px;padding:4px 8px;white-space:nowrap}
 .room-code{font:900 30px/1 var(--f-body);letter-spacing:.25em;text-align:center;margin:10px 0 4px;color:var(--blue)}
+.rlist{display:flex;flex-direction:column;gap:8px}
+.rlist .choice{min-height:68px;padding:12px 14px;border-radius:14px}
+.rlist .choice .ci{width:40px;height:40px;font-size:19px;border-radius:11px}
+.rlist .choice b{font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rlist .choice.here{border:2px solid var(--blue)}
+.rlist .choice .here-tag{display:inline-block;margin-left:6px;font:700 11px var(--f-body);color:var(--blue);vertical-align:2px}
+.pin-in{letter-spacing:.5em;text-indent:.5em;font:500 28px "Roboto",var(--f-body);text-align:center}
+.pinshow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pinshow div{border:2px dashed var(--line);border-radius:14px;background:var(--card);padding:12px 6px;text-align:center}
+.pinshow small{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.pinshow b{font:500 28px/1.1 "Roboto",var(--f-body);letter-spacing:.15em;user-select:all}
+.ms-link{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:13px;padding:8px;min-height:40px}
+.rx-sum{display:flex;gap:6px;flex-wrap:wrap;font-size:11.5px;color:var(--ink);min-height:16px}
+.rx-sum span{font-variant-numeric:tabular-nums}
+.rx-bar{display:flex;gap:6px;flex-wrap:wrap}
+.rx-bar button{border:1px solid var(--line);background:var(--card);border-radius:999px;min-height:38px;min-width:52px;padding:4px 10px;font-size:17px;display:inline-flex;align-items:center;gap:4px}
+.rx-bar button small{font:700 12.5px var(--f-body);color:var(--muted)}
+.rx-bar button[aria-pressed="true"]{border:2px solid var(--red);background:#fdeceb}
+.rx-bar button[aria-pressed="true"] small{color:var(--red)}
 .dpal b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 html[lang="en"] .dpal b{font-size:11.5px}
 .mini-seg{display:inline-flex}.mini-seg button{min-height:32px;padding:3px 10px;font-size:12.5px}
@@ -1322,7 +1341,6 @@ html[lang="en"] .dpal b{font-size:11.5px}
     <section class="screen" id="s-album" hidden>
       <div class="panel" id="galleryPanel"></div>
       <div class="panel" id="myPhotos"></div>
-      <div class="panel" id="guestPanel"></div>
     </section>
 
     <section class="screen" id="s-studio" hidden>
@@ -1458,6 +1476,12 @@ html[lang="en"] .dpal b{font-size:11.5px}
   <div class="pm-head"><h2 id="vwTitle">풍경의 조각</h2><button class="pm-x" id="vwClose" aria-label="사진 닫기">×</button></div>
   <div class="pm-body" id="vwBody"></div>
   <div id="vwSay"></div>
+</div>
+
+<!-- 소감함 (드로어에서 열기) -->
+<div class="pm" id="gbm" role="dialog" aria-modal="true" aria-labelledby="gbmT" hidden>
+  <div class="pm-head"><h2 id="gbmT">소감함<small id="gbmSub">방명록 · 후기</small></h2><button class="pm-x" id="gbmClose" aria-label="소감함 닫기">×</button></div>
+  <div class="pm-body" id="gbmBody"><section class="panel" id="guestPanel"></section></div>
 </div>
 
 <!-- 첫 방문: 언어 선택 -->
@@ -3178,14 +3202,14 @@ async function handlePhoto(file){
       if ((top && dyv > 0) || (bottom && dyv < 0) || el.scrollHeight <= el.clientHeight) { if (e.cancelable) e.preventDefault(); }
     }, { passive:false });
   };
-  ["#sheetBody", "#setmBody", "#vwBody", "#chatBody", "#gdBody"].forEach(sel => { const el = $(sel); if (el) edgeGuard(el); });
+  ["#sheetBody", "#setmBody", "#vwBody", "#chatBody", "#gdBody", "#gbmBody"].forEach(sel => { const el = $(sel); if (el) edgeGuard(el); });
   // 열린 창이 있으면 뒤 화면 잠금
   const lock = () => {
-    const open = sh.classList.contains("open") || ["#setm", "#viewer", "#chat", "#guide"].some(id => $(id) && !$(id).hidden);
+    const open = sh.classList.contains("open") || ["#setm", "#viewer", "#chat", "#guide", "#gbm"].some(id => $(id) && !$(id).hidden);
     $("#app").classList.toggle("locked", open);
   };
   new MutationObserver(lock).observe(sh, { attributes:true, attributeFilter:["class"] });
-  ["#setm", "#viewer", "#chat", "#guide"].forEach(id => { const el = $(id); if (el) new MutationObserver(lock).observe(el, { attributes:true, attributeFilter:["hidden"] }); });
+  ["#setm", "#viewer", "#chat", "#guide", "#gbm"].forEach(id => { const el = $(id); if (el) new MutationObserver(lock).observe(el, { attributes:true, attributeFilter:["hidden"] }); });
 })();
 
 /* ═════════ RANK SCREEN ═════════ */
@@ -3351,6 +3375,9 @@ function renderDrawer(){
           + row('data-dr="chat"', "💬", "팀 채팅", "", false, unread ? `<span class="badge">${unread}</span>` : "")
         : row('data-dr="team"', "🚩", "팀으로 참여하기", "")}
 
+    <h4 class="dh">소통</h4>
+    ${row('data-dr="gb"', "✍️", t_("소감함"), `${LANG === "en" ? "Notes & reviews" : "방명록 · 후기"} · <span id="drGbN">${GB.list.length}</span>`)}
+
     <h4 class="dh">언어 · Language</h4>
     <div class="dpal dsw" role="group"><button data-lang="ko" aria-pressed="${LANG === "ko"}"><b>한국어</b></button><button data-lang="en" aria-pressed="${LANG === "en"}"><b>English</b></button></div>
     <h4 class="dh">서버 · 방</h4>
@@ -3374,7 +3401,7 @@ function closeDrawer(){
   const d = $("#drawer"); if (!d || !d.classList.contains("open")) return;
   d.classList.remove("open"); $("#drawerBg").classList.remove("on"); d.setAttribute("aria-hidden", "true"); d.style.transform = "";
   $("#menuBtn").setAttribute("aria-expanded", "false");
-  if (!sheetOpen() && ["#setm", "#viewer", "#chat", "#guide"].every(id => $(id).hidden)) $("#app").classList.remove("locked");
+  if (!sheetOpen() && ["#setm", "#viewer", "#chat", "#guide", "#gbm"].every(id => $(id).hidden)) $("#app").classList.remove("locked");
 }
 (function(){   // 드로어를 왼쪽으로 밀어 닫기
   const d = $("#drawer"); let x0 = null, dx = 0;
@@ -3523,6 +3550,7 @@ const LS = { get(k){ try { return localStorage.getItem(k); } catch(e) { return n
    장소의 긴 해설(선생님 원문)은 한국어 그대로 두고, 장소 이름·짧은 소개는 영어로 보여 줍니다. */
 let LANG = LS.get("palace-lang") === "en" ? "en" : "ko";
 const I18N = {}, I18N_RX = [], EN_NAMES = {}, EN_DESC = {};
+Object.assign(I18N, {"소통": "Community", "소감함": "Notes box", "방명록 · 후기": "Guestbook · reviews", "소감함 닫기": "Close notes box", "탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.": "Leave your thoughts and reviews any time. Everyone in the same room (server) can read them.", "오늘 탐방 소감을 남겨 주세요": "Share your thoughts on today’s visit", "아직 소감이 없어요. 첫 소감을 남겨 보세요.": "No notes yet. Be the first to write one.", "방 목록": "Room list", "방 만들기": "Create room", "새 방 만들기": "Create a new room", "새 방": "New room", "복사": "Copy", "뒤로": "Back", "코드": "Code", "지금 방": "Current", "팀으로 참여": "Joining as a team", "개인으로 참여": "Joining solo", "들어갈 방을 골라 주세요": "Choose a room to enter", "방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.": "Each room has its own participants, teams, rankings, photos and notes. You need the room PIN (numbers) the first time you enter.", "방 이름 검색": "Search rooms", "다시 불러오기": "Reload", "방 목록을 불러오는 중…": "Loading rooms…", "검색한 방이 없어요.": "No rooms match.", "아직 만들어진 방이 없어요.": "No rooms yet.", "선생님(방장)이 방을 만들면 여기에 나타나요.": "Rooms appear here when a teacher (host) creates one.", "방 없이 한국 서버 전체에서 하기": "Play on the whole Korean server without a room", "방 PIN을 입력해 주세요": "Enter the room PIN", "선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.": "It's the 4–6 digit number from your teacher (host). You won't be asked again after the first time.", "방 PIN": "Room PIN", "확인하는 중…": "Checking…", "들어가기": "Enter", "방 이름": "Room name", "입장 PIN (숫자 4~6자리)": "Entry PIN (4–6 digits)", "참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.": "Participants pick this room from the list and enter the PIN to join.", "만드는 중…": "Creating…", "방을 만들었어요": "Room created", "참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.": "Share the room name and PIN. Participants tap this room in the list and enter the PIN.", "PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.": "You can see the PIN again in Menu (☰) → Server · Room.", "방 이름 · PIN 복사": "Copy room name · PIN", "이 방에서 팀 정하기": "Set up a team in this room", "탐방 시작하기": "Start exploring", "PIN은 숫자 4~6자리예요.": "The PIN is 4–6 digits.", "PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.": "Wrong PIN. Please check with the teacher (host) who made the room.", "방 이름을 적어 주세요.": "Please enter a room name.", "방 이름과 PIN을 복사했어요": "Copied room name and PIN", "반응을 남기지 못했어요": "Couldn't add your reaction", "갤러리": "Gallery", "우리 방 전체": "Whole room", "이모티콘 반응": "Emoji reactions", "서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.": "Once connected to the server, you can comment on photos from people in your room.", "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.": "Your photo is framed with a seal and hung in today's gallery. Everyone in the same room sees it, whatever their team. Tap a photo to comment or react with an emoji; delete your own with 🗑."});
 const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
 function t_(ko){ if (LANG !== "en") return ko; const k = String(ko); return I18N[k] ?? trRx(k) ?? k; }
 const enName = bid => EN_NAMES[bid] || (BLD[bid] ? BLD[bid].b.name : bid);
@@ -3737,11 +3765,11 @@ async function enterGuest(){
 async function logout(){
   closeDrawer(); closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); GB.stop(); GB.list = []; Store.admin = false;
   const app = $("#app"); app.classList.add("fade-out");
-  Team.stop(); if (sheetOpen()) closeSheet();
+  Team.stop(); galStop(); closeGB(); if (sheetOpen()) closeSheet();
   if (cloudOn()) { try { await fb.auth.signOut(); } catch(e) {} }
   Store.mode = "guest"; Store.uid = null; Store.provider = null;
   S = readLocal(); S.entered = false; save();
-  PHOTOS = readPhotos(); Team.board = []; GAL.items = [];
+  PHOTOS = readPhotos(); Team.board = []; GAL.items = []; MS.step = "choose";
   await new Promise(r => setTimeout(r, 260));
   hideModeSel(); curScreen = "map"; renderAll(); showLogin();
   requestAnimationFrame(() => app.classList.remove("fade-out"));
@@ -3790,7 +3818,7 @@ async function withdraw(){
   if (!ok) return;
   // 이 휴대폰 기록 지우기
   [KEY, OLDKEY, PKEY, GKEY].forEach(key => { try { localStorage.removeItem(key); } catch(e) {} });
-  Team.stop(); if (sheetOpen()) closeSheet(); closeSettings(); closeViewer(); closeChat();
+  Team.stop(); galStop(); closeGB(); if (sheetOpen()) closeSheet(); closeSettings(); closeViewer(); closeChat();
   try { Object.keys(localStorage).filter(k => k.startsWith(CHAT_KEY) || k.startsWith(CMT_KEY)).forEach(k => localStorage.removeItem(k)); } catch(e) {}
   Store.mode = "guest"; Store.uid = null; Store.provider = null;
   S = fresh(); PHOTOS = {}; Team.board = []; GAL.items = []; Object.keys(SCROLL).forEach(x => delete SCROLL[x]);
@@ -4225,7 +4253,6 @@ function renderBuildingBody(){
     </div>
     ${quizHTML(b)}
     ${gpsHTML(b)}
-    ${gbPlaceHTML(b)}
     <div class="sec">
       <h3>나의 메모</h3>
       <textarea class="input memo-in" id="bmemo" rows="3" maxlength="600" placeholder="이곳에서 본 것, 느낀 점, 궁금한 점을 적어 보세요">${esc(memo ? memo.t : "")}</textarea>
@@ -4399,8 +4426,9 @@ function afterEnter(){
   teamFitsServer(); GB.start();
   Ban.watch(); checkAdmin();
   Players.touch(); Players.heartbeat();
-  if (!S.playMode) showModeSel("choose");
-  else { Team.refresh(); Team.start(); }
+  let fresh = false; try { fresh = sessionStorage.getItem("palace-entry") === "1"; sessionStorage.removeItem("palace-entry"); } catch(e) {}
+  if (S.playMode) { Team.refresh(); Team.start(); }
+  if (!S.playMode || (fresh && SERVER === "kr")) showModeSel("choose");
 }
 
 /* ═════════ 팀 대항전 ═════════
@@ -4593,6 +4621,64 @@ function renderTeamPanel(){
 const MS = { step:"choose", name:"1조", color:"blue", code:"", msg:"", err:false, busy:false };
 function showModeSel(step){ MS.step = step; MS.msg = ""; MS.busy = false; $("#modesel").hidden = false; renderModeSel(); $("#modesel").scrollTop = 0; }
 function hideModeSel(){ $("#modesel").hidden = true; }
+const ICON_WANT = () => MS.want === "team" ? t_("팀으로 참여") : t_("개인으로 참여");
+function renderRoomStep(b, note){
+  if (MS.step === "rooms") {
+    const q = RoomDir.q.trim().toLowerCase(), list = RoomDir.list.filter(r => !q || String(r.name || "").toLowerCase().includes(q) || String(r.code).toLowerCase().includes(q) || String(r.nickname || "").toLowerCase().includes(q));
+    b.innerHTML = `
+      <button class="back" data-ms="choose">← ${t_("뒤로")}</button>
+      <div><p class="eyebrow">${t_("한국 서버")} · ${ICON_WANT()}</p>
+      <h2 class="ms-title" id="msTitle">${t_("들어갈 방을 골라 주세요")}</h2>
+      <p class="small">${t_("방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.")}</p></div>
+      ${RoomDir.list.length > 5 ? `<input class="input" id="roomQ" value="${esc(RoomDir.q)}" placeholder="${t_("방 이름 검색")}" aria-label="${t_("방 이름 검색")}" autocomplete="off">` : ""}
+      ${RoomDir.msg ? `<p class="note err">${RoomDir.msg} <button class="tiny" id="msReload">${t_("다시 불러오기")}</button></p>` : ""}
+      ${note}
+      <div class="rlist" aria-busy="${RoomDir.loading || MS.busy}">${RoomDir.loading ? `<p class="small">${t_("방 목록을 불러오는 중…")}</p>`
+        : list.length ? list.map(r => `<button class="choice${r.code === ROOM && SERVER === "kr" ? " here" : ""}" data-rpick="${esc(r.code)}"${MS.busy ? " disabled" : ""}><span class="ci" aria-hidden="true">${r.hasPin ? "🔒" : "🚪"}</span>
+            <span><b>${esc(r.name || t_("방"))}${r.code === ROOM && SERVER === "kr" ? `<span class="here-tag">${t_("지금 방")}</span>` : ""}</b><small>${r.nickname ? esc(r.nickname) + " · " : ""}${r.at ? fmtDate(r.at) + " · " : ""}${t_("코드")} ${esc(r.code)}</small></span><span class="go" aria-hidden="true">›</span></button>`).join("")
+        : `<div class="gal-empty">${q ? t_("검색한 방이 없어요.") : t_("아직 만들어진 방이 없어요.")}<br>${t_("선생님(방장)이 방을 만들면 여기에 나타나요.")}</div>`}</div>
+      <button class="btn" data-ms="newroom">＋ ${t_("새 방 만들기")}</button>
+      <button class="ms-link" data-ms="noroom">${t_("방 없이 한국 서버 전체에서 하기")}</button>`;
+    return true;
+  }
+  if (MS.step === "pin") {
+    const r = MS.room || {};
+    b.innerHTML = `
+      <button class="back" data-ms="rooms">← ${t_("방 목록")}</button>
+      <div><p class="eyebrow">🔒 ${esc(r.name || t_("방"))} · ${t_("코드")} ${esc(r.code || "")}</p>
+      <h2 class="ms-title" id="msTitle">${t_("방 PIN을 입력해 주세요")}</h2>
+      <p class="small">${t_("선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.")}</p></div>
+      <input class="input pin-in" id="msPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="••••" aria-label="${t_("방 PIN")}">
+      ${note}
+      <button class="btn${MS.busy ? " dis" : ""}" id="msPinGo">${MS.busy ? t_("확인하는 중…") : t_("들어가기")}</button>`;
+    return true;
+  }
+  if (MS.step === "newroom") {
+    b.innerHTML = `
+      <button class="back" data-ms="rooms">← ${t_("방 목록")}</button>
+      <div><p class="eyebrow">${t_("한국 서버")} · ${t_("새 방")}</p>
+      <h2 class="ms-title" id="msTitle">${t_("새 방 만들기")}</h2>
+      <p class="small">${t_("반이나 모둠마다 방을 만들면 참여자·팀·랭킹·사진이 그 방 안에서만 보여요.")}</p></div>
+      <div class="field"><label for="nrName">${t_("방 이름")}</label><input class="input" id="nrName" maxlength="20" value="${esc(MS.rname || "")}" placeholder="${t_("방 이름 (예: 2학년 3반)")}" autocomplete="off"></div>
+      <div class="field"><label for="nrPin">${t_("입장 PIN (숫자 4~6자리)")}</label><input class="input pin-in" id="nrPin" inputmode="numeric" pattern="[0-9]*" maxlength="6" value="${esc(MS.rpin || "")}" placeholder="1234" autocomplete="off">
+        <p class="small">${t_("참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.")}</p></div>
+      ${note}
+      <button class="btn${MS.busy ? " dis" : ""}" id="nrMake">${MS.busy ? t_("만드는 중…") : t_("방 만들기")}</button>`;
+    return true;
+  }
+  if (MS.step === "roommade") {
+    const m = MS.made || {};
+    b.innerHTML = `
+      <div><p class="eyebrow">🚪 ${t_("방을 만들었어요")}</p><h2 class="ms-title" id="msTitle">${esc(m.name || "")}</h2>
+      <p class="small">${t_("참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.")}</p></div>
+      <div class="pinshow"><div><small>${t_("방 PIN")}</small><b>${esc(m.pin || "")}</b></div><div><small>${t_("방 코드")}</small><b>${esc(m.code || "")}</b></div></div>
+      <p class="small">${t_("PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.")}</p>
+      <button class="btn ghost" id="msCopyRoom">${t_("방 이름 · PIN 복사")}</button>
+      <button class="btn" data-ms="go">${MS.want === "team" ? t_("이 방에서 팀 정하기") : t_("탐방 시작하기")}</button>`;
+    return true;
+  }
+  return false;
+}
 function renderModeSel(){
   const b = $("#msBody"), note = MS.msg ? `<p class="note${MS.err ? " err" : ""}">${MS.msg}</p>` : "";
   if (MS.step === "choose") {
@@ -4604,6 +4690,7 @@ function renderModeSel(){
       <p class="small">나중에 ‘관직·도장’ 화면에서 언제든 바꿀 수 있어요.</p>`;
     return;
   }
+  const roomStep = renderRoomStep(b, note); if (roomStep) return;
   if (MS.step === "created") {
     const t = S.team, C = TEAM_COLORS[t.color];
     b.innerHTML = `
@@ -4767,7 +4854,7 @@ async function handleShot(file){
         let remoteUrl = null;
         if (STORE.ok !== false) { try { remoteUrl = await uploadJpeg(`gallery/${Store.uid}/${item.id}.jpg`, url); STORE.ok = true; } catch(e) { storageFailed(e); } }
         if (!remoteUrl) remoteUrl = await shrinkDataUrl(url, 720, .72);   // 사진 저장소(Storage)를 못 쓰면 문서 안에 작게 저장
-        const ref = await fb.db.collection("gallery").add({ uid:Store.uid, event:CONFIG.EVENT_ID, day:dayKey(), teamId: t && !t.local ? t.id : null, nickname:item.nickname, tag, url:remoteUrl, createdAt:item.at });
+        const ref = await fb.db.collection("gallery").add({ uid:Store.uid, event:CONFIG.EVENT_ID, room:SERVER === "kr" ? ROOM : "", day:dayKey(), teamId: t && !t.local ? t.id : null, nickname:item.nickname, tag, url:remoteUrl, createdAt:item.at, cc:0 });
         cloudSaved = true; item.cloud = true; item.id = ref.id; item.url = remoteUrl; item.teamId = t && !t.local ? t.id : null; item.uid = Store.uid;
       } catch(e) { console.warn("gallery upload:", e.code || e.message); GAL.msg = `서버에 올리지 못해 이 휴대폰에만 걸었어요. (${esc(e.code || e.message)}) 설정 → ‘연결 점검’에서 원인을 확인할 수 있어요.`; }
     }
@@ -4785,18 +4872,39 @@ async function handleShot(file){
   }
   GAL.busy = false; renderGallery();
 }
-async function loadGallery(){
-  if (remoteOn()) {
-    let q;
-    try { q = await fb.db.collection("gallery").where("event", "==", CONFIG.EVENT_ID).where("day", "==", dayKey()).limit(60).get(); }
-    catch(e) { console.warn("gallery:", e.code || e.message); return; }
-    const local = GAL.items.filter(x => x.mine && !x.cloud && x.url.startsWith("data:"));
+const RX = ["❤️", "👍", "😮", "😂", "👏"];
+function galStop(){ if (typeof GAL.un === "function") { try { GAL.un(); } catch(e) {} } GAL.un = null; GAL.key = ""; }
+// 오늘의 갤러리 실시간 구독 (같은 서버 · 같은 방 사진 모두)
+function galSub(){
+  const key = CONFIG.EVENT_ID + "|" + dayKey();
+  if (GAL.un && GAL.key === key) return;
+  galStop(); GAL.key = key;
+  GAL.un = fb.db.collection("gallery").where("event", "==", CONFIG.EVENT_ID).where("day", "==", dayKey()).limit(60).onSnapshot(q => {
+    const local = GAL.items.filter(x => x.mine && !x.cloud && String(x.url).startsWith("data:"));
     GAL.items = [...local, ...q.docs.map(d => {
-      const x = d.data(), tm = Team.board.find(b => b.id === x.teamId);
-      const old = GAL.items.find(y => y.id === d.id);
-      return { id:d.id, at:x.createdAt, tag:x.tag, nickname:x.nickname, url:x.url, uid:x.uid, teamId:x.teamId || null, mine:x.uid === Store.uid, cloud:true, comments: old ? old.comments : undefined,
-        team: tm ? { id:tm.id, name:tm.name, color:tm.color } : null };
+      const x = d.data(), tm = Team.board.find(b => b.id === x.teamId), old = GAL.items.find(y => y.id === d.id);
+      return { id:d.id, at:x.createdAt, tag:x.tag, nickname:x.nickname, url:x.url, uid:x.uid, teamId:x.teamId || null, mine:x.uid === Store.uid, cloud:true,
+        rx:x.rx || {}, cc:x.cc | 0, comments: old ? old.comments : undefined, team: tm ? { id:tm.id, name:tm.name, color:tm.color } : null };
     })].sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, 60);
+    if (curScreen === "album") renderGallery();
+    if (!$("#viewer").hidden) Cmt.render();
+  }, e => { console.warn("gallery:", e.code || e.message); GAL.msg = serverErr(e, t_("갤러리")); galStop(); if (curScreen === "album") renderGallery(); });
+}
+// 이모티콘 반응: 한 사람당 사진 하나에 하나 (같은 걸 다시 누르면 취소)
+async function reactShot(id, emo){
+  const x = GAL.items.find(y => y.id === id); if (!x || !RX.includes(emo)) return;
+  const me = Store.uid || "me", before = Object.assign({}, x.rx || {}), prev = before[me];
+  x.rx = Object.assign({}, before); if (prev === emo) delete x.rx[me]; else x.rx[me] = emo;
+  if (curScreen === "album") renderGallery(); Cmt.render();
+  if (x.cloud && cloudOn()) {
+    try { await fb.db.collection("gallery").doc(x.id).update({ ["rx." + me]: prev === emo ? fb.FV.delete() : emo }); }
+    catch(e) { console.warn("react:", e.code || e.message); x.rx = before; if (curScreen === "album") renderGallery(); Cmt.render(); toast(t_("반응을 남기지 못했어요"), e.code || e.message); }
+  } else writeGallery(readGallery().map(y => y.id === id ? Object.assign(y, { rx:x.rx }) : y));
+}
+const rxCount = x => { const c = {}; Object.values(x.rx || {}).forEach(e => { if (RX.includes(e)) c[e] = (c[e] || 0) + 1; }); return c; };
+const cmtN = x => x.cloud ? Math.max(x.cc | 0, 0) : (x.comments || []).length;
+async function loadGallery(){
+  if (remoteOn()) { galSub(); return;
   } else {
     const today = dayKey(), mem = GAL.items.filter(x => x.mine && dayKey(new Date(x.at)) === today);
     const saved = readGallery().filter(x => dayKey(new Date(x.at)) === today);
@@ -4828,7 +4936,7 @@ function renderGallery(){
     <div class="mission-head">
       <div><h3 class="h-sec">풍경의 조각</h3>
       <p class="small">스쳐 지나가는 아름다운 순간을 담아, 오늘의 기억을 사진으로 담아보세요.</p>
-      <details class="more"><summary>사용 방법</summary><p>‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 사진을 누르면 팀원과 댓글을 나눌 수 있고, 내 사진은 🗑으로 지울 수 있어요.</p></details></div>
+      <details class="more"><summary>사용 방법</summary><p>‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.</p></details></div>
     </div>
     <div class="field"><label>무엇을 찍었나요?</label>
       <div class="wrapchip">${SHOT_TAGS.map(x => `<button class="chip" data-tag="${x}" aria-pressed="${x === (S.shotTag || "처마")}">${x}</button>`).join("")}</div>
@@ -4841,11 +4949,12 @@ function renderGallery(){
     <p class="small">${left ? `오늘 보상 ${left}번 남음 · 한 장에 <b class="xpt">+${REWARD.shot} EXP</b>${t ? `, ${esc(t.name)} 점수에도 <b class="xpt">+${REWARD.shot}</b>` : ""}` : "오늘 보상은 모두 받았어요. 사진은 계속 걸 수 있어요."}</p>
     ${GAL.msg ? `<p class="note">${GAL.msg}</p>` : ""}
     <div class="gal-top"><h4 class="h-sec" style="font-size:15px">오늘의 갤러리</h4>
-      ${showFilter ? `<div class="seg" role="tablist" aria-label="갤러리 보기">${[["all","전체"],["team","우리 팀"],["mine","내 사진"]].filter(([k]) => k !== "team" || t).map(([k, v]) => `<button role="tab" data-gf="${k}" aria-selected="${f === k}">${v}</button>`).join("")}</div>` : ""}
+      ${showFilter ? `<div class="seg" role="tablist" aria-label="갤러리 보기">${[["all", ROOM && SERVER === "kr" ? "우리 방 전체" : "전체"],["team","우리 팀"],["mine","내 사진"]].filter(([k]) => k !== "team" || t).map(([k, v]) => `<button role="tab" data-gf="${k}" aria-selected="${f === k}">${v}</button>`).join("")}</div>` : ""}
     </div>
     <div class="gallery">${items.length ? items.map(x => `
       <div class="shot-wrap">${x.mine ? `<button class="shot-del" data-shotdel="${esc(x.id)}" aria-label="내 사진 지우기">🗑</button>` : ""}<button class="shot" data-shot="${esc(x.id)}" aria-label="${esc(x.nickname)}의 ${esc(x.tag)} 사진 크게 보기 · 댓글"><img src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}" loading="lazy">
-        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span>${(x.comments || []).length ? `<span class="cm">💬 ${x.comments.length}</span>` : ""}</span></button></div>`).join("")
+        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span></span></button>
+        <div class="rx-sum">${Object.entries(rxCount(x)).map(([e, n]) => `<span${(x.rx || {})[Store.uid || "me"] === e ? ' style="font-weight:700"' : ""}>${e}${n}</span>`).join("")}${cmtN(x) ? `<span class="cm" style="color:var(--blue);font-weight:700">💬${cmtN(x)}</span>` : ""}</div></div>`).join("")
       : `<div class="gal-empty">아직 오늘 걸린 사진이 없어요.<br>첫 번째 풍경을 걸어 보세요.</div>`}</div>`;
 }
 
@@ -4869,12 +4978,11 @@ async function addRef(path){ if (cloudOn()) { try { await userRef().collection("
 const Cmt = {
   shot:null, list:[], un:null, busy:false, msg:"",
   item(){ return GAL.items.find(x => x.id === this.shot); },
-  // 댓글을 쓸 수 있는가: 내 사진이거나, 같은 팀 사진
+  // 댓글을 쓸 수 있는가: 내 사진이거나, 서버에 올라간 같은 방(서버) 사진
   can(x){
     if (!x) return false;
     if (x.mine) return true;
-    const t = Team.mine();
-    return !!(t && !t.local && x.cloud && x.teamId && x.teamId === t.id);
+    return !!(x.cloud && cloudOn());
   },
   remote(x){ return !!(x && x.cloud && cloudOn()); },
   open(id){
@@ -4898,7 +5006,7 @@ const Cmt = {
     const c = { uid:Store.uid || "me", nickname:S.nickname || "탐방객", text, at:new Date().toISOString() };
     if (this.remote(x)) {
       this.busy = true;
-      try { const ref = await fb.db.collection("gallery").doc(x.id).collection("comments").add(c); addRef(`gallery/${x.id}/comments/${ref.id}`); }
+      try { const ref = await fb.db.collection("gallery").doc(x.id).collection("comments").add(c); addRef(`gallery/${x.id}/comments/${ref.id}`); fb.db.collection("gallery").doc(x.id).update({ cc:fb.FV.increment(1) }).catch(e => console.warn("cc:", e.code || e.message)); }
       catch(e) { console.warn("comment:", e.code || e.message); this.msg = serverErr(e, "댓글"); this.busy = false; this.render(); return false; }
       this.busy = false; return true;
     }
@@ -4908,7 +5016,7 @@ const Cmt = {
   },
   async remove(cid){
     const x = this.item(), c = this.list.find(y => y.id === cid); if (!x || !c) return;
-    if (this.remote(x)) { try { await fb.db.collection("gallery").doc(x.id).collection("comments").doc(cid).delete(); } catch(e) { console.warn(e); } return; }
+    if (this.remote(x)) { try { await fb.db.collection("gallery").doc(x.id).collection("comments").doc(cid).delete(); fb.db.collection("gallery").doc(x.id).update({ cc:fb.FV.increment(-1) }).catch(() => {}); } catch(e) { console.warn(e); } return; }
     this.list = this.list.filter(y => y.id !== cid); x.comments = this.list.slice(); lsSet(CMT_KEY + x.id, this.list); this.render(); if (curScreen === "album") renderGallery();
   },
   render(){
@@ -4920,6 +5028,7 @@ const Cmt = {
     $("#vwBody").innerHTML = `
       <img class="vw-img" src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}">
       <div class="vw-meta">${x.team ? flagSVG(x.team.color) + esc(x.team.name) + " · " : ""}${esc(x.nickname)}${x.mine ? " (나)" : ""} · ${esc(x.tag)}</div>
+      <div class="rx-bar" role="group" aria-label="이모티콘 반응">${(() => { const c = rxCount(x), my = (x.rx || {})[meId]; return RX.map(e => `<button data-rx="${e}" data-rxid="${esc(x.id)}" aria-pressed="${my === e}" aria-label="${e} 반응${c[e] ? " " + c[e] + "명" : ""}">${e}<small>${c[e] || ""}</small></button>`).join(""); })()}</div>
       ${x.mine ? `<div class="vw-actions"><button class="btn sm ghost" data-shotdel="${esc(x.id)}">🗑 이 사진 지우기</button></div>` : ""}
       <h3 class="h-sec" style="font-size:15px">댓글 ${this.list.length ? this.list.length : ""}</h3>
       ${this.msg ? `<p class="note err">${this.msg}</p>` : ""}
@@ -4932,7 +5041,7 @@ const Cmt = {
       if (!$("#cmtForm")) say.innerHTML = `<form class="say" id="cmtForm" autocomplete="off"><textarea id="cmtIn" rows="1" maxlength="300" placeholder="${x.mine ? "사진에 한마디 남기기" : esc(x.nickname) + " 님에게 댓글"}" aria-label="댓글"></textarea><button class="btn" type="submit">남기기</button></form>`;
       $("#cmtForm button").disabled = this.busy;
     } else {
-      say.innerHTML = `<p class="say-off">${!Team.mine() || Team.isLocal() ? "팀에 들어가면 팀원의 사진에 댓글을 남길 수 있어요." : "같은 팀원의 사진에만 댓글을 남길 수 있어요."}</p>`;
+      say.innerHTML = `<p class="say-off">서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.</p>`;
     }
   }
 };
@@ -5085,7 +5194,14 @@ document.addEventListener("keydown", e => {
   // Enter = 보내기, Shift+Enter = 줄바꿈 (한글 조합 중에는 보내지 않음)
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing && (e.target.id === "chatIn" || e.target.id === "cmtIn")) { e.preventDefault(); e.target.form.requestSubmit(); }
 });
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || e.isComposing) return;
+  if (e.target.id === "msPin") { e.preventDefault(); $("#msPinGo").click(); }
+  else if (e.target.id === "nrName" || e.target.id === "nrPin") { e.preventDefault(); $("#nrMake").click(); }
+});
 document.addEventListener("input", e => {
+  if (e.target.id === "roomQ") { RoomDir.q = e.target.value; const pos = e.target.selectionStart; renderModeSel(); const i = $("#roomQ"); if (i) { i.focus(); try { i.setSelectionRange(pos, pos); } catch(_) {} } return; }
+  if (e.target.id === "msPin" || e.target.id === "nrPin") { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6); return; }
   if (e.target.id === "shotCustom") { S.shotTagCustom = e.target.value.slice(0, 12); save(); return; }
   if (e.target.id === "chatIn" || e.target.id === "cmtIn") { const a = e.target; a.style.height = "auto"; a.style.height = Math.min(110, a.scrollHeight) + "px"; }
 });
@@ -5112,7 +5228,7 @@ async function moveSpace(srv, room, roomName){
   SERVER = srv; ROOM = room || ""; ROOM_NAME = roomName || "";
   LS.set("palace-server", srv); LS.set("palace-room", ROOM); LS.set("palace-room-name", ROOM_NAME);
   CONFIG.EVENT_ID = eventFor(SERVER, ROOM);
-  Team.stop(); Players.stop(); GB.stop(); Chat.stop(); Team.board = []; GAL.items = [];
+  Team.stop(); Players.stop(); GB.stop(); Chat.stop(); galStop(); Team.board = []; GAL.items = [];
   if (cloudOn()) { Players.touch(); Team.start(); }
   GB.start();
   renderAll(); renderLangPick(); if (!$("#setm").hidden) renderSettings();
@@ -5126,37 +5242,118 @@ async function leaveTeamFirst(){
   await Team.leave(); return true;
 }
 const genRoom = () => Array.from({ length:5 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]).join("");
-async function createRoom(){
-  const ok = await askConfirm(t_("새 방 만들기"), `<p>${t_("반이나 모둠마다 방을 만들면 팀·명단·랭킹·사진이 그 방 안에서만 보여요.")}</p>
-    <input class="input" id="roomName" maxlength="20" placeholder="${t_("방 이름 (예: 2학년 3반)")}" style="margin-top:8px">`, t_("만들기"));
-  if (!ok) { $("#cfm").hidden = true; return; }
-  const name = (($("#roomName") || {}).value || "").trim().slice(0, 20) || t_("우리 방");
-  $("#cfm").hidden = true;
-  if (!(await leaveTeamFirst())) return;
-  let code = genRoom();
+/* 방 목록 · PIN(숫자 입장 코드)
+   서버: rooms/{코드} { code, name, createdBy, nickname, at, hasPin }
+         rooms/{코드}/keys/{PIN}        ← 아무도 읽을 수 없음(방장·관리자만 목록 보기). 규칙이 이 문서가 있는지로 PIN을 확인
+         rooms/{코드}/members/{uid}     ← { uid, pin, nickname, at } : 맞는 PIN을 넣어야만 만들어짐 = 입장 허가
+   서버 없음(미리보기): 이 기기에 방 목록과 PIN을 저장 */
+const LROOMS = "palace-rooms-local", RPINS = "palace-room-pins";
+const validPin = p => /^\d{4,6}$/.test(p);
+const myPin = code => (lsGet(RPINS, {}) || {})[code] || "";
+const RoomDir = {
+  list:[], loading:false, msg:"", q:"",
+  async load(){
+    this.loading = true; this.msg = ""; if (!$("#modesel").hidden) renderModeSel();
+    if (cloudOn()) {
+      try { const q = await withTimeout(fb.db.collection("rooms").get(), 9000); this.list = q.docs.map(d => d.data()).filter(r => r && r.code); }
+      catch(e) { console.warn("rooms:", e.code || e.message); this.msg = serverErr(e, t_("방 목록")); this.list = []; }
+    } else this.list = lsGet(LROOMS, []) || [];
+    this.list.sort((a, b) => (b.code === ROOM) - (a.code === ROOM) || String(b.at || "").localeCompare(String(a.at || "")));
+    this.loading = false; if (!$("#modesel").hidden && ["rooms", "pin"].includes(MS.step)) renderModeSel();
+  }
+};
+async function roomIsMember(code){
+  if (!cloudOn()) return (lsGet("palace-room-ok", []) || []).includes(code);
+  try { const d = await withTimeout(fb.db.collection("rooms").doc(code).collection("members").doc(Store.uid).get(), 8000); return d.exists; } catch(e) { return false; }
+}
+// PIN 확인 = 입장 허가 문서 만들기. 틀린 PIN이면 서버 규칙이 거절(permission-denied)
+async function roomUnlock(r, pin){
   if (cloudOn()) {
     try {
-      for (let i = 0; i < 5; i++) { const d = await fb.db.collection("rooms").doc(code).get(); if (!d.exists) break; code = genRoom(); }
-      await fb.db.collection("rooms").doc(code).set({ code, name, createdBy:Store.uid, nickname:S.nickname || "", at:new Date().toISOString() });
-    } catch(e) { toast(t_("방을 만들지 못했어요"), e.code || e.message); return; }
-  }
-  await moveSpace("kr", code, name);
-  await askConfirm(t_("방을 만들었어요"), `<p>${t_("참여자에게 아래 방 코드를 알려 주세요. 메뉴(☰) → 방 → ‘코드로 들어가기’에 넣으면 같은 방이 돼요.")}</p><p class="room-code">${code}</p><p class="small">${esc(name)}</p>`, t_("확인"));
-  $("#cfm").hidden = true;
+      await withTimeout(fb.db.collection("rooms").doc(r.code).collection("members").doc(Store.uid).set({ uid:Store.uid, pin:String(pin || ""), nickname:String(S.nickname || "").slice(0, 12), at:new Date().toISOString() }), 9000);
+      addRef(`rooms/${r.code}/members/${Store.uid}`);
+    } catch(e) { if (/permission/i.test(e.code || e.message || "")) throw new Error("pin"); throw e; }
+  } else if (r.hasPin && r.pin !== pin) throw new Error("pin");
+  const ok = lsGet("palace-room-ok", []) || []; if (!ok.includes(r.code)) { ok.push(r.code); lsSet("palace-room-ok", ok.slice(-50)); }
 }
-async function joinRoom(){
-  const ok = await askConfirm(t_("방 코드로 들어가기"), `<input class="input" id="roomCode" maxlength="6" placeholder="${t_("방 코드 5자리")}" style="text-transform:uppercase;letter-spacing:.2em;text-align:center;font-weight:700" autocomplete="off">`, t_("들어가기"));
-  const code = (((($("#roomCode") || {}).value) || "").toUpperCase().replace(/[^A-Z0-9]/g, "")).slice(0, 6);
-  $("#cfm").hidden = true;
-  if (!ok || code.length < 4) { if (ok) toast(t_("방 코드를 확인해 주세요"), ""); return; }
-  let name = "";
+async function makeRoom(name, pin){
+  const at = new Date().toISOString(); let code = genRoom();
   if (cloudOn()) {
-    try { const d = await fb.db.collection("rooms").doc(code).get(); if (!d.exists) { toast(t_("그런 방이 없어요"), code); return; } name = d.data().name || ""; }
-    catch(e) { toast(t_("방을 찾지 못했어요"), e.code || e.message); return; }
+    for (let i = 0; i < 5; i++) { const d = await fb.db.collection("rooms").doc(code).get(); if (!d.exists) break; code = genRoom(); }
+    const ref = fb.db.collection("rooms").doc(code);
+    await ref.set({ code, name, createdBy:Store.uid, nickname:S.nickname || "", at, hasPin:true });
+    await ref.collection("keys").doc(pin).set({ at, by:Store.uid });
+    await ref.collection("members").doc(Store.uid).set({ uid:Store.uid, pin, nickname:String(S.nickname || "").slice(0, 12), at });
+    addRef(`rooms/${code}/members/${Store.uid}`);
+  } else {
+    const all = lsGet(LROOMS, []) || []; all.unshift({ code, name, nickname:S.nickname || "", at, hasPin:true, pin }); lsSet(LROOMS, all.slice(0, 60));
   }
+  const pins = lsGet(RPINS, {}) || {}; pins[code] = pin; lsSet(RPINS, pins);
+  const ok = lsGet("palace-room-ok", []) || []; ok.push(code); lsSet("palace-room-ok", ok.slice(-50));
+  return { code, name, hasPin:true, at };
+}
+// 방을 고른 뒤: 이미 들어온 적 있으면 바로, 아니면 PIN 입력
+async function msPickRoom(code){
+  const r = RoomDir.list.find(x => x.code === code); if (!r || MS.busy) return;
+  MS.room = r; MS.pin = ""; MS.msg = ""; MS.err = false;
+  MS.busy = true; renderModeSel();
+  const member = !r.hasPin || await roomIsMember(r.code);
+  MS.busy = false;
+  if (member) { msEnter(r, ""); return; }
+  MS.step = "pin"; renderModeSel(); setTimeout(() => { const i = $("#msPin"); if (i) i.focus(); }, 60);
+}
+async function msEnter(r, pin){
+  if (r.hasPin && pin !== "" && !validPin(pin)) { MS.err = true; MS.msg = t_("PIN은 숫자 4~6자리예요."); renderModeSel(); return; }
+  MS.busy = true; MS.msg = ""; renderModeSel();
+  try { await roomUnlock(r, pin); }
+  catch(e) {
+    MS.busy = false; MS.err = true;
+    MS.msg = e.message === "pin" ? t_("PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.") : serverErr(e, t_("방"));
+    if (MS.step !== "pin") MS.step = "pin";
+    renderModeSel(); return;
+  }
+  MS.busy = false;
+  if (!(SERVER === "kr" && ROOM === r.code)) {
+    if (!(await leaveTeamFirst())) { MS.step = "rooms"; renderModeSel(); return; }
+    await moveSpace("kr", r.code, r.name);
+  }
+  msInRoom();
+}
+// 방에 들어온 뒤: 개인이면 바로 시작, 팀이면 이 방 안에서 팀 만들기 · 참여
+function msInRoom(){
+  toast(t_("방에 들어왔어요"), ROOM ? `${ROOM_NAME || t_("방")} (${ROOM})` : t_("한국 서버 전체"));
+  if (MS.want === "team") {
+    if (S.team && (S.team.ev || SERVERS.kr.event) === CONFIG.EVENT_ID) { S.playMode = "team"; save(); hideModeSel(); Team.refresh(); Team.start(); Players.touch(); renderAll(); return; }
+    MS.step = "create"; MS.msg = ""; MS.err = false; renderModeSel(); return;
+  }
+  S.playMode = "solo"; save(); Players.touch(); hideModeSel(); renderAll();
+}
+async function msNoRoom(){
+  if (ROOM) { if (!(await leaveTeamFirst())) return; await moveSpace("kr", "", ""); }
+  msInRoom();
+}
+async function msMakeRoom(){
+  const name = ((($("#nrName") || {}).value) || "").trim().slice(0, 20), pin = ((($("#nrPin") || {}).value) || "").trim();
+  MS.rname = name; MS.rpin = pin;
+  if (!name) { MS.err = true; MS.msg = t_("방 이름을 적어 주세요."); renderModeSel(); return; }
+  if (!validPin(pin)) { MS.err = true; MS.msg = t_("PIN은 숫자 4~6자리예요."); renderModeSel(); return; }
   if (!(await leaveTeamFirst())) return;
-  await moveSpace("kr", code, name);
-  toast(t_("방에 들어왔어요"), `${name || t_("방")} (${code})`);
+  MS.busy = true; MS.msg = ""; renderModeSel();
+  let r;
+  try { r = await makeRoom(name, pin); }
+  catch(e) { console.warn("room create:", e.code || e.message); MS.busy = false; MS.err = true; MS.msg = serverErr(e, t_("방 만들기")); renderModeSel(); return; }
+  MS.busy = false; MS.made = Object.assign({ pin }, r);
+  await moveSpace("kr", r.code, r.name);
+  MS.step = "roommade"; MS.rname = ""; MS.rpin = ""; renderModeSel();
+}
+function openRoomList(want){
+  MS.want = want || (S.playMode === "team" ? "team" : "solo");
+  RoomDir.q = ""; showModeSel("rooms"); RoomDir.load();
+}
+function openTeamFlow(){
+  MS.want = "team";
+  if (SERVER === "kr" && !ROOM) { openRoomList("team"); return; }
+  showModeSel("create");
 }
 async function leaveRoom(){
   if (!ROOM) return;
@@ -5166,8 +5363,9 @@ async function leaveRoom(){
 }
 function roomHTML(){
   if (SERVER !== "kr") return "";
-  return `<div class="room-box"><div class="rb-now"><span class="ic" aria-hidden="true">🚪</span><span><b>${ROOM ? esc(ROOM_NAME || t_("방")) : t_("한국 서버 전체")}</b><small>${ROOM ? `${t_("방 코드")} ${ROOM}` : t_("방에 들어가면 반·모둠끼리만 따로 겨뤄요")}</small></span>${ROOM ? `<button class="tiny" data-room="copy">${t_("코드 복사")}</button>` : ""}</div>
-    <div class="rb-btns"><button class="btn sm" data-room="create">${t_("방 만들기")}</button><button class="btn sm ghost" data-room="join">${t_("코드로 들어가기")}</button>${ROOM ? `<button class="btn sm ghost" data-room="leave">${t_("전체로 나가기")}</button>` : ""}</div></div>`;
+  const pin = ROOM && myPin(ROOM);
+  return `<div class="room-box"><div class="rb-now"><span class="ic" aria-hidden="true">🚪</span><span><b>${ROOM ? esc(ROOM_NAME || t_("방")) : t_("한국 서버 전체")}</b><small>${ROOM ? `${t_("방 코드")} ${ROOM}${pin ? ` · PIN ${pin}` : ""}` : t_("방에 들어가면 반·모둠끼리만 따로 겨뤄요")}</small></span>${ROOM && pin ? `<button class="tiny" data-room="copy">${t_("복사")}</button>` : ""}</div>
+    <div class="rb-btns"><button class="btn sm" data-room="list">${t_("방 목록")}</button><button class="btn sm ghost" data-room="create">${t_("방 만들기")}</button>${ROOM ? `<button class="btn sm ghost" data-room="leave">${t_("전체로 나가기")}</button>` : ""}</div></div>`;
 }
 
 /* ═════════ ✍️ 한줄 소감 · 방명록 (Visitor notes) ═════════
@@ -5209,8 +5407,8 @@ const GB = {
   },
   mine(x){ return x.mine || (x.uid && x.uid === (Store.uid || "me")); },
   changed(){
-    if (sheetOpen() && SH.mode === "building") { const el = $("#gbPlace"); if (el) el.outerHTML = gbPlaceHTML(BLD[SH.bid].b); }
-    if (curScreen === "album") renderGuestbook();
+    if (!$("#gbm").hidden) renderGuestbook();
+    if ($("#drawer").classList.contains("open")) { const n = $("#drGbN"); if (n) n.textContent = this.list.length; }
   }
 };
 function gbItem(x, withPlace){
@@ -5221,11 +5419,13 @@ function gbItem(x, withPlace){
 }
 function gbFormHTML(bid){
   return `<form class="gb-form" data-gbform="${bid || ""}" autocomplete="off">
-      <input class="input" name="t" maxlength="200" placeholder="${t_("이곳에서의 한줄 소감을 남겨 주세요")}" aria-label="${t_("한줄 소감")}">
+      <input class="input" name="t" maxlength="200" placeholder="${t_(bid ? "이곳에서의 한줄 소감을 남겨 주세요" : "오늘 탐방 소감을 남겨 주세요")}" aria-label="${t_("한줄 소감")}">
       <button class="btn sm" type="submit"${GB.busy ? " disabled" : ""}>${t_("남기기")}</button>
     </form>
     <label class="gb-fromrow">${t_("어디에서 왔나요? (선택)")}<input class="input" data-gbfrom maxlength="24" value="${esc(S.from || "")}" placeholder="${t_("예: 서울 · USA · France")}"></label>`;
 }
+function openGB(){ closeDrawer(); renderGuestbook(); $("#gbmSub").textContent = spaceLabel(); $("#gbm").hidden = false; $("#gbmBody").scrollTop = 0; }
+function closeGB(){ $("#gbm").hidden = true; }
 function gbPlaceHTML(b){
   const list = GB.of(b.id);
   return `<div class="sec" id="gbPlace"><h3>✍️ ${t_("한줄 소감")} <small class="gb-n">${list.length}</small></h3>
@@ -5236,11 +5436,11 @@ function gbPlaceHTML(b){
 function renderGuestbook(){
   const el = $("#guestPanel"); if (!el) return;
   const list = GB.list;
-  el.innerHTML = `<h3 class="h-sec">✍️ ${t_("방명록")}</h3>
-    <details class="more"><summary>${t_("무엇을 쓰나요?")}</summary><p>${t_("탐방 소감을 한 줄로 남겨 주세요. 같은 서버의 참여자끼리만 보여요. 외국인 방문객도 영어로 자유롭게 남길 수 있어요.")}</p></details>
+  el.innerHTML = `<h3 class="h-sec">✍️ ${t_("소감함")} <small class="gb-n">${list.length}</small></h3>
+    <p class="small">${t_("탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.")}</p>
     ${GB.msg ? `<p class="note err">${GB.msg}</p>` : ""}
     ${gbFormHTML(null)}
-    ${list.length ? `<ul class="gb-list">${list.slice(0, 40).map(x => gbItem(x, true)).join("")}</ul>` : `<div class="gal-empty">${t_("아직 방명록이 비어 있어요.")}</div>`}`;
+    ${list.length ? `<ul class="gb-list">${list.slice(0, 100).map(x => gbItem(x, true)).join("")}</ul>` : `<div class="gal-empty">${t_("아직 소감이 없어요. 첫 소감을 남겨 보세요.")}</div>`}`;
 }
 
 /* ═════════ 🏆 랭킹존 TOP 3 · 전체 참여자 명단 ═════════
@@ -5443,7 +5643,7 @@ function show(sc, opts = {}){
   $("#main").scrollTop = 0;
   if (sc === "rank") { renderRank(); Players.start(); } else Players.stop();
   if (sc === "quest") renderQuests();
-  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); renderGuestbook(); }
+  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); }
   renderTips();
   if (sc === "studio") renderStudio();
   if (sc === "map") renderMap();
@@ -5467,7 +5667,8 @@ document.addEventListener("click", e => {
     if (a === "settings") { openSettings(); return; }
     if (a === "guide") { openGuide(); return; }
     if (a === "chat") { openChat(); return; }
-    if (a === "team") { showModeSel("create"); return; }
+    if (a === "team") { openTeamFlow(); return; }
+    if (a === "gb") { openGB(); return; }
     if (a === "diag") { openSettings(); runDiag(); return; }
     if (a === "tips") { S.tips = {}; save(); curScreen = "map"; renderAll(); toast("안내 말풍선을 다시 켰어요", "처음처럼 탭마다 작은 안내가 보여요"); return; }
     if (a === "master") { window.open(location.pathname + "?master", "_blank"); return; }
@@ -5490,13 +5691,16 @@ document.addEventListener("click", e => {
   if (t.closest("#setRoster")) { closeSettings(); S.rankTab = "lb"; show("rank"); $("#main").scrollTop = 0; return; }
   if ((el = t.closest("[data-rt]"))) { S.rankTab = el.dataset.rt; save(); applyRankTab(); $("#main").scrollTop = 0; if (S.rankTab === "book") renderBook(); return; }
   if ((el = t.closest("[data-gbdel]"))) { if (el.dataset.armed) GB.remove(el.dataset.gbdel); else { el.dataset.armed = "1"; el.textContent = t_("한 번 더 누르면 지워요"); } return; }
-  if (t.closest("[data-goguest]")) { closeSheet(); show("album"); requestAnimationFrame(() => { const m = $("#main"), r = $("#guestPanel").getBoundingClientRect(); m.scrollTo({ top: m.scrollTop + r.top - m.getBoundingClientRect().top - 8 }); }); return; }
+  if (t.closest("[data-goguest]")) { closeSheet(); openGB(); return; }
+  if (t.closest("#gbmClose")) { closeGB(); return; }
   if ((el = t.closest("[data-srv]"))) { setServer(el.dataset.srv).then(renderLangPick); if ($("#drawer").classList.contains("open")) setTimeout(renderDrawer, 50); return; }
   if ((el = t.closest("[data-lang]"))) { setLang(el.dataset.lang); return; }
   if ((el = t.closest("[data-room]"))) {
     const a = el.dataset.room;
-    if (a === "create") createRoom(); else if (a === "join") joinRoom(); else if (a === "leave") leaveRoom();
-    else if (a === "copy") { try { navigator.clipboard.writeText(ROOM); toast(t_("방 코드를 복사했어요"), ROOM); } catch(e) {} }
+    if (a === "list") { closeDrawer(); openRoomList(); }
+    else if (a === "create") { closeDrawer(); MS.want = S.playMode === "team" ? "team" : "solo"; showModeSel("newroom"); }
+    else if (a === "leave") leaveRoom();
+    else if (a === "copy") { const txt = `${ROOM_NAME || t_("방")} · PIN ${myPin(ROOM)}`; try { navigator.clipboard.writeText(txt); toast(t_("방 이름과 PIN을 복사했어요"), txt); } catch(e) {} }
     return;
   }
   if ((el = t.closest("[data-langpick]"))) {
@@ -5520,6 +5724,7 @@ document.addEventListener("click", e => {
   if ((el = t.closest("[data-mv]"))) { rememberScroll(); S.mapView = el.dataset.mv; save(); show("map", { keep:true }); return; }
   if (t.closest("#mapZoom")) { setMapZoom(1); return; }
   if ((el = t.closest("[data-bnav]"))) { if (el.dataset.bnav) { const { p } = BLD[el.dataset.bnav]; S.bsel[p.id] = el.dataset.bnav; save(); openBuilding(el.dataset.bnav); } return; }
+  if (t.closest(".gb-pl")) closeGB();
   if ((el = t.closest("[data-mb]"))) { if (!(S.tips || {}).map) { S.tips = Object.assign({}, S.tips, { map:1 }); save(); } openBuilding(el.dataset.mb); return; }
   if (t.closest("#shBack")) { openBuilding(SH.bid, true); return; }
   if (t.closest("#tglRoute")) { MAPUI.route = !MAPUI.route; renderPalaceMap(); return; }
@@ -5544,9 +5749,19 @@ document.addEventListener("click", e => {
   /* 접속 방식 · 팀 */
   if ((el = t.closest("[data-ms]"))) {
     const m = el.dataset.ms;
+    MS.msg = ""; MS.err = false;
+    if ((m === "solo" || m === "team") && SERVER === "kr") { openRoomList(m); return; }
     if (m === "solo") { S.playMode = "solo"; save(); hideModeSel(); renderAll(); }
-    else { MS.step = m === "team" ? "create" : m; MS.msg = ""; renderModeSel(); }
+    else if (m === "noroom") msNoRoom();
+    else if (m === "go") msInRoom();
+    else { MS.step = m === "team" ? "create" : m; renderModeSel(); if (m === "newroom") setTimeout(() => { const i = $("#nrName"); if (i) i.focus(); }, 60); }
     return;
+  }
+  if ((el = t.closest("[data-rpick]"))) { msPickRoom(el.dataset.rpick); return; }
+  if (t.closest("#msPinGo")) { if (!MS.busy && MS.room) msEnter(MS.room, (($("#msPin") || {}).value || "").trim()); return; }
+  if (t.closest("#nrMake")) { if (!MS.busy) msMakeRoom(); return; }
+  if (t.closest("#msReload")) { RoomDir.load(); return; }
+  if ((el = t.closest("#msCopyRoom"))) { const m = MS.made; copyText(`${m.name} · PIN ${m.pin}`, el); return;
   }
   if ((el = t.closest("[data-tn]"))) { MS.name = el.dataset.tn; renderModeSel(); return; }
   if ((el = t.closest("[data-tc]"))) { MS.color = el.dataset.tc; renderModeSel(); return; }
@@ -5555,7 +5770,7 @@ document.addEventListener("click", e => {
   if ((el = t.closest("#msCopy"))) { copyText(S.team.code, el); return; }
   if ((el = t.closest("#copyCode"))) { copyText(el.dataset.code, el); return; }
   if (t.closest("#msStart")) { hideModeSel(); renderAll(); return; }
-  if (t.closest("#openTeam")) { closeSettings(); closeChat(); showModeSel("create"); return; }
+  if (t.closest("#openTeam")) { closeSettings(); closeChat(); openTeamFlow(); return; }
   if ((el = t.closest("#leaveTeam"))) {
     if (el.dataset.armed) { Team.leave().then(() => { renderAll(); if (!$("#setm").hidden) renderSettings(); }); }
     else { el.dataset.armed = "1"; el.classList.remove("ghost"); el.classList.add("red"); el.textContent = "한 번 더 누르면 나가요 · 내 점수가 팀 점수에서 빠져요"; }
@@ -5565,9 +5780,10 @@ document.addEventListener("click", e => {
   if (t.closest("[data-tb]") || t.closest("#tbOpen")) { openSettings("team"); return; }
   /* 풍경의 조각 */
   if ((el = t.closest("[data-tag]"))) { S.shotTag = el.dataset.tag; save(); renderGallery(); if (S.shotTag === "기타") { const ci = $("#shotCustom"); if (ci && !ci.value) ci.focus({ preventScroll:true }); } return; }
+  if ((el = t.closest("[data-rx]"))) { reactShot(el.dataset.rxid, el.dataset.rx); return; }
   if ((el = t.closest("[data-gf]"))) { GAL.filter = el.dataset.gf; renderGallery(); return; }
-  if ((el = t.closest("#loginGoogle"))) { oauth("google", el); return; }
-  if (t.closest("#loginGuest")) { enterGuest(); return; }
+  if ((el = t.closest("#loginGoogle"))) { try { sessionStorage.setItem("palace-entry", "1"); } catch(e) {} oauth("google", el); return; }
+  if (t.closest("#loginGuest")) { try { sessionStorage.setItem("palace-entry", "1"); } catch(e) {} enterGuest(); return; }
   if (t.closest("#nickSave")) { const v = $("#nickInput").value.trim(); if (v) { S.nickname = v.slice(0, 6); save(); renderHeader(); if (curScreen === "rank") renderRank(); renderAccount(); const n = $("#acctNote"); n.hidden = false; n.className = "note"; n.textContent = "닉네임을 저장했어요."; } return; }
   if ((el = t.closest("#gpsBtn"))) { if (!certUI.busy) certGPS(el.dataset.b); return; }
   if ((el = t.closest("#demoGps"))) { certUI.msg = ""; certUI.demo = false; grantGPS(el.dataset.b, {}, true); return; }
@@ -5630,6 +5846,7 @@ document.addEventListener("keydown", e => {
     else if (!$("#chat").hidden) closeChat();
     else if (!$("#viewer").hidden) closeViewer();
     else if (!$("#setm").hidden) closeSettings();
+    else if (!$("#gbm").hidden) closeGB();
     else if (!$("#smo").hidden) closeSmo();
     else if ($("#eobo").classList.contains("on")) closeEobo();
     else if (curH) closeSheet();
@@ -5963,7 +6180,7 @@ function renderLangPick(){
 (function(){
   const vv = window.visualViewport;
   const fit = () => {
-    const open = ["#chat", "#viewer", "#setm"].map(sel => $(sel)).find(el => el && !el.hidden);
+    const open = ["#chat", "#viewer", "#setm", "#gbm"].map(sel => $(sel)).find(el => el && !el.hidden);
     const ae = document.activeElement, typing = ae && /^(TEXTAREA|INPUT)$/.test(ae.tagName) && open && open.contains(ae);
     document.querySelectorAll(".pm").forEach(el => { if (el !== open || !typing || !vv) { el.style.height = ""; el.style.bottom = ""; el.classList.remove("kb"); } });
     if (!open || !typing || !vv) return;
@@ -6010,7 +6227,7 @@ async function boot(){
    - 참여자 명단(players)을 실시간으로 보고, 강퇴하면 kicks/{uid} 표시 후 그 계정의 서버 기록·사진을 모두 지웁니다(탈퇴 처리).
    - 강퇴된 사람의 앱은 즉시 이 기기 기록까지 지우고 로그아웃되며, 같은 계정으로 다시 로그인하면 처음부터 새로 시작합니다. */
 const MASTER = (() => { try { const q = new URLSearchParams(location.search); return q.has("master") || location.hash === "#master"; } catch(e) { return false; } })();
-const MST = { players:[], kicks:[], q:"", filter:"all", un:[], tick:null, email:"", msg:"" };
+const MST = { players:[], kicks:[], q:"", filter:"all", un:[], tick:null, email:"", msg:"", pins:{} };
 function mstAgo(iso){
   if (!iso) return "기록 없음";
   const m = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
@@ -6056,6 +6273,15 @@ function mstSubscribe(){
   MST.un.push(fb.db.collection("kicks").where("event", "==", CONFIG.EVENT_ID).onSnapshot(q => { MST.kicks = q.docs.map(d => Object.assign({ _id:d.id }, d.data())); mstRender(); },
     e => { MST.msg = "강퇴 기록을 불러오지 못했어요: " + esc(e.code || e.message); mstRender(); }));
 }
+// 방 PIN 보기 (관리자만 목록 읽기 가능)
+function mstPin(code){
+  if (MST.pins[code] !== undefined) return MST.pins[code] || "없음";
+  MST.pins[code] = null;
+  fb.db.collection("rooms").doc(code).collection("keys").get()
+    .then(q => { MST.pins[code] = q.docs.map(d => d.id).join(", ") || ""; mstRender(); })
+    .catch(e => { MST.pins[code] = "확인 불가"; console.warn("pin:", e.code || e.message); mstRender(); });
+  return "…";
+}
 function mstRender(){
   const main = $("#mstMain"); if (!main || !MST.email) return;
   const now = Date.now(), on = p => p.seenAt && now - new Date(p.seenAt).getTime() < ONLINE_MS;
@@ -6076,7 +6302,7 @@ function mstRender(){
   const gs = [...groups.values()].sort((a, b) => (a.id === "_solo") - (b.id === "_solo") || a.name.localeCompare(b.name, "ko", { numeric:true }));
   main.innerHTML = `
     <div class="mst-tools"><b style="font-size:13px">서버</b><div class="seg" role="tablist">${Object.entries(SERVERS).map(([k, v]) => `<button role="tab" data-msrv="${k}" aria-selected="${SERVER === k}">${v.ko}</button>`).join("")}</div>
-      ${SERVER === "kr" ? `<b style="font-size:13px">방</b><select class="input" id="mstRoom" style="max-width:260px;min-height:40px"><option value="">한국 서버 전체</option>${(MST.rooms || []).map(r => `<option value="${esc(r.code)}"${ROOM === r.code ? " selected" : ""}>${esc(r.name || "방")} (${esc(r.code)})</option>`).join("")}</select>` : ""}</div>
+      ${SERVER === "kr" ? `<b style="font-size:13px">방</b><select class="input" id="mstRoom" style="max-width:260px;min-height:40px"><option value="">한국 서버 전체</option>${(MST.rooms || []).map(r => `<option value="${esc(r.code)}"${ROOM === r.code ? " selected" : ""}>${esc(r.name || "방")} (${esc(r.code)})</option>`).join("")}</select>${ROOM ? `<span style="font-size:13px">입장 PIN <b style="font-size:16px;letter-spacing:.1em">${esc(mstPin(ROOM))}</b></span>` : ""}` : ""}</div>
     <div class="mst-stats">
       <div class="mst-stat"><b>${MST.players.filter(p => !banned.has(p.uid)).length}</b><small>참여 계정</small></div>
       <div class="mst-stat on"><b>${MST.players.filter(p => !banned.has(p.uid) && on(p)).length}</b><small>접속 중 (10분 안)</small></div>
