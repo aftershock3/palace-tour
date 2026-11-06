@@ -3390,7 +3390,7 @@ function renderDrawer(){
     <h4 class="dh">팀</h4>
     ${t ? row('data-dr="settings"', "🚩", esc(t.name), `팀원 ${teamMembersList().length}명 · ${esc(teamMembersList().map(m => m.nickname || "탐방객").join(", "))}`, false, "")
           + row('data-dr="chat"', "💬", "팀 채팅", "", false, unread ? `<span class="badge">${unread}</span>` : "")
-        : row('data-dr="team"', "🚩", t_("팀 만들기 · 참여"), SERVER === "kr" && !ROOM ? t_("방에 들어간 뒤 만들 수 있어요") : t_("이 방에서 팀 만들기 · 팀 코드로 참여"))}
+        : row('data-dr="team"', "🚩", t_("팀 만들기 · 참여"), t_("들어갈 팀 고르기 · 새 팀 만들기"))}
 
     <h4 class="dh">소통</h4>
     ${row('data-dr="gb"', "✍️", t_("소감함"), `${LANG === "en" ? "Notes & reviews" : "방명록 · 후기"} · <span id="drGbN">${GB.list.length}</span>`)}
@@ -3572,6 +3572,8 @@ Object.assign(I18N, {"방에 다시 들어왔어요": "Back in your room"});
 Object.assign(I18N, {"돌아가기": "Back"});
 Object.assign(I18N, {"님, 반가워요": "welcome", "방 없이 한국 서버 전체에서 개인으로 하기": "Play solo on the whole Korean server (no room)", "팀 활동은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 할 수 있어요.": "For team play, enter a room, then go to Menu (☰) → Teams.", "팀은 메뉴(☰) → 팀 만들기": "Teams: Menu (☰) → Teams", "팀 만들기 · 참여": "Create or join a team", "방에 들어간 뒤 만들 수 있어요": "Available after you enter a room", "이 방에서 팀 만들기 · 팀 코드로 참여": "Create a team here or join with a code"});
 Object.assign(I18N, {"올리는 중": "Uploading"});
+Object.assign(I18N, {"지금 있는 곳에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.": "These are the teams here. Tap one to join it. Teammates' stamps add up toward the team certificate.", "아직 만들어진 팀이 없어요.": "No teams yet.", "들어갈 팀 고르기 · 새 팀 만들기": "Pick a team or create one", "팀은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 고르거나 만들 수 있어요.": "After entering a room, pick or create a team in Menu (☰) → Teams."});
+Object.assign(I18N, {"팀": "Team", "들어갈 팀을 골라 주세요": "Choose a team to join", "이 방에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.": "These are the teams in this room. Tap one to join it. Teammates' stamps add up toward the team certificate.", "팀 목록을 불러오는 중…": "Loading teams…", "우리 팀": "My team", "팀원": "Members", "정원 참": "Full", "아직 이 방에 만들어진 팀이 없어요.": "No teams in this room yet.", "새 팀을 만들어 친구들을 모아 보세요.": "Create a new team and invite your friends.", "새 팀 만들기": "Create a new team", "팀 코드로 참여하기": "Join with a team code", "팀 목록": "Team list", "팀에 들어왔어요": "— you joined the team", "이제부터 얻는 EXP가 팀 점수에 더해집니다": "EXP you earn now adds to your team's score"});
 Object.assign(I18N, {"소통": "Community", "소감함": "Notes box", "방명록 · 후기": "Guestbook · reviews", "소감함 닫기": "Close notes box", "탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.": "Leave your thoughts and reviews any time. Everyone in the same room (server) can read them.", "오늘 탐방 소감을 남겨 주세요": "Share your thoughts on today’s visit", "아직 소감이 없어요. 첫 소감을 남겨 보세요.": "No notes yet. Be the first to write one.", "방 목록": "Room list", "방 만들기": "Create room", "새 방 만들기": "Create a new room", "새 방": "New room", "복사": "Copy", "뒤로": "Back", "코드": "Code", "지금 방": "Current", "팀으로 참여": "Joining as a team", "개인으로 참여": "Joining solo", "들어갈 방을 골라 주세요": "Choose a room to enter", "방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.": "Each room has its own participants, teams, rankings, photos and notes. You need the room PIN (numbers) the first time you enter.", "방 이름 검색": "Search rooms", "다시 불러오기": "Reload", "방 목록을 불러오는 중…": "Loading rooms…", "검색한 방이 없어요.": "No rooms match.", "아직 만들어진 방이 없어요.": "No rooms yet.", "선생님(방장)이 방을 만들면 여기에 나타나요.": "Rooms appear here when a teacher (host) creates one.", "방 없이 한국 서버 전체에서 하기": "Play on the whole Korean server without a room", "방 PIN을 입력해 주세요": "Enter the room PIN", "선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.": "It's the 4–6 digit number from your teacher (host). You won't be asked again after the first time.", "방 PIN": "Room PIN", "확인하는 중…": "Checking…", "들어가기": "Enter", "방 이름": "Room name", "입장 PIN (숫자 4~6자리)": "Entry PIN (4–6 digits)", "참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.": "Participants pick this room from the list and enter the PIN to join.", "만드는 중…": "Creating…", "방을 만들었어요": "Room created", "참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.": "Share the room name and PIN. Participants tap this room in the list and enter the PIN.", "PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.": "You can see the PIN again in Menu (☰) → Server · Room.", "방 이름 · PIN 복사": "Copy room name · PIN", "이 방에서 팀 정하기": "Set up a team in this room", "탐방 시작하기": "Start exploring", "PIN은 숫자 4~6자리예요.": "The PIN is 4–6 digits.", "PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.": "Wrong PIN. Please check with the teacher (host) who made the room.", "방 이름을 적어 주세요.": "Please enter a room name.", "방 이름과 PIN을 복사했어요": "Copied room name and PIN", "반응을 남기지 못했어요": "Couldn't add your reaction", "갤러리": "Gallery", "우리 방 전체": "Whole room", "이모티콘 반응": "Emoji reactions", "서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.": "Once connected to the server, you can comment on photos from people in your room.", "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.": "Your photo is framed with a seal and hung in today's gallery. Everyone in the same room sees it, whatever their team. Tap a photo to comment or react with an emoji; delete your own with 🗑."});
 const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
 function t_(ko){ if (LANG !== "en") return ko; const k = String(ko); return I18N[k] ?? trRx(k) ?? k; }
@@ -3865,27 +3867,37 @@ async function withdraw(){
   requestAnimationFrame(() => app.classList.remove("fade-out"));
   loginNote(EN ? "Your account has been deleted. Thank you for exploring with us." : "탈퇴가 완료되었어요. 그동안 함께해 주셔서 고마워요.");
 }
+/* 한 계정의 서버 기록 모두 지우기 (본인 탈퇴 · 관리자 강퇴 공용)
+   서버에 묻고 지우는 일을 한꺼번에(병렬로) 해서 빠르게. 사진 댓글은 사진보다 먼저 지움(규칙상 사진 주인 확인 필요) */
+async function purgeUserData(uid, step){
+  const users = fb.db.collection("users").doc(uid), say = t => step && step(t);
+  const q = p => p.catch(e => { console.warn("purge read:", e.code || e.message); return { docs:[] }; });
+  const delAll = snap => Promise.all(snap.docs.map(d => d.ref.delete().catch(e => console.warn("purge del:", e.code || e.message))));
+  const SUBS = ["stamps", "visits", "puzzles", "refs", "photos"];
+  say("기록 찾는 중…");
+  const [rq, g, tm, gq, pq, ...subs] = await Promise.all([
+    q(users.collection("refs").get()),
+    q(fb.db.collection("gallery").where("uid", "==", uid).get()),
+    q(fb.db.collection("teamMembers").where("uid", "==", uid).get()),
+    q(fb.db.collection("guestbook").where("uid", "==", uid).get()),
+    q(fb.db.collection("players").where("uid", "==", uid).get()),
+    ...SUBS.map(s => q(users.collection(s).get()))]);
+  say("지우는 중…");
+  await Promise.all([
+    ...rq.docs.map(d => { const p = d.data().path; return p ? fb.db.doc(p).delete().catch(() => {}) : null; }),   // 내가 쓴 댓글 · 채팅 · 방 입장 기록
+    ...g.docs.map(async d => delAll(await q(d.ref.collection("comments").get()))),                                  // 내 사진에 달린 댓글
+    delAll(tm), delAll(gq), delAll(pq), ...subs.map(delAll),
+    ...(fb.st ? ["certshots", "gallery"].map(f => fb.st.ref(`${f}/${uid}`).listAll().then(l => Promise.all(l.items.map(it => it.delete()))).catch(e => console.warn("storage:", e.code || e.message))) : [])
+  ]);
+  say("마무리하는 중…");
+  await Promise.all([delAll(g), users.delete()]);
+}
 async function deleteCloudAccount(){
   const u = fb.auth.currentUser, uid = Store.uid;
   if (!u) throw new Error("no_user");
   // Google 계정은 삭제 전에 본인 확인(최근 로그인) — 버튼을 누른 직후에 열어야 팝업이 막히지 않음
   if (!u.isAnonymous) { const gp = new firebase.auth.GoogleAuthProvider(); gp.setCustomParameters({ prompt:"select_account" }); await u.reauthenticateWithPopup(gp); }
-  const ref = userRef(uid);
-  // 내가 쓴 댓글 · 채팅 지우기 (refs에 적어 둔 위치)
-  const rq = await ref.collection("refs").get();
-  await Promise.all(rq.docs.map(d => { const p = d.data().path; return p ? fb.db.doc(p).delete().catch(e => console.warn("ref:", e.code || e.message)) : null; }));
-  // 내 사진에 달린 댓글도 함께 지우기
-  const mine = await fb.db.collection("gallery").where("uid", "==", uid).get();
-  for (const g of mine.docs) { const cq = await g.ref.collection("comments").get(); await Promise.all(cq.docs.map(d => d.ref.delete())); }
-  for (const sub of ["stamps", "visits", "puzzles", "refs", "photos"]) { const q = await ref.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); }
-  const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete()));
-  try { const gq = await fb.db.collection("guestbook").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("guestbook del:", e.code || e.message); }
-  try { await fb.db.collection("players").doc(`${CONFIG.EVENT_ID}_${uid}`).delete(); } catch(e) { console.warn("players del:", e.code || e.message); }
-  const gq = await fb.db.collection("gallery").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete()));
-  await ref.delete();
-  if (fb.st) for (const folder of ["certshots", "gallery"]) {
-    try { const l = await fb.st.ref(`${folder}/${uid}`).listAll(); await Promise.all(l.items.map(it => it.delete())); } catch(e) { console.warn("storage:", e.code || e.message); }
-  }
+  await purgeUserData(uid);
   await u.delete();
 }
 
@@ -3897,7 +3909,7 @@ function acctActions(k){
   if (k === "google") return `<button class="lbtn red" data-act="logout">로그아웃</button>`;
   if (k === "anon") return `<button class="gsi sm" data-act="google">${GLOGO}<span>Google 계정 연결하기</span></button>
     <p class="small" style="text-align:center">연결하면 지금까지의 게스트 기록이 Google 계정으로 그대로 이어져요.</p>
-    <button class="lbtn red" data-act="logout" data-confirm="한 번 더 누르면 나가요 · 연결하지 않은 게스트 기록은 다시 불러올 수 없어요">나가기</button>`;
+    <button class="lbtn red" data-act="logout" data-confirm="한 번 더 누르면 나가요 · 이 휴대폰에서 다시 게스트로 들어오면 기록이 이어져요">나가기</button>`;
   return `<button class="gsi sm" data-act="google">${GLOGO}<span>Google 계정으로 시작하기</span></button>
     <button class="lbtn text" data-act="logout">처음 화면으로 나가기</button>
     <p class="small" style="text-align:center">비회원 기록은 이 기기에 남아 있어요. Google로 로그인하면 계정으로 옮겨 드려요.</p>`;
@@ -4510,7 +4522,7 @@ const Team = {
       if (i < 0) { for (let k = 0; k < 5; k++) { code = genCode(); if (!(await fb.db.collection("teamCodes").doc(`${ev}_${code}`).get()).exists) break; } }
       old.docs.forEach(d => d.ref.delete().catch(e => console.warn("old team:", e.code || e.message)));   // 기다리지 않음
       const tref = fb.db.collection("teams").doc(), now = new Date().toISOString(), batch = fb.db.batch();
-      batch.set(tref, { event:ev, name, color, createdBy:Store.uid, createdAt:now });
+      batch.set(tref, { event:ev, name, color, code, createdBy:Store.uid, createdAt:now });
       batch.set(fb.db.collection("teamCodes").doc(`${ev}_${code}`), { teamId:tref.id, event:ev });
       batch.set(fb.db.collection("teamMembers").doc(`${tref.id}_${Store.uid}`), { teamId:tref.id, uid:Store.uid, event:ev, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:now });
       const commit = batch.commit();
@@ -4528,11 +4540,17 @@ const Team = {
     if (code.length !== 6) throw new Error("code_length");
     if (!remoteOn()) throw new Error("offline");
     const ev = CONFIG.EVENT_ID;
-    const [c, old] = await Promise.all([fb.db.collection("teamCodes").doc(`${ev}_${code}`).get(),
-      fb.db.collection("teamMembers").where("event", "==", ev).where("uid", "==", Store.uid).get().catch(() => ({ docs:[] }))]);
+    const oldP = fb.db.collection("teamMembers").where("event", "==", ev).where("uid", "==", Store.uid).get().catch(() => ({ docs:[] }));
+    const c = await fb.db.collection("teamCodes").doc(`${ev}_${code}`).get();
     if (!c.exists) throw new Error("not_found");
-    const tid = c.data().teamId;
-    const [tdoc, members] = await Promise.all([fb.db.collection("teams").doc(tid).get(), fb.db.collection("teamMembers").where("teamId", "==", tid).get()]);
+    return this.joinTid(c.data().teamId, code, oldP);
+  },
+  // 팀 목록에서 골라 들어가기 (같은 방 안의 팀)
+  async joinTid(tid, code, oldP){
+    if (!remoteOn()) throw new Error("offline");
+    const ev = CONFIG.EVENT_ID;
+    const [tdoc, members, old] = await Promise.all([fb.db.collection("teams").doc(tid).get(), fb.db.collection("teamMembers").where("teamId", "==", tid).get(),
+      oldP || fb.db.collection("teamMembers").where("event", "==", ev).where("uid", "==", Store.uid).get().catch(() => ({ docs:[] }))]);
     if (!tdoc.exists) throw new Error("not_found");
     const already = members.docs.some(d => d.data().uid === Store.uid);
     if (!already) {
@@ -4542,9 +4560,8 @@ const Team = {
       w.then(() => this.refresh()).catch(e => this.lost(tid, e));
     }
     const td = tdoc.data();
-    S.team = { id:tid, code, name:td.name, color:td.color, points:0, joined:new Date().toISOString(), ev };
+    S.team = { id:tid, code:code || td.code || "", name:td.name, color:td.color, points:0, joined:new Date().toISOString(), ev };
     S.playMode = "team"; save(); Players.touch();
-    // 이미 받은 팀원 목록 + 나로 순위표를 바로 그림 (서버 다시 묻지 않음)
     const ms = members.docs.map(d => d.data()).filter(m => m.uid !== Store.uid).map(m => ({ nickname:m.nickname, points:m.points || 0, stamps:m.stamps || [], me:false }));
     this.mineBoard(ms); this.start();
     return S.team;
@@ -4670,13 +4687,13 @@ function renderTeamPanel(){
   el.innerHTML = `
     <div class="team-head">${flagSVG(t.color)}
       <div style="min-width:0"><div class="eyebrow">${C.hz}旗 · ${C.ko}팀 · 팀원 ${members.length || 1}명</div><h3 class="h-sec">${esc(t.name)}</h3></div>
-      <button class="btn sm ghost" id="copyCode" data-code="${t.code}" aria-label="팀 코드 복사">코드 ${t.code}</button>
+      ${t.code ? `<button class="btn sm ghost" id="copyCode" data-code="${t.code}" aria-label="팀 코드 복사">코드 ${t.code}</button>` : "<span></span>"}
     </div>
     ${Team.isLocal() ? `<p class="note">서버에 연결되지 않아 이 기기에서만 동작하는 체험용 팀이에요.</p>` : ""}
     <div class="roster" aria-label="팀원 전체 ${members.length}명">
       <h4>팀원 전체 <small>${members.length}명${Team.isLocal() ? " · 이 기기" : Team.live ? " · 실시간" : ""}</small></h4>
       <div class="mates">${members.map(m => `<span class="mate${m.me ? " me" : ""}"><span class="av" aria-hidden="true">${esc([...(m.nickname || "객")][0])}</span><span>${esc(m.nickname || "탐방객")}</span>${m.me ? "<small>나</small>" : ""}</span>`).join("")}</div>
-      ${members.length <= 1 && !Team.isLocal() ? `<p class="small">팀 코드 <b>${t.code}</b>를 친구에게 알려 주면 여기에 이름이 함께 보여요.</p>` : ""}
+      ${members.length <= 1 && !Team.isLocal() ? `<p class="small">같은 방 친구가 메뉴(☰) → 팀 만들기 · 참여에서 이 팀을 고르면${t.code ? `(또는 팀 코드 <b>${t.code}</b>)` : ""} 여기에 이름이 함께 보여요.</p>` : ""}
     </div>
     <div class="mem">${members.map((m, i) => `<div class="mem-row"><span class="nm"><span class="rk">${i + 1}</span><span>${esc(m.nickname || "탐방객")}${m.me ? " (나)" : ""}<small>도장 ${(m.stamps || []).filter(z => ZONE_IDS.includes(z)).length}</small></span></span><span>${m.points.toLocaleString()}점</span></div>`).join("")}</div>
     <div class="sec" style="margin-top:6px">
@@ -4693,13 +4710,56 @@ function renderTeamPanel(){
 /* 접속 방식 선택 · 팀 만들기 / 코드로 참여 */
 const MS = { step:"choose", name:"1조", color:"blue", code:"", msg:"", err:false, busy:false };
 // 이미 탐방 중일 때(메뉴에서 연 경우): 처음 연 단계에서 '뒤로'는 창 닫기 → 하던 화면으로
-const msBack = def => def === "choose" ? (S.playMode ? "close" : (MS.step === "rooms" ? "" : "rooms")) : (S.playMode && MS.entry === MS.step) ? "close" : def;
-const msBackLabel = def => { const b = msBack(def); return b === "close" ? `← ${t_("돌아가기")}` : b === "rooms" ? `← ${t_("방 목록")}` : `← ${t_("뒤로")}`; };
+const msBack = def => def === "teams" ? ((S.playMode && MS.entry === MS.step) ? "close" : "teams") : def === "choose" ? (S.playMode ? "close" : (MS.step === "rooms" ? "" : "rooms")) : (S.playMode && MS.entry === MS.step) ? "close" : def;
+const msBackLabel = def => { const b = msBack(def); return b === "close" ? `← ${t_("돌아가기")}` : b === "rooms" ? `← ${t_("방 목록")}` : b === "teams" ? `← ${t_("팀 목록")}` : `← ${t_("뒤로")}`; };
 const msBackBtn = def => msBack(def) ? `<button class="back" data-ms="${msBack(def)}">${msBackLabel(def)}</button>` : "";
 function showModeSel(step){ MS.entry = step; MS.step = step; MS.msg = ""; MS.busy = false; $("#modesel").hidden = false; renderModeSel(); $("#modesel").scrollTop = 0; }
 function hideModeSel(){ $("#modesel").hidden = true; }
 const ICON_WANT = () => MS.want === "team" ? t_("팀으로 참여") : t_("개인으로 참여");
+const TeamDir = {
+  list:[], loading:false, msg:"",
+  async load(){
+    this.loading = true; this.msg = ""; if (MS.step === "teams") renderModeSel();
+    try {
+      const ev = CONFIG.EVENT_ID;
+      const [tq, mq] = await Promise.all([fb.db.collection("teams").where("event", "==", ev).get(), fb.db.collection("teamMembers").where("event", "==", ev).get()]);
+      const mem = mq.docs.map(d => d.data());
+      this.list = tq.docs.map(d => Object.assign({ id:d.id }, d.data(), { members:mem.filter(m => m.teamId === d.id) }))
+        .filter(t => t.members.length).sort((a, b) => String(a.name).localeCompare(String(b.name), "ko", { numeric:true }));
+    } catch(e) { console.warn("teams:", e.code || e.message); this.msg = serverErr(e, t_("팀 목록")); this.list = []; }
+    this.loading = false; if (!$("#modesel").hidden && MS.step === "teams") renderModeSel();
+  }
+};
+async function msPickTeam(tid){
+  if (MS.busy) return;
+  if (S.team && S.team.id === tid && S.playMode === "team") { hideModeSel(); return; }
+  MS.busy = true; MS.msg = ""; renderModeSel();
+  try { const t = await Team.joinTid(tid); MS.busy = false; hideModeSel(); renderAll(); toast(`${t.name} ${t_("팀에 들어왔어요")}`, t_("이제부터 얻는 EXP가 팀 점수에 더해집니다")); }
+  catch(e) {
+    MS.busy = false; MS.err = true;
+    MS.msg = e.message === "full" ? "이 팀은 정원(12명)이 찼어요. 다른 팀을 골라 주세요." : e.message === "not_found" ? "이 팀을 찾지 못했어요. 목록을 새로 불러와 주세요." : "팀에 들어가지 못했어요. 잠시 뒤 다시 눌러 주세요.";
+    renderModeSel();
+  }
+}
 function renderRoomStep(b, note){
+  if (MS.step === "teams") {
+    const mine = S.team && S.playMode === "team" ? S.team.id : "";
+    b.innerHTML = `
+      ${msBackBtn("choose")}
+      <div><p class="eyebrow">${SERVER === "kr" && ROOM ? `🚪 ${esc(ROOM_NAME || t_("방"))}` : esc(srvName(SERVER))} · ${t_("팀")}</p>
+      <h2 class="ms-title" id="msTitle">${t_("들어갈 팀을 골라 주세요")}</h2>
+      <p class="small">${t_(SERVER === "kr" && ROOM ? "이 방에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요." : "지금 있는 곳에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.")}</p></div>
+      ${TeamDir.msg ? `<p class="note err">${TeamDir.msg}</p>` : ""}
+      ${note}
+      <div class="rlist" aria-busy="${TeamDir.loading || MS.busy}">${TeamDir.loading ? `<p class="small">${t_("팀 목록을 불러오는 중…")}</p>`
+        : TeamDir.list.length ? TeamDir.list.map(t => `<button class="choice${t.id === mine ? " here" : ""}" data-tpick="${esc(t.id)}"${MS.busy || (t.members.length >= 12 && t.id !== mine) ? " disabled" : ""}>
+            <span class="ci" aria-hidden="true">${flagSVG(t.color || "blue")}</span>
+            <span><b>${esc(t.name || "조")}${t.id === mine ? `<span class="here-tag">${t_("우리 팀")}</span>` : ""}</b><small>${t_("팀원")} ${t.members.length}${LANG === "en" ? "" : "명"}${t.members.length >= 12 ? ` · ${t_("정원 참")}` : ""} · ${esc(t.members.map(m => m.nickname || "탐방객").slice(0, 6).join(", "))}${t.members.length > 6 ? " …" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`).join("")
+        : `<div class="gal-empty">${t_(SERVER === "kr" && ROOM ? "아직 이 방에 만들어진 팀이 없어요." : "아직 만들어진 팀이 없어요.")}<br>${t_("새 팀을 만들어 친구들을 모아 보세요.")}</div>`}</div>
+      <button class="btn" data-ms="create">＋ ${t_("새 팀 만들기")}</button>
+      <button class="ms-link" data-ms="join">${t_("팀 코드로 참여하기")}</button>`;
+    return true;
+  }
   if (MS.step === "rooms") {
     const q = RoomDir.q.trim().toLowerCase(), list = RoomDir.list.filter(r => !q || String(r.name || "").toLowerCase().includes(q) || String(r.code).toLowerCase().includes(q) || String(r.nickname || "").toLowerCase().includes(q));
     b.innerHTML = `
@@ -4716,7 +4776,7 @@ function renderRoomStep(b, note){
         : `<div class="gal-empty">${q ? t_("검색한 방이 없어요.") : t_("아직 만들어진 방이 없어요.")}<br>${t_("선생님(방장)이 방을 만들면 여기에 나타나요.")}</div>`}</div>
       <button class="btn" data-ms="newroom">＋ ${t_("새 방 만들기")}</button>
       ${MS.want === "team" ? "" : `<button class="btn ghost" data-ms="noroom">🚶 ${t_("방 없이 한국 서버 전체에서 개인으로 하기")}</button>`}
-      <p class="small">${t_("팀 활동은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 할 수 있어요.")}</p>`;
+      <p class="small">${t_("팀은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 고르거나 만들 수 있어요.")}</p>`;
     return true;
   }
   if (MS.step === "pin") {
@@ -4783,8 +4843,8 @@ function renderModeSel(){
   }
   const create = MS.step === "create";
   b.innerHTML = `
-    ${msBackBtn("choose")}
-    <h2 class="ms-title" id="msTitle">팀으로 참여하기</h2>
+    ${remoteOn() ? msBackBtn("teams") : msBackBtn("choose")}
+    <h2 class="ms-title" id="msTitle">${create ? "새 팀 만들기" : "팀 코드로 참여하기"}</h2>
     <div class="seg" role="tablist" aria-label="팀 참여 방법">
       <button role="tab" data-ms="create" aria-selected="${create}">팀 만들기</button>
       <button role="tab" data-ms="join" aria-selected="${!create}">코드로 참여</button>
@@ -5428,7 +5488,9 @@ function msInRoom(){
   toast(t_("방에 들어왔어요"), ROOM ? `${ROOM_NAME || t_("방")} (${ROOM})${MS.want === "team" ? "" : " · " + t_("팀은 메뉴(☰) → 팀 만들기")}` : t_("한국 서버 전체"));
   if (MS.want === "team") {
     if (S.team && (S.team.ev || SERVERS.kr.event) === CONFIG.EVENT_ID) { S.playMode = "team"; save(); hideModeSel(); Team.refresh(); Team.start(); Players.touch(); renderAll(); return; }
-    MS.step = "create"; MS.msg = ""; MS.err = false; renderModeSel(); return;
+    MS.msg = ""; MS.err = false;
+    if (remoteOn()) { MS.step = "teams"; renderModeSel(); TeamDir.load(); } else { MS.step = "create"; renderModeSel(); }
+    return;
   }
   S.playMode = "solo"; save(); Players.touch(); hideModeSel(); renderAll();
 }
@@ -5505,8 +5567,9 @@ function openRoomList(want){
 }
 function openTeamFlow(){
   MS.want = "team";
-  if (SERVER === "kr" && !ROOM) { openRoomList("team"); return; }
-  showModeSel("create");
+  // 팀 만들기 · 참여는 언제나 '팀 고르기'로 (방이 없으면 한국 서버 전체의 팀)
+  if (!remoteOn()) { showModeSel("create"); return; }
+  showModeSel("teams"); TeamDir.load();
 }
 async function leaveRoom(){
   if (!ROOM) return;
@@ -5910,10 +5973,12 @@ document.addEventListener("click", e => {
     if (m === "solo") { S.playMode = "solo"; save(); hideModeSel(); renderAll(); }
     else if (m === "noroom") msNoRoom();
     else if (m === "go") msInRoom();
+    else if (m === "teams") { MS.step = "teams"; renderModeSel(); TeamDir.load(); }
     else { MS.step = m === "team" ? "create" : m; renderModeSel(); if (m === "newroom") setTimeout(() => { const i = $("#nrName"); if (i) i.focus(); }, 60); }
     return;
   }
   if ((el = t.closest("[data-rpick]"))) { msPickRoom(el.dataset.rpick); return; }
+  if ((el = t.closest("[data-tpick]"))) { msPickTeam(el.dataset.tpick); return; }
   if (t.closest("#msPinGo")) { if (!MS.busy && MS.room) msEnter(MS.room, (($("#msPin") || {}).value || "").trim()); return; }
   if (t.closest("#nrMake")) { if (!MS.busy) msMakeRoom(); return; }
   if (t.closest("#msReload")) { RoomDir.load(); return; }
@@ -6604,22 +6669,7 @@ function mstRender(){
 }
 function mstConfirm(html){ return new Promise(res => { $("#mstCfmBox").innerHTML = html; $("#mstCfm").hidden = false; MST.res = v => { $("#mstCfm").hidden = true; res(v); }; }); }
 // 강퇴 = 탈퇴 처리: 표시(kicks) → 그 계정의 서버 기록·사진 모두 삭제. 로그인 계정 자체는 남아 같은 계정으로 다시 로그인 가능
-async function mstPurge(uid, step){
-  const users = fb.db.collection("users").doc(uid);
-  step("댓글·채팅 지우는 중…");
-  try { const rq = await users.collection("refs").get(); await Promise.all(rq.docs.map(d => { const p = d.data().path; return p ? fb.db.doc(p).delete().catch(() => {}) : null; })); } catch(e) { console.warn("refs:", e.code || e.message); }
-  step("사진 지우는 중…");
-  try { const g = await fb.db.collection("gallery").where("uid", "==", uid).get();
-    for (const d of g.docs) { try { const cq = await d.ref.collection("comments").get(); await Promise.all(cq.docs.map(c => c.ref.delete())); } catch(e) {} await d.ref.delete(); } } catch(e) { console.warn("gallery:", e.code || e.message); }
-  if (fb.st) for (const folder of ["certshots", "gallery"]) { try { const l = await fb.st.ref(`${folder}/${uid}`).listAll(); await Promise.all(l.items.map(it => it.delete())); } catch(e) { console.warn("storage:", e.code || e.message); } }
-  step("팀·명단에서 빼는 중…");
-  try { const tm = await fb.db.collection("teamMembers").where("uid", "==", uid).get(); await Promise.all(tm.docs.map(d => d.ref.delete())); } catch(e) { console.warn("team:", e.code || e.message); }
-  try { const gq = await fb.db.collection("guestbook").where("uid", "==", uid).get(); await Promise.all(gq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("guestbook:", e.code || e.message); }
-  try { const pq = await fb.db.collection("players").where("uid", "==", uid).get(); await Promise.all(pq.docs.map(d => d.ref.delete())); } catch(e) { console.warn("players:", e.code || e.message); }
-  step("관직·도장 기록 지우는 중…");
-  for (const sub of ["stamps", "visits", "puzzles", "refs", "photos"]) { try { const q = await users.collection(sub).get(); await Promise.all(q.docs.map(d => d.ref.delete())); } catch(e) { console.warn(sub + ":", e.code || e.message); } }
-  await users.delete();
-}
+async function mstPurge(uid, step){ await purgeUserData(uid, step); }
 async function mstKick(uid){
   const p = MST.players.find(x => x.uid === uid); if (!p) return;
   const ok = await mstConfirm(`<h2 id="mstCfmT">${esc(p.nickname || "탐방객")} 계정을 강퇴(탈퇴 처리)할까요?</h2>
