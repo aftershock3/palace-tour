@@ -725,6 +725,7 @@ html.master #phone{display:none!important}
 .mst-row small{display:block;font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mst-row .mxp{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .mst-row .mxp b{color:var(--red);display:inline}
+.mst-row.mst-on{background:rgba(59,110,165,.07)}
 .mst-kick{border:1.5px solid var(--red);background:transparent;color:var(--red);border-radius:999px;min-height:34px;padding:2px 12px;font:700 12.5px var(--f-body);white-space:nowrap}
 .mst-kick.un{border-color:var(--blue);color:var(--blue)}
 @media (max-width:560px){.mst-row{grid-template-columns:10px minmax(0,1fr) auto;row-gap:4px}.mst-row .mid{grid-column:2/3}.mst-row .mxp{grid-column:3;grid-row:1}.mst-row .act{grid-column:3;grid-row:2}}
@@ -5239,7 +5240,7 @@ async function setServer(k){
 }
 // 서버·방을 옮길 때 공통: 이전 명단에서 빠지고, 새 공간의 팀·명단·방명록으로 다시 연결
 async function moveSpace(srv, room, roomName){
-  if (cloudOn()) { try { await fb.db.collection("players").doc(`${CONFIG.EVENT_ID}_${Store.uid}`).delete(); } catch(e) { console.warn("players move:", e.code || e.message); } }
+  if (cloudOn()) fb.db.collection("players").doc(`${CONFIG.EVENT_ID}_${Store.uid}`).delete().catch(e => console.warn("players move:", e.code || e.message));   // 기다리지 않음(느린 통신에서도 바로 옮기기)
   SERVER = srv; ROOM = room || ""; ROOM_NAME = roomName || "";
   LS.set("palace-server", srv); LS.set("palace-room", ROOM); LS.set("palace-room-name", ROOM_NAME);
   CONFIG.EVENT_ID = eventFor(SERVER, ROOM);
@@ -6362,6 +6363,52 @@ function mstPin(code){
     .catch(e => { MST.pins[code] = "확인 불가"; console.warn("pin:", e.code || e.message); mstRender(); });
   return "…";
 }
+// 방 관리: 모든 방 보기 · 옮겨 보기 · 삭제 (관리자)
+function mstRoomsHTML(){
+  const rooms = (MST.rooms || []).slice().sort((a, b) => String(b.at || "").localeCompare(String(a.at || "")));
+  return `<div class="mst-card"><b>방 관리 · ${rooms.length}개</b>
+    <div class="mst-grp">
+      <div class="mst-row${ROOM ? "" : " mst-on"}"><i class="dot${ROOM ? "" : " on"}"></i><span><b>한국 서버 전체</b><small>방에 들어가지 않은 참여자</small></span><span class="mid"></span><span class="mxp"></span>
+        <span class="act">${ROOM ? `<button class="hbtn" data-mroom="">보기</button>` : `<small style="color:var(--blue);font-weight:700">보는 중</small>`}</span></div>
+      ${rooms.length ? rooms.map(r => `<div class="mst-row${ROOM === r.code ? " mst-on" : ""}"><i class="dot${ROOM === r.code ? " on" : ""}"></i>
+        <span><b>${esc(r.name || "방")}</b><small>코드 ${esc(r.code)} · ${esc(r.nickname || "만든 사람 모름")} · ${mstAgo(r.at)}</small></span>
+        <span class="mid"><b>${r.hasPin ? `PIN ${esc(mstPin(r.code))}` : "PIN 없음"}</b><small>${r.hasPin ? "입장 코드" : "옛 방 · 누구나 입장"}</small></span><span class="mxp"></span>
+        <span class="act" style="display:flex;gap:6px">${ROOM === r.code ? `<small style="color:var(--blue);font-weight:700;align-self:center">보는 중</small>` : `<button class="hbtn" data-mroom="${esc(r.code)}">보기</button>`}<button class="mst-kick" data-mroomdel="${esc(r.code)}">삭제</button></span></div>`).join("")
+        : `<div class="mst-empty">아직 만들어진 방이 없어요.</div>`}
+    </div>
+    <p class="mst-help" style="margin-top:8px">‘보기’를 누르면 아래 참여자 명단이 그 방 기준으로 바뀌어요. 방을 삭제하면 목록에서 사라지고, 들어와 있던 참여자는 자동으로 한국 서버 전체로 옮겨져요.</p></div>`;
+}
+function mstSetRoom(code){ ROOM = code || ""; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); MST.msg = ""; mstSubscribe(); mstRender(); }
+async function mstDeleteRoom(code){
+  const r = (MST.rooms || []).find(x => x.code === code); if (!r) return;
+  const ok = await mstConfirm(`<h2 id="mstCfmT">「${esc(r.name || "방")}」 방을 삭제할까요?</h2>
+    <p class="small">코드 ${esc(code)} · 만든 사람 ${esc(r.nickname || "모름")}</p>
+    <p class="small">방 목록에서 사라지고 PIN으로도 들어올 수 없어요. 들어와 있던 참여자는 한국 서버 전체로 옮겨져요. 되돌릴 수 없어요.</p>
+    <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:4px"><input type="checkbox" id="mstWipe" checked style="margin-top:3px"> 이 방의 참여자 명단 · 오늘의 갤러리 사진 · 소감 · 팀원 기록도 함께 지우기</label>
+    <div class="cfm-btns"><button class="btn ghost" data-mst="no">취소</button><button class="btn red" data-mst="yes">방 삭제</button></div>`);
+  if (!ok) return;
+  const step = t => { MST.msg = `${esc(r.name || code)}: ${t}`; mstRender(); };
+  const ev = eventFor("kr", code), del = async (q) => { const s = await q.get(); await Promise.all(s.docs.map(d => d.ref.delete().catch(e => console.warn(e.code || e.message)))); };
+  try {
+    if (ok.wipe) {
+      step("참여자 명단 · 팀원 기록 지우는 중…");
+      await del(fb.db.collection("players").where("event", "==", ev));
+      await del(fb.db.collection("teamMembers").where("event", "==", ev)).catch(e => console.warn("teamMembers:", e.code || e.message));
+      step("사진 · 댓글 지우는 중…");
+      const g = await fb.db.collection("gallery").where("event", "==", ev).get();
+      for (const d of g.docs) { try { await del(d.ref.collection("comments")); } catch(e) {} const u = d.data().url; await d.ref.delete().catch(() => {}); if (fb.st && /^https?:/.test(u || "")) { try { await fb.st.refFromURL(u).delete(); } catch(e) {} } }
+      step("소감 지우는 중…");
+      await del(fb.db.collection("guestbook").where("event", "==", ev));
+    }
+    step("방 지우는 중…");
+    const ref = fb.db.collection("rooms").doc(code);
+    await del(ref.collection("keys")); await del(ref.collection("members"));
+    await ref.delete();
+    if (ROOM === code) { ROOM = ""; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); mstSubscribe(); }
+    delete MST.pins[code]; MST.msg = "";
+  } catch(e) { MST.msg = `방을 삭제하지 못했어요 (${esc(e.code || e.message)}). firestore.rules 를 새로 게시했는지 확인해 주세요.`; }
+  mstRender();
+}
 function mstRender(){
   const main = $("#mstMain"); if (!main || !MST.email) return;
   const now = Date.now(), on = p => p.seenAt && now - new Date(p.seenAt).getTime() < ONLINE_MS;
@@ -6382,7 +6429,8 @@ function mstRender(){
   const gs = [...groups.values()].sort((a, b) => (a.id === "_solo") - (b.id === "_solo") || a.name.localeCompare(b.name, "ko", { numeric:true }));
   main.innerHTML = `
     <div class="mst-tools"><b style="font-size:13px">서버</b><div class="seg" role="tablist">${Object.entries(SERVERS).map(([k, v]) => `<button role="tab" data-msrv="${k}" aria-selected="${SERVER === k}">${v.ko}</button>`).join("")}</div>
-      ${SERVER === "kr" ? `<b style="font-size:13px">방</b><select class="input" id="mstRoom" style="max-width:260px;min-height:40px"><option value="">한국 서버 전체</option>${(MST.rooms || []).map(r => `<option value="${esc(r.code)}"${ROOM === r.code ? " selected" : ""}>${esc(r.name || "방")} (${esc(r.code)})</option>`).join("")}</select>${ROOM ? `<span style="font-size:13px">입장 PIN <b style="font-size:16px;letter-spacing:.1em">${esc(mstPin(ROOM))}</b></span>` : ""}` : ""}</div>
+      ${SERVER === "kr" ? `<span style="font-size:13px">보는 곳 <b>${ROOM ? `${esc((MST.rooms || []).find(r => r.code === ROOM)?.name || "방")} (${esc(ROOM)}) · PIN ${esc(mstPin(ROOM))}` : "한국 서버 전체"}</b></span>` : ""}</div>
+    ${SERVER === "kr" ? mstRoomsHTML() : ""}
     <div class="mst-stats">
       <div class="mst-stat"><b>${MST.players.filter(p => !banned.has(p.uid)).length}</b><small>참여 계정</small></div>
       <div class="mst-stat on"><b>${MST.players.filter(p => !banned.has(p.uid) && on(p)).length}</b><small>접속 중 (10분 안)</small></div>
@@ -6456,9 +6504,10 @@ if (MASTER) {
     if ((el = t.closest("[data-msrv]"))) { SERVER = el.dataset.msrv; ROOM = ""; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); mstSubscribe(); mstRender(); return; }
     if ((el = t.closest("[data-mf]"))) { MST.filter = el.dataset.mf; MST.focus = false; mstRender(); return; }
     if ((el = t.closest("[data-kick]"))) { mstKick(el.dataset.kick); return; }
-    if ((el = t.closest("[data-mst]"))) { const yes = el.dataset.mst === "yes"; const r = $("#mstReason"); MST.res && MST.res(yes ? { reason: r ? r.value.trim().slice(0, 60) : "" } : false); return; }
+    if ((el = t.closest("[data-mst]"))) { const yes = el.dataset.mst === "yes"; const r = $("#mstReason"), w = $("#mstWipe"); MST.res && MST.res(yes ? { reason: r ? r.value.trim().slice(0, 60) : "", wipe: !!(w && w.checked) } : false); return; }
+    if ((el = t.closest("[data-mroom]"))) { mstSetRoom(el.dataset.mroom); return; }
+    if ((el = t.closest("[data-mroomdel]"))) { mstDeleteRoom(el.dataset.mroomdel); return; }
   });
-  document.addEventListener("change", e => { if (e.target.id === "mstRoom") { ROOM = e.target.value; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); mstSubscribe(); mstRender(); } });
   document.addEventListener("input", e => { if (e.target.id === "mstQ") { MST.q = e.target.value; MST.focus = true; mstRender(); } });
   masterBoot();
 } else boot();
