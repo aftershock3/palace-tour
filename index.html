@@ -3569,6 +3569,7 @@ let LANG = LS.get("palace-lang") === "en" ? "en" : "ko";
 const I18N = {}, I18N_RX = [], EN_NAMES = {}, EN_DESC = {};
 Object.assign(I18N, {"이 방 없애기": "Delete this room", "방장만": "host only", "방을 없앨까요?": "Delete this room?", "방 없애기": "Delete room", "없애는 중…": "Deleting…", "방을 없앴어요": "Room deleted", "방이 없어졌어요": "This room was deleted", "방장이 방을 없애서 한국 서버 전체로 옮겼어요": "The host deleted the room, so you were moved to the whole Korean server.", "방 목록에서 사라지고, PIN으로도 더 이상 들어올 수 없어요. 들어와 있던 참여자는 모두 한국 서버 전체로 옮겨져요. 되돌릴 수 없어요.": "It disappears from the room list and no one can enter with the PIN. Everyone inside is moved to the whole Korean server. This can't be undone.", "방을 없애지 못했어요. Firestore 규칙을 새로 게시했는지 확인해 주세요.": "Couldn't delete the room. Please check that the new Firestore rules are published."});
 Object.assign(I18N, {"방에 다시 들어왔어요": "Back in your room"});
+Object.assign(I18N, {"돌아가기": "Back"});
 Object.assign(I18N, {"소통": "Community", "소감함": "Notes box", "방명록 · 후기": "Guestbook · reviews", "소감함 닫기": "Close notes box", "탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.": "Leave your thoughts and reviews any time. Everyone in the same room (server) can read them.", "오늘 탐방 소감을 남겨 주세요": "Share your thoughts on today’s visit", "아직 소감이 없어요. 첫 소감을 남겨 보세요.": "No notes yet. Be the first to write one.", "방 목록": "Room list", "방 만들기": "Create room", "새 방 만들기": "Create a new room", "새 방": "New room", "복사": "Copy", "뒤로": "Back", "코드": "Code", "지금 방": "Current", "팀으로 참여": "Joining as a team", "개인으로 참여": "Joining solo", "들어갈 방을 골라 주세요": "Choose a room to enter", "방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.": "Each room has its own participants, teams, rankings, photos and notes. You need the room PIN (numbers) the first time you enter.", "방 이름 검색": "Search rooms", "다시 불러오기": "Reload", "방 목록을 불러오는 중…": "Loading rooms…", "검색한 방이 없어요.": "No rooms match.", "아직 만들어진 방이 없어요.": "No rooms yet.", "선생님(방장)이 방을 만들면 여기에 나타나요.": "Rooms appear here when a teacher (host) creates one.", "방 없이 한국 서버 전체에서 하기": "Play on the whole Korean server without a room", "방 PIN을 입력해 주세요": "Enter the room PIN", "선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.": "It's the 4–6 digit number from your teacher (host). You won't be asked again after the first time.", "방 PIN": "Room PIN", "확인하는 중…": "Checking…", "들어가기": "Enter", "방 이름": "Room name", "입장 PIN (숫자 4~6자리)": "Entry PIN (4–6 digits)", "참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.": "Participants pick this room from the list and enter the PIN to join.", "만드는 중…": "Creating…", "방을 만들었어요": "Room created", "참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.": "Share the room name and PIN. Participants tap this room in the list and enter the PIN.", "PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.": "You can see the PIN again in Menu (☰) → Server · Room.", "방 이름 · PIN 복사": "Copy room name · PIN", "이 방에서 팀 정하기": "Set up a team in this room", "탐방 시작하기": "Start exploring", "PIN은 숫자 4~6자리예요.": "The PIN is 4–6 digits.", "PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.": "Wrong PIN. Please check with the teacher (host) who made the room.", "방 이름을 적어 주세요.": "Please enter a room name.", "방 이름과 PIN을 복사했어요": "Copied room name and PIN", "반응을 남기지 못했어요": "Couldn't add your reaction", "갤러리": "Gallery", "우리 방 전체": "Whole room", "이모티콘 반응": "Emoji reactions", "서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.": "Once connected to the server, you can comment on photos from people in your room.", "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.": "Your photo is framed with a seal and hung in today's gallery. Everyone in the same room sees it, whatever their team. Tap a photo to comment or react with an emoji; delete your own with 🗑."});
 const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
 function t_(ko){ if (LANG !== "en") return ko; const k = String(ko); return I18N[k] ?? trRx(k) ?? k; }
@@ -4649,14 +4650,17 @@ function renderTeamPanel(){
 
 /* 접속 방식 선택 · 팀 만들기 / 코드로 참여 */
 const MS = { step:"choose", name:"1조", color:"blue", code:"", msg:"", err:false, busy:false };
-function showModeSel(step){ MS.step = step; MS.msg = ""; MS.busy = false; $("#modesel").hidden = false; renderModeSel(); $("#modesel").scrollTop = 0; }
+// 이미 탐방 중일 때(메뉴에서 연 경우): 처음 연 단계에서 '뒤로'는 창 닫기 → 하던 화면으로
+const msBack = def => (S.playMode && MS.entry === MS.step) ? "close" : def;
+const msBackLabel = def => msBack(def) === "close" ? `← ${t_("돌아가기")}` : `← ${t_(def === "rooms" ? "방 목록" : "뒤로")}`;
+function showModeSel(step){ MS.entry = step; MS.step = step; MS.msg = ""; MS.busy = false; $("#modesel").hidden = false; renderModeSel(); $("#modesel").scrollTop = 0; }
 function hideModeSel(){ $("#modesel").hidden = true; }
 const ICON_WANT = () => MS.want === "team" ? t_("팀으로 참여") : t_("개인으로 참여");
 function renderRoomStep(b, note){
   if (MS.step === "rooms") {
     const q = RoomDir.q.trim().toLowerCase(), list = RoomDir.list.filter(r => !q || String(r.name || "").toLowerCase().includes(q) || String(r.code).toLowerCase().includes(q) || String(r.nickname || "").toLowerCase().includes(q));
     b.innerHTML = `
-      <button class="back" data-ms="choose">← ${t_("뒤로")}</button>
+      <button class="back" data-ms="${msBack("choose")}">${msBackLabel("choose")}</button>
       <div><p class="eyebrow">${t_("한국 서버")} · ${ICON_WANT()}</p>
       <h2 class="ms-title" id="msTitle">${t_("들어갈 방을 골라 주세요")}</h2>
       <p class="small">${t_("방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.")}</p></div>
@@ -4674,7 +4678,7 @@ function renderRoomStep(b, note){
   if (MS.step === "pin") {
     const r = MS.room || {};
     b.innerHTML = `
-      <button class="back" data-ms="rooms">← ${t_("방 목록")}</button>
+      <button class="back" data-ms="${msBack("rooms")}">${msBackLabel("rooms")}</button>
       <div><p class="eyebrow">🔒 ${esc(r.name || t_("방"))} · ${t_("코드")} ${esc(r.code || "")}</p>
       <h2 class="ms-title" id="msTitle">${t_("방 PIN을 입력해 주세요")}</h2>
       <p class="small">${t_("선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.")}</p></div>
@@ -4685,7 +4689,7 @@ function renderRoomStep(b, note){
   }
   if (MS.step === "newroom") {
     b.innerHTML = `
-      <button class="back" data-ms="rooms">← ${t_("방 목록")}</button>
+      <button class="back" data-ms="${msBack("rooms")}">${msBackLabel("rooms")}</button>
       <div><p class="eyebrow">${t_("한국 서버")} · ${t_("새 방")}</p>
       <h2 class="ms-title" id="msTitle">${t_("새 방 만들기")}</h2>
       <p class="small">${t_("반이나 모둠마다 방을 만들면 참여자·팀·랭킹·사진이 그 방 안에서만 보여요.")}</p></div>
@@ -4713,6 +4717,7 @@ function renderModeSel(){
   const b = $("#msBody"), note = MS.msg ? `<p class="note${MS.err ? " err" : ""}">${MS.msg}</p>` : "";
   if (MS.step === "choose") {
     b.innerHTML = `
+      ${S.playMode ? `<button class="back" data-ms="close">← ${t_("돌아가기")}</button>` : ""}
       <p class="eyebrow">${esc(S.nickname || "탐방객")} 님, 반가워요</p>
       <h2 class="ms-title" id="msTitle">어떻게 둘러볼까요?</h2>
       <button class="choice" data-ms="solo"><span class="ci" aria-hidden="true">🚶</span><span><b>개인 접속</b><small>혼자 자유롭게 둘러봐요. 관직과 도장은 나만의 기록으로 쌓여요.</small></span><span class="go" aria-hidden="true">›</span></button>
@@ -4734,7 +4739,7 @@ function renderModeSel(){
   }
   const create = MS.step === "create";
   b.innerHTML = `
-    <button class="back" data-ms="choose">← 뒤로</button>
+    <button class="back" data-ms="${msBack("choose")}">${msBackLabel("choose")}</button>
     <h2 class="ms-title" id="msTitle">팀으로 참여하기</h2>
     <div class="seg" role="tablist" aria-label="팀 참여 방법">
       <button role="tab" data-ms="create" aria-selected="${create}">팀 만들기</button>
@@ -5844,7 +5849,8 @@ document.addEventListener("click", e => {
   if ((el = t.closest("[data-ms]"))) {
     const m = el.dataset.ms;
     MS.msg = ""; MS.err = false;
-    if ((m === "solo" || m === "team") && SERVER === "kr") { openRoomList(m); return; }
+    if (m === "close") { if (!MS.busy) { hideModeSel(); renderAll(); } return; }
+    if ((m === "solo" || m === "team") && SERVER === "kr") { const e = MS.entry; openRoomList(m); MS.entry = e; renderModeSel(); return; }
     if (m === "solo") { S.playMode = "solo"; save(); hideModeSel(); renderAll(); }
     else if (m === "noroom") msNoRoom();
     else if (m === "go") msInRoom();
