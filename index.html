@@ -3295,7 +3295,7 @@ function renderPuzzles(){
 /* 교지 */
 const STEMS = "甲乙丙丁戊己庚辛壬癸", BRANCH = "子丑寅卯辰巳午未申酉戌亥", NUM = "一二三四五六七八九十";
 function hanNum(n){ if (n <= 10) return NUM[n-1]; const t = Math.floor(n/10), o = n % 10; return (t > 1 ? NUM[t-1] : "") + "十" + (o ? NUM[o-1] : ""); }
-async function fontsReady(spec, txt){ try { await document.fonts.load(spec, txt); } catch(e) {} }
+async function fontsReady(spec, txt, ms){ try { await Promise.race([document.fonts.load(spec, txt), new Promise(r => setTimeout(r, ms || 1500))]); } catch(e) {} }
 async function makeGyoji(){
   const name = ($("#nameInput").value.trim() || S.nickname || "탐방객").slice(0, 6);
   const d = new Date(), y = d.getFullYear();
@@ -3571,6 +3571,7 @@ Object.assign(I18N, {"이 방 없애기": "Delete this room", "방장만": "host
 Object.assign(I18N, {"방에 다시 들어왔어요": "Back in your room"});
 Object.assign(I18N, {"돌아가기": "Back"});
 Object.assign(I18N, {"님, 반가워요": "welcome", "방 없이 한국 서버 전체에서 개인으로 하기": "Play solo on the whole Korean server (no room)", "팀 활동은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 할 수 있어요.": "For team play, enter a room, then go to Menu (☰) → Teams.", "팀은 메뉴(☰) → 팀 만들기": "Teams: Menu (☰) → Teams", "팀 만들기 · 참여": "Create or join a team", "방에 들어간 뒤 만들 수 있어요": "Available after you enter a room", "이 방에서 팀 만들기 · 팀 코드로 참여": "Create a team here or join with a code"});
+Object.assign(I18N, {"올리는 중": "Uploading"});
 Object.assign(I18N, {"소통": "Community", "소감함": "Notes box", "방명록 · 후기": "Guestbook · reviews", "소감함 닫기": "Close notes box", "탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.": "Leave your thoughts and reviews any time. Everyone in the same room (server) can read them.", "오늘 탐방 소감을 남겨 주세요": "Share your thoughts on today’s visit", "아직 소감이 없어요. 첫 소감을 남겨 보세요.": "No notes yet. Be the first to write one.", "방 목록": "Room list", "방 만들기": "Create room", "새 방 만들기": "Create a new room", "새 방": "New room", "복사": "Copy", "뒤로": "Back", "코드": "Code", "지금 방": "Current", "팀으로 참여": "Joining as a team", "개인으로 참여": "Joining solo", "들어갈 방을 골라 주세요": "Choose a room to enter", "방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.": "Each room has its own participants, teams, rankings, photos and notes. You need the room PIN (numbers) the first time you enter.", "방 이름 검색": "Search rooms", "다시 불러오기": "Reload", "방 목록을 불러오는 중…": "Loading rooms…", "검색한 방이 없어요.": "No rooms match.", "아직 만들어진 방이 없어요.": "No rooms yet.", "선생님(방장)이 방을 만들면 여기에 나타나요.": "Rooms appear here when a teacher (host) creates one.", "방 없이 한국 서버 전체에서 하기": "Play on the whole Korean server without a room", "방 PIN을 입력해 주세요": "Enter the room PIN", "선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.": "It's the 4–6 digit number from your teacher (host). You won't be asked again after the first time.", "방 PIN": "Room PIN", "확인하는 중…": "Checking…", "들어가기": "Enter", "방 이름": "Room name", "입장 PIN (숫자 4~6자리)": "Entry PIN (4–6 digits)", "참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.": "Participants pick this room from the list and enter the PIN to join.", "만드는 중…": "Creating…", "방을 만들었어요": "Room created", "참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.": "Share the room name and PIN. Participants tap this room in the list and enter the PIN.", "PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.": "You can see the PIN again in Menu (☰) → Server · Room.", "방 이름 · PIN 복사": "Copy room name · PIN", "이 방에서 팀 정하기": "Set up a team in this room", "탐방 시작하기": "Start exploring", "PIN은 숫자 4~6자리예요.": "The PIN is 4–6 digits.", "PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.": "Wrong PIN. Please check with the teacher (host) who made the room.", "방 이름을 적어 주세요.": "Please enter a room name.", "방 이름과 PIN을 복사했어요": "Copied room name and PIN", "반응을 남기지 못했어요": "Couldn't add your reaction", "갤러리": "Gallery", "우리 방 전체": "Whole room", "이모티콘 반응": "Emoji reactions", "서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.": "Once connected to the server, you can comment on photos from people in your room.", "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.": "Your photo is framed with a seal and hung in today's gallery. Everyone in the same room sees it, whatever their team. Tap a photo to comment or react with an emoji; delete your own with 🗑."});
 const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
 function t_(ko){ if (LANG !== "en") return ko; const k = String(ko); return I18N[k] ?? trRx(k) ?? k; }
@@ -3626,15 +3627,15 @@ const Rec = {
 /* 사진 저장
    1순위 Firebase Storage. Storage가 켜져 있지 않거나(요금제·버킷 미생성) 응답이 없으면 20초 안에 포기하고,
    2순위로 Firestore 문서 안에 작게 줄인 사진을 저장합니다 → Storage 없이도 사진 기능이 모두 동작. */
-const STORE = { ok:null, err:"" };
+const STORE = { ok: (Date.now() - (+LS.get("palace-store-off") || 0) < 12 * 3600e3) ? false : null, err:"" };
 const withTimeout = (p, ms, code) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error(code || "timeout"), { code: code || "timeout" })), ms))]);
-function storageFailed(e){ STORE.ok = false; STORE.err = e.code || e.message || String(e); console.warn("storage:", STORE.err); }
+function storageFailed(e){ STORE.ok = false; LS.set("palace-store-off", String(Date.now())); STORE.err = e.code || e.message || String(e); console.warn("storage:", STORE.err); }
 async function uploadJpeg(path, dataUrl){
   if (!fb.st) throw Object.assign(new Error("storage_off"), { code:"storage_off" });
   const ref = fb.st.ref(path), task = ref.put(dataUrlToBlob(dataUrl), { contentType:"image/jpeg" });
-  try { await withTimeout(task, 20000, "storage/timeout"); }
+  try { await withTimeout(task, 12000, "storage/timeout"); }
   catch(e) { try { task.cancel && task.cancel(); } catch(_) {} throw e; }
-  return withTimeout(ref.getDownloadURL(), 10000, "storage/timeout");
+  return withTimeout(ref.getDownloadURL(), 8000, "storage/timeout");
 }
 // 인증샷·체크인 사진: users/{uid}/photos/{id} 에 url(Storage) 또는 data(작게 줄인 사진)로 기록
 async function remoteUploadPhoto(id, dataUrl){
@@ -3650,8 +3651,16 @@ async function remoteUploadPhoto(id, dataUrl){
 /* 사진 읽기: 큰 휴대폰 사진도 메모리를 적게 쓰도록 createImageBitmap → 안 되면 objectURL 순서로 */
 const PHOTO_READ_ERR = "사진을 읽지 못했어요. 앨범에서 JPG 사진을 골라 보거나, 카카오톡 안이라면 Chrome·Safari에서 열어 다시 시도해 주세요.";
 const imgW = im => im.naturalWidth || im.width, imgH = im => im.naturalHeight || im.height;
-async function loadImage(file){
+async function loadImage(file, maxSide){
   if (!file) throw new Error("no_file");
+  if (window.createImageBitmap && maxSide) {   // 1200만 화소 사진도 필요한 크기로 바로 줄여서 해독 → 훨씬 빠름
+    try {
+      const full = await createImageBitmap(file, { imageOrientation:"from-image" }), w = full.width, h = full.height, k = maxSide / Math.max(w, h);
+      if (k >= 1) return full;
+      full.close && full.close();
+      return await createImageBitmap(file, { imageOrientation:"from-image", resizeWidth:Math.round(w * k), resizeHeight:Math.round(h * k), resizeQuality:"medium" });
+    } catch(e) {}
+  }
   if (window.createImageBitmap) {
     try { return await createImageBitmap(file, { imageOrientation:"from-image" }); } catch(e) {}
     try { return await createImageBitmap(file); } catch(e) {}
@@ -4492,40 +4501,67 @@ const Team = {
   async create(name, color){
     name = (name || "").trim().slice(0, 12) || "1조";
     if (remoteOn()) {
-      await this.leaveRemote();
-      let code, codeRef;
-      for (let i = 0; i < 8; i++) { code = genCode(); codeRef = fb.db.collection("teamCodes").doc(`${CONFIG.EVENT_ID}_${code}`); if (!(await codeRef.get()).exists) break; }
+      // 한꺼번에: 예전 팀 기록 찾기 + 팀 코드 후보 3개 확인 (서버 왕복을 한 번으로)
+      const ev = CONFIG.EVENT_ID, cands = [genCode(), genCode(), genCode()];
+      const [old, ...chk] = await Promise.all([
+        fb.db.collection("teamMembers").where("event", "==", ev).where("uid", "==", Store.uid).get().catch(() => ({ docs:[] })),
+        ...cands.map(c => fb.db.collection("teamCodes").doc(`${ev}_${c}`).get())]);
+      let i = chk.findIndex(d => !d.exists), code = cands[i];
+      if (i < 0) { for (let k = 0; k < 5; k++) { code = genCode(); if (!(await fb.db.collection("teamCodes").doc(`${ev}_${code}`).get()).exists) break; } }
+      old.docs.forEach(d => d.ref.delete().catch(e => console.warn("old team:", e.code || e.message)));   // 기다리지 않음
       const tref = fb.db.collection("teams").doc(), now = new Date().toISOString(), batch = fb.db.batch();
-      batch.set(tref, { event:CONFIG.EVENT_ID, name, color, createdBy:Store.uid, createdAt:now });
-      batch.set(codeRef, { teamId:tref.id, event:CONFIG.EVENT_ID });
-      batch.set(fb.db.collection("teamMembers").doc(`${tref.id}_${Store.uid}`), { teamId:tref.id, uid:Store.uid, event:CONFIG.EVENT_ID, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:now });
-      await batch.commit();
-      S.team = { id:tref.id, code, name, color, points:0, joined:now, ev:CONFIG.EVENT_ID };
+      batch.set(tref, { event:ev, name, color, createdBy:Store.uid, createdAt:now });
+      batch.set(fb.db.collection("teamCodes").doc(`${ev}_${code}`), { teamId:tref.id, event:ev });
+      batch.set(fb.db.collection("teamMembers").doc(`${tref.id}_${Store.uid}`), { teamId:tref.id, uid:Store.uid, event:ev, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:now });
+      const commit = batch.commit();
+      // 저장 확인을 기다리지 않고 바로 진행 (이 휴대폰에는 즉시 반영, 서버 저장은 뒤에서 · 실패하면 lost()가 되돌림)
+      S.team = { id:tref.id, code, name, color, points:0, joined:now, ev };
+      commit.then(() => this.refresh()).catch(e => this.lost(tref.id, e));
     } else {
       S.team = { id:"local-" + Date.now().toString(36), code:genCode(), name, color, points:0, joined:new Date().toISOString(), local:true, ev:CONFIG.EVENT_ID };
     }
-    S.playMode = "team"; save(); Players.touch(); await this.refresh(); this.start();
+    S.playMode = "team"; save(); Players.touch(); this.mineBoard(); this.start();
     return S.team;
   },
   async join(code){
     code = (code || "").trim().toUpperCase();
     if (code.length !== 6) throw new Error("code_length");
     if (!remoteOn()) throw new Error("offline");
-    const c = await fb.db.collection("teamCodes").doc(`${CONFIG.EVENT_ID}_${code}`).get();
+    const ev = CONFIG.EVENT_ID;
+    const [c, old] = await Promise.all([fb.db.collection("teamCodes").doc(`${ev}_${code}`).get(),
+      fb.db.collection("teamMembers").where("event", "==", ev).where("uid", "==", Store.uid).get().catch(() => ({ docs:[] }))]);
     if (!c.exists) throw new Error("not_found");
-    const tid = c.data().teamId, tdoc = await fb.db.collection("teams").doc(tid).get();
+    const tid = c.data().teamId;
+    const [tdoc, members] = await Promise.all([fb.db.collection("teams").doc(tid).get(), fb.db.collection("teamMembers").where("teamId", "==", tid).get()]);
     if (!tdoc.exists) throw new Error("not_found");
-    const members = await fb.db.collection("teamMembers").where("teamId", "==", tid).get();
     const already = members.docs.some(d => d.data().uid === Store.uid);
     if (!already) {
       if (members.size >= 12) throw new Error("full");
-      await this.leaveRemote();
-      await fb.db.collection("teamMembers").doc(`${tid}_${Store.uid}`).set({ teamId:tid, uid:Store.uid, event:CONFIG.EVENT_ID, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:new Date().toISOString() });
+      old.docs.filter(d => d.data().teamId !== tid).forEach(d => d.ref.delete().catch(e => console.warn("old team:", e.code || e.message)));
+      const w = fb.db.collection("teamMembers").doc(`${tid}_${Store.uid}`).set({ teamId:tid, uid:Store.uid, event:ev, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:new Date().toISOString() });
+      w.then(() => this.refresh()).catch(e => this.lost(tid, e));
     }
     const td = tdoc.data();
-    S.team = { id:tid, code, name:td.name, color:td.color, points:0, joined:new Date().toISOString(), ev:CONFIG.EVENT_ID };
-    S.playMode = "team"; save(); Players.touch(); await this.refresh(); this.start();
+    S.team = { id:tid, code, name:td.name, color:td.color, points:0, joined:new Date().toISOString(), ev };
+    S.playMode = "team"; save(); Players.touch();
+    // 이미 받은 팀원 목록 + 나로 순위표를 바로 그림 (서버 다시 묻지 않음)
+    const ms = members.docs.map(d => d.data()).filter(m => m.uid !== Store.uid).map(m => ({ nickname:m.nickname, points:m.points || 0, stamps:m.stamps || [], me:false }));
+    this.mineBoard(ms); this.start();
     return S.team;
+  },
+  // 방금 만들거나 들어간 팀: 서버 응답을 기다리지 않고 순위표를 바로 그림
+  mineBoard(others){
+    const t = this.mine(); if (!t) return;
+    const members = [...(others || []), { nickname:S.nickname || "나", points:0, stamps:Object.keys(S.stamps), me:true }];
+    this.board = [{ id:t.id, name:t.name, color:t.color, members, total:members.reduce((a, m) => a + m.points, 0) }];
+    this.sort(); renderTeamBar(); if (!$("#setm").hidden) { renderTeamPanel(); renderSetMenu(); }
+  },
+  // 뒤에서 저장하다 실패하면 팀 해제 + 안내
+  lost(tid, e){
+    console.warn("team save:", e.code || e.message);
+    if (!S.team || S.team.id !== tid) return;
+    this.stop(); this.board = []; S.team = null; S.playMode = "solo"; save(); Players.touch(); renderTeamBar();
+    toast("팀을 서버에 저장하지 못했어요", "인터넷 연결을 확인하고 다시 만들어 주세요 (" + (e.code || e.message) + ")");
   },
   async leave(){
     const t = this.mine();
@@ -4860,9 +4896,8 @@ function drawNakgwan(g, cx, cy, s, name, C){
   g.restore();
 }
 async function composeShot(file, tag){
-  const img = await loadImage(file);
-  await fontsReady('400 64px "Song Myung"', tag + SHOT_TAGS.join(""));
-  await fontsReady('900 40px "Noto Serif KR"', NAKGWAN);
+  const [img] = await Promise.all([loadImage(file, 1400),
+    fontsReady('400 64px "Song Myung"', tag + SHOT_TAGS.join("")), fontsReady('900 40px "Noto Serif KR"', NAKGWAN)]);
   const col = getComputedStyle(document.documentElement), C = k => col.getPropertyValue(k).trim();
   const W = 900, H = 1200, c = document.createElement("canvas"); c.width = W; c.height = H; const g = c.getContext("2d");
   g.fillStyle = C("--card"); g.fillRect(0, 0, W, H);
@@ -4887,33 +4922,44 @@ async function composeShot(file, tag){
 }
 async function handleShot(file){
   if (!file || GAL.busy) return;
+  const sig = [file.name, file.size, file.lastModified].join("|");      // 같은 사진 선택이 두 번 들어오는 휴대폰 대비
+  if (GAL.lastSig === sig && Date.now() - GAL.lastAt < 2000) return;
+  GAL.lastSig = sig; GAL.lastAt = Date.now();
   GAL.busy = true; GAL.msg = ""; renderGallery();
+  let item, t;
   try {
-    const tag = shotTagNow(), url = await composeShot(file, tag), t = Team.mine();
-    const item = { id:Date.now().toString(36), at:new Date().toISOString(), tag, nickname:S.nickname || "탐방객", team: t ? { id:t.id, name:t.name, color:t.color } : null, url, mine:true };
-    let cloudSaved = false;
-    if (remoteOn()) {
-      try {
-        let remoteUrl = null;
-        if (STORE.ok !== false) { try { remoteUrl = await uploadJpeg(`gallery/${Store.uid}/${item.id}.jpg`, url); STORE.ok = true; } catch(e) { storageFailed(e); } }
-        if (!remoteUrl) remoteUrl = await shrinkDataUrl(url, 720, .72);   // 사진 저장소(Storage)를 못 쓰면 문서 안에 작게 저장
-        const ref = await fb.db.collection("gallery").add({ uid:Store.uid, event:CONFIG.EVENT_ID, room:SERVER === "kr" ? ROOM : "", day:dayKey(), teamId: t && !t.local ? t.id : null, nickname:item.nickname, tag, url:remoteUrl, createdAt:item.at, cc:0 });
-        cloudSaved = true; item.cloud = true; item.id = ref.id; item.url = remoteUrl; item.teamId = t && !t.local ? t.id : null; item.uid = Store.uid;
-      } catch(e) { console.warn("gallery upload:", e.code || e.message); GAL.msg = `서버에 올리지 못해 이 휴대폰에만 걸었어요. (${esc(e.code || e.message)}) 설정 → ‘연결 점검’에서 원인을 확인할 수 있어요.`; }
-    }
-    if (cloudSaved) {} else if (writeGallery([item, ...readGallery()].slice(0, 12)) === 0) {
-      GAL.msg = "기기 저장 공간이 가득 차서 이 사진은 이번 접속 동안만 보여요.";
-    }
-    GAL.items.unshift(item);
-    if (S.shotDay.d !== dayKey()) S.shotDay = { d:dayKey(), n:0 };
-    const rewarded = S.shotDay.n < SHOT_DAILY; S.shotDay.n++; save();
-    eobo("佳景之寶", "풍경의 조각을 걸었어요",
-      rewarded ? `+${REWARD.shot} EXP${t ? ` · ${t.name} 점수에도 +${REWARD.shot}` : ""}` : "오늘 보상은 다 받았어요 · 사진은 계속 걸 수 있어요",
-      rewarded ? () => gain(REWARD.shot, "풍경의 조각") : null);
+    const tag = shotTagNow(), url = await composeShot(file, tag); t = Team.mine();
+    const id = remoteOn() ? fb.db.collection("gallery").doc().id : Date.now().toString(36);
+    item = { id, at:new Date().toISOString(), tag, nickname:S.nickname || "탐방객", team: t ? { id:t.id, name:t.name, color:t.color } : null, url, mine:true, pending:remoteOn() };
   } catch(e) {
     console.warn(e); GAL.msg = "사진을 액자에 넣지 못했어요. 다른 사진으로 다시 시도해 주세요.";
+    GAL.busy = false; renderGallery(); return;
   }
-  GAL.busy = false; renderGallery();
+  GAL.items.unshift(item); GAL.busy = false; renderGallery();   // 바로 걸어 보여 주기
+  if (S.shotDay.d !== dayKey()) S.shotDay = { d:dayKey(), n:0 };
+  const rewarded = S.shotDay.n < SHOT_DAILY; S.shotDay.n++; save();
+  eobo("佳景之寶", "풍경의 조각을 걸었어요",
+    rewarded ? `+${REWARD.shot} EXP${t ? ` · ${t.name} 점수에도 +${REWARD.shot}` : ""}` : "오늘 보상은 다 받았어요 · 사진은 계속 걸 수 있어요",
+    rewarded ? () => gain(REWARD.shot, "풍경의 조각") : null);
+  if (item.pending) uploadShot(item, t);
+  else if (writeGallery([item, ...readGallery()].slice(0, 12)) === 0) { GAL.msg = "기기 저장 공간이 가득 차서 이 사진은 이번 접속 동안만 보여요."; renderGallery(); }
+}
+// 서버에 올리기 (뒤에서): 사진 저장소 → 안 되면 작게 줄여 문서 안에 저장
+async function uploadShot(item, t){
+  try {
+    let remoteUrl = null;
+    if (STORE.ok !== false) { try { remoteUrl = await uploadJpeg(`gallery/${Store.uid}/${item.id}.jpg`, item.url); STORE.ok = true; } catch(e) { storageFailed(e); } }
+    if (!remoteUrl) remoteUrl = await shrinkDataUrl(item.url, 720, .72);
+    const teamId = t && !t.local ? t.id : null;
+    await fb.db.collection("gallery").doc(item.id).set({ uid:Store.uid, event:CONFIG.EVENT_ID, room:SERVER === "kr" ? ROOM : "", day:dayKey(), teamId, nickname:item.nickname, tag:item.tag, url:remoteUrl, createdAt:item.at, cc:0 });
+    Object.assign(item, { pending:false, cloud:true, uid:Store.uid, teamId });
+  } catch(e) {
+    console.warn("gallery upload:", e.code || e.message);
+    item.pending = false;
+    GAL.msg = `서버에 올리지 못해 이 휴대폰에만 걸었어요. (${esc(e.code || e.message)}) 설정 → ‘연결 점검’에서 원인을 확인할 수 있어요.`;
+    writeGallery([item, ...readGallery()].slice(0, 12));
+  }
+  if (curScreen === "album") renderGallery();
 }
 const RX = ["❤️", "👍", "😮", "😂", "👏"];
 function galStop(){ if (typeof GAL.un === "function") { try { GAL.un(); } catch(e) {} } GAL.un = null; GAL.key = ""; }
@@ -4923,7 +4969,8 @@ function galSub(){
   if (GAL.un && GAL.key === key) return;
   galStop(); GAL.key = key;
   GAL.un = fb.db.collection("gallery").where("event", "==", CONFIG.EVENT_ID).where("day", "==", dayKey()).limit(60).onSnapshot(q => {
-    const local = GAL.items.filter(x => x.mine && !x.cloud && String(x.url).startsWith("data:"));
+    const ids = new Set(q.docs.map(d => d.id));
+    const local = GAL.items.filter(x => x.mine && !x.cloud && String(x.url).startsWith("data:") && !ids.has(x.id));
     GAL.items = [...local, ...q.docs.map(d => {
       const x = d.data(), tm = Team.board.find(b => b.id === x.teamId), old = GAL.items.find(y => y.id === d.id);
       return { id:d.id, at:x.createdAt, tag:x.tag, nickname:x.nickname, url:x.url, uid:x.uid, teamId:x.teamId || null, mine:x.uid === Store.uid, cloud:true,
@@ -4973,6 +5020,7 @@ function renderGallery(){
   const t = Team.mine(), f = GAL.filter;
   if (S.shotDay.d !== dayKey()) S.shotDay = { d:dayKey(), n:0 };
   const left = Math.max(0, SHOT_DAILY - S.shotDay.n);
+  GAL.items = GAL.items.filter((x, i, a) => a.findIndex(y => y.id === x.id) === i);   // 같은 사진이 두 번 보이지 않게
   const items = GAL.items.filter(x => f === "all" || (f === "mine" ? x.mine : !!(t && x.team && x.team.id === t.id)));
   const showFilter = remoteOn() || t;
   $("#galleryPanel").innerHTML = `
@@ -4996,7 +5044,7 @@ function renderGallery(){
     </div>
     <div class="gallery">${items.length ? items.map(x => `
       <div class="shot-wrap">${x.mine ? `<button class="shot-del" data-shotdel="${esc(x.id)}" aria-label="내 사진 지우기">🗑</button>` : ""}<button class="shot" data-shot="${esc(x.id)}" aria-label="${esc(x.nickname)}의 ${esc(x.tag)} 사진 크게 보기 · 댓글"><img src="${x.url}" alt="${esc(x.tag)} 풍경 사진, ${esc(x.nickname)}" loading="lazy">
-        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span></span></button>
+        <span class="figcap">${x.team ? flagSVG(x.team.color) : ""}<span>${esc(x.nickname)} · ${esc(x.tag)} · ${hhmm(x.at)}</span>${x.pending ? `<span class="cm" style="color:var(--muted)">⏳ ${t_("올리는 중")}</span>` : ""}</span></button>
         <div class="rx-sum">${Object.entries(rxCount(x)).map(([e, n]) => `<span${(x.rx || {})[Store.uid || "me"] === e ? ' style="font-weight:700"' : ""}>${e}${n}</span>`).join("")}${cmtN(x) ? `<span class="cm" style="color:var(--blue);font-weight:700">💬${cmtN(x)}</span>` : ""}</div></div>`).join("")
       : `<div class="gal-empty">아직 오늘 걸린 사진이 없어요.<br>첫 번째 풍경을 걸어 보세요.</div>`}</div>`;
 }
@@ -5749,7 +5797,7 @@ function show(sc, opts = {}){
   $("#main").scrollTop = 0;
   if (sc === "rank") { renderRank(); Players.start(); } else Players.stop();
   if (sc === "quest") renderQuests();
-  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); }
+  if (sc === "album") { renderGallery(); loadGallery(); renderMyPhotos(); fontsReady('400 64px "Song Myung"', SHOT_TAGS.join("") + "풍경의조각", 8000); fontsReady('900 40px "Noto Serif KR"', NAKGWAN, 8000); }
   renderTips();
   if (sc === "studio") renderStudio();
   if (sc === "map") renderMap();
@@ -6335,7 +6383,15 @@ async function boot(){
    - 관리자 Google 계정으로 로그인해야 열림 (관리자 이메일은 firestore.rules 의 isAdmin()에만 있음)
    - 참여자 명단(players)을 실시간으로 보고, 강퇴하면 kicks/{uid} 표시 후 그 계정의 서버 기록·사진을 모두 지웁니다(탈퇴 처리).
    - 강퇴된 사람의 앱은 즉시 이 기기 기록까지 지우고 로그아웃되며, 같은 계정으로 다시 로그인하면 처음부터 새로 시작합니다. */
-const MASTER = (() => { try { const q = new URLSearchParams(location.search); return q.has("master") || location.hash === "#master"; } catch(e) { return false; } })();
+// 마스터 화면은 메뉴의 ‘마스터 모드’로 연 그 탭에서만 열림.
+// 주소창의 ?master 는 바로 지워서(브라우저 방문 기록·자동 완성에 남지 않게) 일반 주소로 들어왔는데 마스터 화면이 뜨는 일을 막음
+const MASTER = (() => {
+  try {
+    const q = new URLSearchParams(location.search), asked = q.has("master") || location.hash === "#master";
+    if (asked) { sessionStorage.setItem("palace-master", "1"); history.replaceState(null, "", location.pathname); return true; }
+    return sessionStorage.getItem("palace-master") === "1";
+  } catch(e) { return false; }
+})();
 const MST = { players:[], kicks:[], q:"", filter:"all", un:[], tick:null, email:"", msg:"", pins:{}, info:{}, open:{} };
 function mstAgo(iso){
   if (!iso) return "기록 없음";
@@ -6353,21 +6409,23 @@ async function masterBoot(){
   if (!user || user.isAnonymous) return mstLogin();
   mstEnter(user);
 }
+function mstExit(){ try { sessionStorage.removeItem("palace-master"); } catch(e) {} location.replace(location.pathname); }
 function mstLogin(msg){
   $("#mstWho").innerHTML = "";
   $("#mstMain").innerHTML = `<div class="mst-card mst-login"><b style="font-size:16px">관리자 로그인</b>
     <p class="mst-help">관리자로 등록된 선생님 Google 계정으로 로그인하면, 지금 참여 중인 모든 계정의 명단을 보고 필요하면 강퇴할 수 있어요.</p>
     <button class="gsi" id="mstGoogle">${GLOGO}<span>Google 계정으로 로그인</span></button>
     ${msg ? `<p class="note err">${msg}</p>` : ""}
-    <a class="mst-help" href="${location.pathname}">← 일반 화면으로 가기</a></div>`;
+    <button class="hbtn" data-mstexit style="align-self:flex-start">← 일반 화면으로 가기</button></div>`;
 }
 async function mstEnter(user){
   MST.email = user.email || "";
-  $("#mstWho").innerHTML = `<span>${esc(MST.email)}</span><button class="hbtn" id="mstOut">로그아웃</button><a class="hbtn" href="${location.pathname}" style="text-decoration:none;display:inline-flex;align-items:center">일반 화면</a>`;
+  $("#mstWho").innerHTML = `<span>${esc(MST.email)}</span><button class="hbtn" id="mstOut">로그아웃</button><button class="hbtn" data-mstexit>일반 화면</button>`;
   $("#mstMain").innerHTML = `<div class="mst-card">관리자 권한을 확인하는 중…</div>`;
   try { await fb.db.collection("adminCheck").doc("me").get(); }
   catch(e) {
-    $("#mstMain").innerHTML = `<div class="mst-card"><b>관리자 계정이 아니에요.</b><p class="mst-help" style="margin-top:6px">${esc(MST.email)} 계정은 관리자로 등록되어 있지 않아요. Firebase 콘솔 → Firestore → 규칙의 <b>isAdmin()</b> 목록에 이 이메일을 넣고 [게시]한 뒤 다시 열어 주세요. (${esc(e.code || e.message)})</p></div>`;
+    $("#mstMain").innerHTML = `<div class="mst-card"><b>관리자 계정이 아니에요.</b><p class="mst-help" style="margin-top:6px">${esc(MST.email)} 계정은 관리자로 등록되어 있지 않아요. 잠시 뒤 일반 화면으로 이동해요. (관리자로 쓰려면 firestore.rules 의 <b>isAdmin()</b> 목록에 이 이메일을 넣고 [게시]해 주세요.)</p><button class="hbtn" data-mstexit style="margin-top:8px">지금 일반 화면으로</button></div>`;
+    setTimeout(mstExit, 2500);
     return;
   }
   mstSubscribe();
@@ -6585,11 +6643,12 @@ if (MASTER) {
   document.addEventListener("click", async e => {
     const t = e.target; let el;
     if (t.closest("#mstGoogle")) {
-      try { if (fb.auth.currentUser) await fb.auth.signOut(); const gp = new firebase.auth.GoogleAuthProvider(); gp.setCustomParameters({ prompt:"select_account" });
+      try { const gp = new firebase.auth.GoogleAuthProvider(); gp.setCustomParameters({ prompt:"select_account" });
         const c = await fb.auth.signInWithPopup(gp); mstEnter(c.user); }
       catch(err) { if (err.code === "auth/popup-blocked") { try { await fb.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()); } catch(_) {} } else if (err.code !== "auth/popup-closed-by-user") mstLogin(AUTH_MSG[err.code] || esc(err.code || err.message)); }
       return;
     }
+    if (t.closest("[data-mstexit]")) { mstExit(); return; }
     if (t.closest("#mstOut")) { MST.un.forEach(f => { try { f(); } catch(_) {} }); MST.un = []; MST.email = ""; clearInterval(MST.tick); try { await fb.auth.signOut(); } catch(_) {} mstLogin(); return; }
     if ((el = t.closest("[data-msrv]"))) { SERVER = el.dataset.msrv; ROOM = ""; CONFIG.EVENT_ID = eventFor(SERVER, ROOM); mstSubscribe(); mstRender(); return; }
     if ((el = t.closest("[data-mf]"))) { MST.filter = el.dataset.mf; MST.focus = false; mstRender(); return; }
