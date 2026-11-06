@@ -937,6 +937,8 @@ html[lang="en"] .maprow .mapseg button{font-size:12px;padding:5px 8px}
 .rb-btns .btn{flex:1;min-height:36px;font-size:12.5px;padding:4px 8px;white-space:nowrap}
 .room-code{font:900 30px/1 var(--f-body);letter-spacing:.25em;text-align:center;margin:10px 0 4px;color:var(--blue)}
 .rlist{display:flex;flex-direction:column;gap:8px}
+.rb-del{align-self:flex-start;border:0;background:none;color:var(--red);font:600 12.5px var(--f-body);padding:4px 2px;min-height:32px;text-decoration:underline}
+.rb-del small{color:var(--muted);font-weight:500;text-decoration:none}
 .rlist .choice{min-height:68px;padding:12px 14px;border-radius:14px}
 .rlist .choice .ci{width:40px;height:40px;font-size:19px;border-radius:11px}
 .rlist .choice b{font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -3550,6 +3552,7 @@ const LS = { get(k){ try { return localStorage.getItem(k); } catch(e) { return n
    장소의 긴 해설(선생님 원문)은 한국어 그대로 두고, 장소 이름·짧은 소개는 영어로 보여 줍니다. */
 let LANG = LS.get("palace-lang") === "en" ? "en" : "ko";
 const I18N = {}, I18N_RX = [], EN_NAMES = {}, EN_DESC = {};
+Object.assign(I18N, {"이 방 없애기": "Delete this room", "방장만": "host only", "방을 없앨까요?": "Delete this room?", "방 없애기": "Delete room", "없애는 중…": "Deleting…", "방을 없앴어요": "Room deleted", "방이 없어졌어요": "This room was deleted", "방장이 방을 없애서 한국 서버 전체로 옮겼어요": "The host deleted the room, so you were moved to the whole Korean server.", "방 목록에서 사라지고, PIN으로도 더 이상 들어올 수 없어요. 들어와 있던 참여자는 모두 한국 서버 전체로 옮겨져요. 되돌릴 수 없어요.": "It disappears from the room list and no one can enter with the PIN. Everyone inside is moved to the whole Korean server. This can't be undone.", "방을 없애지 못했어요. Firestore 규칙을 새로 게시했는지 확인해 주세요.": "Couldn't delete the room. Please check that the new Firestore rules are published."});
 Object.assign(I18N, {"소통": "Community", "소감함": "Notes box", "방명록 · 후기": "Guestbook · reviews", "소감함 닫기": "Close notes box", "탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.": "Leave your thoughts and reviews any time. Everyone in the same room (server) can read them.", "오늘 탐방 소감을 남겨 주세요": "Share your thoughts on today’s visit", "아직 소감이 없어요. 첫 소감을 남겨 보세요.": "No notes yet. Be the first to write one.", "방 목록": "Room list", "방 만들기": "Create room", "새 방 만들기": "Create a new room", "새 방": "New room", "복사": "Copy", "뒤로": "Back", "코드": "Code", "지금 방": "Current", "팀으로 참여": "Joining as a team", "개인으로 참여": "Joining solo", "들어갈 방을 골라 주세요": "Choose a room to enter", "방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.": "Each room has its own participants, teams, rankings, photos and notes. You need the room PIN (numbers) the first time you enter.", "방 이름 검색": "Search rooms", "다시 불러오기": "Reload", "방 목록을 불러오는 중…": "Loading rooms…", "검색한 방이 없어요.": "No rooms match.", "아직 만들어진 방이 없어요.": "No rooms yet.", "선생님(방장)이 방을 만들면 여기에 나타나요.": "Rooms appear here when a teacher (host) creates one.", "방 없이 한국 서버 전체에서 하기": "Play on the whole Korean server without a room", "방 PIN을 입력해 주세요": "Enter the room PIN", "선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.": "It's the 4–6 digit number from your teacher (host). You won't be asked again after the first time.", "방 PIN": "Room PIN", "확인하는 중…": "Checking…", "들어가기": "Enter", "방 이름": "Room name", "입장 PIN (숫자 4~6자리)": "Entry PIN (4–6 digits)", "참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.": "Participants pick this room from the list and enter the PIN to join.", "만드는 중…": "Creating…", "방을 만들었어요": "Room created", "참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.": "Share the room name and PIN. Participants tap this room in the list and enter the PIN.", "PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.": "You can see the PIN again in Menu (☰) → Server · Room.", "방 이름 · PIN 복사": "Copy room name · PIN", "이 방에서 팀 정하기": "Set up a team in this room", "탐방 시작하기": "Start exploring", "PIN은 숫자 4~6자리예요.": "The PIN is 4–6 digits.", "PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.": "Wrong PIN. Please check with the teacher (host) who made the room.", "방 이름을 적어 주세요.": "Please enter a room name.", "방 이름과 PIN을 복사했어요": "Copied room name and PIN", "반응을 남기지 못했어요": "Couldn't add your reaction", "갤러리": "Gallery", "우리 방 전체": "Whole room", "이모티콘 반응": "Emoji reactions", "서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.": "Once connected to the server, you can comment on photos from people in your room.", "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.": "Your photo is framed with a seal and hung in today's gallery. Everyone in the same room sees it, whatever their team. Tap a photo to comment or react with an emoji; delete your own with 🗑."});
 const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
 function t_(ko){ if (LANG !== "en") return ko; const k = String(ko); return I18N[k] ?? trRx(k) ?? k; }
@@ -3763,7 +3766,7 @@ async function enterGuest(){
    - Google 계정: Firebase 로그아웃 (기록은 서버에 남음)
    - 비회원(이 기기): 입장 상태만 끄고, 관직·도장 기록은 이 기기에 남김 */
 async function logout(){
-  closeDrawer(); closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); GB.stop(); GB.list = []; Store.admin = false;
+  closeDrawer(); closeSettings(); closeViewer(); closeChat(); Players.stop(); clearInterval(Players.beat); Ban.stop(); GB.stop(); GB.list = []; RoomWatch.stop(); Store.admin = false;
   const app = $("#app"); app.classList.add("fade-out");
   Team.stop(); galStop(); closeGB(); if (sheetOpen()) closeSheet();
   if (cloudOn()) { try { await fb.auth.signOut(); } catch(e) {} }
@@ -4423,7 +4426,7 @@ function checkAdmin(){
   fb.db.collection("adminCheck").doc("me").get().then(() => { Store.admin = true; if (!$("#setm").hidden) renderSetMenu(); }).catch(() => {});
 }
 function afterEnter(){
-  teamFitsServer(); GB.start();
+  teamFitsServer(); GB.start(); RoomWatch.start();
   Ban.watch(); checkAdmin();
   Players.touch(); Players.heartbeat();
   let fresh = false; try { fresh = sessionStorage.getItem("palace-entry") === "1"; sessionStorage.removeItem("palace-entry"); } catch(e) {}
@@ -5230,7 +5233,7 @@ async function moveSpace(srv, room, roomName){
   CONFIG.EVENT_ID = eventFor(SERVER, ROOM);
   Team.stop(); Players.stop(); GB.stop(); Chat.stop(); galStop(); Team.board = []; GAL.items = [];
   if (cloudOn()) { Players.touch(); Team.start(); }
-  GB.start();
+  GB.start(); RoomWatch.start();
   renderAll(); renderLangPick(); if (!$("#setm").hidden) renderSettings();
   if ($("#drawer").classList.contains("open")) renderDrawer();
 }
@@ -5297,15 +5300,16 @@ async function msPickRoom(code){
   const r = RoomDir.list.find(x => x.code === code); if (!r || MS.busy) return;
   MS.room = r; MS.pin = ""; MS.msg = ""; MS.err = false;
   MS.busy = true; renderModeSel();
-  const member = !r.hasPin || await roomIsMember(r.code);
+  const member = await roomIsMember(r.code);
   MS.busy = false;
-  if (member) { msEnter(r, ""); return; }
+  if (member) { msEnter(r, "", true); return; }       // 이미 PIN으로 들어온 적 있는 방
+  if (!r.hasPin) { msEnter(r, ""); return; }          // PIN이 없는 옛 방
   MS.step = "pin"; renderModeSel(); setTimeout(() => { const i = $("#msPin"); if (i) i.focus(); }, 60);
 }
-async function msEnter(r, pin){
-  if (r.hasPin && pin !== "" && !validPin(pin)) { MS.err = true; MS.msg = t_("PIN은 숫자 4~6자리예요."); renderModeSel(); return; }
+async function msEnter(r, pin, member){
+  if (!member && r.hasPin && !validPin(pin)) { MS.err = true; MS.msg = t_("PIN은 숫자 4~6자리예요."); renderModeSel(); return; }
   MS.busy = true; MS.msg = ""; renderModeSel();
-  try { await roomUnlock(r, pin); }
+  try { if (!member) await roomUnlock(r, pin); }
   catch(e) {
     MS.busy = false; MS.err = true;
     MS.msg = e.message === "pin" ? t_("PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.") : serverErr(e, t_("방"));
@@ -5346,6 +5350,55 @@ async function msMakeRoom(){
   await moveSpace("kr", r.code, r.name);
   MS.step = "roommade"; MS.rname = ""; MS.rpin = ""; renderModeSel();
 }
+/* 방 없애기 (방을 만든 사람만) · 지금 방이 없어지면 한국 서버 전체로 옮기기 */
+const RoomWatch = {
+  un:null, data:null, code:"", deleting:"",
+  start(){
+    this.stop();
+    if (!cloudOn() || SERVER !== "kr" || !ROOM) return;
+    const code = this.code = ROOM;
+    this.un = fb.db.collection("rooms").doc(code).onSnapshot(d => {
+      if (code !== ROOM || SERVER !== "kr") return;
+      if (!d.exists) { this.data = null; roomGone(code); return; }
+      this.data = d.data(); if ($("#drawer").classList.contains("open")) renderDrawer();
+    }, e => console.warn("room watch:", e.code || e.message));
+  },
+  stop(){ if (typeof this.un === "function") { try { this.un(); } catch(e) {} } this.un = null; this.data = null; this.code = ""; }
+};
+const roomOwner = () => !!ROOM && SERVER === "kr" && (cloudOn() ? !!(RoomWatch.data && RoomWatch.data.createdBy === Store.uid) : !!myPin(ROOM));
+async function roomGone(code){
+  if (RoomWatch.deleting === code || ROOM !== code) return;
+  RoomWatch.stop();
+  if (S.team && (S.team.ev || "") === CONFIG.EVENT_ID) { try { await Team.leave(); } catch(e) { console.warn(e); } }
+  await moveSpace("kr", "", "");
+  toast(t_("방이 없어졌어요"), t_("방장이 방을 없애서 한국 서버 전체로 옮겼어요"));
+}
+async function deleteRoom(){
+  if (!roomOwner()) return;
+  const code = ROOM, name = ROOM_NAME || t_("방");
+  const ok = await askConfirm(t_("방을 없앨까요?"), `<p><b>${esc(name)}</b> (${esc(code)})</p>
+    <p class="small" style="margin-top:6px">${t_("방 목록에서 사라지고, PIN으로도 더 이상 들어올 수 없어요. 들어와 있던 참여자는 모두 한국 서버 전체로 옮겨져요. 되돌릴 수 없어요.")}</p>`, t_("방 없애기"));
+  if (!ok) { $("#cfm").hidden = true; return; }
+  cfmBusy(t_("없애는 중…")); RoomWatch.deleting = code;
+  try {
+    if (cloudOn()) {
+      const ref = fb.db.collection("rooms").doc(code);
+      const ks = await ref.collection("keys").get(); await Promise.all(ks.docs.map(d => d.ref.delete()));
+      const ms = await ref.collection("members").get(); await Promise.all(ms.docs.map(d => d.ref.delete()));
+      await ref.delete();
+    } else lsSet(LROOMS, (lsGet(LROOMS, []) || []).filter(r => r.code !== code));
+  } catch(e) {
+    console.warn("room delete:", e.code || e.message); RoomWatch.deleting = "";
+    cfmError(t_("방을 없애지 못했어요. Firestore 규칙을 새로 게시했는지 확인해 주세요.") + ` (${e.code || e.message})`);
+    await new Promise(res => { $("#cfmNo").onclick = () => { $("#cfm").hidden = true; res(); }; $("#cfmYes").onclick = () => { $("#cfm").hidden = true; res(); deleteRoom(); }; });
+    return;
+  }
+  $("#cfm").hidden = true;
+  const pins = lsGet(RPINS, {}) || {}; delete pins[code]; lsSet(RPINS, pins);
+  if (S.team && (S.team.ev || "") === CONFIG.EVENT_ID) { try { await Team.leave(); } catch(e) { console.warn(e); } }
+  await moveSpace("kr", "", ""); RoomWatch.deleting = "";
+  toast(t_("방을 없앴어요"), name);
+}
 function openRoomList(want){
   MS.want = want || (S.playMode === "team" ? "team" : "solo");
   RoomDir.q = ""; showModeSel("rooms"); RoomDir.load();
@@ -5365,7 +5418,8 @@ function roomHTML(){
   if (SERVER !== "kr") return "";
   const pin = ROOM && myPin(ROOM);
   return `<div class="room-box"><div class="rb-now"><span class="ic" aria-hidden="true">🚪</span><span><b>${ROOM ? esc(ROOM_NAME || t_("방")) : t_("한국 서버 전체")}</b><small>${ROOM ? `${t_("방 코드")} ${ROOM}${pin ? ` · PIN ${pin}` : ""}` : t_("방에 들어가면 반·모둠끼리만 따로 겨뤄요")}</small></span>${ROOM && pin ? `<button class="tiny" data-room="copy">${t_("복사")}</button>` : ""}</div>
-    <div class="rb-btns"><button class="btn sm" data-room="list">${t_("방 목록")}</button><button class="btn sm ghost" data-room="create">${t_("방 만들기")}</button>${ROOM ? `<button class="btn sm ghost" data-room="leave">${t_("전체로 나가기")}</button>` : ""}</div></div>`;
+    <div class="rb-btns"><button class="btn sm" data-room="list">${t_("방 목록")}</button><button class="btn sm ghost" data-room="create">${t_("방 만들기")}</button>${ROOM ? `<button class="btn sm ghost" data-room="leave">${t_("전체로 나가기")}</button>` : ""}</div>
+    ${roomOwner() ? `<button class="rb-del" data-room="delete">🗑 ${t_("이 방 없애기")} <small>${t_("방장만")}</small></button>` : ""}</div>`;
 }
 
 /* ═════════ ✍️ 한줄 소감 · 방명록 (Visitor notes) ═════════
@@ -5700,6 +5754,7 @@ document.addEventListener("click", e => {
     if (a === "list") { closeDrawer(); openRoomList(); }
     else if (a === "create") { closeDrawer(); MS.want = S.playMode === "team" ? "team" : "solo"; showModeSel("newroom"); }
     else if (a === "leave") leaveRoom();
+    else if (a === "delete") { closeDrawer(); deleteRoom(); }
     else if (a === "copy") { const txt = `${ROOM_NAME || t_("방")} · PIN ${myPin(ROOM)}`; try { navigator.clipboard.writeText(txt); toast(t_("방 이름과 PIN을 복사했어요"), txt); } catch(e) {} }
     return;
   }
