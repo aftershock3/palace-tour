@@ -4,11 +4,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>문학의 공간을 거닐다</title>
+<title>궁궐을 읽다</title>
 <meta name="description" content="궁궐 현판 탐험기 · 창덕궁·창경궁·종묘의 현판과 주련을 읽으며 종9품 참봉에서 정1품 영의정까지">
-<meta name="application-name" content="문학의 공간을 거닐다">
-<meta name="apple-mobile-web-app-title" content="문학의 공간을 거닐다">
-<meta property="og:title" content="문학의 공간을 거닐다">
+<meta name="application-name" content="궁궐을 읽다">
+<meta name="apple-mobile-web-app-title" content="궁궐을 읽다">
+<meta property="og:title" content="궁궐을 읽다">
 <meta property="og:description" content="궁궐 현판 탐험기 · 창덕궁 · 창경궁 · 종묘">
 <meta property="og:type" content="website">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -280,7 +280,7 @@ html,body{overscroll-behavior:none}
 .land-head{display:flex;flex-direction:column;align-items:center;text-align:center}
 .land-eave{width:min(100%,300px);height:auto;display:block;color:var(--ink)}
 .land-eyebrow{margin-top:18px;font:500 13px var(--f-disp);letter-spacing:.42em;padding-left:.42em;color:var(--muted)}
-.land-title{margin-top:14px;font:400 clamp(38px,11.5vw,50px)/1.18 "Song Myung","Noto Serif KR",serif;color:var(--ink);letter-spacing:-.01em;word-break:keep-all}
+.land-title{margin-top:14px;white-space:nowrap;font:400 clamp(34px,11vw,50px)/1.18 "Song Myung","Noto Serif KR",serif;color:var(--ink);letter-spacing:-.01em;word-break:keep-all}
 .land-hook{width:1px;height:22px;background:var(--frame);margin-top:22px;position:relative}
 .land-hook::before,.land-hook::after{content:"";position:absolute;top:0;width:1px;height:26px;background:var(--frame)}
 .land-plaque{display:inline-block;margin-top:34px;background:var(--ink);color:var(--gilt);border:4px solid var(--frame);outline:1px solid rgba(240,220,166,.45);outline-offset:-9px;border-radius:2px;padding:11px 22px 12px;font:700 17px/1 var(--f-disp);letter-spacing:.3em;text-indent:.3em;box-shadow:0 8px 18px rgba(43,37,35,.18);position:relative}
@@ -1168,7 +1168,7 @@ html[lang="en"] .dpal b{font-size:11.5px}
 
 <!-- ═════ 마스터(관리자) 페이지: 주소 끝에 ?master 를 붙이면 일반 화면 대신 이 화면이 열립니다 ═════ -->
 <div id="master" hidden>
-  <header class="mst-top"><div><div class="mst-eye">문학의 공간을 거닐다</div><h1>🛡️ 마스터 페이지</h1></div><div class="mst-who" id="mstWho"></div></header>
+  <header class="mst-top"><div><div class="mst-eye">궁궐을 읽다</div><h1>🛡️ 마스터 페이지</h1></div><div class="mst-who" id="mstWho"></div></header>
   <main class="mst-main" id="mstMain"></main>
   <div class="cfm" id="mstCfm" role="alertdialog" aria-modal="true" aria-labelledby="mstCfmT" hidden><div class="cfm-box" id="mstCfmBox"></div></div>
 </div>
@@ -1382,7 +1382,7 @@ html[lang="en"] .dpal b{font-size:11.5px}
         <rect x="104" y="30" width="92" height="3" fill="var(--blue)"/><rect x="104" y="33" width="92" height="1.4" fill="var(--yellow)"/>
       </svg>
       <p class="land-eyebrow rise d1">昌德宮 · 昌慶宮 · 宗廟</p>
-      <h1 class="land-title rise d1" id="landTitle">문학의 공간을<br>거닐다</h1>
+      <h1 class="land-title rise d1" id="landTitle">궁궐을 읽다</h1>
       <p class="land-plaque rise d2">궁궐 현판 탐험기</p>
     </header>
 
@@ -1459,7 +1459,7 @@ html[lang="en"] .dpal b{font-size:11.5px}
 <!-- 사이드 메뉴(드로어) -->
 <div class="drawer-bg" id="drawerBg" aria-hidden="true"></div>
 <aside class="drawer" id="drawer" aria-label="전체 메뉴" aria-hidden="true">
-  <div class="dr-head"><b>문학의 공간을 거닐다</b><button class="dr-x" id="drClose" aria-label="메뉴 닫기">×</button></div>
+  <div class="dr-head"><b>궁궐을 읽다</b><button class="dr-x" id="drClose" aria-label="메뉴 닫기">×</button></div>
   <div class="dr-body" id="drBody"></div>
 </aside>
 
@@ -3275,7 +3275,7 @@ async function makeGyoji(){
   g.restore(); g.globalAlpha = 1;
   g.fillStyle = C("--muted"); g.font = '500 22px "IBM Plex Sans KR", sans-serif'; g.textAlign = "center";
   g.fillText(`교지 — ${name}을(를) 대광보국숭록대부 의정부 영의정으로 삼는다`, W/2, 1186);
-  g.fillText(`문학의 공간을 거닐다 · ${y}.${d.getMonth()+1}.${d.getDate()} · 누적 ${S.exp} EXP`, W/2, 1222);
+  g.fillText(`궁궐을 읽다 · ${y}.${d.getMonth()+1}.${d.getDate()} · 누적 ${S.exp} EXP`, W/2, 1222);
   showImage($("#gyojiOut"), c.toDataURL("image/png"), `gyoji-${name}.png`, `${name} 교지`);
 }
 let DL = null;   // claude.ai 뷰어의 downloads 기능 (직접 호스팅하면 null → <a download> 사용)
@@ -4666,7 +4666,7 @@ async function composeShot(file, tag){
   g.font = '400 66px "Song Myung","Noto Serif KR",serif'; g.fillText(tag, px - 2, py + ph + 104);
   g.fillStyle = C("--muted"); g.font = '500 24px "IBM Plex Sans KR",sans-serif';
   g.fillText(`${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}  ·  ${S.nickname || "탐방객"}${t ? "  ·  " + t.name : ""}`, px, py + ph + 150);
-  g.font = '500 19px "IBM Plex Sans KR",sans-serif'; g.fillText("풍경의 조각 — 문학의 공간을 거닐다", px, py + ph + 186);
+  g.font = '500 19px "IBM Plex Sans KR",sans-serif'; g.fillText("풍경의 조각 — 궁궐을 읽다", px, py + ph + 186);
   drawNakgwan(g, W - px - 58, py + ph + 112, 108, NAKGWAN, C);
   return c.toDataURL("image/jpeg", .82);
 }
@@ -5652,7 +5652,7 @@ Object.assign(I18N, {
   "내 정보 · 설정":"My info · Settings","전체 참여자 명단":"All participants","나의 현판 인증샷":"My plaque photo","무엇을 찍었나요?":"What did you shoot?","무엇이 모이나요?":"What's collected here?",
   "장소 120m 안":"within 120 m","그 자리에서 촬영":"shoot on the spot","정답 +15 EXP":"Correct +15 EXP","완성 +25 EXP":"Complete +25 EXP","나만의 현판 만들기":"Make your own plaque",
   "현판 글씨 (한자)":"Plaque text (Hanja)","📖 도장 받는 법":"📖 How to get stamps","어떻게 둘러볼까요?":"How will you explore?","팀 깃발 (오방색)":"Team flag (five colors)","원문 · 걸린 모습":"Original · as hung",
-  "경험치 · 품계 순":"By EXP · rank","💬 팀 채팅 열기":"💬 Open team chat","문학의 공간을 거닐다":"Walking Through Literary Spaces","🛡️ 마스터 페이지":"🛡️ Master page","품계와 관직 18단계":"18 ranks of officials",
+  "경험치 · 품계 순":"By EXP · rank","💬 팀 채팅 열기":"💬 Open team chat","궁궐을 읽다":"Reading the Palace","🛡️ 마스터 페이지":"🛡️ Master page","품계와 관직 18단계":"18 ranks of officials",
   "모은 한자에서 고르기":"Pick from collected Hanja","← 전각으로 돌아가기":"← Back to hall","계정 · 팀 · 채팅":"Account · Team · Chat","팀 만들고 코드 받기":"Create team & get code",
   "아니요 · 후원 닫기":"No · close Huwon","예약했어요 · 후원 열기":"Yes · open Huwon","적으면 바로 저장돼요":"Saved as you type","해서체 · 읽는 순서":"Print style · reading order",
   "앨범에서 사진 고르기":"Choose a photo","처음 화면으로 나가기":"Back to start screen","나의 관직 · 도장첩":"My rank · Stamps","팀이라면 함께 모으기":"Collect together as a team","아직 대화가 없어요.":"No messages yet.",
@@ -5772,7 +5772,7 @@ const I18N_HTML = {
   "✦ 내 품계와 경험치예요. 현장 인증·퀴즈로 쑥쑥 올라가요.":"✦ Your <b>rank and EXP</b>. They grow with on-site checks and quizzes.",
   "✦ 번호 핀을 누르면 장소 이야기가 열려요. 현장에서 인증하면 핀이 노란색이 되고 도장이 찍혀요.":"✦ Tap a <b>numbered pin</b> to open its story. Check in on site and the pin turns <b>yellow</b> and you get a stamp.",
   "게스트 기록은 이 기기에만 저장돼요. 나중에 Google로 로그인하면 지금까지의 관직과 도장을 계정으로 옮겨 드립니다.":"Guest records are saved on <b>this device</b> only. Sign in with Google later to move your rank and stamps to your account.",
-  "문학의 공간을거닐다":"Walking Through<br>Literary Spaces",
+  "궁궐을 읽다":"Reading the Palace",
   "궁궐에 직접 가서 아래 셋 중 하나를 하면 그 장소가 지도에서 노란색으로 바뀌어요.":"Go to the palace and do one of these three — the place turns <b style=\"color:#9a6a10\">yellow</b> on the map.",
   "📍위치 인증장소 120m 안":"<i>📍</i>Location check<br><small>within 120 m</small>",
   "📸사진 체크인그 자리에서 촬영":"<i>📸</i>Photo check-in<br><small>shoot on the spot</small>",
@@ -5861,7 +5861,7 @@ function setLang(l){
   if (l !== "en" && l !== "ko") return;
   LANG = l; LS.set("palace-lang", l); document.documentElement.lang = l;
   if (l === "en") { I18n.apply(document.body); } else I18n.restore();
-  document.title = l === "en" ? "Walking Through Literary Spaces" : "문학의 공간을 거닐다";
+  document.title = l === "en" ? "Reading the Palace" : "궁궐을 읽다";
   renderAll(); renderLangPick();
   if (sheetOpen()) { if (SH.mode === "building") renderBuildingBody(); }
   if (!$("#setm").hidden) renderSettings();
@@ -5930,7 +5930,7 @@ function mstAgo(iso){
   return m < 1 ? "방금" : m < 60 ? `${m}분 전` : m < 1440 ? `${Math.floor(m / 60)}시간 전` : `${Math.floor(m / 1440)}일 전`;
 }
 async function masterBoot(){
-  document.documentElement.classList.add("master"); $("#master").hidden = false; document.title = "마스터 페이지 · 문학의 공간을 거닐다";
+  document.documentElement.classList.add("master"); $("#master").hidden = false; document.title = "마스터 페이지 · 궁궐을 읽다";
   const main = $("#mstMain");
   if (FRAMED) { main.innerHTML = `<div class="mst-card">미리보기 창에서는 서버에 연결되지 않아요. 앱 주소 뒤에 <b>?master</b>를 붙여 브라우저에서 직접 열어 주세요.</div>`; return; }
   if (!FB_ON) { main.innerHTML = `<div class="mst-card">Firebase 설정이 비어 있어요.</div>`; return; }
