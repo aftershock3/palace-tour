@@ -3390,6 +3390,8 @@ function renderDrawer(){
     <h4 class="dh">팀</h4>
     ${t ? row('data-dr="settings"', "🚩", esc(t.name), `팀원 ${teamMembersList().length}명 · ${esc(teamMembersList().map(m => m.nickname || "탐방객").join(", "))}`, false, "")
           + row('data-dr="chat"', "💬", "팀 채팅", "", false, unread ? `<span class="badge">${unread}</span>` : "")
+          + row('data-dr="team"', "🔄", t_("다른 팀 고르기"), "")
+          + row('data-teamleave', "🚪", t_("팀 나가기"), t_("개인으로 돌아가요"))
         : row('data-dr="team"', "🚩", t_("팀 만들기 · 참여"), t_("들어갈 팀 고르기 · 새 팀 만들기"))}
 
     <h4 class="dh">소통</h4>
@@ -3573,6 +3575,8 @@ Object.assign(I18N, {"돌아가기": "Back"});
 Object.assign(I18N, {"님, 반가워요": "welcome", "방 없이 한국 서버 전체에서 개인으로 하기": "Play solo on the whole Korean server (no room)", "팀 활동은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 할 수 있어요.": "For team play, enter a room, then go to Menu (☰) → Teams.", "팀은 메뉴(☰) → 팀 만들기": "Teams: Menu (☰) → Teams", "팀 만들기 · 참여": "Create or join a team", "방에 들어간 뒤 만들 수 있어요": "Available after you enter a room", "이 방에서 팀 만들기 · 팀 코드로 참여": "Create a team here or join with a code"});
 Object.assign(I18N, {"올리는 중": "Uploading"});
 Object.assign(I18N, {"지금 있는 곳에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.": "These are the teams here. Tap one to join it. Teammates' stamps add up toward the team certificate.", "아직 만들어진 팀이 없어요.": "No teams yet.", "들어갈 팀 고르기 · 새 팀 만들기": "Pick a team or create one", "팀은 방에 들어간 뒤 메뉴(☰) → 팀 만들기 · 참여에서 고르거나 만들 수 있어요.": "After entering a room, pick or create a team in Menu (☰) → Teams."});
+Object.assign(I18N, {"지금 팀에서 나가기": "Leave my team", "다른 팀 고르기": "Choose another team", "팀 나가기": "Leave team", "개인으로 돌아가요": "Back to solo", "팀에서 나갈까요?": "Leave the team?", "개인으로 돌아가요. 내 관직·EXP·도장은 그대로 남고, 팀 점수에서는 빠져요. 다시 들어오려면 팀 코드가 필요해요.": "You'll go back to solo. Your rank, EXP and stamps stay, but you're removed from the team score. You'll need the team code to rejoin.", "나가는 중…": "Leaving…", "팀에서 나왔어요": "You left the team"});
+Object.assign(I18N, {"팀 코드를 입력해 주세요": "Enter the team code", "팀을 만든 친구에게 받은 영문·숫자 6자리 코드예요.": "It's the 6-character code from the friend who created the team.", "팀 코드": "Team code", "팀에 들어가기": "Join team", "팀 코드는 영문·숫자 6자리예요.": "The team code has 6 letters/numbers.", "팀 코드가 맞지 않아요. 팀을 만든 친구에게 코드를 다시 확인해 주세요.": "Wrong team code. Please check with the friend who created the team.", "이 방에서 만들어진 팀이에요. 팀을 고르고 팀 코드를 넣으면 들어가요.": "These are the teams in this room. Pick one and enter its team code to join.", "지금 있는 곳에서 만들어진 팀이에요. 팀을 고르고 팀 코드를 넣으면 들어가요.": "These are the teams here. Pick one and enter its team code to join."});
 Object.assign(I18N, {"팀": "Team", "들어갈 팀을 골라 주세요": "Choose a team to join", "이 방에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.": "These are the teams in this room. Tap one to join it. Teammates' stamps add up toward the team certificate.", "팀 목록을 불러오는 중…": "Loading teams…", "우리 팀": "My team", "팀원": "Members", "정원 참": "Full", "아직 이 방에 만들어진 팀이 없어요.": "No teams in this room yet.", "새 팀을 만들어 친구들을 모아 보세요.": "Create a new team and invite your friends.", "새 팀 만들기": "Create a new team", "팀 코드로 참여하기": "Join with a team code", "팀 목록": "Team list", "팀에 들어왔어요": "— you joined the team", "이제부터 얻는 EXP가 팀 점수에 더해집니다": "EXP you earn now adds to your team's score"});
 Object.assign(I18N, {"소통": "Community", "소감함": "Notes box", "방명록 · 후기": "Guestbook · reviews", "소감함 닫기": "Close notes box", "탐방 소감과 후기를 언제든 자유롭게 남겨 주세요. 같은 방(서버) 참여자 모두가 함께 봐요.": "Leave your thoughts and reviews any time. Everyone in the same room (server) can read them.", "오늘 탐방 소감을 남겨 주세요": "Share your thoughts on today’s visit", "아직 소감이 없어요. 첫 소감을 남겨 보세요.": "No notes yet. Be the first to write one.", "방 목록": "Room list", "방 만들기": "Create room", "새 방 만들기": "Create a new room", "새 방": "New room", "복사": "Copy", "뒤로": "Back", "코드": "Code", "지금 방": "Current", "팀으로 참여": "Joining as a team", "개인으로 참여": "Joining solo", "들어갈 방을 골라 주세요": "Choose a room to enter", "방마다 참여자·팀·랭킹·사진·소감이 따로 모여요. 처음 들어갈 때 방 PIN(숫자)이 필요해요.": "Each room has its own participants, teams, rankings, photos and notes. You need the room PIN (numbers) the first time you enter.", "방 이름 검색": "Search rooms", "다시 불러오기": "Reload", "방 목록을 불러오는 중…": "Loading rooms…", "검색한 방이 없어요.": "No rooms match.", "아직 만들어진 방이 없어요.": "No rooms yet.", "선생님(방장)이 방을 만들면 여기에 나타나요.": "Rooms appear here when a teacher (host) creates one.", "방 없이 한국 서버 전체에서 하기": "Play on the whole Korean server without a room", "방 PIN을 입력해 주세요": "Enter the room PIN", "선생님(방장)에게 받은 숫자 4~6자리예요. 한 번 들어오면 다음부터는 묻지 않아요.": "It's the 4–6 digit number from your teacher (host). You won't be asked again after the first time.", "방 PIN": "Room PIN", "확인하는 중…": "Checking…", "들어가기": "Enter", "방 이름": "Room name", "입장 PIN (숫자 4~6자리)": "Entry PIN (4–6 digits)", "참여자는 방 목록에서 이 방을 고르고 PIN을 넣어야 들어올 수 있어요.": "Participants pick this room from the list and enter the PIN to join.", "만드는 중…": "Creating…", "방을 만들었어요": "Room created", "참여자에게 방 이름과 PIN을 알려 주세요. 방 목록에서 이 방을 누르고 PIN을 넣으면 들어와요.": "Share the room name and PIN. Participants tap this room in the list and enter the PIN.", "PIN은 메뉴(☰) → 서버 · 방에서 다시 볼 수 있어요.": "You can see the PIN again in Menu (☰) → Server · Room.", "방 이름 · PIN 복사": "Copy room name · PIN", "이 방에서 팀 정하기": "Set up a team in this room", "탐방 시작하기": "Start exploring", "PIN은 숫자 4~6자리예요.": "The PIN is 4–6 digits.", "PIN이 맞지 않아요. 방을 만든 선생님(방장)에게 다시 확인해 주세요.": "Wrong PIN. Please check with the teacher (host) who made the room.", "방 이름을 적어 주세요.": "Please enter a room name.", "방 이름과 PIN을 복사했어요": "Copied room name and PIN", "반응을 남기지 못했어요": "Couldn't add your reaction", "갤러리": "Gallery", "우리 방 전체": "Whole room", "이모티콘 반응": "Emoji reactions", "서버에 연결되면 같은 방 참여자의 사진에 댓글을 남길 수 있어요.": "Once connected to the server, you can comment on photos from people in your room.", "‘문학탐방’ 낙관 액자에 담아 오늘의 갤러리에 걸어 드려요. 같은 방 참여자라면 팀이 달라도 모두 함께 봐요. 사진을 누르면 댓글과 이모티콘 반응을 남길 수 있고, 내 사진은 🗑으로 지울 수 있어요.": "Your photo is framed with a seal and hung in today's gallery. Everyone in the same room sees it, whatever their team. Tap a photo to comment or react with an emoji; delete your own with 🗑."});
 const trRx = k => { for (const [rx, f] of I18N_RX) { const m = k.match(rx); if (m) return f(m); } return null; };
@@ -4522,9 +4526,9 @@ const Team = {
       if (i < 0) { for (let k = 0; k < 5; k++) { code = genCode(); if (!(await fb.db.collection("teamCodes").doc(`${ev}_${code}`).get()).exists) break; } }
       old.docs.forEach(d => d.ref.delete().catch(e => console.warn("old team:", e.code || e.message)));   // 기다리지 않음
       const tref = fb.db.collection("teams").doc(), now = new Date().toISOString(), batch = fb.db.batch();
-      batch.set(tref, { event:ev, name, color, code, createdBy:Store.uid, createdAt:now });
+      batch.set(tref, { event:ev, name, color, createdBy:Store.uid, createdAt:now });
       batch.set(fb.db.collection("teamCodes").doc(`${ev}_${code}`), { teamId:tref.id, event:ev });
-      batch.set(fb.db.collection("teamMembers").doc(`${tref.id}_${Store.uid}`), { teamId:tref.id, uid:Store.uid, event:ev, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:now });
+      batch.set(fb.db.collection("teamMembers").doc(`${tref.id}_${Store.uid}`), { teamId:tref.id, uid:Store.uid, event:ev, code, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:now });
       const commit = batch.commit();
       // 저장 확인을 기다리지 않고 바로 진행 (이 휴대폰에는 즉시 반영, 서버 저장은 뒤에서 · 실패하면 lost()가 되돌림)
       S.team = { id:tref.id, code, name, color, points:0, joined:now, ev };
@@ -4555,8 +4559,9 @@ const Team = {
     const already = members.docs.some(d => d.data().uid === Store.uid);
     if (!already) {
       if (members.size >= 12) throw new Error("full");
+      if (!code) throw new Error("wrong_code");                   // 팀 코드 없이는 들어갈 수 없음
       old.docs.filter(d => d.data().teamId !== tid).forEach(d => d.ref.delete().catch(e => console.warn("old team:", e.code || e.message)));
-      const w = fb.db.collection("teamMembers").doc(`${tid}_${Store.uid}`).set({ teamId:tid, uid:Store.uid, event:ev, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:new Date().toISOString() });
+      const w = fb.db.collection("teamMembers").doc(`${tid}_${Store.uid}`).set({ teamId:tid, uid:Store.uid, event:ev, code, nickname:S.nickname, points:0, stamps:Object.keys(S.stamps), joinedAt:new Date().toISOString() });
       w.then(() => this.refresh()).catch(e => this.lost(tid, e));
     }
     const td = tdoc.data();
@@ -4730,25 +4735,60 @@ const TeamDir = {
     this.loading = false; if (!$("#modesel").hidden && MS.step === "teams") renderModeSel();
   }
 };
-async function msPickTeam(tid){
+// 팀 나가기 (확인 후) → 개인으로
+async function leaveTeamAsk(){
+  const t = S.team; if (!t) return;
+  const ok = await askConfirm(t_("팀에서 나갈까요?"), `<p><b>${esc(t.name)}</b></p><p class="small" style="margin-top:6px">${t_("개인으로 돌아가요. 내 관직·EXP·도장은 그대로 남고, 팀 점수에서는 빠져요. 다시 들어오려면 팀 코드가 필요해요.")}</p>`, t_("팀 나가기"));
+  if (!ok) { $("#cfm").hidden = true; return; }
+  cfmBusy(t_("나가는 중…"));
+  try { await Team.leave(); } catch(e) { console.warn(e); }
+  $("#cfm").hidden = true; hideModeSel(); renderAll(); if (!$("#setm").hidden) renderSettings();
+  toast(t_("팀에서 나왔어요"), t.name);
+}
+function msPickTeam(tid){
   if (MS.busy) return;
   if (S.team && S.team.id === tid && S.playMode === "team") { hideModeSel(); return; }
-  MS.busy = true; MS.msg = ""; renderModeSel();
-  try { const t = await Team.joinTid(tid); MS.busy = false; hideModeSel(); renderAll(); toast(`${t.name} ${t_("팀에 들어왔어요")}`, t_("이제부터 얻는 EXP가 팀 점수에 더해집니다")); }
+  MS.tpick = TeamDir.list.find(t => t.id === tid); if (!MS.tpick) return;
+  MS.code = ""; MS.msg = ""; MS.err = false; MS.step = "tcode"; renderModeSel();
+  setTimeout(() => { const i = $("#tpCode"); if (i) i.focus(); }, 60);
+}
+// 고른 팀의 코드가 맞는지 먼저 확인한 뒤에만 들어감
+async function msJoinPicked(){
+  const tp = MS.tpick, code = ((($("#tpCode") || {}).value) || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if (!tp || MS.busy) return;
+  if (code.length !== 6) { MS.err = true; MS.msg = t_("팀 코드는 영문·숫자 6자리예요."); renderModeSel(); return; }
+  MS.busy = true; MS.msg = ""; MS.code = code; renderModeSel();
+  try {
+    const c = await withTimeout(fb.db.collection("teamCodes").doc(`${CONFIG.EVENT_ID}_${code}`).get(), 9000);
+    if (!c.exists || c.data().teamId !== tp.id) throw new Error("wrong_code");
+    const t = await Team.joinTid(tp.id, code); MS.busy = false; hideModeSel(); renderAll(); toast(`${t.name} ${t_("팀에 들어왔어요")}`, t_("이제부터 얻는 EXP가 팀 점수에 더해집니다")); }
   catch(e) {
     MS.busy = false; MS.err = true;
-    MS.msg = e.message === "full" ? "이 팀은 정원(12명)이 찼어요. 다른 팀을 골라 주세요." : e.message === "not_found" ? "이 팀을 찾지 못했어요. 목록을 새로 불러와 주세요." : "팀에 들어가지 못했어요. 잠시 뒤 다시 눌러 주세요.";
+    MS.msg = e.message === "wrong_code" ? t_("팀 코드가 맞지 않아요. 팀을 만든 친구에게 코드를 다시 확인해 주세요.")
+      : e.message === "full" ? "이 팀은 정원(12명)이 찼어요. 다른 팀을 골라 주세요." : e.message === "not_found" ? "이 팀을 찾지 못했어요. 목록을 새로 불러와 주세요." : "팀에 들어가지 못했어요. 잠시 뒤 다시 눌러 주세요.";
     renderModeSel();
   }
 }
 function renderRoomStep(b, note){
+  if (MS.step === "tcode") {
+    const tp = MS.tpick || {};
+    b.innerHTML = `
+      <button class="back" data-ms="teams">← ${t_("팀 목록")}</button>
+      <div><p class="eyebrow">${flagSVG(tp.color || "blue")} ${esc(tp.name || "조")} · ${t_("팀원")} ${(tp.members || []).length}${LANG === "en" ? "" : "명"}</p>
+      <h2 class="ms-title" id="msTitle">${t_("팀 코드를 입력해 주세요")}</h2>
+      <p class="small">${t_("팀을 만든 친구에게 받은 영문·숫자 6자리 코드예요.")}</p></div>
+      <input class="input code-in" id="tpCode" maxlength="6" value="${esc(MS.code || "")}" placeholder="K7Q2MX" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="${t_("팀 코드")}">
+      ${note}
+      <button class="btn${MS.busy ? " dis" : ""}" id="tpGo">${MS.busy ? t_("확인하는 중…") : t_("팀에 들어가기")}</button>`;
+    return true;
+  }
   if (MS.step === "teams") {
     const mine = S.team && S.playMode === "team" ? S.team.id : "";
     b.innerHTML = `
       ${msBackBtn("choose")}
       <div><p class="eyebrow">${SERVER === "kr" && ROOM ? `🚪 ${esc(ROOM_NAME || t_("방"))}` : esc(srvName(SERVER))} · ${t_("팀")}</p>
       <h2 class="ms-title" id="msTitle">${t_("들어갈 팀을 골라 주세요")}</h2>
-      <p class="small">${t_(SERVER === "kr" && ROOM ? "이 방에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요." : "지금 있는 곳에서 만들어진 팀이에요. 누르면 바로 그 팀에 들어가요. 팀원이 모은 도장을 합쳐 단체 교지를 받아요.")}</p></div>
+      <p class="small">${t_(SERVER === "kr" && ROOM ? "이 방에서 만들어진 팀이에요. 팀을 고르고 팀 코드를 넣으면 들어가요." : "지금 있는 곳에서 만들어진 팀이에요. 팀을 고르고 팀 코드를 넣으면 들어가요.")}</p></div>
       ${TeamDir.msg ? `<p class="note err">${TeamDir.msg}</p>` : ""}
       ${note}
       <div class="rlist" aria-busy="${TeamDir.loading || MS.busy}">${TeamDir.loading ? `<p class="small">${t_("팀 목록을 불러오는 중…")}</p>`
@@ -4757,6 +4797,7 @@ function renderRoomStep(b, note){
             <span><b>${esc(t.name || "조")}${t.id === mine ? `<span class="here-tag">${t_("우리 팀")}</span>` : ""}</b><small>${t_("팀원")} ${t.members.length}${LANG === "en" ? "" : "명"}${t.members.length >= 12 ? ` · ${t_("정원 참")}` : ""} · ${esc(t.members.map(m => m.nickname || "탐방객").slice(0, 6).join(", "))}${t.members.length > 6 ? " …" : ""}</small></span><span class="go" aria-hidden="true">›</span></button>`).join("")
         : `<div class="gal-empty">${t_(SERVER === "kr" && ROOM ? "아직 이 방에 만들어진 팀이 없어요." : "아직 만들어진 팀이 없어요.")}<br>${t_("새 팀을 만들어 친구들을 모아 보세요.")}</div>`}</div>
       <button class="btn" data-ms="create">＋ ${t_("새 팀 만들기")}</button>
+      ${mine ? `<button class="btn ghost" data-teamleave style="color:var(--red);border-color:var(--red)">🚪 ${t_("지금 팀에서 나가기")} · ${esc(S.team.name)}</button>` : ""}
       <button class="ms-link" data-ms="join">${t_("팀 코드로 참여하기")}</button>`;
     return true;
   }
@@ -5348,6 +5389,7 @@ document.addEventListener("keydown", e => {
 document.addEventListener("keydown", e => {
   if (e.key !== "Enter" || e.isComposing) return;
   if (e.target.id === "msPin") { e.preventDefault(); $("#msPinGo").click(); }
+  else if (e.target.id === "tpCode") { e.preventDefault(); $("#tpGo").click(); }
   else if (e.target.id === "nrName" || e.target.id === "nrPin") { e.preventDefault(); $("#nrMake").click(); }
 });
 document.addEventListener("input", e => {
@@ -5979,6 +6021,7 @@ document.addEventListener("click", e => {
   }
   if ((el = t.closest("[data-rpick]"))) { msPickRoom(el.dataset.rpick); return; }
   if ((el = t.closest("[data-tpick]"))) { msPickTeam(el.dataset.tpick); return; }
+  if (t.closest("#tpGo")) { msJoinPicked(); return; }
   if (t.closest("#msPinGo")) { if (!MS.busy && MS.room) msEnter(MS.room, (($("#msPin") || {}).value || "").trim()); return; }
   if (t.closest("#nrMake")) { if (!MS.busy) msMakeRoom(); return; }
   if (t.closest("#msReload")) { RoomDir.load(); return; }
@@ -5992,6 +6035,7 @@ document.addEventListener("click", e => {
   if ((el = t.closest("#copyCode"))) { copyText(el.dataset.code, el); return; }
   if (t.closest("#msStart")) { hideModeSel(); renderAll(); return; }
   if (t.closest("#openTeam")) { closeSettings(); closeChat(); openTeamFlow(); return; }
+  if (t.closest("[data-teamleave]")) { closeDrawer(); leaveTeamAsk(); return; }
   if ((el = t.closest("#leaveTeam"))) {
     if (el.dataset.armed) { Team.leave().then(() => { renderAll(); if (!$("#setm").hidden) renderSettings(); }); }
     else { el.dataset.armed = "1"; el.classList.remove("ghost"); el.classList.add("red"); el.textContent = "한 번 더 누르면 나가요 · 내 점수가 팀 점수에서 빠져요"; }
@@ -6057,6 +6101,7 @@ document.addEventListener("input", e => {
     clearTimeout(memoT); memoT = setTimeout(save, 500);
     const st = $(isB ? "#bmemoSt" : "#pmemoSt"); if (st) st.textContent = v.trim() ? "저장됨" : "적으면 바로 저장돼요";
   }
+  if (e.target.id === "tpCode") { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6); MS.code = e.target.value; return; }
   if (e.target.id === "tCode") { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""); MS.code = e.target.value; }
 });
 document.addEventListener("keydown", e => {
